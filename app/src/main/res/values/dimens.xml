@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <dimen name="base_margin_size">16dp</dimen>
+    <dimen name="margin_small_size">8dp</dimen>
+    <dimen name="margin_large_size">24dp</dimen>
+    <dimen name="margin_plus_size">32dp</dimen>
+
+    <dimen name="base_padding_size">16dp</dimen>
+    <dimen name="padding_small_size">8dp</dimen>
+    <dimen name="padding_large_size">24dp</dimen>
+    <dimen name="padding_plus_size">32dp</dimen>
+    
+</resources>
