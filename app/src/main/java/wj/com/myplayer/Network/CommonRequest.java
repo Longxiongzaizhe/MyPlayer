@@ -1,5 +1,7 @@
 package wj.com.myplayer.Network;
 
+import android.util.Log;
+
 import java.util.Map;
 
 import okhttp3.FormBody;
@@ -7,6 +9,8 @@ import okhttp3.Headers;
 import okhttp3.Request;
 
 public class CommonRequest {
+
+    private static final String TAG = "CommonRequest";
 
     /**
      * post 请求
@@ -20,9 +24,12 @@ public class CommonRequest {
         FormBody.Builder mFromBodyBuider = new FormBody.Builder();
 
         if (params != null){
+            Log.w(TAG,"============== params list ==================");
             for (Map.Entry<String,String> entry : params.getParams().entrySet()){
                 mFromBodyBuider.add(entry.getKey(),entry.getValue());
+                Log.w(TAG," params:  " + entry.getKey() + "    valus:  " + entry.getValue());
             }
+            Log.w(TAG,"============== params list ==================");
         }
 
         FormBody mFormBody = mFromBodyBuider.build();
@@ -44,6 +51,14 @@ public class CommonRequest {
     /**
      * get 请求
      */
+
+    public static Request getRequest(String url, Object tag) {
+        ;
+        // LogUtils.i(TAG, "Request:\n" + url + "\n" + paramsJson);
+        Request request = new Request.Builder().url(url).get().tag(tag).build();
+        return request;
+    }
+
     public static Request createGetRequest(String url , RequestParams params){
         return createGetRequest(url,params,null);
     }
@@ -56,6 +71,7 @@ public class CommonRequest {
         if (params != null) {
             for (Map.Entry<String, String> entry : params.getParams() .entrySet()) {
                 urlBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
+                Log.w(TAG,"params: " + entry.getKey() + " valus: " + entry.getValue());
             }
         }
 

@@ -1,9 +1,13 @@
 package wj.com.myplayer.Network;
 
+import org.apache.http.params.HttpParams;
+
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 
 public class HttpUtils {
 
@@ -30,13 +34,91 @@ public class HttpUtils {
     /**
      * OkHttpClient实例
      */
-    private static OkHttpClient client;
-    private static OkHttpClient syncClient;
+    private static OkHttpClient client;     //异步
+    private static OkHttpClient syncClient; //同步
 
-    public static void post(String url, RequestParams params,RequestParams headers){
-        getClient().newCall(CommonRequest.createPostRequest(url,params,headers));
 
+    /**
+     * 异步post请求 带请求头
+     */
+    public static void post(String url, RequestParams params,RequestParams headers,HttpHandler httpHandler ){
+        Request request = CommonRequest.createPostRequest(url,params,headers);
+        getClient().newCall(request).enqueue(httpHandler);
+        httpHandler.onStart();
     }
+
+    /**
+     * 异步post请求 不带请求头
+     */
+    public static void post(String url, RequestParams params,HttpHandler httpHandler ){
+        post(url,params,null,httpHandler);
+    }
+
+    /**
+     * 同步post请求
+     *
+     */
+    public static String postSync(String url,RequestParams params){
+        return postSync(url,params,null);
+    }
+
+    public static String postSync(String url,RequestParams params,RequestParams headers) {
+        Request request = CommonRequest.createGetRequest(url, params,headers);
+        try {
+            Response response = getSyncClient().newCall(request).execute();
+            final String result = response.body().string();
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * get 请求 不带请求头
+     */
+
+    public static void get(String url,RequestParams params,HttpHandler httpHandler){
+        get(url,params,null,httpHandler);
+    }
+
+    public static void get(String url,HttpHandler handler){
+        Request request = CommonRequest.getRequest(url,null);
+        getClient().newCall(request).enqueue(handler);
+        handler.onStart();
+    }
+
+    /**
+     * get 请求 带请求头
+     */
+
+    public static void get(String url,RequestParams params,RequestParams headers,HttpHandler httpHandler){
+        Request request = CommonRequest.createGetRequest(url,params,headers);
+        getClient().newCall(request).enqueue(httpHandler);
+        httpHandler.onStart();
+    }
+
+    /**
+     * get 同步
+     */
+
+    public static String getSync(String url,RequestParams params){
+        return getSync(url,params,null);
+    }
+
+    public static String getSync(String url,RequestParams params,RequestParams headers){
+
+        try {
+            Request request = CommonRequest.createGetRequest(url,params,headers);
+            Response response = getSyncClient().newCall(request).execute();
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
     public static OkHttpClient getClient(){
         // TODO: 2019/5/3 重定向
