@@ -8,6 +8,9 @@ import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.Request;
 
+/**
+ * okhttp request对象封装
+ */
 public class CommonRequest {
 
     private static final String TAG = "CommonRequest";

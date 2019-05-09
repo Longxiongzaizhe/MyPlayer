@@ -107,6 +107,6 @@ public abstract class HttpHandler<T> implements Callback{
     public abstract void onSuccess(T data);
 
     public void onFailure(){
-
+        // 有回应但是可能是请求参数有问题或者服务端有问题
     }
 }
