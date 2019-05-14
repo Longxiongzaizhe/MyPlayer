@@ -13,7 +13,7 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="25dp"
-        android:textSize="@dimen/second_navigation_size"
+        android:textSize="@dimen/text_plus_size"
         android:text="标题单行"
         android:textColor="#000000"
         app:layout_constraintTop_toTopOf="parent"
