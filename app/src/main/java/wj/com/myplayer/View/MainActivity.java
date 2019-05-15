@@ -76,7 +76,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mMainDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         mMainNavView = (NavigationView) findViewById(R.id.main_nav_view);
 
-        mMainNavView.setCheckedItem(R.id.nav_one);
         mMainNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

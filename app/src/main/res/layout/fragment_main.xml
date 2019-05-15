@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/gray_tinge"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
 
-    <LinearLayout
-        android:layout_margin="@dimen/margin_small_size"
-        android:background="@drawable/bg_white_2t"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="match_parent">
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_white_5t"
+            android:layout_margin="@dimen/base_margin_size"
+            >
+            <TextView
+                android:text="123"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="123"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="123"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="123"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
 
+    </ScrollView>
 
 
 </LinearLayout>
