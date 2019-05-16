@@ -2,11 +2,17 @@ package wj.com.myplayer.Network;
 
 import android.util.Log;
 
+import java.io.File;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.util.Map;
 
 import okhttp3.FormBody;
 import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 
 /**
  * okhttp request对象封装
@@ -14,6 +20,9 @@ import okhttp3.Request;
 public class CommonRequest {
 
     private static final String TAG = "CommonRequest";
+    private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+    private static final MediaType MEDIA_TYPE_AUDIO = MediaType.parse("audio/*");
+    private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
 
     /**
      * post 请求
@@ -26,6 +35,7 @@ public class CommonRequest {
     public static Request createPostRequest(String url,RequestParams params,RequestParams headers){
         FormBody.Builder mFromBodyBuider = new FormBody.Builder();
 
+        //添加参数
         if (params != null){
             Log.w(TAG,"============== params list ==================");
             for (Map.Entry<String,String> entry : params.getParams().entrySet()){
@@ -39,6 +49,7 @@ public class CommonRequest {
         Request.Builder request = new Request.Builder().url(url)
                 .post(mFormBody);
 
+        // 加入请求头
         if (headers != null){
             Headers.Builder mHeadBuilder = new Headers.Builder();
             for (Map.Entry<String,String> entry : headers.getParams().entrySet()){
@@ -50,13 +61,23 @@ public class CommonRequest {
         return request.build();
     }
 
+    public static Request createPostRequest(String url,String json){
+        RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        Log.w(TAG,"==================JSON params is:\n " + json);
+        return request;
+
+    }
+
 
     /**
      * get 请求
      */
 
     public static Request getRequest(String url, Object tag) {
-        ;
         // LogUtils.i(TAG, "Request:\n" + url + "\n" + paramsJson);
         Request request = new Request.Builder().url(url).get().tag(tag).build();
         return request;
@@ -95,5 +116,36 @@ public class CommonRequest {
     }
 
     // TODO: 2019/5/3 file upload request
+    /**
+     * 文件上传
+     */
+
+    public static Request createFileRequest(String url,RequestParams params){
+
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        RequestBody requestBody ;
+        Map<String, File> map = params.getFileMap();
+        //遍历map中所有参数到builder
+        for (String key : map.keySet()) {
+            String fileType = getMimeType(map.get(key).getName());
+            builder.addFormDataPart("files", map.get(key).getName(), RequestBody.create(MediaType.parse(fileType), map.get(key)));
+        }
+        requestBody = builder.build();
+        Request request = new Request.Builder()
+                .url(url).post(requestBody)//添加请求体
+                .build();
+        return request;
+
+    }
+
+    // 根据文件名字获取文件的mime类型
+    private static String getMimeType(String filename) {
+        FileNameMap filenameMap = URLConnection.getFileNameMap();
+        String contentType = filenameMap.getContentTypeFor(filename);
+        if (contentType == null) {
+            contentType = "application/octet-stream"; //* exe,所有的可执行程序
+        }
+        return contentType;
+    }
 
 }

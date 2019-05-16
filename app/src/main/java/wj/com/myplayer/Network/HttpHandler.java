@@ -58,11 +58,17 @@ public abstract class HttpHandler<T> implements Callback{
                 String respBodyStr = response.body().string();
                 final String httpUrl = response.request().url().toString();
                 Headers headers = response.request().headers();
-                Log.w(TAG, "respBodyStr    " + httpUrl + "\r\n  header:" + headers + "\r\n");
+                Log.w(TAG, "resuest url: " + httpUrl + "\r\n  header:" + headers + "\r\n");
                 Log.w(TAG, "respBodyStr  result=:" + respBodyStr);
                 if (!Utils.isStringEmpty(respBodyStr)){
                     T data = JsonUtils.toJsonBean(respBodyStr,entityClass);
-                    onSuccessOnUiThread(data);
+                    if (data != null){
+                        onSuccessOnUiThread(data);
+                    }else {
+                        onFailOnUiThread("JSON 解析错误");
+                        Log.e(TAG,"JSON 解析错误");
+                    }
+
                 }else {
                     onFailOnUiThread("网络错误");
                 }
@@ -92,7 +98,7 @@ public abstract class HttpHandler<T> implements Callback{
      */
     public void onStart(){
         startTime = System.currentTimeMillis();
-        Log.w(TAG,"===========================start request at " + DateUtils.getHttpRequetTime(startTime));
+        Log.w(TAG,"===========================start request at " + DateUtils.getHttpRequetTime(startTime) + " ===========================");
     }
 
     /**
@@ -100,8 +106,8 @@ public abstract class HttpHandler<T> implements Callback{
      */
     public void onFinish(){
         long endTime = System.currentTimeMillis();
-        Log.w(TAG,"===========================end request at " + DateUtils.getHttpRequetTime(endTime));
-        Log.w(TAG,"=========================== spend time is " + (endTime-startTime)+ " millis");
+        Log.w(TAG,"===========================end request at " + DateUtils.getHttpRequetTime(endTime) + " ===========================");
+        Log.w(TAG,"=========================== spend time is " + (endTime-startTime)+ " millis ===========================\n");
     }
 
     public abstract void onSuccess(T data);

@@ -1,8 +1,11 @@
 package wj.com.myplayer.View;
 
 import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,11 +17,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.R;
 import wj.com.myplayer.Utils.PermissionsUtiles;
+import wj.com.myplayer.Utils.PhotoUtils;
+import wj.com.myplayer.Utils.SPConstant;
+import wj.com.myplayer.Utils.ToastUtil;
 import wj.com.myplayer.View.Fragment.MainFragment;
 import wj.com.myplayer.View.Fragment.OneFragment;
 import wj.com.myplayer.View.Fragment.TestFragment;
@@ -38,6 +45,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TextView mTitleRightTv;
     private DrawerLayout mMainDrawerLayout;
     private NavigationView mMainNavView;
+    private TextView userNameTv;
+    private ImageView userIcon;
+    private ImageView navBackgrounpIv;
+    private View navHeadView;
+
+    private final String[] permissions = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.INTERNET,
+            Manifest.permission.CAMERA
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +63,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         initView();
         initData();
-        final String[] permissions = {
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.INTERNET,
-                Manifest.permission.CAMERA
-        };
+
         PermissionsUtiles.requestPermissions(this, permissions); //请求权限
 
     }
@@ -75,10 +88,42 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mTitleCenterTv.setText("音乐园");
         mMainDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         mMainNavView = (NavigationView) findViewById(R.id.main_nav_view);
+        mMainNavView.inflateHeaderView(R.layout.navigation_head_layout);
+        mMainNavView.inflateMenu(R.menu.nav_menu);
+        navHeadView = mMainNavView.getHeaderView(0);
+        userNameTv = navHeadView.findViewById(R.id.head_user_name_tv);
+        userIcon = navHeadView.findViewById(R.id.nav_head_iv);
+        navBackgrounpIv = navHeadView.findViewById(R.id.head_bg_iv);
+        userIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhotoUtils.openPic(MainActivity.this,1);
+            }
+        });
 
         mMainNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.nav_clock:
+                        ToastUtil.showSingleToast("nav_clock");
+                        break;
+                    case R.id.nav_color:
+                        ToastUtil.showSingleToast("nav_color");
+                        break;
+                    case R.id.nav_exit:
+                        ToastUtil.showSingleToast("nav_exit");
+                        break;
+                    case R.id.nav_setting:
+                        ToastUtil.showSingleToast("nav_setting");
+                        break;
+                    case R.id.nav_wifi:
+                        ToastUtil.showSingleToast("nav_wifi");
+                        break;
+                    case R.id.nav_about:
+                        ToastUtil.showSingleToast("nav_about");
+                        break;
+                }
                 mMainDrawerLayout.closeDrawers();
                 return true;
             }
@@ -112,6 +157,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.title_left_iv:
                 mMainDrawerLayout.openDrawer(GravityCompat.START);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null){
+            File file = new File(SPConstant.USER_ICON_PATH);
+            File getFile = new File(data.getData().toString());
         }
     }
 }

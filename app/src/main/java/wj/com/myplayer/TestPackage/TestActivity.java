@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.IOException;
+
 import wj.com.myplayer.Network.HttpHandler;
 import wj.com.myplayer.Network.NetworkWrapper;
 import wj.com.myplayer.R;
@@ -21,6 +24,10 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
      * get
      */
     private Button mGet;
+    /**
+     * File
+     */
+    private Button mFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,8 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         mGet = (Button) findViewById(R.id.get);
         mGet.setOnClickListener(this);
         mResultTv.setOnClickListener(this);
+        mFile = (Button) findViewById(R.id.file);
+        mFile.setOnClickListener(this);
     }
 
     @Override
@@ -60,6 +69,20 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 });
                 break;
             case R.id.result_tv:
+                break;
+            case R.id.file:
+                File file = new File(getFilesDir(),"test.png");
+                try {
+                    file.createNewFile();
+                    NetworkWrapper.filesUpload(file, new HttpHandler<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            mResultTv.setText(data);
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }

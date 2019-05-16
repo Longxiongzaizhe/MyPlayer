@@ -74,6 +74,18 @@ public class HttpUtils {
         return null;
     }
 
+
+    /**
+     * file upload
+     */
+    public static void uploadFile(String url,RequestParams params,HttpHandler httpHandler){
+        Request request = CommonRequest.createFileRequest(url,params);
+        getClient().newCall(request).enqueue(httpHandler);
+        httpHandler.onStart();
+    }
+
+
+
     /**
      * get 请求 不带请求头
      */
@@ -99,7 +111,7 @@ public class HttpUtils {
     }
 
     /**
-     * get 同步
+     *  GET request with synchronization
      */
 
     public static String getSync(String url,RequestParams params){
@@ -118,6 +130,11 @@ public class HttpUtils {
 
         return null;
     }
+
+
+    /**
+     *  get okHttpClient
+     */
 
 
     public static OkHttpClient getClient(){
