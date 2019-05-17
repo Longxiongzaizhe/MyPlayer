@@ -1,5 +1,6 @@
 package wj.com.myplayer.View.Fragment;
 
+import wj.com.myplayer.Config.BaseFragment;
 import wj.com.myplayer.R;
 
 public class TestFragment extends BaseFragment {

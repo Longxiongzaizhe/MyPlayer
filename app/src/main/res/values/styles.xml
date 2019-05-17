@@ -19,4 +19,9 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <style name="IOSDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowEnterAnimation">@anim/ios_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/ios_dialog_out</item>
+    </style>
+
 </resources>

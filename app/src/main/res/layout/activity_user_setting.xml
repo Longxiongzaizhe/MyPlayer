@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:orientation="vertical"
+    tools:context=".View.navSetting.UserSettingActivity">
+
+    <include layout="@layout/title_layout"/>
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/base_margin_size"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/base_margin_size"
+                android:text="头像"
+                android:textSize="@dimen/text_plus_size"
+                android:textColor="@color/black"
+                android:layout_gravity="center" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/setting_user_icon_iv"
+                android:layout_marginRight="@dimen/base_margin_size"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="@dimen/base_margin_size"
+                android:layout_gravity="right"
+                android:src="@drawable/icon_dog"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/margin_small_size"
+            android:layout_marginRight="@dimen/margin_small_size"
+            android:background="@color/gray"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/base_margin_size"
+                android:text="背景图"
+                android:textSize="@dimen/text_plus_size"
+                android:textColor="@color/black"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:id="@+id/setting_user_bg_iv"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginRight="@dimen/base_margin_size"
+                android:paddingTop="@dimen/base_margin_size"
+                android:paddingBottom="@dimen/base_margin_size"
+                android:scaleType="fitCenter"
+                android:src="@drawable/bg_nav_view"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/margin_small_size"
+            android:layout_marginRight="@dimen/margin_small_size"
+            android:background="@color/gray"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_margin_size"
+            android:layout_marginBottom="@dimen/base_margin_size">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/base_margin_size"
+                android:text="昵称"
+                android:textSize="@dimen/text_large_size"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/setting_user_name_tv"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/text_normal_size"
+                android:layout_marginRight="@dimen/base_margin_size"
+                android:maxLines="1"
+                android:maxEms="12"
+                tools:text="这是我的名字"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/margin_small_size"
+            android:layout_marginRight="@dimen/margin_small_size"
+            android:background="@color/gray"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

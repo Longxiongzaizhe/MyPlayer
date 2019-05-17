@@ -2,7 +2,8 @@ package wj.com.myplayer.View;
 
 import android.Manifest;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,15 +22,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import wj.com.myplayer.Config.BaseActivity;
 import wj.com.myplayer.R;
+import wj.com.myplayer.Utils.FileUtils;
 import wj.com.myplayer.Utils.PermissionsUtiles;
 import wj.com.myplayer.Utils.PhotoUtils;
-import wj.com.myplayer.Utils.SPConstant;
+import wj.com.myplayer.Constant.SPConstant;
+import wj.com.myplayer.Utils.SPUtils;
 import wj.com.myplayer.Utils.ToastUtil;
 import wj.com.myplayer.View.Fragment.MainFragment;
 import wj.com.myplayer.View.Fragment.OneFragment;
 import wj.com.myplayer.View.Fragment.TestFragment;
 import wj.com.myplayer.View.adapter.LazyFragmentPagerAdapter;
+import wj.com.myplayer.View.navSetting.UserSettingActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -94,16 +99,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         userNameTv = navHeadView.findViewById(R.id.head_user_name_tv);
         userIcon = navHeadView.findViewById(R.id.nav_head_iv);
         navBackgrounpIv = navHeadView.findViewById(R.id.head_bg_iv);
-        userIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PhotoUtils.openPic(MainActivity.this,1);
-            }
-        });
 
         mMainNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                Intent intent = new Intent();
+
                 switch (menuItem.getItemId()){
                     case R.id.nav_clock:
                         ToastUtil.showSingleToast("nav_clock");
@@ -115,7 +117,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         ToastUtil.showSingleToast("nav_exit");
                         break;
                     case R.id.nav_setting:
-                        ToastUtil.showSingleToast("nav_setting");
+                        intent.setClass(MainActivity.this, UserSettingActivity.class);
+                        startActivity(intent);
+                        mMainDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_wifi:
                         ToastUtil.showSingleToast("nav_wifi");
@@ -124,7 +128,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         ToastUtil.showSingleToast("nav_about");
                         break;
                 }
-                mMainDrawerLayout.closeDrawers();
                 return true;
             }
         });
@@ -143,6 +146,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         myPagerAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Bitmap iconBitmap = BitmapFactory.decodeFile(SPConstant.USER_ICON_PATH);
+        Bitmap bgBitmap = BitmapFactory.decodeFile(SPConstant.USER_BG_PATH);
+        userIcon.setImageBitmap(iconBitmap);
+        navBackgrounpIv.setImageBitmap(bgBitmap);
     }
 
     @Override

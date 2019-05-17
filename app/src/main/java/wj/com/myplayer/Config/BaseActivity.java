@@ -1,4 +1,4 @@
-package wj.com.myplayer.View;
+package wj.com.myplayer.Config;
 
 import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;

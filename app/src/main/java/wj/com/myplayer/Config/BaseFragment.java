@@ -1,4 +1,4 @@
-package wj.com.myplayer.View.Fragment;
+package wj.com.myplayer.Config;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
