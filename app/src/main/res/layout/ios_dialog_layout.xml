@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/bg_white_8t"
         android:orientation="vertical"
         >
         <TextView
@@ -17,15 +16,17 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/base_margin_size"
-            android:layout_marginBottom="@dimen/base_margin_size"
+            android:paddingTop="@dimen/base_margin_size"
+            android:paddingBottom="@dimen/base_margin_size"
+            android:background="@drawable/bg_top_ioswhite_8t"
+            android:textSize="@dimen/text_small_size"
+            android:textColor="@color/text_gray"
             android:paddingLeft="@dimen/base_padding_size"
             android:paddingRight="@dimen/base_padding_size"
             tools:text="警告警告警告警告警告警告警告警告"
             />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ios_dialog_lv"
-            android:background="@drawable/bg_white_8t"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
@@ -36,12 +37,13 @@
         android:id="@+id/ios_dialog_cancel_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/base_margin_size"
+        android:layout_marginTop="@dimen/margin_small_size"
         android:paddingTop="@dimen/base_padding_size"
         android:paddingBottom="@dimen/base_padding_size"
         android:gravity="center"
         android:background="@drawable/bg_white_8t"
-        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textColor="@color/text_blue"
         android:text="取消" />
 
 </LinearLayout>

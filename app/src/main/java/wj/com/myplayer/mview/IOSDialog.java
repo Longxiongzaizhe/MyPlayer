@@ -11,7 +11,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.R;
-import wj.com.myplayer.Utils.DensityUtil;
 
 public class IOSDialog extends Dialog {
 
@@ -33,7 +31,7 @@ public class IOSDialog extends Dialog {
     private OptionsAdapter adapter;
 
     public IOSDialog(Context context) {
-        super(context,R.style.IOSDialogStyle);
+        super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         contentView = View.inflate(getContext(), R.layout.ios_dialog_layout, null);
         setContentView(contentView);
@@ -64,6 +62,7 @@ public class IOSDialog extends Dialog {
         lp.gravity = Gravity.BOTTOM;
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         window.setAttributes(lp);
+        window.setWindowAnimations(R.style.IOSDialogStyle);
         decorView.setBackground(new ColorDrawable(Color.TRANSPARENT));
     }
 
@@ -77,8 +76,28 @@ public class IOSDialog extends Dialog {
         return this;
     }
 
+    public IOSDialog setTitleColor(int color){
+        titleTv.setTextColor(color);
+        return this;
+    }
+
     public IOSDialog addOption(String option){
         options.add(option);
+        return this;
+    }
+
+    public IOSDialog setButtonText(String text){
+        cancelBtn.setText(text);
+        return this;
+    }
+
+    public IOSDialog setItemTextColor(int color){
+        adapter.textColor = color;
+        return this;
+    }
+
+    public IOSDialog setButtonTextColor(int color){
+        cancelBtn.setTextColor(color);
         return this;
     }
 
@@ -95,16 +114,36 @@ public class IOSDialog extends Dialog {
 
     class OptionsAdapter extends BaseQuickAdapter<String, BaseViewHolder>{
 
+        private List<String> datalist;
+        public int textColor = -1;
 
         public OptionsAdapter(int layoutResId, List<String> data) {
             super(layoutResId, data);
+            datalist = data;
         }
 
         @Override
         protected void convert(BaseViewHolder helper, String item) {
             helper.setText(R.id.item_tv,item);
-            if (helper.getAdapterPosition() == 0){
-                helper.setBackgroundRes(R.id.item_layout,R.drawable.bg_top_white_8t);
+            if (textColor != -1){
+                helper.setTextColor(R.id.item_tv,textColor);
+            }
+            if (datalist.size() == 1){
+                if (titleTv.getVisibility() == View.VISIBLE){
+                    helper.setBackgroundRes(R.id.item_layout,R.drawable.bg_bottom_ioswhite_8t);
+                }else {
+                    helper.setVisible(R.id.item_lineview,false);
+                    helper.setBackgroundRes(R.id.item_layout,R.drawable.bg_ios_white_8t);
+                }
+            }else if (helper.getAdapterPosition() == 0){ //第一个 item
+                if (titleTv.getVisibility() == View.VISIBLE){
+                    helper.setBackgroundRes(R.id.item_layout,R.color.ios_white);
+                }else {
+                    helper.setBackgroundRes(R.id.item_layout,R.drawable.bg_top_ioswhite_8t);
+                    helper.setVisible(R.id.item_lineview,false);
+                }
+            }else if (helper.getAdapterPosition() == datalist.size() - 1 ){ //最后一个 item
+                helper.setBackgroundRes(R.id.item_layout,R.drawable.bg_bottom_ioswhite_8t);
             }
 
         }

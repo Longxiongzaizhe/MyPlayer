@@ -101,7 +101,7 @@
                 android:layout_marginRight="@dimen/base_margin_size"
                 android:maxLines="1"
                 android:maxEms="12"
-                tools:text="这是我的名字"/>
+                android:text = "Sunny" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
