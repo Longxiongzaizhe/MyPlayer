@@ -6,8 +6,8 @@ import android.os.Environment;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
-import okhttp3.internal.Internal;
 import wj.com.myplayer.Config.MainApplication;
 
 public class FileUtils {
@@ -106,8 +106,13 @@ public class FileUtils {
      * 保存图片到文件
      */
     public static void savaBitmapInFile(Bitmap bitmap,File file) throws FileNotFoundException {
-        FileOutputStream fos = new FileOutputStream(file);
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos);
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /***

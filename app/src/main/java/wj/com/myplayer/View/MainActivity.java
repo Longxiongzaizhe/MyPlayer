@@ -23,12 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.Config.BaseActivity;
-import wj.com.myplayer.R;
-import wj.com.myplayer.Utils.FileUtils;
-import wj.com.myplayer.Utils.PermissionsUtiles;
-import wj.com.myplayer.Utils.PhotoUtils;
 import wj.com.myplayer.Constant.SPConstant;
-import wj.com.myplayer.Utils.SPUtils;
+import wj.com.myplayer.R;
+import wj.com.myplayer.Utils.PermissionsUtiles;
 import wj.com.myplayer.Utils.ToastUtil;
 import wj.com.myplayer.View.Fragment.MainFragment;
 import wj.com.myplayer.View.Fragment.OneFragment;
@@ -117,9 +114,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         ToastUtil.showSingleToast("nav_exit");
                         break;
                     case R.id.nav_setting:
+                        mMainDrawerLayout.closeDrawers();
                         intent.setClass(MainActivity.this, UserSettingActivity.class);
                         startActivity(intent);
-                        mMainDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_wifi:
                         ToastUtil.showSingleToast("nav_wifi");
