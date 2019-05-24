@@ -18,14 +18,14 @@
         <activity android:name=".View.navSetting.UserSettingActivity"></activity>
         <activity android:name=".Config.BaseActivity" />
         <activity android:name=".TestPackage.TestActivity">
+
+        </activity>
+        <activity android:name=".View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".View.MainActivity">
-
         </activity>
 
         <provider

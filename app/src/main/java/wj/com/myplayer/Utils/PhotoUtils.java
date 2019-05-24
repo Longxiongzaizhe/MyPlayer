@@ -80,8 +80,9 @@ public class PhotoUtils {
         //将剪切的图片保存到目标Uri中
         intent.putExtra(MediaStore.EXTRA_OUTPUT, desUri);
         intent.putExtra("return-data", false);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
         intent.putExtra("noFaceDetection", true);
+        intent.putExtra("scaleUpIfNeeded", true);//去除黑边
         activity.startActivityForResult(intent, requestCode);
     }
 

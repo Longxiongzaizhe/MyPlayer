@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="250dp">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/head_bg_iv"
@@ -13,7 +13,7 @@
         android:adjustViewBounds="true"
         android:alpha="0.6"
         android:scaleType="fitCenter"
-        android:src="@drawable/bg_nav_view"
+        android:src="@drawable/icon_dog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,8 +26,8 @@
         android:layout_marginStart="@dimen/base_margin_size"
         android:layout_marginBottom="@dimen/base_margin_size"
         android:src="@drawable/icon_pig"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/head_bg_iv"
+        app:layout_constraintStart_toStartOf="@+id/head_bg_iv" />
 
     <TextView
         android:id="@+id/head_user_name_tv"

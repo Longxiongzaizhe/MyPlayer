@@ -26,6 +26,7 @@ import wj.com.myplayer.Config.BaseActivity;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.R;
 import wj.com.myplayer.Utils.PermissionsUtiles;
+import wj.com.myplayer.Utils.SPUtils;
 import wj.com.myplayer.Utils.ToastUtil;
 import wj.com.myplayer.View.Fragment.MainFragment;
 import wj.com.myplayer.View.Fragment.OneFragment;
@@ -51,6 +52,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ImageView userIcon;
     private ImageView navBackgrounpIv;
     private View navHeadView;
+    private String userName;
 
     private final String[] permissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -96,6 +98,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         userNameTv = navHeadView.findViewById(R.id.head_user_name_tv);
         userIcon = navHeadView.findViewById(R.id.nav_head_iv);
         navBackgrounpIv = navHeadView.findViewById(R.id.head_bg_iv);
+        userName = SPUtils.get(this,SPConstant.USER_NAME,"Sunny");
+        userNameTv.setText(userName);
 
         mMainNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -114,7 +118,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         ToastUtil.showSingleToast("nav_exit");
                         break;
                     case R.id.nav_setting:
-                        mMainDrawerLayout.closeDrawers();
                         intent.setClass(MainActivity.this, UserSettingActivity.class);
                         startActivity(intent);
                         break;
@@ -152,6 +155,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         Bitmap bgBitmap = BitmapFactory.decodeFile(SPConstant.USER_BG_PATH);
         userIcon.setImageBitmap(iconBitmap);
         navBackgrounpIv.setImageBitmap(bgBitmap);
+        userName = SPUtils.get(this,SPConstant.USER_NAME,"Sunny");
+        userNameTv.setText(userName);
     }
 
     @Override
@@ -176,5 +181,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             File file = new File(SPConstant.USER_ICON_PATH);
             File getFile = new File(data.getData().toString());
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mMainDrawerLayout.isDrawerOpen(GravityCompat.START)){
+            mMainDrawerLayout.closeDrawers();
+        }
+
     }
 }
