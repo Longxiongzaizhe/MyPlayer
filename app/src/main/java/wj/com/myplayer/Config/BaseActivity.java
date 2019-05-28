@@ -19,7 +19,9 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
         mBind = ButterKnife.bind(this);
-
+        getKeyData();
+        initView();
+        initData();
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -31,11 +33,15 @@ public class BaseActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void initData(){
+    protected void getKeyData(){
 
     }
 
-    public void initView(){
+    protected void initData(){
+
+    }
+
+    protected void initView(){
 
     }
 

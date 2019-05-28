@@ -15,11 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.navSetting.UserSettingActivity"></activity>
+        <activity android:name=".Config.BaseMultipleActivity"></activity>
+        <activity android:name=".View.navSetting.UserSettingActivity" />
         <activity android:name=".Config.BaseActivity" />
-        <activity android:name=".TestPackage.TestActivity">
-
-        </activity>
+        <activity android:name=".TestPackage.TestActivity"></activity>
         <activity android:name=".View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +36,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

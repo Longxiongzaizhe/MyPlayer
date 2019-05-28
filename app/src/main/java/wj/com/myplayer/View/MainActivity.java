@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.Config.BaseActivity;
+import wj.com.myplayer.Config.BaseMultipleActivity;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.R;
 import wj.com.myplayer.Utils.PermissionsUtiles;
@@ -34,7 +35,7 @@ import wj.com.myplayer.View.Fragment.TestFragment;
 import wj.com.myplayer.View.adapter.LazyFragmentPagerAdapter;
 import wj.com.myplayer.View.navSetting.UserSettingActivity;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseMultipleActivity implements View.OnClickListener {
 
     private TabLayout mMainTabLayout;
     private ViewPager mMainViewpager;
@@ -71,6 +72,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         PermissionsUtiles.requestPermissions(this, permissions); //请求权限
 
     }
+
 
     public void initView() {
         mMainViewpager = (ViewPager) findViewById(R.id.main_viewpager);
@@ -109,13 +111,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 switch (menuItem.getItemId()){
                     case R.id.nav_clock:
-                        ToastUtil.showSingleToast("nav_clock");
+                        showProgress("test",true);
                         break;
                     case R.id.nav_color:
-                        ToastUtil.showSingleToast("nav_color");
+                        mMultipleStateView.showLoading();
                         break;
                     case R.id.nav_exit:
-                        ToastUtil.showSingleToast("nav_exit");
+                        mMultipleStateView.showEmpty();
                         break;
                     case R.id.nav_setting:
                         intent.setClass(MainActivity.this, UserSettingActivity.class);
@@ -141,8 +143,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mFragments.add(new TestFragment());
 
         mTitles.add("我的");
-        mTitles.add("002");
-        mTitles.add("003");
+        mTitles.add("热门");
+        mTitles.add("FM");
 
         myPagerAdapter.notifyDataSetChanged();
 
@@ -169,6 +171,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.main_viewpager:
                 break;
             case R.id.title_left_iv:
+                mMultipleStateView.showContent();
                 mMainDrawerLayout.openDrawer(GravityCompat.START);
                 break;
         }
