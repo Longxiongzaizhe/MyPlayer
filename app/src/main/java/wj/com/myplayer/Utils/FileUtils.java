@@ -111,6 +111,7 @@ public class FileUtils {
         try {
             FileOutputStream fos = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos);
+            fos.flush();
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();

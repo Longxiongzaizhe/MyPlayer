@@ -138,8 +138,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mFragments.add(new TestFragment());
 
         mTitles.add("我的");
-        mTitles.add("002");
-        mTitles.add("003");
+        mTitles.add("FM");
+        mTitles.add("热门");
 
         myPagerAdapter.notifyDataSetChanged();
 
