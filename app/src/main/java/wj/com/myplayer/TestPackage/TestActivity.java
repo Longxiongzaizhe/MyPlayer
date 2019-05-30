@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -53,6 +55,8 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 break;
             case R.id.test_btn:
+
+                Logger.d("123");
                 NetworkWrapper.face("gly001", new HttpHandler<String>() {
                     @Override
                     public void onSuccess(String data) {

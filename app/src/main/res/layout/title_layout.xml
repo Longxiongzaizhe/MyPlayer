@@ -8,9 +8,11 @@
 
     <ImageView
         android:id="@+id/title_left_iv"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:padding="@dimen/base_padding_size"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:paddingLeft="@dimen/padding_small_size"
+        android:paddingRight="@dimen/base_padding_size"
+
         android:src="@drawable/ic_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

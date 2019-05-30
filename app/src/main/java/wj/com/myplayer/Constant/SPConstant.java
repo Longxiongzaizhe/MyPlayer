@@ -8,6 +8,7 @@ public class SPConstant {
 
     public  static String USER_ICON_PATH = "";
     public  static String USER_BG_PATH = "";
+    public  static String USER_NAME = "user_name";
 
 
 

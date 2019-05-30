@@ -142,6 +142,7 @@ public class HttpUtils {
         if (client == null){
             client = new OkHttpClient.Builder()
                     .connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+                    .addInterceptor(new LogInterceptor())
                     .readTimeout(READ_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
                     .writeTimeout(WRITE_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
                     .build();
@@ -153,6 +154,7 @@ public class HttpUtils {
         if (syncClient == null) {
             syncClient = new OkHttpClient.Builder()
                     .connectTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+                    .addInterceptor(new LogInterceptor())
                     .readTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
                     .writeTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS).build();
         }

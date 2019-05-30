@@ -6,6 +6,11 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.FormatStrategy;
+import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.PrettyFormatStrategy;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -39,6 +44,13 @@ public class MainApplication extends Application {
             imageDir.mkdirs();
             videoDir.mkdirs();
         }
+
+        FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
+                .showThreadInfo(false) //（可选）是否显示线程信息。 默认值为true
+                .tag("print")//（可选）每个日志的全局标记。 默认PRETTY_LOGGER
+                .build();
+
+        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
 
 
         try {
