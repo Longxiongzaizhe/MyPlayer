@@ -1,7 +1,11 @@
 package wj.com.myplayer.Utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -130,6 +134,19 @@ public class FileUtils {
             }
         }
         return filename;
+    }
+
+    private static Uri getUriForFile(Context context, File file) {
+        if (context == null || file == null) {//简单地拦截一下
+            throw new NullPointerException();
+        }
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= 24) {
+            uri = FileProvider.getUriForFile(context, "com.hjl.android7.fileprovider", file);
+        } else {
+            uri = Uri.fromFile(file);
+        }
+        return uri;
     }
 
 }

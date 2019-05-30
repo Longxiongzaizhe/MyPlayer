@@ -34,11 +34,12 @@ import wj.com.myplayer.View.Fragment.OneFragment;
 import wj.com.myplayer.View.Fragment.TestFragment;
 import wj.com.myplayer.View.adapter.LazyFragmentPagerAdapter;
 import wj.com.myplayer.View.navSetting.UserSettingActivity;
+import wj.com.myplayer.mview.NoScrollViewPager;
 
 public class MainActivity extends BaseMultipleActivity implements View.OnClickListener {
 
     private TabLayout mMainTabLayout;
-    private ViewPager mMainViewpager;
+    private NoScrollViewPager mMainViewpager;
 
     private List<Fragment> mFragments;
     private List<String> mTitles;
@@ -75,8 +76,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
 
     public void initView() {
-        mMainViewpager = (ViewPager) findViewById(R.id.main_viewpager);
+        mMainViewpager =  findViewById(R.id.main_viewpager);
         mMainTabLayout = (TabLayout) findViewById(R.id.main_tab_layout);
+        mMainViewpager.setNoScroll(true);
 
         mFragments = new ArrayList<>();
         mTitles = new ArrayList<>();
@@ -133,6 +135,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                 return true;
             }
         });
+        mMainViewpager.addOnPageChangeListener(mOnPageChangeListener);
     }
 
     @Override
@@ -194,4 +197,24 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         }
 
     }
+
+    private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            mMainViewpager.setCurrentItem(0);
+            if (position != 0) {
+                ToastUtil.showSingleToast("暂未开放，敬请期待");
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 }
