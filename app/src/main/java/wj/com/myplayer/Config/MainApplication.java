@@ -13,10 +13,12 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 
 import java.io.File;
 import java.io.IOException;
-
+import wj.com.myplayer.Constant.SPConstant;
+import wj.com.myplayer.DaoDB.DaoMaster;
+import wj.com.myplayer.DaoDB.DaoSession;
+import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.R;
 import wj.com.myplayer.Utils.FileUtils;
-import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.Utils.SPUtils;
 
 
@@ -26,6 +28,11 @@ public class MainApplication extends Application {
     private static Handler mHandler;
     private static final String TAG = "MainApplication";
     private static boolean isFirstInit;
+    private DaoSession daoSession;
+    private DaoMaster daoMaster;
+    private DaoMaster.DevOpenHelper devOpenHelper;
+    private MediaDaoManager mediaDaoManager;
+
 
     public static MainApplication get() {
         return sInst;
@@ -51,7 +58,7 @@ public class MainApplication extends Application {
                 .build();
 
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
-
+        initDaoDB();
 
         try {
 
@@ -79,11 +86,54 @@ public class MainApplication extends Application {
         }
     }
 
+    private void initDaoDB() {
+        if (devOpenHelper == null){
+            devOpenHelper = new DaoMaster.DevOpenHelper(getApplicationContext(), "student.db", null);
+            DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDb());
+            daoSession = daoMaster.newSession();
+        }
+
+        mediaDaoManager = MediaDaoManager.getInstance();
+
+    }
+
     public static void runOnUIThread(Runnable runnable){
         mHandler.post(runnable);
     }
 
     public static void runOnUIThread(Runnable runnable,long delay){
         mHandler.postDelayed(runnable,delay);
+    }
+
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }
+
+    /**
+     * 关闭所有的操作，数据库开启后，使用完毕要关闭
+     */
+    public void closeConnection(){
+        closeHelper();
+        closeDaoSession();
+    }
+
+    public void closeHelper(){
+        if(devOpenHelper != null){
+            devOpenHelper.close();
+        }
+    }
+
+    public DaoMaster getDaoMaster() {
+        return daoMaster;
+    }
+
+    public void closeDaoSession(){
+        if(daoSession != null){
+            daoSession.clear();
+        }
+    }
+
+    public MediaDaoManager getMediaDaoManager() {
+        return mediaDaoManager;
     }
 }

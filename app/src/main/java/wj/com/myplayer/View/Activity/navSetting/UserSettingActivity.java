@@ -1,4 +1,4 @@
-package wj.com.myplayer.View.navSetting;
+package wj.com.myplayer.View.Activity.navSetting;
 
 import android.content.Context;
 import android.content.Intent;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <dimen name="base_margin_size">16dp</dimen>
     <dimen name="margin_small_size">8dp</dimen>
     <dimen name="margin_large_size">24dp</dimen>
@@ -16,6 +16,9 @@
     <dimen name="text_plus_size">18sp</dimen> <!--用于二级导航 -->
     <dimen name="text_large_size">16sp</dimen>  <!--用于二级标题、二级正文 -->
     <dimen name="text_normal_size">14sp</dimen>  <!--用于正文 -->
-    <dimen name="text_small_size">12sp</dimen>   <!--用于说明文字 -->
-    
+    <dimen name="text_small_size">12sp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>   <!--用于说明文字 -->
+
 </resources>

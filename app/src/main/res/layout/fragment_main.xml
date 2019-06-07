@@ -11,119 +11,203 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large_size"
-            android:layout_marginLeft="@dimen/base_margin_size"
-            android:layout_marginBottom="@dimen/base_margin_size"
-            android:layout_marginRight="@dimen/base_margin_size"
-            android:padding="@dimen/padding_small_size"
-            app:cardUseCompatPadding="true"
-            app:cardPreventCornerOverlap="true"
-            app:cardCornerRadius="2dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:gravity="center|left">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/base_margin_size"
-                        android:text="本地音乐"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/gray_tinge"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large_size"
+                android:layout_marginLeft="@dimen/base_margin_size"
+                android:layout_marginBottom="@dimen/base_margin_size"
+                android:layout_marginRight="@dimen/base_margin_size"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="true"
+                app:cardCornerRadius="3dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:gravity="center|left">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/local_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center|left">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        <ImageView
+                            android:src="@drawable/icon_music"
+                            android:layout_marginLeft="@dimen/margin_small_size"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/base_margin_size"
-                        android:text="本地音乐"
-                        android:textColor="@color/black"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="@dimen/base_margin_size"
+                            android:text="本地音乐"
+                            android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/main_local_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/base_margin_size"
+                            android:textColor="@color/black"
+                            android:text="0首"/>
+                        <ImageView
+                            android:id="@+id/main_local_play"
+                            android:src="@drawable/icon_play"
+                            android:layout_marginRight="@dimen/base_margin_size"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginLeft="48dp"
+                        android:background="@color/gray_tinge"/>
+
+                    <LinearLayout
+                        android:id="@+id/history_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center|left">
+
+                        <ImageView
+                            android:src="@drawable/icon_clock"
+                            android:layout_marginLeft="@dimen/margin_small_size"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="@dimen/base_margin_size"
+                            android:text="播放历史"
+                            android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/main_history_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/base_margin_size"
+                            android:textColor="@color/black"
+                            android:text="0首"/>
+                        <ImageView
+                            android:id="@+id/main_history_play"
+                            android:src="@drawable/icon_play"
+                            android:layout_marginRight="@dimen/base_margin_size"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginLeft="48dp"
+                        android:background="@color/gray_tinge"/>
+
+                    <LinearLayout
+                        android:id="@+id/favourite_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center|left">
+
+                        <ImageView
+                            android:src="@drawable/icon_love"
+                            android:layout_marginLeft="@dimen/margin_small_size"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="@dimen/base_margin_size"
+                            android:text="我的收藏"
+                            android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/main_favourite_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/base_margin_size"
+                            android:textColor="@color/black"
+                            android:text="0首"/>
+                        <ImageView
+                            android:id="@+id/main_favourite_play"
+                            android:src="@drawable/icon_play"
+                            android:layout_marginRight="@dimen/base_margin_size"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginLeft="48dp"
+                        android:background="@color/gray_tinge"/>
+
+                    <LinearLayout
+                        android:id="@+id/download_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center|left">
+
+                        <ImageView
+                            android:src="@drawable/icon_download"
+                            android:layout_marginLeft="@dimen/margin_small_size"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="@dimen/base_margin_size"
+                            android:text="下载缓存"
+                            android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/main_download_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/base_margin_size"
+                            android:textColor="@color/black"
+                            android:text="0首"/>
+                        <ImageView
+                            android:id="@+id/main_download_play"
+                            android:src="@drawable/icon_play"
+                            android:layout_marginRight="@dimen/base_margin_size"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp" />
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/gray_tinge"/>
+            </android.support.v7.widget.CardView>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:gravity="center|left">
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/base_margin_size"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="true"
+                app:cardCornerRadius="2dp">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+            </android.support.v7.widget.CardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/base_margin_size"
-                        android:text="本地音乐"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/gray_tinge"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:gravity="center|left">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/base_margin_size"
-                        android:text="本地音乐"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-
-
-            </LinearLayout>
+        </LinearLayout>
 
 
 
-
-
-
-
-        </android.support.v7.widget.CardView>
 
 
     </ScrollView>

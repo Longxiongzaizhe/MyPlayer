@@ -1,4 +1,4 @@
-package wj.com.myplayer.Bean;
+package wj.com.myplayer.DaoDB;
 
 
 import org.greenrobot.greendao.annotation.Entity;
@@ -89,4 +89,9 @@ public class MediaEntity {
         this.size = size;
     }
 
+    @Override
+    public String toString() {
+        return "\nName is :" + title + "\n path is :" + path + "\nalbums is :" + albums +
+                "\nartist is :" + artist + "size is :" + size;
+    }
 }

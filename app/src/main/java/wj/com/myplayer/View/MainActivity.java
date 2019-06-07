@@ -1,4 +1,4 @@
-package wj.com.myplayer.View.Activity;
+package wj.com.myplayer.View;
 
 import android.Manifest;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,15 +24,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.Config.BaseMultipleActivity;
+import wj.com.myplayer.Config.MainApplication;
 import wj.com.myplayer.Constant.SPConstant;
+import wj.com.myplayer.DaoDB.MediaDaoManager;
+import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.R;
+import wj.com.myplayer.Utils.MediaUtils;
 import wj.com.myplayer.Utils.PermissionsUtiles;
 import wj.com.myplayer.Utils.ToastUtil;
+import wj.com.myplayer.View.Activity.navSetting.UserSettingActivity;
 import wj.com.myplayer.View.Fragment.MainFragment;
 import wj.com.myplayer.View.Fragment.OneFragment;
 import wj.com.myplayer.View.Fragment.TestFragment;
 import wj.com.myplayer.View.adapter.LazyFragmentPagerAdapter;
-import wj.com.myplayer.View.Activity.navSetting.UserSettingActivity;
 import wj.com.myplayer.mview.NoScrollViewPager;
 
 public class MainActivity extends BaseMultipleActivity implements View.OnClickListener {
@@ -53,6 +58,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private ImageView navBackgrounpIv;
     private View navHeadView;
 
+    private MediaDaoManager manager = MainApplication.get().getMediaDaoManager();
+    private static String TAG = MainActivity.class.getSimpleName();
+
     private final String[] permissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.INTERNET,
@@ -68,7 +76,12 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         initData();
 
         PermissionsUtiles.requestPermissions(this, permissions); //请求权限
-
+        List<MediaEntity> list = MediaUtils.getAllMediaList(this,"");
+        for (MediaEntity entity : list){
+            Log.e(TAG,entity.toString());
+        }
+        manager.deleteAll();
+        manager.insert(list);
     }
 
     public void initView() {

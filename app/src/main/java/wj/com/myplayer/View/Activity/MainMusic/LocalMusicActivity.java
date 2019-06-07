@@ -1,9 +1,11 @@
 package wj.com.myplayer.View.Activity.MainMusic;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class LocalMusicActivity extends AppCompatActivity {
+import wj.com.myplayer.Config.BaseMultipleActivity;
+import wj.com.myplayer.R;
+
+public class LocalMusicActivity extends BaseMultipleActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
