@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/item_music_albums"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="@dimen/base_margin_size"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/icon_dog"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_music_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/dp_4"
+        app:layout_constraintStart_toEndOf="@+id/item_music_albums"
+        app:layout_constraintTop_toTopOf="@+id/item_music_albums"
+        android:textSize="@dimen/text_large_size"
+        android:maxLines="1"
+        android:maxLength="12"
+        android:ellipsize="end"
+        tools:text="Attention" />
+    <TextView
+        android:id="@+id/item_music_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_gray"
+        android:layout_marginStart="8dp"
+        android:textSize="@dimen/text_normal_size"
+        android:layout_marginBottom="@dimen/base_margin_size"
+        app:layout_constraintStart_toEndOf="@+id/item_music_albums"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:maxLines="1"
+        android:maxLength="12"
+        android:ellipsize="end"
+        tools:text="TFboys"/>
+
+    <ImageView
+        android:id="@+id/item_music_more"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingTop="@dimen/padding_plus_size"
+        android:paddingBottom="@dimen/padding_plus_size"
+        android:paddingEnd="@dimen/base_margin_size"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/icon_more" />
+
+</android.support.constraint.ConstraintLayout>

@@ -19,13 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".View.Activity.MainMusic.LocalMusicActivity"></activity>
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
         <activity android:name=".Config.BaseMultipleActivity" />
         <activity android:name=".View.Activity.navSetting.UserSettingActivity" />
         <activity android:name=".Config.BaseActivity" />
-        <activity android:name=".TestPackage.TestActivity" />
+        <activity android:name=".TestPackage.TestActivity" >
+        </activity>
         <activity android:name=".View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
