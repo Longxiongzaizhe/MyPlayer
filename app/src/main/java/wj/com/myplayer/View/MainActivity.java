@@ -29,6 +29,7 @@ import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.R;
+import wj.com.myplayer.TestPackage.TestActivity;
 import wj.com.myplayer.Utils.MediaUtils;
 import wj.com.myplayer.Utils.PermissionsUtiles;
 import wj.com.myplayer.Utils.ToastUtil;
@@ -110,6 +111,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         navHeadView = mMainNavView.getHeaderView(0);
         userNameTv = navHeadView.findViewById(R.id.head_user_name_tv);
         userIcon = navHeadView.findViewById(R.id.nav_head_iv);
+        userIcon.setOnClickListener(this);
         navBackgrounpIv = navHeadView.findViewById(R.id.head_bg_iv);
 
         mMainNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -126,7 +128,8 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                         mMultipleStateView.showLoading();
                         break;
                     case R.id.nav_exit:
-                        mMultipleStateView.showEmpty();
+                        finish();
+                     //   mMultipleStateView.showEmpty();
                         break;
                     case R.id.nav_setting:
                         mMainDrawerLayout.closeDrawers();
@@ -182,6 +185,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             case R.id.title_left_iv:
                 mMultipleStateView.showContent();
                 mMainDrawerLayout.openDrawer(GravityCompat.START);
+                break;
+            case R.id.nav_head_iv:
+                startActivity(TestActivity.class);
                 break;
         }
     }

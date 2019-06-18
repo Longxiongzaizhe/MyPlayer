@@ -2,9 +2,10 @@ package wj.com.myplayer.Config;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,23 @@ public class BaseMultipleActivity extends AppCompatActivity {
 
     protected void getKeyData(){
 
+    }
+
+    protected void startActivity(Class cls/*,Object... parms*/){
+        Intent intent = new Intent(this,cls);
+        /*if (parms.length > 5){
+            try {
+                throw new Exception("parms max length is 5,please use the ohter menthod");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        int i = 0;
+        for (Object o : parms){
+            intent.putExtra(FlagConstant.mKeyList[i],o);
+            i++;
+        }*/
+        startActivity(cls);
     }
 
     protected void initData(){

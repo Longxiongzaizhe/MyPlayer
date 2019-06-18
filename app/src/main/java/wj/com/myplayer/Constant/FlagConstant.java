@@ -12,6 +12,8 @@ public class FlagConstant {
     public static final String INTENT_KEY04 = "send_data_04";
     public static final String INTENT_KEY05 = "send_data_05";
 
+    public static final String[] mKeyList = new String[]{INTENT_KEY01,INTENT_KEY02,INTENT_KEY03,INTENT_KEY04,INTENT_KEY05};
+
 
 
 
