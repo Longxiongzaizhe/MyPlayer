@@ -8,8 +8,6 @@
     android:orientation="vertical"
     tools:context=".View.Activity.navSetting.UserSettingActivity">
 
-    <include layout="@layout/title_layout"/>
-
     <LinearLayout
         android:background="@color/white"
         android:layout_marginTop="@dimen/base_margin_size"

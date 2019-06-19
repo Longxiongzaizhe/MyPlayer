@@ -39,20 +39,8 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // TODO:OnCreateView Method has been created, run FindViewById again to generate code
-        super.onCreateView(inflater,container,savedInstanceState);
-        initView(mView);
-        return mView;
-    }
-
     public void initView(View view) {
+        super.initView(view);
         mMainLocalNum = (TextView) view.findViewById(R.id.main_local_num);
         mMainLocalPlay = (ImageView) view.findViewById(R.id.main_local_play);
         mMainLocalPlay.setOnClickListener(this);

@@ -12,7 +12,6 @@
         android:layout_height="56dp"
         android:paddingLeft="@dimen/padding_small_size"
         android:paddingRight="@dimen/base_padding_size"
-
         android:src="@drawable/ic_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

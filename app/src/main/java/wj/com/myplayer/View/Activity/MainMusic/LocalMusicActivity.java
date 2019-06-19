@@ -19,7 +19,7 @@ import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.R;
 import wj.com.myplayer.View.adapter.MusicListAdapter;
 
-public class LocalMusicActivity extends BaseMultipleActivity implements BaseQuickAdapter.OnItemChildClickListener {
+public class LocalMusicActivity extends BaseMultipleActivity implements BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.OnItemClickListener {
 
     private RecyclerView mLocalMusicRv;
     private MusicListAdapter adapter;
@@ -33,6 +33,11 @@ public class LocalMusicActivity extends BaseMultipleActivity implements BaseQuic
         initView();
     }
 
+    @Override
+    public void initTitle() {
+        mTitleCenterTv.setText("本地音乐");
+    }
+
     public void initView() {
         mLocalMusicRv = (RecyclerView) findViewById(R.id.local_music_rv);
         datalist = MediaDaoManager.getInstance().getAllList();
@@ -40,6 +45,7 @@ public class LocalMusicActivity extends BaseMultipleActivity implements BaseQuic
         mLocalMusicRv.setLayoutManager(new LinearLayoutManager(this));
         mLocalMusicRv.setAdapter(adapter);
         adapter.setOnItemChildClickListener(this);
+        adapter.setOnItemClickListener(this);
         Intent startMusicIntent = new Intent(this,MusicService.class);
         bindService(startMusicIntent,connection,BIND_AUTO_CREATE) ;
         startService(startMusicIntent);
@@ -60,11 +66,11 @@ public class LocalMusicActivity extends BaseMultipleActivity implements BaseQuic
 
     @Override
     public boolean onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-        if (view.getId() == R.id.item_music_more){
+        /*if (view.getId() == R.id.item_music_more){
             String path = datalist.get(position).path;
             mBinder.play(path);
             return true;
-        }
+        }*/
         return false;
     }
 
@@ -72,5 +78,13 @@ public class LocalMusicActivity extends BaseMultipleActivity implements BaseQuic
     protected void onDestroy() {
         super.onDestroy();
         unbindService(connection);
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        if (mBinder != null){
+            String path = datalist.get(position).path;
+            mBinder.play(path);
+        }
     }
 }

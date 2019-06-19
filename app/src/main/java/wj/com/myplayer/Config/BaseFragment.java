@@ -37,10 +37,17 @@ public abstract class BaseFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
+
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         getKeyData();
         initView(mView);
         initData();
-
     }
 
     protected void getKeyData(){

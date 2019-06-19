@@ -32,6 +32,7 @@ import wj.com.myplayer.R;
 import wj.com.myplayer.TestPackage.TestActivity;
 import wj.com.myplayer.Utils.MediaUtils;
 import wj.com.myplayer.Utils.PermissionsUtiles;
+import wj.com.myplayer.Utils.SPUtils;
 import wj.com.myplayer.Utils.ToastUtil;
 import wj.com.myplayer.View.Activity.navSetting.UserSettingActivity;
 import wj.com.myplayer.View.Fragment.MainFragment;
@@ -48,10 +49,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private List<Fragment> mFragments;
     private List<String> mTitles;
     private LazyFragmentPagerAdapter myPagerAdapter;
-    private ImageView mTitleLeftIv;
-    private TextView mTitleCenterTv;
-    private ImageView mTitleRightIv;
-    private TextView mTitleRightTv;
     private DrawerLayout mMainDrawerLayout;
     private NavigationView mMainNavView;
     private TextView userNameTv;
@@ -85,6 +82,13 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         manager.insert(list);
     }
 
+    @Override
+    public void initTitle() {
+        mTitleLeftIv.setImageResource(R.drawable.ic_menu);
+        mTitleLeftIv.setOnClickListener(this);
+        mTitleCenterTv.setText("音乐园");
+    }
+
     public void initView() {
         mMainViewpager =  findViewById(R.id.main_viewpager);
         mMainTabLayout = (TabLayout) findViewById(R.id.main_tab_layout);
@@ -95,15 +99,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         myPagerAdapter = new LazyFragmentPagerAdapter(getSupportFragmentManager(), mFragments, mTitles);
         mMainViewpager.setAdapter(myPagerAdapter);
         mMainTabLayout.setupWithViewPager(mMainViewpager);
-
-        mTitleLeftIv = (ImageView) findViewById(R.id.title_left_iv);
-        mTitleCenterTv = (TextView) findViewById(R.id.title_center_tv);
-        mTitleRightIv = (ImageView) findViewById(R.id.title_right_iv);
-        mTitleRightTv = (TextView) findViewById(R.id.title_right_tv);
         mMainTabLayout.setOnClickListener(this);
         mMainViewpager.setOnClickListener(this);
-        mTitleLeftIv.setOnClickListener(this);
-        mTitleCenterTv.setText("音乐园");
+
+
         mMainDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         mMainNavView = (NavigationView) findViewById(R.id.main_nav_view);
         mMainNavView.inflateHeaderView(R.layout.navigation_head_layout);
@@ -113,6 +112,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         userIcon = navHeadView.findViewById(R.id.nav_head_iv);
         userIcon.setOnClickListener(this);
         navBackgrounpIv = navHeadView.findViewById(R.id.head_bg_iv);
+        userNameTv.setText(SPUtils.get(this,SPConstant.USER_NAME,"Sunny"));
 
         mMainNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -125,7 +125,8 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                         showProgress("test",true);
                         break;
                     case R.id.nav_color:
-                        mMultipleStateView.showLoading();
+                        ToastUtil.showSingleToast("nav_color");
+                       // mMultipleStateView.showLoading();
                         break;
                     case R.id.nav_exit:
                         finish();
@@ -187,7 +188,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                 mMainDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.nav_head_iv:
-                startActivity(TestActivity.class);
+                //startActivity(TestActivity.class);
                 break;
         }
     }

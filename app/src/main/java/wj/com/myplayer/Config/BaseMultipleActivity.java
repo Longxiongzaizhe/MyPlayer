@@ -6,23 +6,32 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import wj.com.myplayer.R;
 
-public class BaseMultipleActivity extends AppCompatActivity {
+public abstract class BaseMultipleActivity extends AppCompatActivity {
 
     private Unbinder mBind;
     private ProgressDialog progressDialog;
     protected MultipleStatusView mMultipleStateView;
     protected LinearLayout mLlRoot;
     protected FrameLayout mFlRoot;
+    protected TextView mTitleCenterTv;
+    protected ImageView mTitleRightIv;
+    protected ImageView mTitleLeftIv;
+    protected TextView mTitleRightTv;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +40,11 @@ public class BaseMultipleActivity extends AppCompatActivity {
         mBind = ButterKnife.bind(this);
         initBaseView();
 
+        initTitle();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
+
+    public abstract void initTitle();
 
     @Override
     public void setContentView(int layoutResID) {
@@ -62,6 +74,15 @@ public class BaseMultipleActivity extends AppCompatActivity {
         mMultipleStateView = findViewById(R.id.multiple_state_view);
         mLlRoot = findViewById(R.id.ll_root);
         mFlRoot = findViewById(R.id.fl_root);
+        mTitleCenterTv = findViewById(R.id.title_center_tv);
+        mTitleLeftIv = findViewById(R.id.title_left_iv);
+        mTitleRightIv = findViewById(R.id.title_right_iv);
+        mTitleRightTv = findViewById(R.id.title_right_tv);
+
+        mTitleLeftIv.setImageResource(R.drawable.ic_back);
+        mTitleLeftIv.setOnClickListener(v -> {
+            finish();
+        });
     }
 
     protected void getKeyData(){

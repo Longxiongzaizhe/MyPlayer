@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import wj.com.myplayer.Config.BaseMultipleActivity;
 import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.R;
@@ -29,12 +30,8 @@ import wj.com.myplayer.Utils.SPUtils;
 import wj.com.myplayer.mview.BaseEditDialog;
 import wj.com.myplayer.mview.IOSDialog;
 
-public class UserSettingActivity extends AppCompatActivity implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
+public class UserSettingActivity extends BaseMultipleActivity implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
 
-    private ImageView mTitleLeftIv;
-    private TextView mTitleCenterTv;
-    private ImageView mTitleRightIv;
-    private TextView mTitleRightTv;
     private CircleImageView mSettingUserIconIv;
     private ImageView mSettingUserBgIv;
     private TextView mSettingUserNameTv;
@@ -59,12 +56,13 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
         bgUri =  getUriForFile(this,bgFile);
     }
 
-    private void initView() {
-        mTitleLeftIv = (ImageView) findViewById(R.id.title_left_iv);
-        mTitleLeftIv.setOnClickListener(this);
-        mTitleCenterTv = (TextView) findViewById(R.id.title_center_tv);
-        mTitleRightIv = (ImageView) findViewById(R.id.title_right_iv);
-        mTitleRightTv = (TextView) findViewById(R.id.title_right_tv);
+    @Override
+    public void initTitle() {
+        mTitleCenterTv.setText("设置");
+    }
+
+    protected void initView() {
+
         mSettingUserIconIv = (CircleImageView) findViewById(R.id.setting_user_icon_iv);
         mSettingUserIconIv.setOnClickListener(this);
         mSettingUserBgIv = (ImageView) findViewById(R.id.setting_user_bg_iv);
@@ -72,9 +70,6 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
         mSettingUserNameTv = (TextView) findViewById(R.id.setting_user_name_tv);
         mSettingUserNameTv.setText(SPUtils.get(this,SPConstant.USER_NAME,"Sunny"));
         mSettingUserNameTv.setOnClickListener(this);
-
-        mTitleLeftIv.setImageResource(R.drawable.ic_back);
-        mTitleCenterTv.setText("设置");
 
         editDialog = new BaseEditDialog(this).setConfirmListener(new BaseEditDialog.OnConfirmListener() {
             @Override
@@ -96,9 +91,6 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             default:
-                break;
-            case R.id.title_left_iv:
-                finish();
                 break;
             case R.id.setting_user_icon_iv:
                 type = 0;
