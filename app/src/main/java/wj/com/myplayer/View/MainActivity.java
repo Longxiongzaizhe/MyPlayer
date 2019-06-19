@@ -1,15 +1,19 @@
 package wj.com.myplayer.View;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -29,15 +33,16 @@ import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.R;
-import wj.com.myplayer.TestPackage.TestActivity;
+import wj.com.myplayer.TestPackage.TestFragment;
 import wj.com.myplayer.Utils.MediaUtils;
 import wj.com.myplayer.Utils.PermissionsUtiles;
 import wj.com.myplayer.Utils.SPUtils;
 import wj.com.myplayer.Utils.ToastUtil;
+import wj.com.myplayer.View.Activity.MainMusic.MusicService;
 import wj.com.myplayer.View.Activity.navSetting.UserSettingActivity;
 import wj.com.myplayer.View.Fragment.MainFragment;
 import wj.com.myplayer.View.Fragment.OneFragment;
-import wj.com.myplayer.View.Fragment.TestFragment;
+import wj.com.myplayer.View.Fragment.PlayFragment;
 import wj.com.myplayer.View.adapter.LazyFragmentPagerAdapter;
 import wj.com.myplayer.mview.NoScrollViewPager;
 
@@ -55,6 +60,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private ImageView userIcon;
     private ImageView navBackgrounpIv;
     private View navHeadView;
+
+    private PlayFragment playFragment;
+    private MusicService.MusicBinder mBinder;
 
     private MediaDaoManager manager = MainApplication.get().getMediaDaoManager();
     private static String TAG = MainActivity.class.getSimpleName();
@@ -93,6 +101,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         mMainViewpager =  findViewById(R.id.main_viewpager);
         mMainTabLayout = (TabLayout) findViewById(R.id.main_tab_layout);
         mMainViewpager.setNoScroll(true);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        playFragment = (PlayFragment) fragmentManager.findFragmentById(R.id.music_play_lay);
+
 
         mFragments = new ArrayList<>();
         mTitles = new ArrayList<>();
@@ -163,6 +174,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
         myPagerAdapter.notifyDataSetChanged();
 
+        Intent startMusicIntent = new Intent(this,MusicService.class);
+        bindService(startMusicIntent,connection,BIND_AUTO_CREATE) ;
+        startService(startMusicIntent);
+
     }
 
     @Override
@@ -230,4 +245,30 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
         }
     };
+
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mBinder = (MusicService.MusicBinder) service;
+            playFragment.setBinder(mBinder);
+            //    mBinder.play();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(connection);
+    }
 }

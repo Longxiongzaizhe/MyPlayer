@@ -1,4 +1,4 @@
-package wj.com.myplayer.View.Fragment;
+package wj.com.myplayer.TestPackage;
 
 import wj.com.myplayer.Config.BaseFragment;
 import wj.com.myplayer.R;

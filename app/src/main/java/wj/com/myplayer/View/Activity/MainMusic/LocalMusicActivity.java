@@ -83,8 +83,8 @@ public class LocalMusicActivity extends BaseMultipleActivity implements BaseQuic
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (mBinder != null){
-            String path = datalist.get(position).path;
-            mBinder.play(path);
+            MediaEntity entity = datalist.get(position);
+            mBinder.play(entity);
         }
     }
 }

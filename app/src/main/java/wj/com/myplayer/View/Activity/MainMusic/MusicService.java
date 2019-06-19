@@ -8,7 +8,11 @@ import android.os.IBinder;
 
 import java.io.IOException;
 
+import wj.com.myplayer.DaoDB.MediaEntity;
+
 public class MusicService extends Service {
+
+
 
     private MediaPlayer player; //播放器
     private MusicBinder mBinder = new MusicBinder();
@@ -36,14 +40,6 @@ public class MusicService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
-        new Thread(() -> {
-            if(!player.isPlaying()){
-                // 开始播放
-                player.start();
-                // 允许循环播放
-                player.setLooping(true);
-            }
-        }).start();
 
 
         return START_STICKY;
@@ -63,12 +59,16 @@ public class MusicService extends Service {
         return mBinder;
     }
 
+    public MediaPlayer getPlayer() {
+        return player;
+    }
 
-    class MusicBinder extends Binder{
 
-        public MusicService getService(){
-            return MusicService.this;
-        }
+    public class MusicBinder extends Binder{
+
+        private MediaEntity currentEntity;
+        private MusicInterface.OnMediaChangeListener onMediaChangeListener;
+
 
         public void play(){
             if (player != null && !player.isPlaying()){
@@ -76,14 +76,18 @@ public class MusicService extends Service {
             }
         }
 
-        public void play(String path){
+        public void play(MediaEntity entity){
             try {
+                currentEntity = entity;
                 player.reset();
-                player.setDataSource(path);
+                player.setDataSource(entity.path);
                 player.prepareAsync();
                 player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
+                        if (onMediaChangeListener!= null){
+                            onMediaChangeListener.onDataChange(entity);
+                        }
                         player.start();
                     }
                 });
@@ -99,8 +103,24 @@ public class MusicService extends Service {
         }
 
         public void pause(){
+            if (player != null && player.isPlaying()){
+                player.pause();
+            }
+        }
 
+        public MediaEntity getCurrentEntity() {
+            return currentEntity;
+        }
+
+        public void setOnMediaChangeListener(MusicInterface.OnMediaChangeListener onMediaChangeListener) {
+            this.onMediaChangeListener = onMediaChangeListener;
+        }
+
+        public MusicService getService(){
+            return MusicService.this;
         }
 
     }
+
+
 }

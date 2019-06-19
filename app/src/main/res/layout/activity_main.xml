@@ -25,7 +25,11 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="0dp" />
-        <include layout="@layout/main_play_layout"/>
+        <fragment
+            android:id="@+id/music_play_lay"
+            android:name="wj.com.myplayer.View.Fragment.PlayFragment"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"/>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
