@@ -1,5 +1,6 @@
 package wj.com.myplayer.Config;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +31,28 @@ public abstract class BaseFragment extends Fragment {
         mBind = ButterKnife.bind(this,mView);
 
         return mView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        getKeyData();
+        initView(mView);
+        initData();
+
+    }
+
+    protected void getKeyData(){
+
+    }
+
+    protected void initView(View view){
+
+    }
+
+    protected void initData(){
+
     }
 
 
