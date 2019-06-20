@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import wj.com.myplayer.Bean.MusicBean;
 import wj.com.myplayer.Config.BaseFragment;
 import wj.com.myplayer.Config.MainApplication;
 import wj.com.myplayer.DaoDB.MediaEntity;
@@ -20,10 +21,17 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
     private ImageView mMusicPlayIv;
     private ImageView mMusicAblumsIv;
     private MediaEntity currentEntity;
+    private MusicBean musicBean;
 
     public void setBinder(MusicService.MusicBinder binder){
         this.mBinder = binder;
         mBinder.setOnMediaChangeListener(this);
+        if (mBinder.getCurrentEntity() != null){
+            initMusicData(mBinder.getCurrentEntity());
+        }
+//        if (musicBean != null){
+//            mBinder.setData(musicBean);
+//        }
     }
 
     @Override
@@ -45,6 +53,12 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     protected void initData() {
         super.initData();
+
+//        musicBean = (MusicBean) SPUtils.getObject(getContext(), SPConstant.LAST_PALY_MUSIC);
+//        if (musicBean != null){
+//            initMusicData(musicBean);
+//        }
+
     }
 
     @Override
@@ -64,15 +78,31 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onDataChange(MediaEntity entity) {
         currentEntity = entity;
-        mMusicAblumsIv.setImageBitmap( MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
-                currentEntity.getId(),currentEntity.getAlbum_id(),true,true));
-        mMusicNameTv.setText(currentEntity.title);
-        mMusicAuthorTv.setText(currentEntity.getArtist());
+        initMusicData(currentEntity);
         mMusicPlayIv.setImageResource(R.drawable.pause_btn);
         /*if (mBinder.getService().getPlayer().isPlaying()){
             mMusicPlayIv.setImageResource(R.drawable.pause_btn);
         }else {
             mMusicPlayIv.setImageResource(R.drawable.play_btn);
         }*/
+    }
+
+    public void initMusicData(MediaEntity entity) {
+        mMusicAblumsIv.setImageBitmap(MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
+                entity.getId(), entity.getAlbum_id(), true, true));
+        mMusicNameTv.setText(entity.title);
+        mMusicAuthorTv.setText(entity.getArtist());
+        if (mBinder !=null && mBinder.getService().getPlayer().isPlaying()){
+            mMusicPlayIv.setImageResource(R.drawable.pause_btn);
+        }else {
+            mMusicPlayIv.setImageResource(R.drawable.play_btn);
+        }
+    }
+
+    public void initMusicData(MusicBean entity) {
+        mMusicAblumsIv.setImageBitmap(MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
+                entity.getId(), entity.getAlbum_id(), true, true));
+        mMusicNameTv.setText(entity.title);
+        mMusicAuthorTv.setText(entity.getArtist());
     }
 }

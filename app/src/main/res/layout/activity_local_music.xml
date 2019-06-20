@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".View.Activity.MainMusic.LocalMusicActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/local_music_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="@dimen/margin_small_size">
 
     </android.support.v7.widget.RecyclerView>
 
-</android.support.constraint.ConstraintLayout>
+    <fragment
+        android:id="@+id/music_play_lay"
+        android:name="wj.com.myplayer.View.Fragment.PlayFragment"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"/>
+</LinearLayout>

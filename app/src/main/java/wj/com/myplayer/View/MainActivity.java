@@ -187,6 +187,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         Bitmap bgBitmap = BitmapFactory.decodeFile(SPConstant.USER_BG_PATH);
         userIcon.setImageBitmap(iconBitmap);
         navBackgrounpIv.setImageBitmap(bgBitmap);
+        if (mBinder != null && playFragment != null){
+            playFragment.setBinder(mBinder);
+        }
     }
 
     @Override
@@ -260,11 +263,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         }
     };
 
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-    }
 
     @Override
     protected void onDestroy() {

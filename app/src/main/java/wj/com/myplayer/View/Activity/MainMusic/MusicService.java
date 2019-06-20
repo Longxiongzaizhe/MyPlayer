@@ -8,6 +8,7 @@ import android.os.IBinder;
 
 import java.io.IOException;
 
+import wj.com.myplayer.Bean.MusicBean;
 import wj.com.myplayer.DaoDB.MediaEntity;
 
 public class MusicService extends Service {
@@ -69,6 +70,16 @@ public class MusicService extends Service {
         private MediaEntity currentEntity;
         private MusicInterface.OnMediaChangeListener onMediaChangeListener;
 
+        public void setData(MusicBean entity){
+
+            try {
+                player.reset();
+                player.setDataSource(entity.path);
+                player.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         public void play(){
             if (player != null && !player.isPlaying()){
