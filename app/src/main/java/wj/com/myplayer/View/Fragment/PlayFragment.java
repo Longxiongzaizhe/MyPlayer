@@ -102,6 +102,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         mMusicAuthorTv.setText(entity.getArtist());
         if (mBinder !=null && mBinder.getService().getPlayer().isPlaying()){
             mMusicPlayIv.setImageResource(R.drawable.pause_btn);
+            mMusicAblumsIv.startAnimation(animation);
         }else {
             mMusicPlayIv.setImageResource(R.drawable.play_btn);
         }

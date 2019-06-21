@@ -28,8 +28,8 @@ public class MusicService extends Service {
 
         player = new MediaPlayer();
         player.setOnCompletionListener(mp -> {
-            if (playList != null && position < playList.size()) {
-                mBinder.play(playList.get(++position));
+            if (playList != null && ++position < playList.size()) {
+                mBinder.play(playList.get(position));
 
             }
 
