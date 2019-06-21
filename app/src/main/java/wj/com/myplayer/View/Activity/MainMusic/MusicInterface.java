@@ -6,5 +6,6 @@ public interface MusicInterface {
 
      interface OnMediaChangeListener{
         void onDataChange(MediaEntity entity);
+        void onPlayEnd();
     }
 }

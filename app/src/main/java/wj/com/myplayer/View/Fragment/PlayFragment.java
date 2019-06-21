@@ -95,6 +95,12 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         }*/
     }
 
+    @Override
+    public void onPlayEnd() {
+        mMusicPlayIv.setImageResource(R.drawable.play_btn);
+        mMusicAblumsIv.clearAnimation();
+    }
+
     public void initMusicData(MediaEntity entity) {
         mMusicAblumsIv.setImageBitmap(MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
                 entity.getId(), entity.getAlbum_id(), true, true));
