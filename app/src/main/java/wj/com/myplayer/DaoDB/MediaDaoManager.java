@@ -52,6 +52,10 @@ public class MediaDaoManager {
         return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Title.eq(name)).list();
     }
 
+    public List<MediaEntity> query(long id){
+        return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Id.eq(id)).list();
+    }
+
     public List<MediaEntity> queryByFileName(String fileName){
         return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Display_name.eq(fileName)).list();
     }

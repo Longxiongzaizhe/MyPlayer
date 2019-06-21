@@ -20,6 +20,7 @@ import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.R;
+import wj.com.myplayer.Utils.DataTransferUtils;
 import wj.com.myplayer.Utils.SPUtils;
 import wj.com.myplayer.View.Fragment.PlayFragment;
 import wj.com.myplayer.View.adapter.MusicListAdapter;
@@ -30,6 +31,7 @@ public class LocalMusicActivity extends BaseMultipleActivity implements BaseQuic
     private MusicListAdapter adapter;
     private List<MediaEntity> datalist;
     private MusicService.MusicBinder mBinder;
+    private MusicBean musicBean;
 
     private PlayFragment playFragment;
 
@@ -67,6 +69,9 @@ public class LocalMusicActivity extends BaseMultipleActivity implements BaseQuic
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBinder = (MusicService.MusicBinder) service;
             playFragment.setBinder(mBinder);
+            if (mBinder.getCurrentEntity() == null){
+
+            }
         //    mBinder.play();
         }
 
@@ -97,19 +102,9 @@ public class LocalMusicActivity extends BaseMultipleActivity implements BaseQuic
         if (mBinder != null){
             MediaEntity entity = datalist.get(position);
             mBinder.play(entity);
-            MusicBean bean = new MusicBean();
-            bean.setId(entity.getId());
-            bean.setPath(entity.getPath());
-            bean.setAlbum_id(entity.getAlbum_id());
-            bean.setTitle(entity.getTitle());
-            bean.setDisplay_name(entity.getDisplay_name());
-            bean.setCover(entity.cover);
-            bean.setArtist(entity.artist);
-            bean.setSize(entity.size);
-            bean.setSinger(entity.singer);
-            bean.setDuration(entity.duration);
-            bean.setAlbums(entity.albums);
-            SPUtils.putObject(this, SPConstant.LAST_PALY_MUSIC,bean);
+            mBinder.getService().setPlayList(datalist);
+            mBinder.getService().setPosition(position);
+            SPUtils.putObject(this, SPConstant.LAST_PALY_MUSIC, DataTransferUtils.MediaDao2MusicBean(entity));
         }
     }
 }

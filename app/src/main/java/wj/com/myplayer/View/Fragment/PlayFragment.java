@@ -1,6 +1,8 @@
 package wj.com.myplayer.View.Fragment;
 
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
     private ImageView mMusicAblumsIv;
     private MediaEntity currentEntity;
     private MusicBean musicBean;
+    private Animation animation;
 
     public void setBinder(MusicService.MusicBinder binder){
         this.mBinder = binder;
@@ -46,6 +49,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         mMusicNameTv = view.findViewById(R.id.main_music_title);
         mMusicAuthorTv = view.findViewById(R.id.main_music_author);
         mMusicAblumsIv = view.findViewById(R.id.main_music_albums);
+        animation = AnimationUtils.loadAnimation(getContext(),R.anim.view_rotate);
         mMusicPlayIv.setOnClickListener(this);
 
     }
@@ -67,9 +71,12 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
             if (mBinder.getService().getPlayer().isPlaying()){
                 mBinder.pause();
                 mMusicPlayIv.setImageResource(R.drawable.play_btn);
+                mMusicAblumsIv.clearAnimation();
             }else {
                 mBinder.play();
                 mMusicPlayIv.setImageResource(R.drawable.pause_btn);
+                mMusicAblumsIv.startAnimation(animation);
+
             }
         }
 
@@ -80,6 +87,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         currentEntity = entity;
         initMusicData(currentEntity);
         mMusicPlayIv.setImageResource(R.drawable.pause_btn);
+        mMusicAblumsIv.startAnimation(animation);
         /*if (mBinder.getService().getPlayer().isPlaying()){
             mMusicPlayIv.setImageResource(R.drawable.pause_btn);
         }else {

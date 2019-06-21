@@ -22,6 +22,15 @@ public class MediaEntity {
     public String artist; // 艺术家
     public String singer; //歌手
     public long size;
+
+    public Bitmap getCover() {
+        return cover;
+    }
+
+    public void setCover(Bitmap cover) {
+        this.cover = cover;
+    }
+
     @Transient
     public Bitmap cover;
     @Generated(hash = 230371381)

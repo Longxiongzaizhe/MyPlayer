@@ -7,16 +7,17 @@ import android.os.Binder;
 import android.os.IBinder;
 
 import java.io.IOException;
+import java.util.List;
 
 import wj.com.myplayer.Bean.MusicBean;
 import wj.com.myplayer.DaoDB.MediaEntity;
 
 public class MusicService extends Service {
 
-
-
     private MediaPlayer player; //播放器
     private MusicBinder mBinder = new MusicBinder();
+    private List<MediaEntity> playList;
+    private int position;
 
     public MusicService() {
     }
@@ -26,15 +27,13 @@ public class MusicService extends Service {
         super.onCreate();
 
         player = new MediaPlayer();
-       /* File file = new File(Environment.getExternalStorageDirectory(),"music.mp3");
-        try {
-            player.reset();
-            player.setDataSource(file.getPath());
-            player.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        player.setOnCompletionListener(mp -> {
+            if (playList != null && position < playList.size()) {
+                mBinder.play(playList.get(++position));
 
+            }
+
+        });
     }
 
     @Override
@@ -47,21 +46,34 @@ public class MusicService extends Service {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public IBinder onBind(Intent intent) {
-        /*File file = new File(Environment.getExternalStorageDirectory(),"music.mp3");
-        try {
-            player.setDataSource(file.getPath());
-            player.prepareAsync();
-            //  player.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
 
         return mBinder;
     }
 
     public MediaPlayer getPlayer() {
         return player;
+    }
+
+    public List<MediaEntity> getPlayList() {
+        return playList;
+    }
+
+    public void setPlayList(List<MediaEntity> playList) {
+        this.playList = playList;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
 
@@ -109,7 +121,7 @@ public class MusicService extends Service {
 
         public void stop(){
             if (player != null && !player.isPlaying()){
-                player.start();
+                player.stop();
             }
         }
 
