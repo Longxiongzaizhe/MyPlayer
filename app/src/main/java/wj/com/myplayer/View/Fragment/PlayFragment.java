@@ -18,9 +18,11 @@ import wj.com.myplayer.View.Activity.MainMusic.MusicService;
 public class PlayFragment extends BaseFragment implements View.OnClickListener, MusicInterface.OnMediaChangeListener {
 
     private MusicService.MusicBinder mBinder;
+    private MusicService service;
     private TextView mMusicNameTv;
     private TextView mMusicAuthorTv;
     private ImageView mMusicPlayIv;
+    private ImageView mMusicNextIv;
     private ImageView mMusicAblumsIv;
     private MediaEntity currentEntity;
     private MusicBean musicBean;
@@ -29,6 +31,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
     public void setBinder(MusicService.MusicBinder binder){
         this.mBinder = binder;
         mBinder.setOnMediaChangeListener(this);
+        service = mBinder.getService();
         if (mBinder.getCurrentEntity() != null){
             initMusicData(mBinder.getCurrentEntity());
         }
@@ -49,8 +52,10 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         mMusicNameTv = view.findViewById(R.id.main_music_title);
         mMusicAuthorTv = view.findViewById(R.id.main_music_author);
         mMusicAblumsIv = view.findViewById(R.id.main_music_albums);
+        mMusicNextIv = view.findViewById(R.id.main_next);
         animation = AnimationUtils.loadAnimation(getContext(),R.anim.view_rotate);
         mMusicPlayIv.setOnClickListener(this);
+        mMusicNextIv.setOnClickListener(this);
 
     }
 
@@ -74,9 +79,20 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
                 mMusicAblumsIv.clearAnimation();
             }else {
                 mBinder.play();
-                mMusicPlayIv.setImageResource(R.drawable.pause_btn);
+                mMusicPlayIv.setImageResource(R.drawable.icon_pause);
                 mMusicAblumsIv.startAnimation(animation);
 
+            }
+        }else if (v == mMusicNextIv){
+            if (service.getPlayList() == null){
+                return;
+            }
+            if (service.getPlayList().size() != service.getPosition()+1){
+                mBinder.play(service.getPlayList().get(service.getPosition()+1));
+                service.setPosition(service.getPosition()+1);
+            }else {
+                mBinder.play(service.getPlayList().get(0));
+                service.setPosition(0);
             }
         }
 
@@ -86,7 +102,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
     public void onDataChange(MediaEntity entity) {
         currentEntity = entity;
         initMusicData(currentEntity);
-        mMusicPlayIv.setImageResource(R.drawable.pause_btn);
+        mMusicPlayIv.setImageResource(R.drawable.icon_pause);
         mMusicAblumsIv.startAnimation(animation);
         /*if (mBinder.getService().getPlayer().isPlaying()){
             mMusicPlayIv.setImageResource(R.drawable.pause_btn);
@@ -107,7 +123,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         mMusicNameTv.setText(entity.title);
         mMusicAuthorTv.setText(entity.getArtist());
         if (mBinder !=null && mBinder.getService().getPlayer().isPlaying()){
-            mMusicPlayIv.setImageResource(R.drawable.pause_btn);
+            mMusicPlayIv.setImageResource(R.drawable.icon_pause);
             mMusicAblumsIv.startAnimation(animation);
         }else {
             mMusicPlayIv.setImageResource(R.drawable.play_btn);

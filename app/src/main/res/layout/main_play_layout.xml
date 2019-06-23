@@ -8,6 +8,7 @@
 
 
     <View
+        android:id="@+id/play_frag_line"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/gray_DDE0E6"
@@ -26,15 +27,17 @@
 
     <TextView
         android:id="@+id/main_music_title"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:layout_marginStart="8dp"
+        android:text="歌曲名"
         android:textColor="@color/black"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toEndOf="@+id/main_music_albums"
-        app:layout_constraintTop_toTopOf="@+id/main_music_albums"
         android:textSize="@dimen/text_large_size"
-        android:text="Attention" />
+        app:layout_constraintStart_toEndOf="@+id/main_music_albums"
+        app:layout_constraintTop_toTopOf="@+id/main_music_albums" />
     <TextView
         android:id="@+id/main_music_author"
         android:layout_width="wrap_content"
@@ -45,19 +48,26 @@
         android:textSize="@dimen/text_small_size"
         app:layout_constraintStart_toEndOf="@+id/main_music_albums"
         app:layout_constraintTop_toBottomOf="@+id/main_music_title"
-        android:text="TFboys"/>
+        android:text="歌手"/>
 
     <ImageView
         android:id="@+id/main_play"
         android:layout_width="@dimen/dp_40"
-        android:layout_height="80dp"
-        android:layout_marginEnd="16dp"
-        android:paddingTop="24dp"
-        android:paddingBottom="16dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="56dp"
         android:src="@drawable/play_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/play_frag_line"/>
+
+    <ImageView
+        android:id="@+id/main_next"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/icon_next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/play_frag_line" />
 
 </android.support.constraint.ConstraintLayout>
