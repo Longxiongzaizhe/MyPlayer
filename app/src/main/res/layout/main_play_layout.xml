@@ -51,6 +51,16 @@
         android:text="歌手"/>
 
     <ImageView
+        android:id="@+id/main_previous"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/icon_previous"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/main_play"
+        app:layout_constraintTop_toTopOf="@+id/play_frag_line" />
+
+    <ImageView
         android:id="@+id/main_play"
         android:layout_width="@dimen/dp_40"
         android:layout_height="40dp"
@@ -64,10 +74,10 @@
         android:id="@+id/main_next"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
         android:src="@drawable/icon_next"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/main_play"
         app:layout_constraintTop_toTopOf="@+id/play_frag_line" />
 
 </android.support.constraint.ConstraintLayout>

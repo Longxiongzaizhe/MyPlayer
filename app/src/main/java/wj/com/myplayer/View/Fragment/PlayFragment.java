@@ -3,6 +3,7 @@ package wj.com.myplayer.View.Fragment;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
     private TextView mMusicAuthorTv;
     private ImageView mMusicPlayIv;
     private ImageView mMusicNextIv;
+    private ImageView mMusicPreIv;
     private ImageView mMusicAblumsIv;
     private MediaEntity currentEntity;
     private MusicBean musicBean;
@@ -53,9 +55,12 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         mMusicAuthorTv = view.findViewById(R.id.main_music_author);
         mMusicAblumsIv = view.findViewById(R.id.main_music_albums);
         mMusicNextIv = view.findViewById(R.id.main_next);
+        mMusicPreIv = view.findViewById(R.id.main_previous);
         animation = AnimationUtils.loadAnimation(getContext(),R.anim.view_rotate);
+        animation.setInterpolator(new LinearInterpolator());
         mMusicPlayIv.setOnClickListener(this);
         mMusicNextIv.setOnClickListener(this);
+        mMusicPreIv.setOnClickListener(this);
 
     }
 
@@ -93,6 +98,18 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
             }else {
                 mBinder.play(service.getPlayList().get(0));
                 service.setPosition(0);
+            }
+        } else if (v == mMusicPreIv){
+            if (service.getPlayList() == null){
+                return;
+            }
+
+            if ( service.getPosition() != 0){
+                mBinder.play(service.getPlayList().get(service.getPosition()- 1));
+                service.setPosition(service.getPosition() - 1);
+            } else {
+                mBinder.play(service.getPlayList().get(service.getPlayList().size() - 1));
+                service.setPosition(service.getPlayList().size() - 1);
             }
         }
 
