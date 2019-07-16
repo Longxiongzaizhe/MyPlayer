@@ -7,6 +7,7 @@ import android.os.Binder;
 import android.os.IBinder;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import wj.com.myplayer.Bean.MusicBean;
@@ -78,7 +79,7 @@ public class MusicService extends Service {
     }
 
 
-    public class MusicBinder extends Binder{
+    public class MusicBinder extends Binder implements Serializable {
 
         private MediaEntity currentEntity;
         private MusicInterface.OnMediaChangeListener onMediaChangeListener;

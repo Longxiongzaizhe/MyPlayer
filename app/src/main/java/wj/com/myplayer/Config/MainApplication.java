@@ -88,7 +88,7 @@ public class MainApplication extends Application {
 
     private void initDaoDB() {
         if (devOpenHelper == null){
-            devOpenHelper = new DaoMaster.DevOpenHelper(getApplicationContext(), "student.db", null);
+            devOpenHelper = new DaoMaster.DevOpenHelper(getApplicationContext(), "music.db", null);
             DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDb());
             daoSession = daoMaster.newSession();
         }

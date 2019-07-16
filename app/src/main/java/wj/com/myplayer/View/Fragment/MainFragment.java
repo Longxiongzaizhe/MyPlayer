@@ -1,19 +1,15 @@
 package wj.com.myplayer.View.Fragment;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import wj.com.myplayer.Config.BaseFragment;
+import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.R;
-import wj.com.myplayer.View.Activity.MainMusic.LocalMusicActivity;
+import wj.com.myplayer.View.MainActivity;
 
 public class MainFragment extends BaseFragment implements View.OnClickListener {
 
@@ -32,6 +28,15 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     private LinearLayout mDownloadLay;
 
     private MediaDaoManager manager = MediaDaoManager.getInstance();
+
+    private static MainFragment sInstance;
+
+    public static MainFragment getInstance(){
+        if (sInstance == null){
+            sInstance = new MainFragment();
+        }
+        return sInstance;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -79,8 +84,10 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             case R.id.main_download_play:
                 break;
             case R.id.local_lay:
-                Intent intent = new Intent(getContext(), LocalMusicActivity.class);
-                startActivity(intent);
+                MainActivity activity = (MainActivity) getActivity();
+                activity.setFragment(FlagConstant.FRAGMENT_LOCAL);
+//                Intent intent = new Intent(getContext(), LocalMusicActivity.class);
+//                startActivity(intent);
                 break;
             case R.id.history_lay:
                 break;

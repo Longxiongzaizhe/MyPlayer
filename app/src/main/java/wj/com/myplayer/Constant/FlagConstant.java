@@ -14,6 +14,11 @@ public class FlagConstant {
 
     public static final String[] mKeyList = new String[]{INTENT_KEY01,INTENT_KEY02,INTENT_KEY03,INTENT_KEY04,INTENT_KEY05};
 
+    public static final int FRAGMENT_LOCAL = 0x01;
+    public static final int FRAGMENT_MAIN = 0x02;
+
+    public static final String BINDER = "service_binder";
+
 
 
 

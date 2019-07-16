@@ -18,6 +18,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +30,7 @@ import java.util.List;
 
 import wj.com.myplayer.Config.BaseMultipleActivity;
 import wj.com.myplayer.Config.MainApplication;
+import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.DaoDB.MediaEntity;
@@ -40,6 +42,7 @@ import wj.com.myplayer.Utils.SPUtils;
 import wj.com.myplayer.Utils.ToastUtil;
 import wj.com.myplayer.View.Activity.MainMusic.MusicService;
 import wj.com.myplayer.View.Activity.navSetting.UserSettingActivity;
+import wj.com.myplayer.View.Fragment.LocalFragment;
 import wj.com.myplayer.View.Fragment.MainFragment;
 import wj.com.myplayer.View.Fragment.OneFragment;
 import wj.com.myplayer.View.Fragment.PlayFragment;
@@ -164,7 +167,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     @Override
     public void initData() {
         super.initData();
-        mFragments.add(new MainFragment());
+        mFragments.add(MainFragment.getInstance());
         mFragments.add(new OneFragment());
         mFragments.add(new TestFragment());
 
@@ -254,6 +257,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBinder = (MusicService.MusicBinder) service;
             playFragment.setBinder(mBinder);
+            LocalFragment.getInstance().setBinder(mBinder);
             //    mBinder.play();
         }
 
@@ -263,11 +267,57 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         }
     };
 
+    public void setFragment(int flag){
+        switch (flag){
+            case FlagConstant.FRAGMENT_LOCAL:
+                mFragments.set(0, LocalFragment.getInstance(mBinder));
+                myPagerAdapter.notifyDataSetChanged();
+                setTitle(FlagConstant.FRAGMENT_LOCAL);
+                break;
+            case FlagConstant.FRAGMENT_MAIN:
+                mFragments.set(0, MainFragment.getInstance());
+                myPagerAdapter.notifyDataSetChanged();
+                setTitle(FlagConstant.FRAGMENT_MAIN);
+                break;
+        }
+    }
 
+    public void setTitle(int flag){
+        switch (flag){
+            case FlagConstant.FRAGMENT_LOCAL:
+                mTitleLeftIv.setImageResource(R.drawable.ic_back);
+                mTitleCenterTv.setText("本地音乐");
+                mTitleLeftIv.setOnClickListener(v-> setFragment(FlagConstant.FRAGMENT_MAIN));
+                mMainTabLayout.setVisibility(View.GONE);
+                break;
+            case FlagConstant.FRAGMENT_MAIN:
+                mTitleLeftIv.setImageResource(R.drawable.ic_menu);
+                mTitleCenterTv.setText("音乐园");
+                mTitleLeftIv.setOnClickListener(v->{
+                    mMultipleStateView.showContent();
+                    mMainDrawerLayout.openDrawer(GravityCompat.START);
+                });
+                mMainTabLayout.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbindService(connection);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            if (mFragments.get(0).getClass()== LocalFragment.class){
+                setFragment(FlagConstant.FRAGMENT_MAIN);
+                return true;
+            }
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

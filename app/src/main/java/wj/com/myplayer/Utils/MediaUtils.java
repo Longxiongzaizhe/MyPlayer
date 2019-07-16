@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import wj.com.myplayer.Config.MainApplication;
 import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.R;
 
@@ -55,6 +56,8 @@ public class MediaUtils {
                 mediaEntity.duration = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
                 mediaEntity.size = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));
                 mediaEntity.album_id = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
+                MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
+                        mediaEntity.id,mediaEntity.album_id,true,true);
                // mediaEntity.durationStr = longToStrTime(mediaEntity.duration);
 
                 if(!checkIsMusic(mediaEntity.duration, mediaEntity.size)) {

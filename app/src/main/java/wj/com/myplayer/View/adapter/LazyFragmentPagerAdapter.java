@@ -1,6 +1,7 @@
 package wj.com.myplayer.View.adapter;
 
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -43,5 +44,10 @@ public class LazyFragmentPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return list == null ? 0 : list.size();
+    }
+
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        return POSITION_NONE;
     }
 }
