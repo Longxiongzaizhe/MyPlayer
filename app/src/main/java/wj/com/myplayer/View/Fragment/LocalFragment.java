@@ -17,7 +17,7 @@ import wj.com.myplayer.R;
 import wj.com.myplayer.View.Activity.MainMusic.MusicService;
 import wj.com.myplayer.View.adapter.MusicListAdapter;
 
-public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener {
+public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
 
     private RecyclerView mLocalMusicRv;
     private List<MediaEntity> datalist;
@@ -59,6 +59,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
         adapter = new MusicListAdapter(datalist);
         mLocalMusicRv.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
+        adapter.setOnItemChildClickListener(this);
         mBinder = (MusicService.MusicBinder) getArguments().getSerializable(FlagConstant.BINDER);
     }
 
@@ -70,5 +71,10 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 
     public void setBinder(MusicService.MusicBinder binder){
         mBinder = binder;
+    }
+
+    @Override
+    public boolean onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        return false;
     }
 }

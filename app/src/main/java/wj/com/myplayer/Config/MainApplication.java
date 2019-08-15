@@ -13,10 +13,14 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 
 import java.io.File;
 import java.io.IOException;
+
+import wj.com.myplayer.Constant.MediaConstant;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.DaoDB.DaoMaster;
 import wj.com.myplayer.DaoDB.DaoSession;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
+import wj.com.myplayer.DaoDB.MediaListEntity;
+import wj.com.myplayer.DaoDB.MediaListManager;
 import wj.com.myplayer.R;
 import wj.com.myplayer.Utils.FileUtils;
 import wj.com.myplayer.Utils.SPUtils;
@@ -31,7 +35,8 @@ public class MainApplication extends Application {
     private DaoSession daoSession;
     private DaoMaster daoMaster;
     private DaoMaster.DevOpenHelper devOpenHelper;
-    private MediaDaoManager mediaDaoManager;
+    private MediaDaoManager mediaManager;
+    private MediaListManager listManager;
 
 
     public static MainApplication get() {
@@ -89,11 +94,20 @@ public class MainApplication extends Application {
     private void initDaoDB() {
         if (devOpenHelper == null){
             devOpenHelper = new DaoMaster.DevOpenHelper(getApplicationContext(), "music.db", null);
+            devOpenHelper = new DaoMaster.DevOpenHelper(getApplicationContext(),"musicList.db",null);
             DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDb());
             daoSession = daoMaster.newSession();
         }
 
-        mediaDaoManager = MediaDaoManager.getInstance();
+        listManager = MediaListManager.getInstance();
+        mediaManager = MediaDaoManager.getInstance();
+        if (listManager.query(MediaConstant.FAVORITE) == null){
+            listManager.insert(new MediaListEntity(MediaConstant.FAVORITE,""));
+        }
+        if (listManager.query(MediaConstant.LATELY_LIST) == null){
+            listManager.insert(new MediaListEntity(MediaConstant.LATELY_LIST,""));
+        }
+
 
     }
 
@@ -133,7 +147,7 @@ public class MainApplication extends Application {
         }
     }
 
-    public MediaDaoManager getMediaDaoManager() {
-        return mediaDaoManager;
+    public MediaDaoManager getMediaManager() {
+        return mediaManager;
     }
 }

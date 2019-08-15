@@ -56,6 +56,7 @@
         android:layout_height="32dp"
         android:layout_marginEnd="8dp"
         android:src="@drawable/icon_previous"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/main_play"
         app:layout_constraintTop_toTopOf="@+id/play_frag_line" />

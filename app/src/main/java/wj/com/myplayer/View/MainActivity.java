@@ -19,7 +19,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -67,7 +66,8 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private PlayFragment playFragment;
     private MusicService.MusicBinder mBinder;
 
-    private MediaDaoManager manager = MainApplication.get().getMediaDaoManager();
+    private Intent intent;
+    private MediaDaoManager manager = MainApplication.get().getMediaManager();
     private static String TAG = MainActivity.class.getSimpleName();
 
     private final String[] permissions = {
@@ -128,37 +128,55 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         navBackgrounpIv = navHeadView.findViewById(R.id.head_bg_iv);
         userNameTv.setText(SPUtils.get(this,SPConstant.USER_NAME,"Sunny"));
 
-        mMainNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        mMainNavView.setNavigationItemSelectedListener(menuItem -> {
+
+            switch (menuItem.getItemId()){
+                case R.id.nav_clock:
+                    showProgress("test",true);
+                    break;
+                case R.id.nav_color:
+                    ToastUtil.showSingleToast("nav_color");
+                   // mMultipleStateView.showLoading();
+                    break;
+                case R.id.nav_exit:
+                    finish();
+                 //   mMultipleStateView.showEmpty();
+                    break;
+                case R.id.nav_setting:
+                    intent.setClass(MainActivity.this, UserSettingActivity.class);
+                    break;
+                case R.id.nav_wifi:
+                    ToastUtil.showSingleToast("nav_wifi");
+                    break;
+                case R.id.nav_about:
+                    ToastUtil.showSingleToast("nav_about");
+                    break;
+            }
+            mMainDrawerLayout.closeDrawers();
+            return true;
+
+        });
+        mMainDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            public void onDrawerSlide(@NonNull View view, float v) {
 
-                Intent intent = new Intent();
+            }
 
-                switch (menuItem.getItemId()){
-                    case R.id.nav_clock:
-                        showProgress("test",true);
-                        break;
-                    case R.id.nav_color:
-                        ToastUtil.showSingleToast("nav_color");
-                       // mMultipleStateView.showLoading();
-                        break;
-                    case R.id.nav_exit:
-                        finish();
-                     //   mMultipleStateView.showEmpty();
-                        break;
-                    case R.id.nav_setting:
-                        mMainDrawerLayout.closeDrawers();
-                        intent.setClass(MainActivity.this, UserSettingActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.nav_wifi:
-                        ToastUtil.showSingleToast("nav_wifi");
-                        break;
-                    case R.id.nav_about:
-                        ToastUtil.showSingleToast("nav_about");
-                        break;
+            @Override
+            public void onDrawerOpened(@NonNull View view) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View view) {
+                if (intent != null && intent.getComponent() != null){
+                    startActivity(intent);
                 }
-                return true;
+
+            }
+            @Override
+            public void onDrawerStateChanged(int i) {
+
             }
         });
         mMainViewpager.addOnPageChangeListener(mOnPageChangeListener);
@@ -170,6 +188,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         mFragments.add(MainFragment.getInstance());
         mFragments.add(new OneFragment());
         mFragments.add(new TestFragment());
+        intent = new Intent();
 
         mTitles.add("我的");
         mTitles.add("热门");

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="wj.com.myplayer">
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -19,16 +18,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".View.Activity.HistoryActivity"></activity>
+
         <service
             android:name=".View.Activity.MainMusic.MusicService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity android:name=".View.Activity.MainMusic.LocalMusicActivity" />
-        <activity android:name=".Config.BaseMultipleActivity" />
+        <activity android:name=".View.Activity.ImageMultipleDisplayActivity" />
         <activity android:name=".View.Activity.navSetting.UserSettingActivity" />
         <activity android:name=".Config.BaseActivity" />
-        <activity android:name=".TestPackage.TestActivity"></activity>
+        <activity android:name=".TestPackage.TestActivity" />
         <activity android:name=".View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

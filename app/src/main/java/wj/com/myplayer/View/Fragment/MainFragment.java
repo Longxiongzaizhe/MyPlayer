@@ -1,5 +1,6 @@
 package wj.com.myplayer.View.Fragment;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -9,6 +10,7 @@ import wj.com.myplayer.Config.BaseFragment;
 import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.R;
+import wj.com.myplayer.View.Activity.HistoryActivity;
 import wj.com.myplayer.View.MainActivity;
 
 public class MainFragment extends BaseFragment implements View.OnClickListener {
@@ -78,6 +80,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             case R.id.main_local_play:
                 break;
             case R.id.main_history_play:
+
                 break;
             case R.id.main_favourite_play:
                 break;
@@ -90,6 +93,8 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
 //                startActivity(intent);
                 break;
             case R.id.history_lay:
+                Intent intent = new Intent(getContext(), HistoryActivity.class);
+                startActivity(intent);
                 break;
             case R.id.favourite_lay:
                 break;

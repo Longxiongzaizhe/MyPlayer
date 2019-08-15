@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.Config.MainApplication;
+import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.R;
 
@@ -263,5 +264,35 @@ public class MediaUtils {
         return candidate;
     }
 
+    public String[] getMusicList(String data){
+        return data.split(",");
+    }
+
+    public String getListString(String[] data){
+        StringBuffer sb = new StringBuffer();
+        for (String str : data){
+            sb.append(str);
+        }
+        return sb.toString();
+    }
+
+    public String insertMusic2List(String id,String data){
+        if (StringUtils.isEmpty(data)){
+            return id;
+        }else {
+            StringBuffer sb = new StringBuffer(data);
+            sb.append(",");
+            sb.append(id);
+            return sb.toString();
+        }
+    }
+
+    public List<MediaEntity> getMediaList(String[] datas){
+        List<MediaEntity> entityList = new ArrayList<>();
+        for (String data : datas){
+            entityList.add(MediaDaoManager.getInstance().query(Long.valueOf(data)));
+        }
+        return entityList;
+    }
 
 }
