@@ -11,11 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.common_lib.BaseConfig.BaseMultipleActivity;
 
 import java.util.List;
 
 import wj.com.myplayer.Bean.MusicBean;
-import wj.com.myplayer.Config.BaseMultipleActivity;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.DaoDB.MediaEntity;

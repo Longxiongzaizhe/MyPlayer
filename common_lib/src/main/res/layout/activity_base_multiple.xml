@@ -7,18 +7,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_gray"
+        android:background="@color/common_bg_gray"
         android:orientation="vertical"
         android:id="@+id/ll_root">
 
         <include layout="@layout/title_layout"/>
 
-        <wj.com.myplayer.Config.MultipleStatusView
+        <com.example.common_lib.BaseConfig.MultipleStatusView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/multiple_state_view">
 
-        </wj.com.myplayer.Config.MultipleStatusView>
+        </com.example.common_lib.BaseConfig.MultipleStatusView>
 
     </LinearLayout>
 </FrameLayout>

@@ -8,7 +8,8 @@ import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 
-import wj.com.myplayer.Config.BaseMultipleActivity;
+import com.example.common_lib.BaseConfig.BaseMultipleActivity;
+
 import wj.com.myplayer.R;
 import wj.com.myplayer.View.Activity.MainMusic.MusicService;
 import wj.com.myplayer.View.Fragment.PlayFragment;

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="common_white">#FFFFFF</color>
+    <color name="common_transparent">#00000000</color>
+    <color name="common_ios_white">#CCF8F8F8</color>
+    <color name="common_black">#000000</color>
+    <color name="common_gray">#3E3E3E</color>
+    <color name="common_text_gray">#818181</color>
+    <color name="common_text_blue">#2176df</color>
+    <color name="common_bg_gray">#F9F9F9</color>
+    <color name="common_gray_tinge">#6D6D6D</color>
+    <color name="common_base_blue">#598DF3</color>
+    <color name="common_red">#ff0000</color>
+    <color name="common_white_EAEAEA">#EAEAEA</color>
+    <color name="common_gray_DDE0E6">#DDE0E6</color>
+    <color name="common_gray_D5D5D5">#D5D5D5</color>
+
+</resources>

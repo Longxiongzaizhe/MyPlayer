@@ -1,4 +1,4 @@
-package wj.com.myplayer.Config;
+package com.example.common_lib.BaseConfig;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import wj.com.myplayer.R;
+import com.example.common_lib.R;
 
 public class MultipleStatusView extends RelativeLayout{
 

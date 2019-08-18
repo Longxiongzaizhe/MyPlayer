@@ -1,4 +1,4 @@
-package wj.com.myplayer.Config;
+package com.example.common_lib.BaseConfig;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -54,17 +54,12 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
-    protected void initView(View view){
 
-    }
-
-    protected void initData(){
-
-    }
 
 
     protected abstract int getLayoutId();
-
+    protected abstract void initView(View view);
+    protected abstract void initData();
 
     @Override
     public void onDestroyView() {

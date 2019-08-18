@@ -23,16 +23,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.common_lib.BaseConfig.BaseMultipleActivity;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import wj.com.myplayer.Config.BaseMultipleActivity;
 import wj.com.myplayer.Config.MainApplication;
 import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.DaoDB.MediaEntity;
+import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
 import wj.com.myplayer.TestPackage.TestFragment;
 import wj.com.myplayer.Utils.MediaUtils;
@@ -45,6 +46,7 @@ import wj.com.myplayer.View.Fragment.LocalFragment;
 import wj.com.myplayer.View.Fragment.MainFragment;
 import wj.com.myplayer.View.Fragment.OneFragment;
 import wj.com.myplayer.View.Fragment.PlayFragment;
+import wj.com.myplayer.View.Fragment.RecentlyFragment;
 import wj.com.myplayer.View.adapter.LazyFragmentPagerAdapter;
 import wj.com.myplayer.mview.NoScrollViewPager;
 
@@ -69,6 +71,13 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private Intent intent;
     private MediaDaoManager manager = MainApplication.get().getMediaManager();
     private static String TAG = MainActivity.class.getSimpleName();
+
+    private FragmentManager fragmentManager = getSupportFragmentManager();
+    private LocalFragment localFragment;
+    private MainFragment mainFragment;
+    private RecentlyFragment recentlyFragment;
+
+    private MediaRelManager relManager = MediaRelManager.getInstance();
 
     private final String[] permissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -185,7 +194,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     @Override
     public void initData() {
         super.initData();
-        mFragments.add(MainFragment.getInstance());
+        mFragments.add(MainFragment.newInstance());
         mFragments.add(new OneFragment());
         mFragments.add(new TestFragment());
         intent = new Intent();
@@ -199,6 +208,8 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         Intent startMusicIntent = new Intent(this,MusicService.class);
         bindService(startMusicIntent,connection,BIND_AUTO_CREATE) ;
         startService(startMusicIntent);
+
+        mainFragment = MainFragment.newInstance();
 
     }
 
@@ -229,6 +240,11 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                 break;
             case R.id.nav_head_iv:
                 //startActivity(TestActivity.class);
+                break;
+            case R.id.title_right_iv:
+                if (mFragments.get(0).getClass()== RecentlyFragment.class){
+                    ((RecentlyFragment)mFragments.get(0)).deleteRecentList();
+                }
                 break;
         }
     }
@@ -276,7 +292,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBinder = (MusicService.MusicBinder) service;
             playFragment.setBinder(mBinder);
-            LocalFragment.getInstance().setBinder(mBinder);
+
             //    mBinder.play();
         }
 
@@ -289,14 +305,22 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     public void setFragment(int flag){
         switch (flag){
             case FlagConstant.FRAGMENT_LOCAL:
-                mFragments.set(0, LocalFragment.getInstance(mBinder));
+                if (localFragment == null) localFragment = LocalFragment.newInstance(mBinder);
+                mFragments.set(0, localFragment);
                 myPagerAdapter.notifyDataSetChanged();
                 setTitle(FlagConstant.FRAGMENT_LOCAL);
                 break;
             case FlagConstant.FRAGMENT_MAIN:
-                mFragments.set(0, MainFragment.getInstance());
+                if (mainFragment == null) mainFragment = MainFragment.newInstance();
+                mFragments.set(0,mainFragment);
                 myPagerAdapter.notifyDataSetChanged();
                 setTitle(FlagConstant.FRAGMENT_MAIN);
+                break;
+            case FlagConstant.FRAGMENT_RECENT:
+                if (recentlyFragment == null) recentlyFragment = RecentlyFragment.newInstance(mBinder);
+                mFragments.set(0,recentlyFragment);
+                myPagerAdapter.notifyDataSetChanged();
+                setTitle(FlagConstant.FRAGMENT_RECENT);
                 break;
         }
     }
@@ -305,9 +329,18 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         switch (flag){
             case FlagConstant.FRAGMENT_LOCAL:
                 mTitleLeftIv.setImageResource(R.drawable.ic_back);
+                mTitleRightIv.setVisibility(View.GONE);
                 mTitleCenterTv.setText("本地音乐");
                 mTitleLeftIv.setOnClickListener(v-> setFragment(FlagConstant.FRAGMENT_MAIN));
                 mMainTabLayout.setVisibility(View.GONE);
+                break;
+            case FlagConstant.FRAGMENT_RECENT:
+                mTitleLeftIv.setImageResource(R.drawable.ic_back);
+                mTitleRightIv.setImageResource(R.drawable.icon_garbage);
+                mTitleRightIv.setOnClickListener(this);
+                mTitleLeftIv.setOnClickListener(v-> setFragment(FlagConstant.FRAGMENT_MAIN));
+                mMainTabLayout.setVisibility(View.GONE);
+                mTitleCenterTv.setText("最近播放");
                 break;
             case FlagConstant.FRAGMENT_MAIN:
                 mTitleLeftIv.setImageResource(R.drawable.ic_menu);
@@ -331,7 +364,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK){
-            if (mFragments.get(0).getClass()== LocalFragment.class){
+            if (mFragments.get(0).getClass()== LocalFragment.class || mFragments.get(0).getClass()== RecentlyFragment.class){
                 setFragment(FlagConstant.FRAGMENT_MAIN);
                 return true;
             }

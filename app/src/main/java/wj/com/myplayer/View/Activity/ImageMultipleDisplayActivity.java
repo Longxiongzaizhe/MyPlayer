@@ -9,10 +9,11 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.example.common_lib.BaseConfig.BaseMultipleActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import wj.com.myplayer.Config.BaseMultipleActivity;
 import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.R;
 import wj.com.myplayer.Utils.StringUtils;

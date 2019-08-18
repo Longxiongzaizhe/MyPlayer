@@ -8,26 +8,21 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class MediaListEntity  {
     @Id
-    public long id;
-    public String listData;
-    @Generated(hash = 1487477217)
-    public MediaListEntity(long id, String listData) {
+    public Long id;
+    @Generated(hash = 1021174166)
+    public MediaListEntity(Long id) {
         this.id = id;
-        this.listData = listData;
     }
     @Generated(hash = 1595981046)
     public MediaListEntity() {
     }
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
     public void setId(long id) {
         this.id = id;
     }
-    public String getListData() {
-        return this.listData;
-    }
-    public void setListData(String listData) {
-        this.listData = listData;
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -7,13 +7,13 @@ import android.provider.MediaStore;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.example.common_lib.BaseConfig.BaseFragment;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import wj.com.myplayer.Config.BaseFragment;
 import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.R;
 
@@ -62,7 +62,6 @@ public class ImageDisplayFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-        super.initView(view);
 
         switch (type){
             case 1:
@@ -80,6 +79,11 @@ public class ImageDisplayFragment extends BaseFragment {
                 break;
         }
 
+
+    }
+
+    @Override
+    protected void initData() {
 
     }
 

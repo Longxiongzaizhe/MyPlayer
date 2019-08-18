@@ -51,7 +51,8 @@ public class MediaUtils {
 //			String[] columns = cursor.getColumnNames();
             while (cursor.moveToNext()) {
                 mediaEntity = new MediaEntity();
-                mediaEntity.id = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID));
+
+                mediaEntity.id = (long) cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID));
                 mediaEntity.title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
                 mediaEntity.display_name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
                 mediaEntity.duration = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));

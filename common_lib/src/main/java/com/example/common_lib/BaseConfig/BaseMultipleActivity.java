@@ -1,4 +1,4 @@
-package wj.com.myplayer.Config;
+package com.example.common_lib.BaseConfig;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.common_lib.R;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import wj.com.myplayer.R;
 
 public abstract class BaseMultipleActivity extends AppCompatActivity {
 

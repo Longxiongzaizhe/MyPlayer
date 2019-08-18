@@ -1,13 +1,14 @@
-package wj.com.myplayer.Config;
+package com.example.common_lib.BaseConfig;
 
 import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.common_lib.R;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import wj.com.myplayer.R;
 
 public class BaseActivity extends AppCompatActivity {
 

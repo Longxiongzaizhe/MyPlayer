@@ -1,16 +1,18 @@
 package wj.com.myplayer.View.Fragment;
 
-import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import wj.com.myplayer.Config.BaseFragment;
+import com.example.common_lib.BaseConfig.BaseFragment;
+
 import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
+import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
-import wj.com.myplayer.View.Activity.HistoryActivity;
 import wj.com.myplayer.View.MainActivity;
 
 public class MainFragment extends BaseFragment implements View.OnClickListener {
@@ -28,16 +30,16 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     private LinearLayout mHistoryLay;
     private LinearLayout mFavouriteLay;
     private LinearLayout mDownloadLay;
+    private MainActivity activity;
 
     private MediaDaoManager manager = MediaDaoManager.getInstance();
+    private MediaRelManager relManager = MediaRelManager.getInstance();
 
-    private static MainFragment sInstance;
 
-    public static MainFragment getInstance(){
-        if (sInstance == null){
-            sInstance = new MainFragment();
-        }
-        return sInstance;
+
+    public static MainFragment newInstance(){
+        MainFragment fragment = new MainFragment();
+        return fragment;
     }
 
     @Override
@@ -47,7 +49,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void initView(View view) {
-        super.initView(view);
         mMainLocalNum = (TextView) view.findViewById(R.id.main_local_num);
         mMainLocalPlay = (ImageView) view.findViewById(R.id.main_local_play);
         mMainLocalPlay.setOnClickListener(this);
@@ -70,6 +71,12 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         mDownloadLay.setOnClickListener(this);
 
         mMainLocalNum.setText(manager.getAllList().size() + "首");
+        mMainHistoryNum.setText(relManager.queryRecentList().size() + "首");
+    }
+
+    @Override
+    protected void initData() {
+
     }
 
     @Override
@@ -87,19 +94,26 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             case R.id.main_download_play:
                 break;
             case R.id.local_lay:
-                MainActivity activity = (MainActivity) getActivity();
+
                 activity.setFragment(FlagConstant.FRAGMENT_LOCAL);
 //                Intent intent = new Intent(getContext(), LocalMusicActivity.class);
 //                startActivity(intent);
                 break;
             case R.id.history_lay:
-                Intent intent = new Intent(getContext(), HistoryActivity.class);
-                startActivity(intent);
+                activity.setFragment(FlagConstant.FRAGMENT_RECENT);
+//                Intent intent = new Intent(getContext(), HistoryActivity.class);
+//                startActivity(intent);
                 break;
             case R.id.favourite_lay:
                 break;
             case R.id.download_lay:
                 break;
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        activity = (MainActivity) getActivity();
     }
 }

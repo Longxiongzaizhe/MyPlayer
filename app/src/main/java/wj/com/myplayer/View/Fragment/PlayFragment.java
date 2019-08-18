@@ -7,8 +7,9 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.common_lib.BaseConfig.BaseFragment;
+
 import wj.com.myplayer.Bean.MusicBean;
-import wj.com.myplayer.Config.BaseFragment;
 import wj.com.myplayer.Config.MainApplication;
 import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.R;
@@ -49,7 +50,6 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected void initView(View view) {
-        super.initView(view);
         mMusicPlayIv = view.findViewById(R.id.main_play);
         mMusicNameTv = view.findViewById(R.id.main_music_title);
         mMusicAuthorTv = view.findViewById(R.id.main_music_author);
@@ -66,7 +66,6 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected void initData() {
-        super.initData();
 
 //        musicBean = (MusicBean) SPUtils.getObject(getContext(), SPConstant.LAST_PALY_MUSIC);
 //        if (musicBean != null){

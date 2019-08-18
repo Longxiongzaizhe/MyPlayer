@@ -12,10 +12,9 @@
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="false"
-        android:background="@color/white"
+        android:background="@color/common_white"
         android:padding="10dp"
-        android:src="@drawable/common_ic_no_content_gray"
-        />
+        android:src="@drawable/common_ic_no_content_gray" />
 
     <TextView
         android:id="@+id/empty_view_tv"
@@ -30,9 +29,9 @@
         android:layout_width="130dp"
         android:layout_height="50dp"
         android:layout_below="@id/empty_view_tv"
-        android:background="@color/gray_D5D5D5"
+        android:background="@color/common_gray_D5D5D5"
         android:text="刷新"
-        android:textColor="@color/white"
+        android:textColor="@color/common_white"
         android:visibility="gone"
         tools:visibility="visible"/>
 

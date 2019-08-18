@@ -21,6 +21,7 @@ import wj.com.myplayer.DaoDB.DaoSession;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.DaoDB.MediaListEntity;
 import wj.com.myplayer.DaoDB.MediaListManager;
+import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
 import wj.com.myplayer.Utils.FileUtils;
 import wj.com.myplayer.Utils.SPUtils;
@@ -37,6 +38,7 @@ public class MainApplication extends Application {
     private DaoMaster.DevOpenHelper devOpenHelper;
     private MediaDaoManager mediaManager;
     private MediaListManager listManager;
+    private MediaRelManager relManager;
 
 
     public static MainApplication get() {
@@ -94,18 +96,20 @@ public class MainApplication extends Application {
     private void initDaoDB() {
         if (devOpenHelper == null){
             devOpenHelper = new DaoMaster.DevOpenHelper(getApplicationContext(), "music.db", null);
-            devOpenHelper = new DaoMaster.DevOpenHelper(getApplicationContext(),"musicList.db",null);
             DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDb());
             daoSession = daoMaster.newSession();
         }
 
         listManager = MediaListManager.getInstance();
         mediaManager = MediaDaoManager.getInstance();
+        relManager = MediaRelManager.getInstance();
+
+
         if (listManager.query(MediaConstant.FAVORITE) == null){
-            listManager.insert(new MediaListEntity(MediaConstant.FAVORITE,""));
+            listManager.insert(new MediaListEntity(MediaConstant.FAVORITE));
         }
         if (listManager.query(MediaConstant.LATELY_LIST) == null){
-            listManager.insert(new MediaListEntity(MediaConstant.LATELY_LIST,""));
+            listManager.insert(new MediaListEntity(MediaConstant.LATELY_LIST));
         }
 
 
@@ -149,5 +153,9 @@ public class MainApplication extends Application {
 
     public MediaDaoManager getMediaManager() {
         return mediaManager;
+    }
+
+    public MediaRelManager getRelManager() {
+        return relManager;
     }
 }

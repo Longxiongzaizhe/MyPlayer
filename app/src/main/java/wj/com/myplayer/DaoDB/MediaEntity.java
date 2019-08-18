@@ -12,7 +12,7 @@ import org.greenrobot.greendao.annotation.Transient;
 public class MediaEntity {
 
     @Id(autoincrement = false)
-    public long id; //id标识
+    public Long id; //id标识
     public String title; // 显示名称
     public String display_name; // 文件名称
     public String path; // 音乐文件的路径
@@ -33,8 +33,8 @@ public class MediaEntity {
 
     @Transient
     public Bitmap cover;
-    @Generated(hash = 230371381)
-    public MediaEntity(long id, String title, String display_name, String path, long duration,
+    @Generated(hash = 806117419)
+    public MediaEntity(Long id, String title, String display_name, String path, long duration,
             long album_id, String albums, String artist, String singer, long size) {
         this.id = id;
         this.title = title;
@@ -47,10 +47,11 @@ public class MediaEntity {
         this.singer = singer;
         this.size = size;
     }
+
     @Generated(hash = 887223317)
     public MediaEntity() {
     }
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
     public void setId(long id) {
@@ -115,5 +116,9 @@ public class MediaEntity {
     }
     public void setAlbum_id(long album_id) {
         this.album_id = album_id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
