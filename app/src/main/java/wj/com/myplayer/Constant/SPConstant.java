@@ -12,6 +12,8 @@ public class SPConstant {
 
     public static String LAST_PALY_MUSIC = "last_play_music";
 
+    public static String MUSIC_PLAY_MODE = "music_mode";
+
 
 
 }

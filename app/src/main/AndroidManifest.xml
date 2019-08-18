@@ -25,7 +25,6 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".View.Activity.MainMusic.LocalMusicActivity" />
         <activity android:name=".View.Activity.ImageMultipleDisplayActivity" />
         <activity android:name=".View.Activity.navSetting.UserSettingActivity" />
         <activity android:name="com.example.common_lib.BaseConfig.BaseActivity" />

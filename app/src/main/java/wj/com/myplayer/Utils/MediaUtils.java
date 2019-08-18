@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.Config.MainApplication;
+import wj.com.myplayer.Constant.MediaConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.R;
@@ -294,6 +295,21 @@ public class MediaUtils {
             entityList.add(MediaDaoManager.getInstance().query(Long.valueOf(data)));
         }
         return entityList;
+    }
+    public static MediaConstant.MusicMode getMusicMode(String mode){
+
+        if (StringUtils.isEmpty(mode)) return null;
+
+        MediaConstant.MusicMode musicMode = null;
+
+        switch (mode){
+            case "CIRCLE":musicMode = MediaConstant.MusicMode.CIRCLE;break;
+            case "RANDOM":musicMode = MediaConstant.MusicMode.RANDOM;break;
+            case "SINGLE":musicMode = MediaConstant.MusicMode.SINGLE;break;
+            case "SEQUENT":musicMode = MediaConstant.MusicMode.SEQUENT;break;
+        }
+
+        return musicMode;
     }
 
 }

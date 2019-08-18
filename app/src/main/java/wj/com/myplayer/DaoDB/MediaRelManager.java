@@ -34,11 +34,11 @@ public class MediaRelManager {
     }
 
     public List<MediaRelEntity> queryMediaList(long mediaListId){
-        return dao.queryBuilder().orderAsc(MediaRelEntityDao.Properties.MediaListId).where(MediaRelEntityDao.Properties.MediaListId.eq(mediaListId)).list();
+        return dao.queryBuilder().orderDesc(MediaRelEntityDao.Properties.MediaListId).where(MediaRelEntityDao.Properties.MediaListId.eq(mediaListId)).list();
     }
 
     public List<MediaRelEntity> queryRecentList(){
-        return dao.queryBuilder().orderAsc(MediaRelEntityDao.Properties.MediaListId).where(MediaRelEntityDao.Properties.MediaListId.eq(MediaConstant.RECENTLY_LIST)).list();
+        return dao.queryBuilder().orderDesc(MediaRelEntityDao.Properties.MediaListId).where(MediaRelEntityDao.Properties.MediaListId.eq(MediaConstant.RECENTLY_LIST)).list();
     }
 
     public void deleteRecentList(){
