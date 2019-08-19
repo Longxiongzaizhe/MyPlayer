@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.Bean.SimpleTextBean;
+import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
 import wj.com.myplayer.Utils.DensityUtil;
 import wj.com.myplayer.Utils.ToastUtil;
@@ -22,6 +23,8 @@ public class MusicEditPopWindow extends BasePopWindow {
     private RecyclerView recyclerView;
     private List<SimpleTextBean> datalist;
     private SimpleTextAdapter adapter;
+    private MediaRelManager relManager = MediaRelManager.getInstance();
+    private OnClickEditListener listener;
 
     public MusicEditPopWindow(Context c) {
         super(c, R.layout.layout_music_edit, DensityUtil.dp2px(150), ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -49,6 +52,14 @@ public class MusicEditPopWindow extends BasePopWindow {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ToastUtil.showSingleToast(datalist.get(position).getText());
+                if (listener != null){
+                    switch (position){
+                        case 0:listener.onClickDeleteListener();break;
+                        case 1:listener.onClickFavoriteListener();break;
+                        case 2:listener.onClickAddListListener();break;
+                    }
+                }
+                mInstance.dismiss();
             }
         });
     }
@@ -56,5 +67,15 @@ public class MusicEditPopWindow extends BasePopWindow {
     @Override
     public void onClick(View v) {
 
+    }
+
+    public void setListener(OnClickEditListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnClickEditListener{
+        void onClickDeleteListener();
+        void onClickFavoriteListener();
+        void onClickAddListListener();
     }
 }

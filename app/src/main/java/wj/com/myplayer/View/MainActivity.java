@@ -338,6 +338,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                 break;
             case FlagConstant.FRAGMENT_RECENT:
                 mTitleLeftIv.setImageResource(R.drawable.ic_back);
+                mTitleRightIv.setVisibility(View.VISIBLE);
                 mTitleRightIv.setImageResource(R.drawable.icon_garbage);
                 mTitleRightIv.setOnClickListener(this);
                 mTitleLeftIv.setOnClickListener(v-> setFragment(FlagConstant.FRAGMENT_MAIN));

@@ -212,6 +212,22 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     public boolean onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
         MusicEditPopWindow popWindow = new MusicEditPopWindow(getContext());
+        popWindow.setListener(new MusicEditPopWindow.OnClickEditListener() {
+            @Override
+            public void onClickDeleteListener() {
+
+            }
+
+            @Override
+            public void onClickFavoriteListener() {
+                relManager.save(new MediaRelEntity(null,MediaConstant.FAVORITE,datalist.get(position).id));
+            }
+
+            @Override
+            public void onClickAddListListener() {
+
+            }
+        });
         popWindow.showAsDropDown(view,0,0);
         popWindow.showBackgroundDIM(getActivity().getWindow(),-1);
         popWindow.getPopupWindow().setOnDismissListener(()->{
