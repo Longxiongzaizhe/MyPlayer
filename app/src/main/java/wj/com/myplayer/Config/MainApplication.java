@@ -74,7 +74,7 @@ public class MainApplication extends Application {
             if (!userIcon.exists()){
                 if (userIcon.createNewFile()){
                     SPUtils.put(this, SPConstant.USER_ICON,getFilesDir() + File.separator + "userIcon.png");
-                    Bitmap iconBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_pig);
+                    Bitmap iconBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_dog);
                     FileUtils.savaBitmapInFile(iconBitmap,userIcon);
                     //iconBitmap
                 }

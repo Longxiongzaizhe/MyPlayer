@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.common_lib.BaseConfig.BaseFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import wj.com.myplayer.Constant.FlagConstant;
@@ -58,7 +59,7 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
 
     @Override
     protected void initData() {
-        datalist = MediaRelManager.getInstance().queryMediaList(MediaConstant.RECENTLY_LIST);
+        datalist = MediaRelManager.getInstance().queryRecentList();
         mediaDaoManager = MediaDaoManager.getInstance();
         relManager = MediaRelManager.getInstance();
 
@@ -71,6 +72,7 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
         for (MediaRelEntity entity : datalist){
             mediaEntityList.add(mediaDaoManager.query(entity.getSongId()));
         }
+        Collections.reverse(mediaEntityList);
         adapter.notifyDataSetChanged();
         mBinder = (MusicService.MusicBinder) getArguments().getSerializable(FlagConstant.BINDER);
     }

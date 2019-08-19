@@ -15,6 +15,7 @@ import wj.com.myplayer.Bean.MusicBean;
 import wj.com.myplayer.Constant.MediaConstant;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.DaoDB.MediaEntity;
+import wj.com.myplayer.Utils.MediaUtils;
 import wj.com.myplayer.Utils.SPUtils;
 
 public class MusicService extends Service {
@@ -39,6 +40,8 @@ public class MusicService extends Service {
 
 
         player.setOnCompletionListener(mp -> {
+
+            musicMode = MediaUtils.getMusicMode(SPUtils.get(this, SPConstant.MUSIC_PLAY_MODE, MediaConstant.MusicMode.SEQUENT.toString()));
 
             if (musicMode == MediaConstant.MusicMode.CIRCLE){ //顺序循环
                 if (playList != null && ++position < playList.size()) {

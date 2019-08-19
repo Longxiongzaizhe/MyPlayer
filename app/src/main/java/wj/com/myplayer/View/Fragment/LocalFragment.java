@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -26,6 +29,7 @@ import wj.com.myplayer.Utils.MediaUtils;
 import wj.com.myplayer.Utils.SPUtils;
 import wj.com.myplayer.View.Activity.MainMusic.MusicService;
 import wj.com.myplayer.View.adapter.MusicListAdapter;
+import wj.com.myplayer.mview.BasePopWindow;
 
 public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
 
@@ -36,6 +40,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     private MusicService.MusicBinder mBinder;
     private MediaRelManager relManager = MainApplication.get().getRelManager();
     private MediaConstant.MusicMode musicMode;
+    private BasePopWindow popWindow;
 
     public static LocalFragment newInstance(MusicService.MusicBinder mBinder){
         Bundle bundle = new Bundle();
@@ -60,7 +65,10 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     protected void initView(View view) {
         mLocalMusicRv = (RecyclerView)view.findViewById(R.id.local_music_rv);
         mMusicModeTv = view.findViewById(R.id.music_mode_tv);
-
+        mMusicModeTv.setOnClickListener( v ->{
+            popWindow.showAsDropDown(mMusicModeTv,0,0);
+            popWindow.showBackgroundDIM(getActivity().getWindow(),-1);
+        });
 
         musicMode = MediaUtils.getMusicMode(SPUtils.get(getContext(), SPConstant.MUSIC_PLAY_MODE,null));
         if (musicMode == null){
@@ -69,6 +77,56 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
         }
 
         setModeTv(musicMode);
+        popWindow = new BasePopWindow(getContext(),R.layout.layout_music_mode,DensityUtil.dp2px(150), ViewGroup.LayoutParams.WRAP_CONTENT){
+
+            @Override
+            protected void initView(View view) {
+                LinearLayout sequentLl = view.findViewById(R.id.sequent_ll);
+                LinearLayout randomLl = view.findViewById(R.id.random_ll);
+                LinearLayout single = view.findViewById(R.id.single_ll);
+                LinearLayout circle = view.findViewById(R.id.circle_ll);
+
+                sequentLl.setOnClickListener(this);
+                randomLl.setOnClickListener(this);
+                single.setOnClickListener(this);
+                circle.setOnClickListener(this);
+
+
+            }
+
+            @Override
+            protected void initEvent() {
+
+            }
+
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.sequent_ll:
+                        SPUtils.put(getContext(), SPConstant.MUSIC_PLAY_MODE, MediaConstant.MusicMode.SEQUENT.toString());
+                        setModeTv(MediaConstant.MusicMode.SEQUENT);
+                        break;
+                    case R.id.random_ll:
+                        SPUtils.put(getContext(), SPConstant.MUSIC_PLAY_MODE, MediaConstant.MusicMode.RANDOM.toString());
+                        setModeTv(MediaConstant.MusicMode.RANDOM);
+                        break;
+                    case R.id.single_ll:
+                        SPUtils.put(getContext(), SPConstant.MUSIC_PLAY_MODE, MediaConstant.MusicMode.SINGLE.toString());
+                        setModeTv(MediaConstant.MusicMode.SINGLE);
+                        break;
+                    case R.id.circle_ll:
+                        SPUtils.put(getContext(), SPConstant.MUSIC_PLAY_MODE, MediaConstant.MusicMode.CIRCLE.toString());
+                        setModeTv(MediaConstant.MusicMode.CIRCLE);
+                        break;
+                }
+                popWindow.getPopupWindow().dismiss();
+            }
+
+        };
+        popWindow.getPopupWindow().setOnDismissListener(() -> {
+            popWindow.showBackgroundDIM(getActivity().getWindow(),1.0f);
+        });
+
 
     }
 
@@ -78,15 +136,19 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 
         switch (mode){
             case CIRCLE:
+                mMusicModeTv.setText("循环播放");
                 drawable= getResources().getDrawable(R.drawable.icon_music_circle);
                 break;
             case RANDOM:
+                mMusicModeTv.setText("随机播放");
                 drawable= getResources().getDrawable(R.drawable.icon_music_random);
                 break;
             case SINGLE:
+                mMusicModeTv.setText("单曲循环");
                 drawable= getResources().getDrawable(R.drawable.icon_music_single);
                 break;
             case SEQUENT:
+                mMusicModeTv.setText("顺序播放");
                 drawable= getResources().getDrawable(R.drawable.icon_music_sequent);
                 break;
         }

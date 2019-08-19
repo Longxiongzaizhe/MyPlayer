@@ -1,0 +1,82 @@
+
+ext.deps = [:]
+
+def build_version = [:]
+build_version.min_sdk = 21
+build_version.target_sdk = 28
+build_version.build_tools ="29.0.1"
+ext.build_version = build_version
+
+
+def versions = [:]
+versions.support ="28.0.0"
+//ARouter
+versions.arouter_compiler = "1.2.2"
+versions.arouter_api = "1.4.1"
+
+// view
+versions.glide = "4.9.0"
+versions.circleview = "2.1.0"
+versions.skeleton = "1.1.2"
+versions.photoview = "2.0.0"
+
+
+versions.greendao = "3.2.2"
+versions.eventbus = "3.1.1"
+versions.fastjson = "1.2.49"
+versions.okhttp = "3.9.1"
+versions.logger = "2.2.0"
+versions.butterknife = "8.8.1"
+versions.baserecycleviewadapter = "2.9.3"
+versions.shimmer = "2.1.0"
+
+def deps = [:]
+
+//ARouter
+deps.arouter_api = "com.alibaba:arouter-api:$versions.arouter_api"
+deps.arouter_compiler = "com.alibaba:arouter-compiler:$versions.arouter_compiler"
+
+
+// view
+deps.constraint_layout = 'com.android.support.constraint:constraint-layout:1.1.3'
+deps.glide = "com.github.bumptech.glide:glide:$versions.glide"
+deps.skeleton = "com.ethanhua:skeleton:$versions.skeleton"
+deps.circleimageview = "de.hdodenhof:circleimageview:$versions.circleview"
+deps.photoview = "com.github.chrisbanes:PhotoView:$versions.photoview"
+deps.smartrefresh = "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-31"
+deps.shimmer = "io.supercharge:shimmerlayout:$versions.shimmer"
+
+// tools
+
+deps.buffer_knife_compiler = "com.jakewharton:butterknife-compiler:$versions.butterknife"
+deps.buffer_knife = "com.jakewharton:butterknife:$versions.butterknife"
+deps.eventbus = "org.greenrobot:eventbus:$versions.eventbus"
+deps.fastjson = "com.alibaba:fastjson:$versions.fastjson"
+deps.logger = "com.orhanobut:logger:$versions.logger"
+deps.baserecycleviewadapter = "com.github.CymChad:BaseRecyclerViewAdapterHelper:$versions.baserecycleviewadapter"
+
+// net db
+deps.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
+deps.greendao = "org.greenrobot:greendao:$versions.greendao"
+
+// other
+deps.testrunner = "com.android.support.test:runner:1.0.2"
+deps.testespresso = "com.android.support.test.espresso:espresso-core:3.0.2"
+deps.junnit = "junit:junit:4.12"
+
+
+ext.deps = deps
+
+
+def supports = [:]
+supports.app_compat = "com.android.support:appcompat-v7:$versions.support"
+supports.app_design = "com.android.support:design:$versions.support"
+supports.app_cardview = "com.android.support:cardview-v7:$versions.support"
+supports.app_recyclerview = "com.android.support:recyclerview-v7:$versions.support"
+
+deps.supports = supports
+
+
+
+
+

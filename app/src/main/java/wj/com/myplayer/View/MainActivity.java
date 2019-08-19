@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -130,6 +131,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         mMainNavView = (NavigationView) findViewById(R.id.main_nav_view);
         mMainNavView.inflateHeaderView(R.layout.navigation_head_layout);
         mMainNavView.inflateMenu(R.menu.nav_menu);
+        disableNavigationViewScrollbars(mMainNavView);
         navHeadView = mMainNavView.getHeaderView(0);
         userNameTv = navHeadView.findViewById(R.id.head_user_name_tv);
         userIcon = navHeadView.findViewById(R.id.nav_head_iv);
@@ -351,6 +353,24 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                 });
                 mMainTabLayout.setVisibility(View.VISIBLE);
                 break;
+        }
+    }
+
+
+    private void disableNavigationViewScrollbars(NavigationView navigationView) {
+        if (navigationView != null) {
+            for (int i = 0; i < navigationView.getChildCount(); i++) {
+
+                View view = navigationView.getChildAt(i);
+                if (view instanceof NavigationMenuView) {
+                    NavigationMenuView navigationMenuView = (NavigationMenuView) navigationView.getChildAt(i);
+                    if (navigationMenuView != null) {
+                        navigationMenuView.setVerticalScrollBarEnabled(false);
+                        navigationMenuView.setOverScrollMode(navigationMenuView.OVER_SCROLL_NEVER);
+                    }
+                }
+            }
+
         }
     }
 

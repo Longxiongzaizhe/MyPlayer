@@ -39,7 +39,7 @@
 
                         <ImageView
                             android:src="@drawable/icon_music"
-                            android:layout_marginLeft="@dimen/margin_small_size"
+                            android:layout_marginLeft="@dimen/margin_tiny_size"
                             android:layout_width="24dp"
                             android:layout_height="24dp" />
 
@@ -80,7 +80,7 @@
 
                         <ImageView
                             android:src="@drawable/icon_clock"
-                            android:layout_marginLeft="@dimen/margin_small_size"
+                            android:layout_marginLeft="@dimen/margin_tiny_size"
                             android:layout_width="24dp"
                             android:layout_height="24dp" />
 
@@ -121,7 +121,7 @@
 
                         <ImageView
                             android:src="@drawable/icon_love"
-                            android:layout_marginLeft="@dimen/margin_small_size"
+                            android:layout_marginLeft="@dimen/margin_tiny_size"
                             android:layout_width="24dp"
                             android:layout_height="24dp" />
 
@@ -162,7 +162,7 @@
 
                         <ImageView
                             android:src="@drawable/icon_download"
-                            android:layout_marginLeft="@dimen/margin_small_size"
+                            android:layout_marginLeft="@dimen/margin_tiny_size"
                             android:layout_width="24dp"
                             android:layout_height="24dp" />
 

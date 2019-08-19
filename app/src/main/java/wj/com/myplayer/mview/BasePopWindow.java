@@ -14,7 +14,7 @@ import android.widget.PopupWindow;
  * Created by zzw on 2017/3/30.
  */
 
-public abstract class BasePopWindow {
+public abstract class BasePopWindow implements View.OnClickListener {
     protected Context context;
     protected Activity mActivity;
     protected View contentView;
@@ -29,7 +29,6 @@ public abstract class BasePopWindow {
         initEvent();
 
         mInstance=new PopupWindow(contentView, w, h, true);
-
         initWindow();
     }
 
@@ -67,6 +66,7 @@ public abstract class BasePopWindow {
     public void showAtLocation(View parent, int gravity, int x, int y) {
         mInstance.showAtLocation(parent, gravity, x, y);
     }
+
 
     public static class LayoutGravity {
         private int layoutGravity;

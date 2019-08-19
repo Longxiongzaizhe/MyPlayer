@@ -40,8 +40,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_marginLeft="@dimen/margin_small_size"
-            android:layout_marginRight="@dimen/margin_small_size"
+            android:layout_marginLeft="@dimen/margin_tiny_size"
+            android:layout_marginRight="@dimen/margin_tiny_size"
             android:background="@color/gray"/>
 
         <LinearLayout
@@ -73,8 +73,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_marginLeft="@dimen/margin_small_size"
-            android:layout_marginRight="@dimen/margin_small_size"
+            android:layout_marginLeft="@dimen/margin_tiny_size"
+            android:layout_marginRight="@dimen/margin_tiny_size"
             android:background="@color/gray"/>
 
         <LinearLayout
@@ -104,8 +104,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_marginLeft="@dimen/margin_small_size"
-            android:layout_marginRight="@dimen/margin_small_size"
+            android:layout_marginLeft="@dimen/margin_tiny_size"
+            android:layout_marginRight="@dimen/margin_tiny_size"
             android:background="@color/gray"/>
 
 

@@ -16,7 +16,19 @@
             android:layout_gravity="center"
             android:textSize="@dimen/text_large_size"
             android:layout_marginStart="@dimen/base_margin_size"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:layout_marginLeft="@dimen/base_margin_size" />
+
+        <wj.com.myplayer.mview.ClearEditText
+            android:id="@+id/search_et"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:hint="输入关键词搜索本地歌曲"
+            android:layout_marginStart="@dimen/base_margin_size"
+            android:layout_marginEnd="@dimen/base_margin_size"
+            style="@style/SearchEditText"/>
     </LinearLayout>
 
     <View

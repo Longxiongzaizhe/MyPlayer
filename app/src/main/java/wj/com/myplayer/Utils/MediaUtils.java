@@ -59,8 +59,10 @@ public class MediaUtils {
                 mediaEntity.duration = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
                 mediaEntity.size = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));
                 mediaEntity.album_id = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
-                MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
-                        mediaEntity.id,mediaEntity.album_id,true,true);
+//                mediaEntity.cover = MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
+//                        mediaEntity.id,mediaEntity.album_id,true,true);
+                mediaEntity.cover = MediaUtils.getArtwork(context.getContentResolver(),Integer.valueOf(mediaEntity.id.toString()),
+                        (int)mediaEntity.album_id,true,true);
                // mediaEntity.durationStr = longToStrTime(mediaEntity.duration);
 
                 if(!checkIsMusic(mediaEntity.duration, mediaEntity.size)) {
@@ -163,6 +165,116 @@ public class MediaUtils {
             e.printStackTrace();
         }
         return bm;
+    }
+
+    public static Bitmap getArtWorkFormFile(ContentResolver resolver,int songid,int album){
+        Bitmap bitmap = null;
+        if(album <0 &&songid <0){
+            throw new IllegalArgumentException("Must specify an album or song");
+        }
+
+        try{
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            FileDescriptor fileDescriptor = null;
+            if(album <0){
+                Uri uri = Uri.parse("content://media/external/audio/media/"+songid+"/albumart");
+                ParcelFileDescriptor parcelFileDescriptor = resolver.openFileDescriptor(uri,"r");
+                if(parcelFileDescriptor !=null){
+                    fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+                }
+            }else {
+                Uri uri = ContentUris.withAppendedId(albumArtUri,album);
+                ParcelFileDescriptor pfd = resolver.openFileDescriptor(uri,"r");
+                if(pfd != null){
+                    fileDescriptor = pfd.getFileDescriptor();
+                }
+            }
+
+            options.inSampleSize = 1;
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFileDescriptor(fileDescriptor,null,options);
+            options.inSampleSize = calculateInSampleSize(options,50,50);
+            options.inJustDecodeBounds =false;
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+            bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor,null,options);
+
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        return  bitmap;
+    }
+
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
+    public static Bitmap getArtwork(ContentResolver resolver,int songid,int albumid ,boolean allowdefalut,boolean samll){
+        if(albumid <0 ){
+            if(songid <0){
+                Bitmap bitmap = getArtWorkFormFile(resolver,songid,albumid);
+                if(bitmap !=null){
+                    return bitmap;
+                }
+            }
+            return null;
+        }
+        Uri uri = ContentUris.withAppendedId(albumArtUri,albumid);
+        if(uri != null){
+            InputStream inputStream = null;
+            try{
+                inputStream = resolver.openInputStream(uri);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 1;
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeStream(inputStream,null,options);
+                if(samll){
+                    options.inSampleSize = calculateInSampleSize(options,50,50);
+                }else {
+                    options.inSampleSize = calculateInSampleSize(options,600,600);
+                }
+                options.inJustDecodeBounds= false;
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                inputStream = resolver.openInputStream(uri);
+                return BitmapFactory.decodeStream(inputStream,null,options);
+
+
+            }catch (FileNotFoundException e){
+                Bitmap bitmap = getArtWorkFormFile(resolver,songid,albumid);
+                if(bitmap != null){
+                    if(bitmap.getConfig() == null){
+                        bitmap = bitmap.copy(Bitmap.Config.RGB_565,false);
+                        if(bitmap == null && allowdefalut){
+                            return  null;
+                        }
+                    }
+                }
+
+                return bitmap;
+
+            }
+        }
+        return null;
     }
 
     /**

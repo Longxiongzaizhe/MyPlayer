@@ -25,9 +25,10 @@
         android:layout_height="65dp"
         android:layout_marginStart="@dimen/base_margin_size"
         android:layout_marginBottom="@dimen/base_margin_size"
-        android:src="@drawable/icon_pig"
+        android:src="@drawable/icon_dog"
         app:layout_constraintBottom_toBottomOf="@+id/head_bg_iv"
-        app:layout_constraintStart_toStartOf="@+id/head_bg_iv" />
+        app:layout_constraintStart_toStartOf="@+id/head_bg_iv"
+        android:layout_marginLeft="@dimen/base_margin_size" />
 
     <TextView
         android:id="@+id/head_user_name_tv"

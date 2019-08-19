@@ -37,7 +37,7 @@
         android:id="@+id/ios_dialog_cancel_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_small_size"
+        android:layout_marginTop="@dimen/margin_tiny_size"
         android:paddingTop="@dimen/base_padding_size"
         android:paddingBottom="@dimen/base_padding_size"
         android:gravity="center"

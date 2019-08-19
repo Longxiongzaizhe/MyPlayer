@@ -10,7 +10,7 @@
         android:id="@+id/title_left_iv"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:paddingLeft="@dimen/padding_small_size"
+        android:paddingLeft="@dimen/padding_tiny_size"
         android:paddingRight="@dimen/base_padding_size"
         android:src="@drawable/ic_back"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -2,12 +2,14 @@
 <resources>
 
     <dimen name="base_margin_size">16dp</dimen>
-    <dimen name="margin_small_size">8dp</dimen>
+    <dimen name="margin_tiny_size">8dp</dimen>
+    <dimen name="margin_small_size">12dp</dimen>
     <dimen name="margin_large_size">24dp</dimen>
     <dimen name="margin_plus_size">32dp</dimen>
 
     <dimen name="base_padding_size">16dp</dimen>
-    <dimen name="padding_small_size">8dp</dimen>
+    <dimen name="padding_small_size">12dp</dimen>
+    <dimen name="padding_tiny_size">8dp</dimen>
     <dimen name="padding_large_size">24dp</dimen>
     <dimen name="padding_plus_size">32dp</dimen>
 
