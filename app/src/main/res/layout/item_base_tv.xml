@@ -26,6 +26,6 @@
         android:layout_marginTop="@dimen/base_margin_size"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/gray"/>
+        android:background="@color/common_divider_line_color"/>
 
 </android.support.constraint.ConstraintLayout>

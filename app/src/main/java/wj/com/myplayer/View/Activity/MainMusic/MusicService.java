@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -43,6 +44,7 @@ public class MusicService extends Service {
 
             musicMode = MediaUtils.getMusicMode(SPUtils.get(this, SPConstant.MUSIC_PLAY_MODE, MediaConstant.MusicMode.SEQUENT.toString()));
 
+            Log.e("MusicService","mode is: " + musicMode + "position is :  " + position);
             if (musicMode == MediaConstant.MusicMode.CIRCLE){ //顺序循环
                 if (playList != null && ++position < playList.size()) {
                     mBinder.play(playList.get(position));
@@ -63,6 +65,7 @@ public class MusicService extends Service {
                 }
             }
 
+            Log.e("MusicService","mode is: " + musicMode + "position is :  " + position);
         });
     }
 
