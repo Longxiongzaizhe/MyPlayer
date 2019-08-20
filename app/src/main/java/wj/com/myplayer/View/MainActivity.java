@@ -18,7 +18,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,20 +28,21 @@ import com.example.common_lib.BaseConfig.BaseMultipleActivity;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import wj.com.myplayer.Config.MainApplication;
 import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
-import wj.com.myplayer.DaoDB.MediaEntity;
+import wj.com.myplayer.DaoDB.MediaRelEntity;
 import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
 import wj.com.myplayer.TestPackage.TestFragment;
-import wj.com.myplayer.Utils.MediaUtils;
 import wj.com.myplayer.Utils.PermissionsUtiles;
 import wj.com.myplayer.Utils.SPUtils;
 import wj.com.myplayer.Utils.ToastUtil;
 import wj.com.myplayer.View.Activity.MainMusic.MusicService;
 import wj.com.myplayer.View.Activity.navSetting.UserSettingActivity;
+import wj.com.myplayer.View.Fragment.FavoriteFragment;
 import wj.com.myplayer.View.Fragment.LocalFragment;
 import wj.com.myplayer.View.Fragment.MainFragment;
 import wj.com.myplayer.View.Fragment.OneFragment;
@@ -77,6 +77,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private LocalFragment localFragment;
     private MainFragment mainFragment;
     private RecentlyFragment recentlyFragment;
+    private FavoriteFragment favoriteFragment;
 
     private MediaRelManager relManager = MediaRelManager.getInstance();
 
@@ -95,12 +96,12 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         initData();
 
         PermissionsUtiles.requestPermissions(this, permissions); //请求权限
-        List<MediaEntity> list = MediaUtils.getAllMediaList(this,"");
-        for (MediaEntity entity : list){
-            Log.e(TAG,entity.toString());
-        }
-        manager.deleteAll();
-        manager.insert(list);
+//        List<MediaEntity> list = MediaUtils.getAllMediaList(this,"");
+//        for (MediaEntity entity : list){
+//            Log.e(TAG,entity.toString());
+//        }
+//        manager.deleteAll();
+//        manager.insert(list);
     }
 
     @Override
@@ -117,7 +118,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         FragmentManager fragmentManager = getSupportFragmentManager();
         playFragment = (PlayFragment) fragmentManager.findFragmentById(R.id.music_play_lay);
 
-
         mFragments = new ArrayList<>();
         mTitles = new ArrayList<>();
         myPagerAdapter = new LazyFragmentPagerAdapter(getSupportFragmentManager(), mFragments, mTitles);
@@ -125,7 +125,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         mMainTabLayout.setupWithViewPager(mMainViewpager);
         mMainTabLayout.setOnClickListener(this);
         mMainViewpager.setOnClickListener(this);
-
 
         mMainDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         mMainNavView = (NavigationView) findViewById(R.id.main_nav_view);
@@ -143,10 +142,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
             switch (menuItem.getItemId()){
                 case R.id.nav_clock:
-                    showProgress("test",true);
+                    ToastUtil.showSingleToast("暂未开放定时功能哟~");
                     break;
                 case R.id.nav_color:
-                    ToastUtil.showSingleToast("nav_color");
+                    ToastUtil.showSingleToast("暂未开放主题功能哟~");
                    // mMultipleStateView.showLoading();
                     break;
                 case R.id.nav_exit:
@@ -157,10 +156,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                     intent.setClass(MainActivity.this, UserSettingActivity.class);
                     break;
                 case R.id.nav_wifi:
-                    ToastUtil.showSingleToast("nav_wifi");
+                    ToastUtil.showSingleToast("暂未开放网络功能哟~");
                     break;
                 case R.id.nav_about:
-                    ToastUtil.showSingleToast("nav_about");
+                    ToastUtil.showSingleToast("Author is WuJun From SZU");
                     break;
             }
             mMainDrawerLayout.closeDrawers();
@@ -182,6 +181,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             public void onDrawerClosed(@NonNull View view) {
                 if (intent != null && intent.getComponent() != null){
                     startActivity(intent);
+                    intent.setComponent(null);
                 }
 
             }
@@ -293,6 +293,13 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBinder = (MusicService.MusicBinder) service;
+            List<MediaRelEntity> relList = relManager.queryRecentList();
+            if (relList.size() != 0){
+                MediaRelEntity entity = relList.get(relList.size()-1);
+                mBinder.setCurrentEntity(manager.query(entity.songId));
+                mBinder.setData(manager.query(entity.songId));
+            }
+
             playFragment.setBinder(mBinder);
 
             //    mBinder.play();
@@ -324,14 +331,21 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                 myPagerAdapter.notifyDataSetChanged();
                 setTitle(FlagConstant.FRAGMENT_RECENT);
                 break;
+            case FlagConstant.FRAGMENT_FAVORITE:
+                if (favoriteFragment == null) favoriteFragment = FavoriteFragment.newInstance(mBinder);
+                mFragments.set(0,favoriteFragment);
+                myPagerAdapter.notifyDataSetChanged();
+                setTitle(FlagConstant.FRAGMENT_FAVORITE);
+                break;
         }
     }
 
     public void setTitle(int flag){
+
+        mTitleRightIv.setVisibility(View.GONE);
         switch (flag){
             case FlagConstant.FRAGMENT_LOCAL:
                 mTitleLeftIv.setImageResource(R.drawable.ic_back);
-                mTitleRightIv.setVisibility(View.GONE);
                 mTitleCenterTv.setText("本地音乐");
                 mTitleLeftIv.setOnClickListener(v-> setFragment(FlagConstant.FRAGMENT_MAIN));
                 mMainTabLayout.setVisibility(View.GONE);
@@ -353,6 +367,12 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                     mMainDrawerLayout.openDrawer(GravityCompat.START);
                 });
                 mMainTabLayout.setVisibility(View.VISIBLE);
+                break;
+            case FlagConstant.FRAGMENT_FAVORITE:
+                mTitleLeftIv.setImageResource(R.drawable.ic_back);
+                mTitleCenterTv.setText("我的收藏");
+                mTitleLeftIv.setOnClickListener(v-> setFragment(FlagConstant.FRAGMENT_MAIN));
+                mMainTabLayout.setVisibility(View.GONE);
                 break;
         }
     }
@@ -385,7 +405,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK){
-            if (mFragments.get(0).getClass()== LocalFragment.class || mFragments.get(0).getClass()== RecentlyFragment.class){
+            if (mFragments.get(0).getClass()!= MainFragment.class){
                 setFragment(FlagConstant.FRAGMENT_MAIN);
                 return true;
             }

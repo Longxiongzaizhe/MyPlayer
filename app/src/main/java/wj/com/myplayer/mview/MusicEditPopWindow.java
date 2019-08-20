@@ -25,11 +25,19 @@ public class MusicEditPopWindow extends BasePopWindow {
     private SimpleTextAdapter adapter;
     private MediaRelManager relManager = MediaRelManager.getInstance();
     private OnClickEditListener listener;
+    private EditMusicMode editMode;
 
-    public MusicEditPopWindow(Context c) {
+    public enum EditMusicMode{
+        LOCAL,FAVORITE,NORMAL
+    }
+
+
+
+    public MusicEditPopWindow(Context c,EditMusicMode mode) {
         super(c, R.layout.layout_music_edit, DensityUtil.dp2px(150), ViewGroup.LayoutParams.WRAP_CONTENT);
 
-
+        editMode = mode;
+        initData();
     }
 
     @Override
@@ -43,24 +51,23 @@ public class MusicEditPopWindow extends BasePopWindow {
     protected void initData() {
         datalist = new ArrayList<>();
         datalist.add(new SimpleTextBean("删除"));
-        datalist.add(new SimpleTextBean("收藏"));
-        datalist.add(new SimpleTextBean("添加到歌单"));
+        if (editMode == EditMusicMode.LOCAL){
+            datalist.add(new SimpleTextBean("收藏"));
+            datalist.add(new SimpleTextBean("添加到歌单"));
+        }else if (editMode == EditMusicMode.FAVORITE){
+            datalist.add(new SimpleTextBean("移除收藏"));
+            datalist.add(new SimpleTextBean("添加到歌单"));
+        }
+
         adapter = new SimpleTextAdapter(datalist);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ToastUtil.showSingleToast(datalist.get(position).getText());
-                if (listener != null){
-                    switch (position){
-                        case 0:listener.onClickDeleteListener();break;
-                        case 1:listener.onClickFavoriteListener();break;
-                        case 2:listener.onClickAddListListener();break;
-                    }
-                }
-                mInstance.dismiss();
+        adapter.setOnItemClickListener((adapter, view, position) -> {
+
+            if (listener != null){
+                listener.onClickListener(datalist.get(position).getText());
             }
+            mInstance.dismiss();
         });
     }
 
@@ -69,13 +76,16 @@ public class MusicEditPopWindow extends BasePopWindow {
 
     }
 
-    public void setListener(OnClickEditListener listener) {
+    public void addMenu(String name){
+        datalist.add(new SimpleTextBean(name));
+        adapter.notifyDataSetChanged();
+    }
+
+    public void setOnClickEditListener(OnClickEditListener listener) {
         this.listener = listener;
     }
 
     public interface OnClickEditListener{
-        void onClickDeleteListener();
-        void onClickFavoriteListener();
-        void onClickAddListListener();
+        void onClickListener(String name);
     }
 }

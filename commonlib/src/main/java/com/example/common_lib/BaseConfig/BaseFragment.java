@@ -9,13 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.common_lib.R;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public abstract class BaseFragment extends Fragment {
 
     private Unbinder mBind;
+    protected View mContentView;
     protected View mView;
+    protected MultipleStatusView mMultipleStatusView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,10 +31,24 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        mView = inflater.inflate(getLayoutId(),container,false);
-        mBind = ButterKnife.bind(this,mView);
+        mContentView = inflater.inflate(getLayoutId(),container,false);
+        mView = inflater.inflate(R.layout.fragment_base_multiple,container,false);
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        mContentView.setLayoutParams(lp);
 
-        return mView;
+        if (mView != null){
+            mMultipleStatusView = mView.findViewById(R.id.multiple_state_view);
+            mMultipleStatusView.addView(mContentView);
+            mMultipleStatusView.setContentView(mContentView);
+            mMultipleStatusView.showContent();
+            mBind = ButterKnife.bind(this, mView);
+            return mView;
+        }else {
+            mBind = ButterKnife.bind(this, mContentView);
+            return mContentView;
+        }
+
     }
 
     @Override
@@ -45,8 +63,9 @@ public abstract class BaseFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+
         getKeyData();
-        initView(mView);
+        initView(mContentView);
         initData();
     }
 

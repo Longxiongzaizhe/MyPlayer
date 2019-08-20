@@ -1,6 +1,7 @@
 package wj.com.myplayer.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -147,6 +148,18 @@ public class FileUtils {
             uri = Uri.fromFile(file);
         }
         return uri;
+    }
+
+    public static boolean deleteFile(String filePath,Context context){
+
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File file = new File(filePath);
+        Boolean result = file.delete();
+        Uri uri = Uri.fromFile(file);
+        intent.setData(uri);
+        context.sendBroadcast(intent);
+
+        return result;
     }
 
 }

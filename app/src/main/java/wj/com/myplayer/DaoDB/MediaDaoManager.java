@@ -1,5 +1,7 @@
 package wj.com.myplayer.DaoDB;
 
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.util.List;
 
 import wj.com.myplayer.Config.MainApplication;
@@ -50,6 +52,16 @@ public class MediaDaoManager {
 
     public List<MediaEntity> query(String name){
         return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Title.eq(name)).list();
+    }
+
+    public List<MediaEntity> searchByKey(String key){
+
+        QueryBuilder qb = dao.queryBuilder();
+        List<MediaEntity> list =  qb.orderAsc(MediaEntityDao.Properties.Id).where(qb.or(MediaEntityDao.Properties.Title.like("%"+key + "%"),
+                MediaEntityDao.Properties.Artist.like("%"+key + "%"),
+                MediaEntityDao.Properties.Singer.like("%"+key + "%")))
+                .list();
+        return list;
     }
 
 //    public List<MediaEntity> query(long id){

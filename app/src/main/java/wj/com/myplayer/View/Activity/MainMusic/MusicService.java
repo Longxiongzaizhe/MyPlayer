@@ -42,6 +42,7 @@ public class MusicService extends Service {
 
         player.setOnCompletionListener(mp -> {
 
+            if (playList == null) return;
             musicMode = MediaUtils.getMusicMode(SPUtils.get(this, SPConstant.MUSIC_PLAY_MODE, MediaConstant.MusicMode.SEQUENT.toString()));
 
             Log.e("MusicService","mode is: " + musicMode + "position is :  " + position);
@@ -116,10 +117,11 @@ public class MusicService extends Service {
 
     public class MusicBinder extends Binder implements Serializable {
 
+
         private MediaEntity currentEntity;
         private MusicInterface.OnMediaChangeListener onMediaChangeListener;
 
-        public void setData(MusicBean entity){
+        public void setData(MediaEntity entity){
 
             try {
                 player.reset();
@@ -178,6 +180,10 @@ public class MusicService extends Service {
 
         public MusicService getService(){
             return MusicService.this;
+        }
+
+        public void setCurrentEntity(MediaEntity currentEntity) {
+            this.currentEntity = currentEntity;
         }
 
     }

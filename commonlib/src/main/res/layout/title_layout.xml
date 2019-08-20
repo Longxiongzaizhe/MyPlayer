@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_plus_size"
-        android:textColor="@color/white"
+        android:textColor="@color/common_white"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="@dimen/text_normal_size"
-        android:textColor="@color/white"
+        android:textColor="@color/common_white"
         android:visibility="gone"
         tools:text="123" />
 

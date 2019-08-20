@@ -20,9 +20,11 @@ import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.DaoDB.MediaRelEntity;
 import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
+import wj.com.myplayer.Utils.FileUtils;
 import wj.com.myplayer.Utils.ToastUtil;
 import wj.com.myplayer.View.Activity.MainMusic.MusicService;
 import wj.com.myplayer.View.adapter.MusicListAdapter;
+import wj.com.myplayer.mview.MusicEditPopWindow;
 
 public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
 
@@ -94,6 +96,43 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
 
     @Override
     public boolean onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-        return false;
+        MusicEditPopWindow popWindow = new MusicEditPopWindow(getContext(),null);
+        MediaEntity entity = mediaEntityList.get(position);
+        if (relManager.isSongInList(entity.id,MediaConstant.FAVORITE)){
+            popWindow.addMenu("移除收藏");
+        }else {
+            popWindow.addMenu("收藏");
+        }
+        popWindow.addMenu("添加到歌单");
+        popWindow.setOnClickEditListener(name -> {
+            switch (name){
+                case "删除":
+                    if (FileUtils.deleteFile(entity.path,getContext())){
+                        relManager.deleteSongAllRel(entity.id);
+                        ToastUtil.show("删除成功");
+                        mediaEntityList.remove(position);
+                        adapter.notifyDataSetChanged();
+                    }
+                    break;
+                case "收藏":
+                    relManager.saveFavorite(new MediaRelEntity(null,MediaConstant.FAVORITE,entity.id));
+                    ToastUtil.show("收藏成功");
+                    break;
+                case "移除收藏":
+                    relManager.deleteSongRel(entity.id,MediaConstant.FAVORITE);
+                    ToastUtil.show("取消收藏");
+                    break;
+                case "添加到歌单":
+
+                    break;
+            }
+        });
+
+        popWindow.showAsDropDown(view,0,0);
+        popWindow.showBackgroundDIM(getActivity().getWindow(),-1);
+        popWindow.getPopupWindow().setOnDismissListener(()->{
+            popWindow.showBackgroundDIM(getActivity().getWindow(),1);
+        });
+        return true;
     }
 }

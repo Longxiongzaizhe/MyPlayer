@@ -19,7 +19,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import wj.com.myplayer.Config.MainApplication;
 import wj.com.myplayer.Constant.MediaConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.DaoDB.MediaEntity;
@@ -61,8 +60,6 @@ public class MediaUtils {
                 mediaEntity.album_id = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
 //                mediaEntity.cover = MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
 //                        mediaEntity.id,mediaEntity.album_id,true,true);
-                mediaEntity.cover = MediaUtils.getArtwork(context.getContentResolver(),Integer.valueOf(mediaEntity.id.toString()),
-                        (int)mediaEntity.album_id,true,true);
                // mediaEntity.durationStr = longToStrTime(mediaEntity.duration);
 
                 if(!checkIsMusic(mediaEntity.duration, mediaEntity.size)) {
@@ -81,6 +78,7 @@ public class MediaUtils {
         }
         return mediaList;
     }
+
 
     public static boolean checkIsMusic(long time, long size) {
         if(time <= 0 || size <= 0) {
@@ -412,7 +410,7 @@ public class MediaUtils {
 
         if (StringUtils.isEmpty(mode)) return null;
 
-        MediaConstant.MusicMode musicMode = null;
+        MediaConstant.MusicMode musicMode = MediaConstant.MusicMode.SEQUENT;
 
         switch (mode){
             case "CIRCLE":musicMode = MediaConstant.MusicMode.CIRCLE;break;

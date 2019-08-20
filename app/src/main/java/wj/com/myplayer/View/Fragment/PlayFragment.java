@@ -138,6 +138,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
                 entity.getId(), entity.getAlbum_id(), true, true));
         mMusicNameTv.setText(entity.title);
         mMusicAuthorTv.setText(entity.getArtist());
+        currentEntity = entity;
         if (mBinder !=null && mBinder.getService().getPlayer().isPlaying()){
             mMusicPlayIv.setImageResource(R.drawable.icon_pause);
             mMusicAblumsIv.startAnimation(animation);

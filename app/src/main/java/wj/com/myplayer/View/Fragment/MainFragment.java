@@ -106,6 +106,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
 //                startActivity(intent);
                 break;
             case R.id.favourite_lay:
+                activity.setFragment(FlagConstant.FRAGMENT_FAVORITE);
                 break;
             case R.id.download_lay:
                 break;
