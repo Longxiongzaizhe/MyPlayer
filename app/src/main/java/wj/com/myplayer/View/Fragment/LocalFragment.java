@@ -220,7 +220,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 
             @Override
             public void onClickFavoriteListener() {
-                relManager.save(new MediaRelEntity(null,MediaConstant.FAVORITE,datalist.get(position).id));
+                relManager.saveFavorite(new MediaRelEntity(null,MediaConstant.FAVORITE,datalist.get(position).id));
             }
 
             @Override

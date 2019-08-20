@@ -26,7 +26,7 @@ public class MediaRelManager {
         dao.insert(entity);
     }
 
-    public void save(MediaRelEntity entity){
+    public void saveFavorite(MediaRelEntity entity){
         if (queryFavorite(entity.songId).size() == 0) {
             dao.save(entity);
         } else {
