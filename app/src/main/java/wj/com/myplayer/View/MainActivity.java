@@ -34,6 +34,7 @@ import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
 import wj.com.myplayer.DaoDB.MediaEntity;
+import wj.com.myplayer.DaoDB.MediaRelEntity;
 import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
 import wj.com.myplayer.TestPackage.TestFragment;
@@ -119,7 +120,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         FragmentManager fragmentManager = getSupportFragmentManager();
         playFragment = (PlayFragment) fragmentManager.findFragmentById(R.id.music_play_lay);
 
-
         mFragments = new ArrayList<>();
         mTitles = new ArrayList<>();
         myPagerAdapter = new LazyFragmentPagerAdapter(getSupportFragmentManager(), mFragments, mTitles);
@@ -127,7 +127,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         mMainTabLayout.setupWithViewPager(mMainViewpager);
         mMainTabLayout.setOnClickListener(this);
         mMainViewpager.setOnClickListener(this);
-
 
         mMainDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         mMainNavView = (NavigationView) findViewById(R.id.main_nav_view);
@@ -296,6 +295,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBinder = (MusicService.MusicBinder) service;
+            List<MediaRelEntity> relList = relManager.queryRecentList();
+            MediaRelEntity entity = relList.get(relList.size()-1);
+            mBinder.setCurrentEntity(manager.query(entity.songId));
+            mBinder.setData(manager.query(entity.songId));
             playFragment.setBinder(mBinder);
 
             //    mBinder.play();

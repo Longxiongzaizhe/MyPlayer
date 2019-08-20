@@ -53,15 +53,17 @@ public class MusicEditPopWindow extends BasePopWindow {
         datalist.add(new SimpleTextBean("删除"));
         if (editMode == EditMusicMode.LOCAL){
             datalist.add(new SimpleTextBean("收藏"));
+            datalist.add(new SimpleTextBean("添加到歌单"));
         }else if (editMode == EditMusicMode.FAVORITE){
             datalist.add(new SimpleTextBean("移除收藏"));
+            datalist.add(new SimpleTextBean("添加到歌单"));
         }
 
-        datalist.add(new SimpleTextBean("添加到歌单"));
         adapter = new SimpleTextAdapter(datalist);
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener((adapter, view, position) -> {
+
             if (listener != null){
                 listener.onClickListener(datalist.get(position).getText());
             }
