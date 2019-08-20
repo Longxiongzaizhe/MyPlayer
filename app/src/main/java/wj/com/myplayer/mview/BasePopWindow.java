@@ -26,7 +26,7 @@ public abstract class BasePopWindow implements View.OnClickListener {
         contentView= LayoutInflater.from(c).inflate(layoutRes, null, false);
 
         initView(contentView);
-        initEvent();
+        initData();
 
         mInstance=new PopupWindow(contentView, w, h, true);
         initWindow();
@@ -36,7 +36,7 @@ public abstract class BasePopWindow implements View.OnClickListener {
     public PopupWindow getPopupWindow() { return mInstance; }
 
     protected abstract void initView(View view);
-    protected abstract void initEvent();
+    protected abstract void initData();
     protected void initWindow() {
         mInstance.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mInstance.setOutsideTouchable(true);

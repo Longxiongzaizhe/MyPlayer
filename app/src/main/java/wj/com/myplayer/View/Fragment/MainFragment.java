@@ -72,6 +72,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
 
         mMainLocalNum.setText(manager.getAllList().size() + "首");
         mMainHistoryNum.setText(relManager.queryRecentList().size() + "首");
+        mMainFavouriteNum.setText(relManager.queryFavoriteList().size() + "首");
     }
 
     @Override
@@ -105,6 +106,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
 //                startActivity(intent);
                 break;
             case R.id.favourite_lay:
+                activity.setFragment(FlagConstant.FRAGMENT_FAVORITE);
                 break;
             case R.id.download_lay:
                 break;

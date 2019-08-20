@@ -412,7 +412,7 @@ public class MediaUtils {
 
         if (StringUtils.isEmpty(mode)) return null;
 
-        MediaConstant.MusicMode musicMode = null;
+        MediaConstant.MusicMode musicMode = MediaConstant.MusicMode.SEQUENT;
 
         switch (mode){
             case "CIRCLE":musicMode = MediaConstant.MusicMode.CIRCLE;break;

@@ -24,19 +24,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/local_search_iv"
+            android:id="@+id/favorite_search_iv"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="@dimen/padding_small_size"
             android:layout_marginEnd="@dimen/margin_small_size"
             android:src="@drawable/icon_search_gray"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/local_refresh_iv"
+            app:layout_constraintEnd_toStartOf="@+id/favorite_refresh_iv"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="gone"/>
 
         <ImageView
-            android:id="@+id/local_refresh_iv"
+            android:id="@+id/favorite_refresh_iv"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="@dimen/padding_small_size"
@@ -48,7 +48,7 @@
             tools:visibility="gone"/>
 
         <wj.com.myplayer.mview.ClearEditText
-            android:id="@+id/local_search_et"
+            android:id="@+id/favorite_search_et"
             style="@style/SearchEditText"
             android:layout_width="0dp"
             android:layout_height="32dp"
@@ -59,22 +59,22 @@
             android:hint="输入关键词搜索本地歌曲"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/local_cancel_tv"
+            app:layout_constraintEnd_toStartOf="@+id/favorite_cancel_tv"
             app:layout_constraintStart_toEndOf="@+id/music_mode_tv"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
 
         <TextView
-            android:id="@+id/local_cancel_tv"
+            android:id="@+id/favorite_cancel_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="取消"
+            android:text="@string/cancel"
             android:textColor="@color/base_blue"
             android:textSize="@dimen/text_normal_size"
             android:layout_marginEnd="@dimen/base_margin_size"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/local_refresh_iv"
+            app:layout_constraintEnd_toStartOf="@+id/favorite_refresh_iv"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
@@ -84,7 +84,7 @@
         android:background="@color/gray_DDE0E6"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/local_music_rv"
+        android:id="@+id/favorite_music_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">

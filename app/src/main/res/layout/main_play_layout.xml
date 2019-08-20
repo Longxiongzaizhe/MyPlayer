@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/gray_DDE0E6"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toTopOf="@+id/main_music_albums"/>
+        android:layout_marginTop="@dimen/margin_small_size"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/main_music_albums"
