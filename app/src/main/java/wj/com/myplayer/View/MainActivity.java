@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -224,6 +225,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         navBackgrounpIv.setImageBitmap(bgBitmap);
         if (mBinder != null && playFragment != null){
             playFragment.setBinder(mBinder);
+        }
+        List<String> list = MediaDaoManager.getInstance().getAllAuthor();
+        for (String da : list){
+            Log.e("author",da);
         }
     }
 

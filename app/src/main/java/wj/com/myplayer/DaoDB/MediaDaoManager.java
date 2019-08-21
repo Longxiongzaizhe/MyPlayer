@@ -1,7 +1,10 @@
 package wj.com.myplayer.DaoDB;
 
+import android.database.Cursor;
+
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.Config.MainApplication;
@@ -70,9 +73,13 @@ public class MediaDaoManager {
 
     public List<String> getAllAuthor(){
 
-        QueryBuilder queryBuilder = dao.queryBuilder();
-        queryBuilder.distinct().list();
-        return null;
+        List<String> list = new ArrayList<>();
+        Cursor cursor = MainApplication.get().getDaoSession().getDatabase().rawQuery("SELECT DISTINCT ARTIST FROM MEDIA_ENTITY",null);
+        while (cursor.moveToNext()){
+            list.add(cursor.getString(cursor.getColumnIndex("ARTIST")));
+        }
+
+        return list;
     }
 
     public MediaEntity query(long id){

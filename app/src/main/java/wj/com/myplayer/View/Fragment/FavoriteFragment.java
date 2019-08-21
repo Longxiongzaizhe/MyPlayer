@@ -229,7 +229,7 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
                     break;
             }
         });
-        popWindow.showAsDropDown(view,0,0);
+        popWindow.showAsDropDown(view,-DensityUtil.dp2px(120),-DensityUtil.dp2px(20));
         popWindow.showBackgroundDIM(getActivity().getWindow(),-1);
         popWindow.getPopupWindow().setOnDismissListener(()->{
             popWindow.showBackgroundDIM(getActivity().getWindow(),1);
