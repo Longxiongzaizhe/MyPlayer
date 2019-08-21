@@ -2,6 +2,7 @@ package wj.com.myplayer.View.Fragment.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +32,10 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     private LinearLayout mFavouriteLay;
     private LinearLayout mDownloadLay;
     private MainActivity activity;
+
+    private ImageView mListEditIv;
+    private ImageView mListAddIv;
+    private RecyclerView mListRv;
 
     private MediaDaoManager manager = MediaDaoManager.getInstance();
     private MediaRelManager relManager = MediaRelManager.getInstance();
@@ -69,6 +74,9 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         mFavouriteLay.setOnClickListener(this);
         mDownloadLay = (LinearLayout) view.findViewById(R.id.download_lay);
         mDownloadLay.setOnClickListener(this);
+        mListAddIv = view.findViewById(R.id.main_list_add);
+        mListEditIv = view.findViewById(R.id.main_list_edit);
+        mListRv = view.findViewById(R.id.main_list_rv);
 
         mMainLocalNum.setText(manager.getAllList().size() + "首");
         mMainHistoryNum.setText(relManager.queryRecentList().size() + "首");
