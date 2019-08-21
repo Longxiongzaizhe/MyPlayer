@@ -1,4 +1,4 @@
-package wj.com.myplayer.View.Fragment;
+package wj.com.myplayer.View.Fragment.main;
 
 
 import android.os.Bundle;

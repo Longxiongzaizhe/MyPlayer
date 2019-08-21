@@ -43,12 +43,12 @@ import wj.com.myplayer.Utils.SPUtils;
 import wj.com.myplayer.Utils.ToastUtil;
 import wj.com.myplayer.View.Activity.MainMusic.MusicService;
 import wj.com.myplayer.View.Activity.navSetting.UserSettingActivity;
-import wj.com.myplayer.View.Fragment.FavoriteFragment;
-import wj.com.myplayer.View.Fragment.LocalFragment;
-import wj.com.myplayer.View.Fragment.MainFragment;
+import wj.com.myplayer.View.Fragment.main.FavoriteFragment;
+import wj.com.myplayer.View.Fragment.main.LocalFragment;
+import wj.com.myplayer.View.Fragment.main.MainFragment;
 import wj.com.myplayer.View.Fragment.OneFragment;
 import wj.com.myplayer.View.Fragment.PlayFragment;
-import wj.com.myplayer.View.Fragment.RecentlyFragment;
+import wj.com.myplayer.View.Fragment.main.RecentlyFragment;
 import wj.com.myplayer.View.adapter.LazyFragmentPagerAdapter;
 import wj.com.myplayer.mview.NoScrollViewPager;
 
@@ -202,11 +202,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         mFragments.add(new TestFragment());
         intent = new Intent();
 
-        mTitles.add("我的");
-        mTitles.add("热门");
-        mTitles.add("FM");
+        initMainTitle();
 
-        myPagerAdapter.notifyDataSetChanged();
+
 
         Intent startMusicIntent = new Intent(this,MusicService.class);
         bindService(startMusicIntent,connection,BIND_AUTO_CREATE) ;
@@ -214,6 +212,23 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
         mainFragment = MainFragment.newInstance();
 
+    }
+
+    private void initMainTitle() {
+        mTitles.clear();
+        mTitles.add("我的");
+        mTitles.add("热门");
+        mTitles.add("FM");
+        myPagerAdapter.notifyDataSetChanged();
+    }
+
+    private void initLocalTitle(){
+        mTitles.clear();
+        mTitles.add("音乐");
+        mTitles.add("专辑");
+        mTitles.add("歌手");
+
+        myPagerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -282,10 +297,13 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
         @Override
         public void onPageSelected(int position) {
-            mMainViewpager.setCurrentItem(0);
-            if (position != 0) {
-                ToastUtil.showSingleToast("暂未开放，敬请期待");
+            if (mTitles.get(0).equals("我的")){
+                mMainViewpager.setCurrentItem(0);
+                if (position != 0) {
+                    ToastUtil.showSingleToast("暂未开放，敬请期待");
+                }
             }
+
         }
 
         @Override
@@ -350,10 +368,12 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         mTitleRightIv.setVisibility(View.GONE);
         switch (flag){
             case FlagConstant.FRAGMENT_LOCAL:
+                mMainViewpager.setNoScroll(false);
                 mTitleLeftIv.setImageResource(R.drawable.ic_back);
                 mTitleCenterTv.setText("本地音乐");
                 mTitleLeftIv.setOnClickListener(v-> setFragment(FlagConstant.FRAGMENT_MAIN));
-                mMainTabLayout.setVisibility(View.GONE);
+                initLocalTitle();
+
                 break;
             case FlagConstant.FRAGMENT_RECENT:
                 mTitleLeftIv.setImageResource(R.drawable.ic_back);
@@ -365,6 +385,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                 mTitleCenterTv.setText("最近播放");
                 break;
             case FlagConstant.FRAGMENT_MAIN:
+                mMainViewpager.setNoScroll(true);
                 mTitleLeftIv.setImageResource(R.drawable.ic_menu);
                 mTitleCenterTv.setText("音乐园");
                 mTitleLeftIv.setOnClickListener(v->{
@@ -372,6 +393,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                     mMainDrawerLayout.openDrawer(GravityCompat.START);
                 });
                 mMainTabLayout.setVisibility(View.VISIBLE);
+                initMainTitle();
                 break;
             case FlagConstant.FRAGMENT_FAVORITE:
                 mTitleLeftIv.setImageResource(R.drawable.ic_back);
