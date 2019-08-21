@@ -21,7 +21,7 @@ public class MusicListAdapter extends BaseQuickAdapter<MediaEntity, BaseViewHold
         helper.setText(R.id.item_music_title,item.getTitle());
         helper.setText(R.id.item_music_author,item.getArtist());
         item.cover = MediaUtils.getArtwork(MainApplication.get().getApplicationContext().getContentResolver(),Integer.valueOf(item.id.toString()),
-                (int)item.album_id,true,false);
+                (int)item.album_id,true,true);
         if (item.cover != null){
             helper.setImageBitmap(R.id.item_music_albums,item.cover);
         }else {
