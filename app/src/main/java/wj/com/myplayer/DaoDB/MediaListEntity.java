@@ -9,9 +9,13 @@ import org.greenrobot.greendao.annotation.Generated;
 public class MediaListEntity  {
     @Id
     public Long id;
-    @Generated(hash = 1021174166)
-    public MediaListEntity(Long id) {
+
+    public String name;
+
+    @Generated(hash = 2056001149)
+    public MediaListEntity(Long id, String name) {
         this.id = id;
+        this.name = name;
     }
     @Generated(hash = 1595981046)
     public MediaListEntity() {
@@ -24,5 +28,11 @@ public class MediaListEntity  {
     }
     public void setId(Long id) {
         this.id = id;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -34,7 +34,6 @@ public class MainApplication extends Application {
     private static final String TAG = "MainApplication";
     private static boolean isFirstInit;
     private DaoSession daoSession;
-    private DaoMaster daoMaster;
     private DaoMaster.DevOpenHelper devOpenHelper;
     private MediaDaoManager mediaManager;
     private MediaListManager listManager;
@@ -106,10 +105,10 @@ public class MainApplication extends Application {
 
 
         if (listManager.query(MediaConstant.FAVORITE) == null){
-            listManager.insert(new MediaListEntity(MediaConstant.FAVORITE));
+            listManager.insert(new MediaListEntity(MediaConstant.FAVORITE,""));
         }
         if (listManager.query(MediaConstant.LATELY_LIST) == null){
-            listManager.insert(new MediaListEntity(MediaConstant.LATELY_LIST));
+            listManager.insert(new MediaListEntity(MediaConstant.LATELY_LIST,""));
         }
 
 
@@ -141,9 +140,6 @@ public class MainApplication extends Application {
         }
     }
 
-    public DaoMaster getDaoMaster() {
-        return daoMaster;
-    }
 
     public void closeDaoSession(){
         if(daoSession != null){

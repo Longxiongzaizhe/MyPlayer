@@ -221,12 +221,14 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     @Override
     public void onClick(View v) {
         if (v == mRefreshIv){
+            mMultipleStatusView.showLoading();
             List<MediaEntity> list = MediaUtils.getAllMediaList(getContext(),"");
             datalist.clear();
             datalist.addAll(list);
             manager.deleteAll();
             manager.insert(list);
             adapter.notifyDataSetChanged();
+            mMultipleStatusView.showContent();
             ToastUtil.showSingleToast("已刷新");
         }else if (v == mSearchIv){
             mSearchIv.setVisibility(View.GONE);

@@ -68,6 +68,13 @@ public class MediaDaoManager {
 //        return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Id.eq(id)).list();
 //    }
 
+    public List<String> getAllAuthor(){
+
+        QueryBuilder queryBuilder = dao.queryBuilder();
+        queryBuilder.distinct().list();
+        return null;
+    }
+
     public MediaEntity query(long id){
         return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Id.eq(id)).unique();
     }

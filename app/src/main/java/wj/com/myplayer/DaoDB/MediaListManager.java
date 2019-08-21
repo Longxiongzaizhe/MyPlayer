@@ -36,4 +36,8 @@ public class MediaListManager {
         return dao.queryBuilder().orderAsc(MediaListEntityDao.Properties.Id).where(MediaListEntityDao.Properties.Id.eq(id)).unique();
     }
 
+    public void deleteList(long listId){
+        dao.queryBuilder().where(MediaListEntityDao.Properties.Id.eq(listId)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+
 }
