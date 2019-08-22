@@ -25,7 +25,7 @@ public class MusicListAdapter extends BaseQuickAdapter<MediaListEntity, BaseView
     protected void convert(BaseViewHolder helper, MediaListEntity item) {
         helper.setText(R.id.list_name_tv,item.name);
         helper.setText(R.id.list_count_tv,relManager.queryMediaList(item.id).size() + "首");
-        if (StringUtils.isEmpty(item.albums)){
+        if (!StringUtils.isEmpty(item.albums)){
             Bitmap bitmap = BitmapFactory.decodeFile(item.albums);
             helper.setImageBitmap(R.id.list_album_iv,bitmap);
         }

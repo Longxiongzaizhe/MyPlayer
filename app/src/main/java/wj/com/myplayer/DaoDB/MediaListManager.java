@@ -3,6 +3,7 @@ package wj.com.myplayer.DaoDB;
 import java.util.List;
 
 import wj.com.myplayer.Config.MainApplication;
+import wj.com.myplayer.Constant.MediaConstant;
 
 public class MediaListManager {
 
@@ -18,6 +19,12 @@ public class MediaListManager {
             manager = new MediaListManager();
         }
         return manager;
+    }
+
+    public List<MediaListEntity> getAllList(){
+        return dao.queryBuilder().orderAsc(MediaListEntityDao.Properties.Id).where(MediaListEntityDao.Properties.Id.notEq(MediaConstant.FAVORITE),
+                MediaListEntityDao.Properties.Id.notEq(MediaConstant.RECENTLY_LIST),
+                MediaListEntityDao.Properties.Id.notEq(MediaConstant.LATELY_LIST)).list();
     }
 
     public void insert(MediaListEntity entity){

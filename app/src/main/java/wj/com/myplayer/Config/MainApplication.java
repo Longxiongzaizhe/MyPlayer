@@ -11,17 +11,20 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import wj.com.myplayer.Constant.MediaConstant;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.DaoDB.DaoMaster;
 import wj.com.myplayer.DaoDB.DaoSession;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
+import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.DaoDB.MediaListEntity;
 import wj.com.myplayer.DaoDB.MediaListManager;
 import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
 import wj.com.myplayer.Utils.FileUtils;
+import wj.com.myplayer.Utils.MediaUtils;
 import wj.com.myplayer.Utils.SPUtils;
 
 
@@ -104,6 +107,8 @@ public class MainApplication extends BaseApplication {
 
         if (listManager.query(MediaConstant.FAVORITE) == null){
             listManager.insert(new MediaListEntity(MediaConstant.FAVORITE,"",""));
+            List<MediaEntity> list = MediaUtils.getAllMediaList(this,"");
+            mediaManager.insert(list);
         }
         if (listManager.query(MediaConstant.LATELY_LIST) == null){
             listManager.insert(new MediaListEntity(MediaConstant.LATELY_LIST,"",""));

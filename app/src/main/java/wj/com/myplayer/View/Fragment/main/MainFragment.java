@@ -2,6 +2,7 @@ package wj.com.myplayer.View.Fragment.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,15 +11,20 @@ import android.widget.TextView;
 
 import com.example.commonlib.BaseConfig.BaseFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
+import wj.com.myplayer.DaoDB.MediaListEntity;
+import wj.com.myplayer.DaoDB.MediaListManager;
 import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
 import wj.com.myplayer.View.MainActivity;
+import wj.com.myplayer.View.adapter.MusicListAdapter;
 
 public class MainFragment extends BaseFragment implements View.OnClickListener {
 
-    private View view;
     private TextView mMainLocalNum;
     private ImageView mMainLocalPlay;
     private TextView mMainHistoryNum;
@@ -36,9 +42,12 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     private ImageView mListEditIv;
     private ImageView mListAddIv;
     private RecyclerView mListRv;
+    private MusicListAdapter listAdapter;
+    private List<MediaListEntity> musicList = new ArrayList<>();
 
     private MediaDaoManager manager = MediaDaoManager.getInstance();
     private MediaRelManager relManager = MediaRelManager.getInstance();
+    private MediaListManager listManager = MediaListManager.getInstance();
 
 
 
@@ -79,6 +88,10 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         mListEditIv = view.findViewById(R.id.main_list_edit);
         mListEditIv.setOnClickListener(this);
         mListRv = view.findViewById(R.id.main_list_rv);
+        listAdapter = new MusicListAdapter(musicList);
+        mListRv.setAdapter(listAdapter);
+        mListRv.setLayoutManager(new LinearLayoutManager(getContext()));
+
 
 //        mMainLocalNum.setText(manager.getAllList().size() + "首");
         mMainLocalNum.setText(String.format(getString(R.string.music_num),manager.getAllList().size()));
@@ -88,7 +101,9 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initData() {
-
+        musicList = listManager.getAllList();
+        listAdapter.notifyDataSetChanged();
+        listAdapter.setEmptyView(R.layout.layout_no_content,mListRv);
     }
 
     @Override

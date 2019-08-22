@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.commonlib.BaseConfig.BaseFragment;
+import com.example.commonlib.Utils.DensityUtil;
+import com.example.commonlib.Utils.StringUtils;
+import com.example.commonlib.Utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,21 +28,19 @@ import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.DaoDB.MediaRelEntity;
 import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
-import com.example.commonlib.Utils.DensityUtil;
 import wj.com.myplayer.Utils.FileUtils;
 import wj.com.myplayer.Utils.MediaUtils;
 import wj.com.myplayer.Utils.SPUtils;
-import com.example.commonlib.Utils.StringUtils;
-import com.example.commonlib.Utils.ToastUtil;
 import wj.com.myplayer.View.Activity.MainMusic.MusicService;
 import wj.com.myplayer.View.adapter.MusicAdapter;
+import wj.com.myplayer.mview.BaseDialog;
 import wj.com.myplayer.mview.ClearEditText;
 import wj.com.myplayer.mview.MusicEditPopWindow;
 import wj.com.myplayer.mview.MusicModePopWindow;
 
 public class FavoriteFragment extends BaseFragment implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
 
-    private RecyclerView mLocalMusicRv;
+    private RecyclerView mFavorMusicRv;
     private TextView mMusicModeTv;
     private TextView mCancelTv;
     private ImageView mSearchIv;
@@ -77,7 +78,7 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     protected void initView(View view) {
-        mLocalMusicRv = (RecyclerView)view.findViewById(R.id.favorite_music_rv);
+        mFavorMusicRv = (RecyclerView)view.findViewById(R.id.favorite_music_rv);
         mMusicModeTv = view.findViewById(R.id.music_mode_tv);
         mSearchIv = view.findViewById(R.id.favorite_search_iv);
         mRefreshIv = view.findViewById(R.id.favorite_refresh_iv);
@@ -169,9 +170,10 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
             }
 
         }
-        mLocalMusicRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        mFavorMusicRv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MusicAdapter(datalist);
-        mLocalMusicRv.setAdapter(adapter);
+        adapter.setEmptyView(R.layout.layout_no_content, mFavorMusicRv);
+        mFavorMusicRv.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
         adapter.setOnItemChildClickListener(this);
         mBinder = (MusicService.MusicBinder) getArguments().getSerializable(FlagConstant.BINDER);
@@ -211,12 +213,19 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
         popWindow.setOnClickEditListener(name -> {
             switch (name){
                 case "删除":
-                    if (FileUtils.deleteFile(list.get(position).path,getContext())){
-                        relManager.deleteSongAllRel(list.get(position).id);
-                        ToastUtil.show("删除成功");
-                        list.remove(position);
-                        adapter.notifyDataSetChanged();
-                    }
+                    MediaEntity entity = list.get(position);
+                    BaseDialog dialog = new BaseDialog(getContext(), 2);
+                    dialog.setInfoText(String.format("确定删除 %s 歌曲文件?", entity.getTitle()));
+                    dialog.setConfirmListener(() -> {
+                        if (FileUtils.deleteFile(entity.path, getContext())) {
+                            relManager.deleteSongAllRel(entity.id);
+                            ToastUtil.show("删除成功");
+                            list.remove(position);
+                            adapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
                     break;
                 case "移除收藏":
                     relManager.deleteSongRel(list.get(position).id,MediaConstant.FAVORITE);

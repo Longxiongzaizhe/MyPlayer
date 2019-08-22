@@ -3,6 +3,11 @@ package wj.com.myplayer.Network;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.commonlib.Utils.DateUtils;
+import com.example.commonlib.Utils.JsonUtils;
+import com.example.commonlib.Utils.ToastUtil;
+import com.example.commonlib.Utils.Utils;
+
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.net.SocketException;
@@ -13,10 +18,7 @@ import okhttp3.Callback;
 import okhttp3.Headers;
 import okhttp3.Response;
 import wj.com.myplayer.Config.MainApplication;
-import wj.com.myplayer.Utils.DateUtils;
-import wj.com.myplayer.Utils.JsonUtils;
-import wj.com.myplayer.Utils.ToastUtil;
-import wj.com.myplayer.Utils.Utils;
+
 
 public abstract class HttpHandler<T> implements Callback{
 

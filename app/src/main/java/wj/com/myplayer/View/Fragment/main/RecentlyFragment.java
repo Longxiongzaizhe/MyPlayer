@@ -8,6 +8,8 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.commonlib.BaseConfig.BaseFragment;
+import com.example.commonlib.Utils.DensityUtil;
+import com.example.commonlib.Utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,11 +22,9 @@ import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.DaoDB.MediaRelEntity;
 import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
-import com.example.commonlib.Utils.DensityUtil;
-import wj.com.myplayer.Utils.FileUtils;
-import com.example.commonlib.Utils.ToastUtil;
 import wj.com.myplayer.View.Activity.MainMusic.MusicService;
 import wj.com.myplayer.View.adapter.MusicAdapter;
+import wj.com.myplayer.mview.BaseDialog;
 import wj.com.myplayer.mview.MusicEditPopWindow;
 
 public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
@@ -70,10 +70,16 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MusicAdapter(mediaEntityList);
         recyclerView.setAdapter(adapter);
+        adapter.setEmptyView(R.layout.layout_no_content,recyclerView);
         adapter.setOnItemClickListener(this);
         adapter.setOnItemChildClickListener(this);
         for (MediaRelEntity entity : datalist){
-            mediaEntityList.add(mediaDaoManager.query(entity.getSongId()));
+            MediaEntity mediaEntity = mediaDaoManager.query(entity.getSongId());
+            if (mediaEntity!= null){
+                mediaEntityList.add(mediaEntity);
+            }else {
+                relManager.deleteSongRel(entity);
+            }
         }
         Collections.reverse(mediaEntityList);
         adapter.notifyDataSetChanged();
@@ -108,12 +114,17 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
         popWindow.setOnClickEditListener(name -> {
             switch (name){
                 case "删除":
-                    if (FileUtils.deleteFile(entity.path,getContext())){
-                        relManager.deleteSongAllRel(entity.id);
+
+                    BaseDialog dialog = new BaseDialog(getContext(), 2);
+                    dialog.setInfoText(String.format("确定删除 %s 这条记录?", entity.getTitle()));
+                    dialog.setConfirmListener(() -> {
+                        relManager.deleteSongRel(entity.id,MediaConstant.LATELY_LIST);
                         ToastUtil.show("删除成功");
                         mediaEntityList.remove(position);
                         adapter.notifyDataSetChanged();
-                    }
+                        dialog.dismiss();
+                    });
+                    dialog.show();
                     break;
                 case "收藏":
                     relManager.saveFavorite(new MediaRelEntity(null,MediaConstant.FAVORITE,entity.id));

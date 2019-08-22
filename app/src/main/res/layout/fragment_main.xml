@@ -227,7 +227,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/icon_add"
-                        android:padding="@dimen/padding_tiny_size"
+                        android:padding="@dimen/padding_small_size"
                         app:layout_constraintEnd_toStartOf="@+id/main_list_edit"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="@+id/main_line_list"/>
@@ -238,7 +238,7 @@
                         android:layout_height="40dp"
                         android:src="@drawable/icon_more_ver"
                         android:layout_marginEnd="@dimen/margin_tiny_size"
-                        android:padding="@dimen/padding_tiny_size"
+                        android:padding="@dimen/padding_small_size"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="@+id/main_line_list"/>

@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
-import wj.com.myplayer.Bean.MusicBean;
 import wj.com.myplayer.Constant.MediaConstant;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.DaoDB.MediaEntity;
@@ -122,6 +121,8 @@ public class MusicService extends Service {
         private MusicInterface.OnMediaChangeListener onMediaChangeListener;
 
         public void setData(MediaEntity entity){
+
+            if (entity == null) return;
 
             try {
                 player.reset();
