@@ -1,4 +1,4 @@
-package wj.com.myplayer.Utils;
+package com.example.commonlib.Utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

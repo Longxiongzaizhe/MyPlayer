@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import wj.com.myplayer.R;
-import wj.com.myplayer.Utils.DensityUtil;
+import com.example.commonlib.Utils.DensityUtil;
 
 public class BaseEditDialog extends Dialog {
 

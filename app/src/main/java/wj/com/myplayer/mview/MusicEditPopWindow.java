@@ -6,16 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.Bean.SimpleTextBean;
 import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
-import wj.com.myplayer.Utils.DensityUtil;
-import wj.com.myplayer.Utils.ToastUtil;
+import com.example.commonlib.Utils.DensityUtil;
 import wj.com.myplayer.View.adapter.SimpleTextAdapter;
 
 public class MusicEditPopWindow extends BasePopWindow {

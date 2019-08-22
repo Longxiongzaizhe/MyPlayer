@@ -1,9 +1,10 @@
-package wj.com.myplayer.Utils;
+package com.example.commonlib.Utils;
 
 import android.content.Context;
 import android.widget.Toast;
 
-import wj.com.myplayer.Config.MainApplication;
+import com.example.commonlib.BaseConfig.BaseApplication;
+
 
 public class ToastUtil {
 
@@ -29,7 +30,7 @@ public class ToastUtil {
     }
 
     public static void show(String msg) {
-        MainApplication appContext = MainApplication.get();
+        BaseApplication appContext = BaseApplication.getApplication();
         Toast.makeText(appContext, msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -37,7 +38,7 @@ public class ToastUtil {
      * 此方法会立即显示吐司内容
      */
     public static void showSingleToast(String msg) {
-        MainApplication appContext = MainApplication.get();
+        BaseApplication appContext = BaseApplication.getApplication();
         if (mToast == null) {
             mToast = Toast.makeText(appContext, msg, Toast.LENGTH_SHORT);
         } else {

@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.common_lib.BaseConfig.BaseFragment;
+import com.example.commonlib.BaseConfig.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +25,14 @@ import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.DaoDB.MediaRelEntity;
 import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
-import wj.com.myplayer.Utils.DensityUtil;
+import com.example.commonlib.Utils.DensityUtil;
 import wj.com.myplayer.Utils.FileUtils;
 import wj.com.myplayer.Utils.MediaUtils;
 import wj.com.myplayer.Utils.SPUtils;
-import wj.com.myplayer.Utils.StringUtils;
-import wj.com.myplayer.Utils.ToastUtil;
+import com.example.commonlib.Utils.StringUtils;
+import com.example.commonlib.Utils.ToastUtil;
 import wj.com.myplayer.View.Activity.MainMusic.MusicService;
-import wj.com.myplayer.View.adapter.MusicListAdapter;
+import wj.com.myplayer.View.adapter.MusicAdapter;
 import wj.com.myplayer.mview.ClearEditText;
 import wj.com.myplayer.mview.MusicEditPopWindow;
 import wj.com.myplayer.mview.MusicModePopWindow;
@@ -49,7 +49,7 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
     private List<MediaEntity> datalist;
     private List<MediaRelEntity> relDataList;
     private List<MediaEntity> searchResultList = new ArrayList<>();
-    private MusicListAdapter adapter;
+    private MusicAdapter adapter;
     private MusicService.MusicBinder mBinder;
     private MediaRelManager relManager = MainApplication.get().getRelManager();
     private MediaConstant.MusicMode musicMode;
@@ -170,7 +170,7 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
 
         }
         mLocalMusicRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MusicListAdapter(datalist);
+        adapter = new MusicAdapter(datalist);
         mLocalMusicRv.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
         adapter.setOnItemChildClickListener(this);

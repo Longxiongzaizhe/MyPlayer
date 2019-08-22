@@ -7,7 +7,7 @@ import android.provider.MediaStore;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.example.common_lib.BaseConfig.BaseFragment;
+import com.example.commonlib.BaseConfig.BaseFragment;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.IOException;

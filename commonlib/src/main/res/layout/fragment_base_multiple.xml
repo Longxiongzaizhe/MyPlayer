@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     android:id="@+id/fl_root">
 
-    <com.example.common_lib.BaseConfig.MultipleStatusView
+    <com.example.commonlib.BaseConfig.MultipleStatusView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/multiple_state_view">
 
-    </com.example.common_lib.BaseConfig.MultipleStatusView>
+    </com.example.commonlib.BaseConfig.MultipleStatusView>
 
 </FrameLayout>

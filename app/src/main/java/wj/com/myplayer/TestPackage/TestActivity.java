@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import wj.com.myplayer.Network.HttpHandler;
-import wj.com.myplayer.Network.NetworkWrapper;
+import com.example.commonlib.Network.HttpHandler;
+import com.example.commonlib.Network.NetworkWrapper;
 import wj.com.myplayer.R;
 
 public class TestActivity extends AppCompatActivity implements View.OnClickListener {

@@ -5,13 +5,14 @@
     android:layout_height="72dp"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
+    <wj.com.myplayer.mview.RoundImageView
         android:id="@+id/item_music_albums"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="@dimen/base_margin_size"
         android:src="@drawable/icon_dog"
         android:scaleType="fitXY"
+        app:type="round"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +61,7 @@
         android:src="@drawable/icon_more" />
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:layout_marginStart="@dimen/base_margin_size"
         android:background="@color/common_divider_line_color"
         app:layout_constraintStart_toStartOf="parent"

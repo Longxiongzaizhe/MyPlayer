@@ -1,4 +1,4 @@
-package com.example.common_lib.BaseConfig;
+package com.example.commonlib.BaseConfig;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.common_lib.R;
+import com.example.commonlib.R;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

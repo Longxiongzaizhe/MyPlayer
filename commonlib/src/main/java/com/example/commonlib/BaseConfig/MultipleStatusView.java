@@ -1,4 +1,4 @@
-package com.example.common_lib.BaseConfig;
+package com.example.commonlib.BaseConfig;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.common_lib.R;
+import com.example.commonlib.R;
 
 public class MultipleStatusView extends RelativeLayout{
 

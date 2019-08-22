@@ -9,15 +9,15 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.example.common_lib.BaseConfig.BaseMultipleActivity;
+import com.example.commonlib.BaseConfig.BaseMultipleActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.R;
-import wj.com.myplayer.Utils.StringUtils;
-import wj.com.myplayer.Utils.ToastUtil;
+import com.example.commonlib.Utils.StringUtils;
+import com.example.commonlib.Utils.ToastUtil;
 import wj.com.myplayer.View.adapter.LazyFragmentPagerAdapter;
 
 public class ImageMultipleDisplayActivity extends BaseMultipleActivity implements View.OnClickListener {

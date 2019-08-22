@@ -2,7 +2,7 @@ package wj.com.myplayer.View.Fragment.local;
 
 import android.view.View;
 
-import com.example.common_lib.BaseConfig.BaseFragment;
+import com.example.commonlib.BaseConfig.BaseFragment;
 
 import wj.com.myplayer.R;
 

@@ -1,4 +1,4 @@
-package com.example.common_lib.BaseConfig;
+package com.example.commonlib.BaseConfig;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.common_lib.R;
+import com.example.commonlib.R;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
