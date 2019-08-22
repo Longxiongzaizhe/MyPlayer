@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.common_lib.BaseConfig.BaseMultipleActivity;
+import com.example.commonlib.BaseConfig.BaseMultipleActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,7 +24,7 @@ import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.R;
 import wj.com.myplayer.Utils.FileUtils;
-import wj.com.myplayer.Utils.PhotoUtils;
+import com.example.commonlib.Utils.PhotoUtils;
 import wj.com.myplayer.Utils.SPUtils;
 import wj.com.myplayer.mview.BaseEditDialog;
 import wj.com.myplayer.mview.IOSDialog;

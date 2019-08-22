@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.common_lib.BaseConfig.BaseFragment;
+import com.example.commonlib.BaseConfig.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,11 +20,11 @@ import wj.com.myplayer.DaoDB.MediaEntity;
 import wj.com.myplayer.DaoDB.MediaRelEntity;
 import wj.com.myplayer.DaoDB.MediaRelManager;
 import wj.com.myplayer.R;
-import wj.com.myplayer.Utils.DensityUtil;
+import com.example.commonlib.Utils.DensityUtil;
 import wj.com.myplayer.Utils.FileUtils;
-import wj.com.myplayer.Utils.ToastUtil;
+import com.example.commonlib.Utils.ToastUtil;
 import wj.com.myplayer.View.Activity.MainMusic.MusicService;
-import wj.com.myplayer.View.adapter.MusicListAdapter;
+import wj.com.myplayer.View.adapter.MusicAdapter;
 import wj.com.myplayer.mview.MusicEditPopWindow;
 
 public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
@@ -32,7 +32,7 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
     private RecyclerView recyclerView;
     private List<MediaRelEntity> datalist;
     private List<MediaEntity> mediaEntityList;
-    private MusicListAdapter adapter;
+    private MusicAdapter adapter;
     private MusicService.MusicBinder mBinder;
 
     private MediaDaoManager mediaDaoManager;
@@ -68,7 +68,7 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
 
         mediaEntityList = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MusicListAdapter(mediaEntityList);
+        adapter = new MusicAdapter(mediaEntityList);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
         adapter.setOnItemChildClickListener(this);

@@ -1,11 +1,9 @@
 package wj.com.myplayer.Config;
 
-import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Handler;
-import android.os.Looper;
 
+import com.example.commonlib.BaseConfig.BaseApplication;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -27,10 +25,10 @@ import wj.com.myplayer.Utils.FileUtils;
 import wj.com.myplayer.Utils.SPUtils;
 
 
-public class MainApplication extends Application {
+public class MainApplication extends BaseApplication {
 
     private static MainApplication sInst;
-    private static Handler mHandler;
+
     private static final String TAG = "MainApplication";
     private static boolean isFirstInit;
     private DaoSession daoSession;
@@ -48,7 +46,7 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sInst = this;
-        mHandler = new Handler(Looper.getMainLooper());
+
         isFirstInit = SPUtils.get(this,SPConstant.INIT_FLAG,false);
 
         if (!isFirstInit){
@@ -105,22 +103,16 @@ public class MainApplication extends Application {
 
 
         if (listManager.query(MediaConstant.FAVORITE) == null){
-            listManager.insert(new MediaListEntity(MediaConstant.FAVORITE,""));
+            listManager.insert(new MediaListEntity(MediaConstant.FAVORITE,"",""));
         }
         if (listManager.query(MediaConstant.LATELY_LIST) == null){
-            listManager.insert(new MediaListEntity(MediaConstant.LATELY_LIST,""));
+            listManager.insert(new MediaListEntity(MediaConstant.LATELY_LIST,"",""));
         }
 
 
     }
 
-    public static void runOnUIThread(Runnable runnable){
-        mHandler.post(runnable);
-    }
 
-    public static void runOnUIThread(Runnable runnable,long delay){
-        mHandler.postDelayed(runnable,delay);
-    }
 
     public DaoSession getDaoSession() {
         return daoSession;

@@ -3,7 +3,7 @@ package wj.com.myplayer.TestPackage;
 
 import android.view.View;
 
-import com.example.common_lib.BaseConfig.BaseFragment;
+import com.example.commonlib.BaseConfig.BaseFragment;
 
 import wj.com.myplayer.R;
 

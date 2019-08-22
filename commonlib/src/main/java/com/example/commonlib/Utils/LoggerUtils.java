@@ -1,8 +1,8 @@
-package wj.com.myplayer.Utils;
+package com.example.commonlib.Utils;
 
 import com.orhanobut.logger.Logger;
 
-import wj.com.myplayer.BuildConfig;
+
 
 /**
  * Created by "huangasys" on 2019/3/22.11:27
@@ -12,7 +12,7 @@ public class LoggerUtils {
      * 是否开启debug
      * 注意：使用Eclipse打包的时候记得取消Build Automatically，否则一直是true
      */
-    public static boolean isDebug = BuildConfig.DEBUG;
+    public static boolean isDebug = false;
 
     /**
      * 错误

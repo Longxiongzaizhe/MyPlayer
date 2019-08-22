@@ -24,7 +24,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.common_lib.BaseConfig.BaseMultipleActivity;
+import com.example.commonlib.BaseConfig.BaseMultipleActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ import wj.com.myplayer.R;
 import wj.com.myplayer.TestPackage.TestFragment;
 import wj.com.myplayer.Utils.PermissionsUtiles;
 import wj.com.myplayer.Utils.SPUtils;
-import wj.com.myplayer.Utils.ToastUtil;
+import com.example.commonlib.Utils.ToastUtil;
 import wj.com.myplayer.View.Activity.MainMusic.MusicService;
 import wj.com.myplayer.View.Activity.navSetting.UserSettingActivity;
 import wj.com.myplayer.View.Fragment.main.FavoriteFragment;

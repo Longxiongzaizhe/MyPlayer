@@ -26,7 +26,7 @@
 
         <activity android:name=".View.Activity.ImageMultipleDisplayActivity" />
         <activity android:name=".View.Activity.navSetting.UserSettingActivity" />
-        <activity android:name="com.example.common_lib.BaseConfig.BaseActivity" />
+        <activity android:name="com.example.commonlib.BaseConfig.BaseActivity" />
         <activity android:name=".TestPackage.TestActivity" />
         <activity android:name=".View.MainActivity">
             <intent-filter>

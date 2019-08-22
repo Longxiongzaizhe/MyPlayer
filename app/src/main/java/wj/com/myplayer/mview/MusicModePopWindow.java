@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import wj.com.myplayer.Constant.MediaConstant;
 import wj.com.myplayer.Constant.SPConstant;
 import wj.com.myplayer.R;
-import wj.com.myplayer.Utils.DensityUtil;
+import com.example.commonlib.Utils.DensityUtil;
 import wj.com.myplayer.Utils.SPUtils;
 
 public class MusicModePopWindow extends BasePopWindow {

@@ -7,7 +7,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.common_lib.BaseConfig.BaseFragment;
+import com.example.commonlib.BaseConfig.BaseFragment;
 
 import wj.com.myplayer.Bean.MusicBean;
 import wj.com.myplayer.Config.MainApplication;

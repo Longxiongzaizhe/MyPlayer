@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.common_lib.BaseConfig.BaseFragment;
+import com.example.commonlib.BaseConfig.BaseFragment;
 
 import wj.com.myplayer.Constant.FlagConstant;
 import wj.com.myplayer.DaoDB.MediaDaoManager;
@@ -75,12 +75,15 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         mDownloadLay = (LinearLayout) view.findViewById(R.id.download_lay);
         mDownloadLay.setOnClickListener(this);
         mListAddIv = view.findViewById(R.id.main_list_add);
+        mListAddIv.setOnClickListener(this);
         mListEditIv = view.findViewById(R.id.main_list_edit);
+        mListEditIv.setOnClickListener(this);
         mListRv = view.findViewById(R.id.main_list_rv);
 
-        mMainLocalNum.setText(manager.getAllList().size() + "首");
-        mMainHistoryNum.setText(relManager.queryRecentList().size() + "首");
-        mMainFavouriteNum.setText(relManager.queryFavoriteList().size() + "首");
+//        mMainLocalNum.setText(manager.getAllList().size() + "首");
+        mMainLocalNum.setText(String.format(getString(R.string.music_num),manager.getAllList().size()));
+        mMainHistoryNum.setText(String.format(getString(R.string.music_num),relManager.queryRecentList().size()));
+        mMainFavouriteNum.setText(String.format(getString(R.string.music_num),relManager.queryFavoriteList().size()));
     }
 
     @Override
@@ -103,20 +106,19 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             case R.id.main_download_play:
                 break;
             case R.id.local_lay:
-
                 activity.setFragment(FlagConstant.FRAGMENT_LOCAL);
-//                Intent intent = new Intent(getContext(), LocalMusicActivity.class);
-//                startActivity(intent);
                 break;
             case R.id.history_lay:
                 activity.setFragment(FlagConstant.FRAGMENT_RECENT);
-//                Intent intent = new Intent(getContext(), HistoryActivity.class);
-//                startActivity(intent);
                 break;
             case R.id.favourite_lay:
                 activity.setFragment(FlagConstant.FRAGMENT_FAVORITE);
                 break;
             case R.id.download_lay:
+                break;
+            case R.id.main_list_add:
+                break;
+            case R.id.main_list_edit:
                 break;
         }
     }

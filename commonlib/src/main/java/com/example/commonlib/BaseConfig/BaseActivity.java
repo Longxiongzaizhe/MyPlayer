@@ -1,11 +1,11 @@
-package com.example.common_lib.BaseConfig;
+package com.example.commonlib.BaseConfig;
 
 import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.common_lib.R;
+import com.example.commonlib.R;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
