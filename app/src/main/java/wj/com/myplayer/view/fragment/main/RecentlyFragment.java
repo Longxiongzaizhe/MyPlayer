@@ -23,6 +23,7 @@ import wj.com.myplayer.daoDB.MediaEntity;
 import wj.com.myplayer.daoDB.MediaRelEntity;
 import wj.com.myplayer.daoDB.MediaRelManager;
 import wj.com.myplayer.R;
+import wj.com.myplayer.mview.AddToListDialog;
 import wj.com.myplayer.view.activity.MainMusic.MusicService;
 import wj.com.myplayer.view.adapter.MusicAdapter;
 import wj.com.myplayer.mview.MusicEditPopWindow;
@@ -138,7 +139,8 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
                     ToastUtil.show("取消收藏");
                     break;
                 case "添加到歌单":
-
+                    AddToListDialog addToListDialog = new AddToListDialog(getContext(),entity.getId());
+                    addToListDialog.show();
                     break;
             }
         });

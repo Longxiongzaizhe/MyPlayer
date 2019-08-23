@@ -29,6 +29,7 @@ import wj.com.myplayer.daoDB.MediaEntity;
 import wj.com.myplayer.daoDB.MediaRelEntity;
 import wj.com.myplayer.daoDB.MediaRelManager;
 import wj.com.myplayer.R;
+import wj.com.myplayer.mview.AddToListDialog;
 import wj.com.myplayer.utils.FileUtils;
 import wj.com.myplayer.utils.MediaUtils;
 import wj.com.myplayer.utils.SPUtils;
@@ -239,7 +240,8 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
                     ToastUtil.show("取消收藏");
                     break;
                 case "添加到歌单":
-
+                    AddToListDialog addToListDialog = new AddToListDialog(getContext(),list.get(position).getId());
+                    addToListDialog.show();
                     break;
             }
         });

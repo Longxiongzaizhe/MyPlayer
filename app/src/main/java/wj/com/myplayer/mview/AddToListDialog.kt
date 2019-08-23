@@ -38,7 +38,8 @@ class AddToListDialog(context:Context,var musicId: Long) : Dialog(context, R.sty
         super.onCreate(savedInstanceState)
         initView()
         list_add_rv.layoutManager = LinearLayoutManager(context)
-        list_add_rv.addItemDecoration(RecycleViewVerticalDivider(context,1,R.color.common_divider_line_color,DensityUtil.dp2px(15f),0,true))
+        list_add_rv.addItemDecoration(RecycleViewVerticalDivider(context,1,
+                context.resources.getColor(R.color.common_divider_line_color),DensityUtil.dp2px(15f),0,true))
         adapter = SimpleMusicListAdapter(data)
         adapter!!.setOnItemClickListener { adapter, view, position ->
             relManager.insert(MediaRelEntity(null,data.get(position).id,musicId))
