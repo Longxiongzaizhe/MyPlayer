@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import wj.com.myplayer.Bean.SimpleTextBean;
-import wj.com.myplayer.DaoDB.MediaRelManager;
+import wj.com.myplayer.bean.SimpleTextBean;
+import wj.com.myplayer.daoDB.MediaRelManager;
 import wj.com.myplayer.R;
-import com.example.commonlib.Utils.DensityUtil;
-import wj.com.myplayer.View.adapter.SimpleTextAdapter;
+import com.example.commonlib.utils.DensityUtil;
+import wj.com.myplayer.view.adapter.SimpleTextAdapter;
 
 public class MusicEditPopWindow extends BasePopWindow {
 

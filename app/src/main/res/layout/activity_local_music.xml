@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".View.Activity.MainMusic.LocalMusicActivity">
+    tools:context=".view.activity.MainMusic.LocalMusicActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/local_music_rv"
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/music_play_lay"
-        android:name="wj.com.myplayer.View.Fragment.PlayFragment"
+        android:name="wj.com.myplayer.view.fragment.PlayFragment"
         android:layout_width="match_parent"
         android:layout_height="72dp"/>
 </LinearLayout>

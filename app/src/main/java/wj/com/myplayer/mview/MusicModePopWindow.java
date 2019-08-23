@@ -5,11 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import wj.com.myplayer.Constant.MediaConstant;
-import wj.com.myplayer.Constant.SPConstant;
+import wj.com.myplayer.constant.MediaConstant;
+import wj.com.myplayer.constant.SPConstant;
 import wj.com.myplayer.R;
-import com.example.commonlib.Utils.DensityUtil;
-import wj.com.myplayer.Utils.SPUtils;
+import com.example.commonlib.utils.DensityUtil;
+import wj.com.myplayer.utils.SPUtils;
 
 public class MusicModePopWindow extends BasePopWindow {
 

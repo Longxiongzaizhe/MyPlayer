@@ -23,4 +23,26 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>   <!--用于说明文字 -->
 
+    <!--margin间距大小-->
+    <dimen name="common_margin_tiny_size">8dp</dimen>
+    <dimen name="common_margin_mini_size">10dp</dimen>
+    <dimen name="common_margin_small_size">12dp</dimen>
+    <dimen name="common_margin_normal_size">15dp</dimen>
+    <dimen name="common_margin_large_size">20dp</dimen>
+
+    <!--padding间距大小-->
+    <dimen name="common_padding_tiny_size">8dp</dimen>
+    <dimen name="common_padding_mini_size">10dp</dimen>
+    <dimen name="common_padding_small_size">12dp</dimen>
+    <dimen name="common_padding_normal_size">15dp</dimen>
+    <dimen name="common_padding_large_size">20dp</dimen>
+
+    <!--文字大小-->
+    <dimen name="common_title_big_size">23sp</dimen>
+    <dimen name="common_title_normal_size">18sp</dimen>
+    <dimen name="common_title_small_size">16sp</dimen>
+    <dimen name="common_text_big_size">16sp</dimen>
+    <dimen name="common_text_content_size">14sp</dimen>
+    <dimen name="common_text_annotation_size">12sp</dimen>
+
 </resources>

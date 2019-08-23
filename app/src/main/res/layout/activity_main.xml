@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".View.MainActivity">
+    tools:context=".view.MainActivity">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
                 />
             <fragment
                 android:id="@+id/music_play_lay"
-                android:name="wj.com.myplayer.View.Fragment.PlayFragment"
+                android:name="wj.com.myplayer.view.fragment.PlayFragment"
                 android:layout_gravity="bottom"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"/>

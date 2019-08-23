@@ -10,8 +10,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.example.commonlib.utils.DensityUtil;
+
 import wj.com.myplayer.R;
-import com.example.commonlib.Utils.DensityUtil;
 
 public class BaseDialog extends Dialog {
 
@@ -19,7 +20,7 @@ public class BaseDialog extends Dialog {
     private Context mContext;
     private TextView titleTv;
     private TextView infoTv;
-    private TextView confirmTv;
+    protected TextView confirmTv;
     private TextView cancelTv;
     public final static int NOMAL_DIALOG = 1;
     public final static int NO_TITLE_DIALOG = 2;
@@ -46,6 +47,8 @@ public class BaseDialog extends Dialog {
         cancelTv.setOnClickListener(v -> {
             if (mOnCancelListener != null) {
                 mOnCancelListener.onCancelListener();
+            }else {
+                dismiss();
             }
         });//默认监听器
         if (NOMAL_DIALOG == type){

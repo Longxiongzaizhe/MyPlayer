@@ -13,12 +13,12 @@
 
         <include layout="@layout/title_layout"/>
 
-        <com.example.commonlib.BaseConfig.MultipleStatusView
+        <com.example.commonlib.baseConfig.MultipleStatusView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/multiple_state_view">
 
-        </com.example.commonlib.BaseConfig.MultipleStatusView>
+        </com.example.commonlib.baseConfig.MultipleStatusView>
 
     </LinearLayout>
 </FrameLayout>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_gray"
     android:orientation="vertical"
-    tools:context=".View.Activity.navSetting.UserSettingActivity">
+    tools:context=".view.activity.navSetting.UserSettingActivity">
 
     <LinearLayout
         android:background="@color/white"

@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import wj.com.myplayer.R;
-import com.example.commonlib.Utils.DensityUtil;
+import com.example.commonlib.utils.DensityUtil;
 
 public class BaseImgDialog extends Dialog {
 
