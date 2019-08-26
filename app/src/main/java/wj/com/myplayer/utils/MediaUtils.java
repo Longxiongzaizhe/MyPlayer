@@ -21,10 +21,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import wj.com.myplayer.constant.MediaConstant;
-import wj.com.myplayer.daoDB.MediaDaoManager;
-import wj.com.myplayer.daoDB.MediaEntity;
 import wj.com.myplayer.R;
+import wj.com.myplayer.constant.MediaConstant;
+import wj.com.myplayer.daoDB.MediaEntity;
 
 public class MediaUtils {
 
@@ -378,36 +377,6 @@ public class MediaUtils {
         return candidate;
     }
 
-    public String[] getMusicList(String data){
-        return data.split(",");
-    }
-
-    public String getListString(String[] data){
-        StringBuffer sb = new StringBuffer();
-        for (String str : data){
-            sb.append(str);
-        }
-        return sb.toString();
-    }
-
-    public String insertMusic2List(String id,String data){
-        if (StringUtils.isEmpty(data)){
-            return id;
-        }else {
-            StringBuffer sb = new StringBuffer(data);
-            sb.append(",");
-            sb.append(id);
-            return sb.toString();
-        }
-    }
-
-    public List<MediaEntity> getMediaList(String[] datas){
-        List<MediaEntity> entityList = new ArrayList<>();
-        for (String data : datas){
-            entityList.add(MediaDaoManager.getInstance().query(Long.valueOf(data)));
-        }
-        return entityList;
-    }
     public static MediaConstant.MusicMode getMusicMode(String mode){
 
         if (StringUtils.isEmpty(mode)) return null;

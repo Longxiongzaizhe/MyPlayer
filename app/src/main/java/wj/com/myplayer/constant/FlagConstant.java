@@ -19,6 +19,9 @@ public class FlagConstant {
     public static final int FRAGMENT_RECENT = 0x03;
     public static final int FRAGMENT_FAVORITE = 0x04;
 
+    public static final int TAG_KEY = 0x1000;
+    public static final int TAG_KEY02 = 0x1001;
+
     public static final String BINDER = "service_binder";
 
 

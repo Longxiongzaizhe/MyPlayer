@@ -15,19 +15,19 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.commonlib.baseConfig.BaseMultipleActivity;
+import com.example.commonlib.utils.PhotoUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import wj.com.myplayer.R;
 import wj.com.myplayer.constant.FlagConstant;
 import wj.com.myplayer.constant.SPConstant;
-import wj.com.myplayer.R;
-import wj.com.myplayer.utils.FileUtils;
-import com.example.commonlib.utils.PhotoUtils;
-import wj.com.myplayer.utils.SPUtils;
 import wj.com.myplayer.mview.BaseEditDialog;
 import wj.com.myplayer.mview.IOSDialog;
+import wj.com.myplayer.utils.FileUtils;
+import wj.com.myplayer.utils.SPUtils;
 
 public class UserSettingActivity extends BaseMultipleActivity implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
 
@@ -190,7 +190,7 @@ public class UserSettingActivity extends BaseMultipleActivity implements View.On
         }
         Uri uri;
         if (Build.VERSION.SDK_INT >= 24) {
-            uri = FileProvider.getUriForFile(context, "com.hjl.android7.fileprovider", file);
+            uri = FileProvider.getUriForFile(context,"com.wj.myplayer.provider", file);
         } else {
             uri = Uri.fromFile(file);
         }

@@ -25,32 +25,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.commonlib.baseConfig.BaseMultipleActivity;
+import com.example.commonlib.utils.ToastUtil;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import wj.com.myplayer.R;
 import wj.com.myplayer.config.MainApplication;
 import wj.com.myplayer.constant.FlagConstant;
 import wj.com.myplayer.constant.SPConstant;
 import wj.com.myplayer.daoDB.MediaDaoManager;
 import wj.com.myplayer.daoDB.MediaRelEntity;
 import wj.com.myplayer.daoDB.MediaRelManager;
-import wj.com.myplayer.R;
+import wj.com.myplayer.mview.NoScrollViewPager;
 import wj.com.myplayer.testPackage.TestFragment;
 import wj.com.myplayer.utils.PermissionsUtiles;
 import wj.com.myplayer.utils.SPUtils;
-import com.example.commonlib.utils.ToastUtil;
 import wj.com.myplayer.view.activity.MainMusic.MusicService;
 import wj.com.myplayer.view.activity.navSetting.UserSettingActivity;
+import wj.com.myplayer.view.adapter.LazyFragmentPagerAdapter;
+import wj.com.myplayer.view.fragment.OneFragment;
+import wj.com.myplayer.view.fragment.PlayFragment;
+import wj.com.myplayer.view.fragment.local.AlbumsFragment;
 import wj.com.myplayer.view.fragment.main.FavoriteFragment;
 import wj.com.myplayer.view.fragment.main.LocalFragment;
 import wj.com.myplayer.view.fragment.main.MainFragment;
-import wj.com.myplayer.view.fragment.OneFragment;
-import wj.com.myplayer.view.fragment.PlayFragment;
 import wj.com.myplayer.view.fragment.main.RecentlyFragment;
-import wj.com.myplayer.view.adapter.LazyFragmentPagerAdapter;
-import wj.com.myplayer.mview.NoScrollViewPager;
 
 public class MainActivity extends BaseMultipleActivity implements View.OnClickListener {
 
@@ -79,6 +80,8 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private MainFragment mainFragment;
     private RecentlyFragment recentlyFragment;
     private FavoriteFragment favoriteFragment;
+
+    private AlbumsFragment albumsFragment;
 
     private MediaRelManager relManager = MediaRelManager.getInstance();
 
@@ -338,7 +341,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         switch (flag){
             case FlagConstant.FRAGMENT_LOCAL:
                 if (localFragment == null) localFragment = LocalFragment.newInstance(mBinder);
+               // if (albumsFragment == null) albumsFragment = AlbumsFragment.instance.getInstance(mBinder);
+
                 mFragments.set(0, localFragment);
+                //mFragments.set(1, albumsFragment);
                 myPagerAdapter.notifyDataSetChanged();
                 setTitle(FlagConstant.FRAGMENT_LOCAL);
                 break;

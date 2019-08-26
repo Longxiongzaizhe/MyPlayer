@@ -13,16 +13,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import wj.com.myplayer.R;
 import wj.com.myplayer.constant.MediaConstant;
 import wj.com.myplayer.constant.SPConstant;
 import wj.com.myplayer.daoDB.DaoMaster;
 import wj.com.myplayer.daoDB.DaoSession;
+import wj.com.myplayer.daoDB.MediaAuthorEntity;
+import wj.com.myplayer.daoDB.MediaAuthorManager;
 import wj.com.myplayer.daoDB.MediaDaoManager;
 import wj.com.myplayer.daoDB.MediaEntity;
 import wj.com.myplayer.daoDB.MediaListEntity;
 import wj.com.myplayer.daoDB.MediaListManager;
 import wj.com.myplayer.daoDB.MediaRelManager;
-import wj.com.myplayer.R;
 import wj.com.myplayer.utils.FileUtils;
 import wj.com.myplayer.utils.MediaUtils;
 import wj.com.myplayer.utils.SPUtils;
@@ -39,6 +41,7 @@ public class MainApplication extends BaseApplication {
     private MediaDaoManager mediaManager;
     private MediaListManager listManager;
     private MediaRelManager relManager;
+    private MediaAuthorManager authorManager;
 
 
     public static MainApplication get() {
@@ -103,12 +106,22 @@ public class MainApplication extends BaseApplication {
         listManager = MediaListManager.getInstance();
         mediaManager = MediaDaoManager.getInstance();
         relManager = MediaRelManager.getInstance();
+        authorManager = MediaAuthorManager.getInstance();
 
+        authorManager.deleteAll();
+        for (long id :mediaManager.getAllAlbums()){
+
+            String author = mediaManager.getAuthorByAlbumId(id);
+
+            MediaAuthorEntity entity = new MediaAuthorEntity(id,author,-1l);
+            authorManager.insert(entity);
+        }
 
         if (listManager.query(MediaConstant.FAVORITE) == null){
             listManager.insert(new MediaListEntity(MediaConstant.FAVORITE,"",""));
             List<MediaEntity> list = MediaUtils.getAllMediaList(this,"");
             mediaManager.insert(list);
+
         }
         if (listManager.query(MediaConstant.LATELY_LIST) == null){
             listManager.insert(new MediaListEntity(MediaConstant.LATELY_LIST,"",""));

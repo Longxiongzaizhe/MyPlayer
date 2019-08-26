@@ -2,6 +2,7 @@ package wj.com.myplayer.view.fragment.main;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.commonlib.baseConfig.BaseFragment;
 import com.example.commonlib.mview.BaseTipDialog;
@@ -20,26 +22,28 @@ import com.example.commonlib.utils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import wj.com.myplayer.R;
 import wj.com.myplayer.config.MainApplication;
 import wj.com.myplayer.constant.FlagConstant;
 import wj.com.myplayer.constant.MediaConstant;
 import wj.com.myplayer.constant.SPConstant;
+import wj.com.myplayer.daoDB.MediaAuthorEntity;
+import wj.com.myplayer.daoDB.MediaAuthorManager;
 import wj.com.myplayer.daoDB.MediaDaoManager;
 import wj.com.myplayer.daoDB.MediaEntity;
 import wj.com.myplayer.daoDB.MediaRelEntity;
 import wj.com.myplayer.daoDB.MediaRelManager;
-import wj.com.myplayer.R;
 import wj.com.myplayer.mview.AddToListDialog;
+import wj.com.myplayer.mview.ClearEditText;
+import wj.com.myplayer.mview.MusicEditPopWindow;
+import wj.com.myplayer.mview.MusicModePopWindow;
 import wj.com.myplayer.utils.FileUtils;
 import wj.com.myplayer.utils.MediaUtils;
 import wj.com.myplayer.utils.SPUtils;
 import wj.com.myplayer.view.activity.MainMusic.MusicService;
 import wj.com.myplayer.view.adapter.MusicAdapter;
-import wj.com.myplayer.mview.ClearEditText;
-import wj.com.myplayer.mview.MusicEditPopWindow;
-import wj.com.myplayer.mview.MusicModePopWindow;
 
-public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener, View.OnClickListener {
+public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private RecyclerView mLocalMusicRv;
     private TextView mMusicModeTv;
@@ -56,6 +60,8 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     private MediaConstant.MusicMode musicMode;
     private MusicModePopWindow popWindow;
     private MediaDaoManager manager = MainApplication.get().getMediaManager();
+    private MediaAuthorManager authorManager = MediaAuthorManager.getInstance();
+    private int pageIndex = 1;
 
 
 
@@ -135,7 +141,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 
     @Override
     protected void initData() {
-        datalist = MediaDaoManager.getInstance().getAllList();
+        datalist = MediaDaoManager.getInstance().getAllList(10,pageIndex++);
         mLocalMusicRv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MusicAdapter(datalist);
         mLocalMusicRv.setAdapter(adapter);
@@ -143,6 +149,20 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
         adapter.setOnItemClickListener(this);
         adapter.setOnItemChildClickListener(this);
         mBinder = (MusicService.MusicBinder) getArguments().getSerializable(FlagConstant.BINDER);
+        adapter.setOnLoadMoreListener(this,mLocalMusicRv);
+        mLocalMusicRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (RecyclerView.SCROLL_STATE_IDLE == newState){
+                    Glide.with(getContext()).resumeRequests();
+                }else {
+                    Glide.with(getContext()).pauseAllRequests();
+                }
+
+            }
+        });
     }
 
     public void setModeTv(MediaConstant.MusicMode mode){
@@ -247,6 +267,15 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
             adapter.notifyDataSetChanged();
             mMultipleStatusView.showContent();
             ToastUtil.showSingleToast("已刷新");
+            authorManager.deleteAll();
+            for (long id :manager.getAllAlbums()){
+
+                String author = manager.getAuthorByAlbumId(id);
+//            String album = mediaManager.getAlbumByAlbumId(id);
+
+                MediaAuthorEntity entity = new MediaAuthorEntity(id,author,-1l);
+                authorManager.insert(entity);
+            }
         }else if (v == mSearchIv){
             mSearchIv.setVisibility(View.GONE);
             mRefreshIv.setVisibility(View.GONE);
@@ -258,5 +287,26 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
             mSearchEt.setVisibility(View.GONE);
             mCancelTv.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        List<MediaEntity> list = manager.getAllList(10,pageIndex++);
+
+        datalist.addAll(list);
+        adapter.notifyDataSetChanged();
+        if (list.size() < 10){
+            adapter.loadMoreEnd();
+        }else {
+            adapter.loadMoreComplete();
+        }
+
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        pageIndex = 1;
     }
 }

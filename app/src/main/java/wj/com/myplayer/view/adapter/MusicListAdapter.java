@@ -2,16 +2,18 @@ package wj.com.myplayer.view.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.commonlib.utils.StringUtils;
 
 import java.util.List;
 
+import wj.com.myplayer.R;
 import wj.com.myplayer.daoDB.MediaListEntity;
 import wj.com.myplayer.daoDB.MediaRelManager;
-import wj.com.myplayer.R;
 
 public class MusicListAdapter extends BaseQuickAdapter<MediaListEntity, BaseViewHolder> {
 
@@ -27,7 +29,7 @@ public class MusicListAdapter extends BaseQuickAdapter<MediaListEntity, BaseView
         helper.setText(R.id.list_count_tv,relManager.queryMediaList(item.id).size() + "首");
         if (!StringUtils.isEmpty(item.albums)){
             Bitmap bitmap = BitmapFactory.decodeFile(item.albums);
-            helper.setImageBitmap(R.id.list_album_iv,bitmap);
+            Glide.with(mContext).load(bitmap).into((ImageView) helper.getView(R.id.list_album_iv));
         }
 
     }

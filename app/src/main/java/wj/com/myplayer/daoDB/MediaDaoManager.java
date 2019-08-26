@@ -1,6 +1,9 @@
 package wj.com.myplayer.daoDB;
 
 import android.database.Cursor;
+import android.graphics.Bitmap;
+
+import com.example.commonlib.utils.StringUtils;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -8,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.config.MainApplication;
+import wj.com.myplayer.utils.MediaUtils;
 
 public class MediaDaoManager {
 
@@ -53,6 +57,10 @@ public class MediaDaoManager {
         return dao.loadAll();
     }
 
+    public List<MediaEntity> getAllList(int pageSize,int pageIndex){
+        return dao.queryBuilder().offset(pageIndex*pageSize).limit(pageIndex).orderAsc(MediaEntityDao.Properties.Id).list();
+    }
+
     public List<MediaEntity> query(String name){
         return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Title.eq(name)).list();
     }
@@ -71,6 +79,9 @@ public class MediaDaoManager {
 //        return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Id.eq(id)).list();
 //    }
 
+    /**
+     * 获取所有的作者列表
+     */
     public List<String> getAllAuthor(){
 
         List<String> list = new ArrayList<>();
@@ -78,9 +89,50 @@ public class MediaDaoManager {
         while (cursor.moveToNext()){
             list.add(cursor.getString(cursor.getColumnIndex("ARTIST")));
         }
+        cursor.close();
+
 
         return list;
     }
+
+    /**
+     * 获取所有的专辑
+     */
+    public List<Long> getAllAlbums(){
+
+        List<Long> list = new ArrayList<>();
+        Cursor cursor = MainApplication.get().getDaoSession().getDatabase().rawQuery("SELECT DISTINCT ALBUM_ID FROM MEDIA_ENTITY",null);
+        while (cursor.moveToNext()){
+            list.add(cursor.getLong( cursor.getColumnIndex("ALBUM_ID")));
+        }
+        cursor.close();
+        return list;
+    }
+
+    public String getAuthorByAlbumId(long albumId){
+
+        String author = "";
+        for (MediaEntity entity :dao.queryBuilder().where(MediaEntityDao.Properties.Album_id.eq(albumId)).list())
+            if (!StringUtils.isEmpty(entity.artist)){
+                author = entity.artist;
+            }
+        return author;
+    }
+
+    public long getAlbumByAlbumId(long albumId) {
+        long albums = -1;
+        for (MediaEntity entity : dao.queryBuilder().where(MediaEntityDao.Properties.Album_id.eq(albumId)).list()){
+
+            Bitmap bitmap = MediaUtils.getArtwork(MainApplication.get().getApplicationContext().getContentResolver(),Integer.valueOf(entity.id.toString()),
+                    (int)entity.album_id,true,true);
+            if (bitmap != null ){
+                albums = entity.id;
+            }
+        }
+        return albums;
+    }
+
+
 
     public MediaEntity query(long id){
         return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Id.eq(id)).unique();
