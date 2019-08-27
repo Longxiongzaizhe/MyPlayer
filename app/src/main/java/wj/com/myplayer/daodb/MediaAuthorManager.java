@@ -1,4 +1,4 @@
-package wj.com.myplayer.daoDB;
+package wj.com.myplayer.daodb;
 
 import java.util.List;
 

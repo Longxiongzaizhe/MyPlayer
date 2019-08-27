@@ -6,7 +6,7 @@ apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion build_version.target_sdk
     defaultConfig {
-        applicationId "com.wj.myplayer"
+        applicationId "wj.com.myplayer"
         minSdkVersion build_version.min_sdk
         targetSdkVersion build_version.target_sdk
         versionCode 2

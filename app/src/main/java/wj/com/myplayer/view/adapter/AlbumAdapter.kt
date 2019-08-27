@@ -7,8 +7,8 @@ import com.chad.library.adapter.base.BaseViewHolder
 import wj.com.myplayer.R
 import wj.com.myplayer.config.MainApplication
 import wj.com.myplayer.constant.FlagConstant
-import wj.com.myplayer.daoDB.MediaAuthorEntity
-import wj.com.myplayer.daoDB.MediaDaoManager
+import wj.com.myplayer.daodb.MediaAuthorEntity
+import wj.com.myplayer.daodb.MediaDaoManager
 import wj.com.myplayer.utils.MediaUtils
 
 class AlbumAdapter(data :List<MediaAuthorEntity>): BaseQuickAdapter<MediaAuthorEntity, BaseViewHolder>(R.layout.item_album,data) {

@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.constant.FlagConstant;
-import wj.com.myplayer.daoDB.MediaDaoManager;
-import wj.com.myplayer.daoDB.MediaListEntity;
-import wj.com.myplayer.daoDB.MediaListManager;
-import wj.com.myplayer.daoDB.MediaRelManager;
+import wj.com.myplayer.daodb.MediaDaoManager;
+import wj.com.myplayer.daodb.MediaListEntity;
+import wj.com.myplayer.daodb.MediaListManager;
+import wj.com.myplayer.daodb.MediaRelManager;
 import wj.com.myplayer.R;
 import wj.com.myplayer.view.MainActivity;
 import wj.com.myplayer.view.adapter.MusicListAdapter;

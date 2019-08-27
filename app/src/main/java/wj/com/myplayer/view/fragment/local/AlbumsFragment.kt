@@ -7,8 +7,8 @@ import com.example.commonlib.baseConfig.BaseFragment
 import kotlinx.android.synthetic.main.fragment_album.*
 import wj.com.myplayer.R
 import wj.com.myplayer.constant.FlagConstant
-import wj.com.myplayer.daoDB.MediaAuthorEntity
-import wj.com.myplayer.daoDB.MediaAuthorManager
+import wj.com.myplayer.daodb.MediaAuthorEntity
+import wj.com.myplayer.daodb.MediaAuthorManager
 import wj.com.myplayer.view.activity.MainMusic.MusicService
 import wj.com.myplayer.view.adapter.AlbumAdapter
 

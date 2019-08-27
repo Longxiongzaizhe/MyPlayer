@@ -14,7 +14,7 @@ import java.util.Random;
 
 import wj.com.myplayer.constant.MediaConstant;
 import wj.com.myplayer.constant.SPConstant;
-import wj.com.myplayer.daoDB.MediaEntity;
+import wj.com.myplayer.daodb.MediaEntity;
 import wj.com.myplayer.utils.MediaUtils;
 import wj.com.myplayer.utils.SPUtils;
 

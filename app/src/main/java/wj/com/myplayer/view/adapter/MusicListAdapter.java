@@ -12,8 +12,8 @@ import com.example.commonlib.utils.StringUtils;
 import java.util.List;
 
 import wj.com.myplayer.R;
-import wj.com.myplayer.daoDB.MediaListEntity;
-import wj.com.myplayer.daoDB.MediaRelManager;
+import wj.com.myplayer.daodb.MediaListEntity;
+import wj.com.myplayer.daodb.MediaRelManager;
 
 public class MusicListAdapter extends BaseQuickAdapter<MediaListEntity, BaseViewHolder> {
 

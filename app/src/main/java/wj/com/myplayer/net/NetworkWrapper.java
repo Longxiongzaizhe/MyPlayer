@@ -1,10 +1,14 @@
-package com.example.commonlib.network;
+package wj.com.myplayer.net;
+
+import com.example.commonlib.network.HttpHandler;
+import com.example.commonlib.network.HttpUtils;
+import com.example.commonlib.network.RequestParams;
 
 import java.io.File;
 
 public class NetworkWrapper {
 
-    public static void face(String id,HttpHandler httpHandler){
+    public static void face(String id, HttpHandler httpHandler){
         String path = "http://seven.xy-mind.com:8006/ssh/HWAI/is_collect_face";
         RequestParams params = new RequestParams();
         params.add("identity",id);

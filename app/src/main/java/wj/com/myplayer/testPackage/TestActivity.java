@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.commonlib.network.HttpHandler;
-import com.example.commonlib.network.NetworkWrapper;
+import wj.com.myplayer.net.NetworkWrapper;
 import wj.com.myplayer.R;
 
 public class TestActivity extends AppCompatActivity implements View.OnClickListener {

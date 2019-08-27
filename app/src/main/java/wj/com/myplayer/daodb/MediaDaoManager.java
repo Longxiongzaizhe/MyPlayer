@@ -1,4 +1,4 @@
-package wj.com.myplayer.daoDB;
+package wj.com.myplayer.daodb;
 
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -16,7 +16,7 @@ import wj.com.myplayer.utils.MediaUtils;
 public class MediaDaoManager {
 
     private static MediaDaoManager manager;
-    private MediaEntityDao dao;
+    private wj.com.myplayer.daoDB.MediaEntityDao dao;
 
     private MediaDaoManager(){
         dao = MainApplication.get().getDaoSession().getMediaEntityDao();
@@ -58,19 +58,19 @@ public class MediaDaoManager {
     }
 
     public List<MediaEntity> getAllList(int pageSize,int pageIndex){
-        return dao.queryBuilder().offset(pageIndex*pageSize).limit(pageIndex).orderAsc(MediaEntityDao.Properties.Id).list();
+        return dao.queryBuilder().offset((pageIndex -1)*pageSize).limit(pageSize).orderAsc(wj.com.myplayer.daoDB.MediaEntityDao.Properties.Id).where(wj.com.myplayer.daoDB.MediaEntityDao.Properties.Id.notEq(-1)).list();
     }
 
     public List<MediaEntity> query(String name){
-        return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Title.eq(name)).list();
+        return dao.queryBuilder().orderAsc(wj.com.myplayer.daoDB.MediaEntityDao.Properties.Id).where(wj.com.myplayer.daoDB.MediaEntityDao.Properties.Title.eq(name)).list();
     }
 
     public List<MediaEntity> searchByKey(String key){
 
         QueryBuilder qb = dao.queryBuilder();
-        List<MediaEntity> list =  qb.orderAsc(MediaEntityDao.Properties.Id).where(qb.or(MediaEntityDao.Properties.Title.like("%"+key + "%"),
-                MediaEntityDao.Properties.Artist.like("%"+key + "%"),
-                MediaEntityDao.Properties.Singer.like("%"+key + "%")))
+        List<MediaEntity> list =  qb.orderAsc(wj.com.myplayer.daoDB.MediaEntityDao.Properties.Id).where(qb.or(wj.com.myplayer.daoDB.MediaEntityDao.Properties.Title.like("%"+key + "%"),
+                wj.com.myplayer.daoDB.MediaEntityDao.Properties.Artist.like("%"+key + "%"),
+                wj.com.myplayer.daoDB.MediaEntityDao.Properties.Singer.like("%"+key + "%")))
                 .list();
         return list;
     }
@@ -112,7 +112,7 @@ public class MediaDaoManager {
     public String getAuthorByAlbumId(long albumId){
 
         String author = "";
-        for (MediaEntity entity :dao.queryBuilder().where(MediaEntityDao.Properties.Album_id.eq(albumId)).list())
+        for (MediaEntity entity :dao.queryBuilder().where(wj.com.myplayer.daoDB.MediaEntityDao.Properties.Album_id.eq(albumId)).list())
             if (!StringUtils.isEmpty(entity.artist)){
                 author = entity.artist;
             }
@@ -121,7 +121,7 @@ public class MediaDaoManager {
 
     public long getAlbumByAlbumId(long albumId) {
         long albums = -1;
-        for (MediaEntity entity : dao.queryBuilder().where(MediaEntityDao.Properties.Album_id.eq(albumId)).list()){
+        for (MediaEntity entity : dao.queryBuilder().where(wj.com.myplayer.daoDB.MediaEntityDao.Properties.Album_id.eq(albumId)).list()){
 
             Bitmap bitmap = MediaUtils.getArtwork(MainApplication.get().getApplicationContext().getContentResolver(),Integer.valueOf(entity.id.toString()),
                     (int)entity.album_id,true,true);
@@ -135,11 +135,11 @@ public class MediaDaoManager {
 
 
     public MediaEntity query(long id){
-        return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Id.eq(id)).unique();
+        return dao.queryBuilder().orderAsc(wj.com.myplayer.daoDB.MediaEntityDao.Properties.Id).where(wj.com.myplayer.daoDB.MediaEntityDao.Properties.Id.eq(id)).unique();
     }
 
     public List<MediaEntity> queryByFileName(String fileName){
-        return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Display_name.eq(fileName)).list();
+        return dao.queryBuilder().orderAsc(wj.com.myplayer.daoDB.MediaEntityDao.Properties.Id).where(wj.com.myplayer.daoDB.MediaEntityDao.Properties.Display_name.eq(fileName)).list();
     }
 
 

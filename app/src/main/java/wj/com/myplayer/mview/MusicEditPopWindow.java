@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.bean.SimpleTextBean;
-import wj.com.myplayer.daoDB.MediaRelManager;
+import wj.com.myplayer.daodb.MediaRelManager;
 import wj.com.myplayer.R;
 import com.example.commonlib.utils.DensityUtil;
 import wj.com.myplayer.view.adapter.SimpleTextAdapter;

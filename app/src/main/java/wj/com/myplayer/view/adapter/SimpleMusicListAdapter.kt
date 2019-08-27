@@ -3,7 +3,7 @@ package wj.com.myplayer.view.adapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import wj.com.myplayer.R
-import wj.com.myplayer.daoDB.MediaListEntity
+import wj.com.myplayer.daodb.MediaListEntity
 
 class SimpleMusicListAdapter(data: List<MediaListEntity>?) : BaseQuickAdapter<MediaListEntity, BaseViewHolder>(R.layout.item_list_add,data) {
 

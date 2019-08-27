@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.List;
 
 import wj.com.myplayer.config.MainApplication;
-import wj.com.myplayer.daoDB.MediaEntity;
+import wj.com.myplayer.daodb.MediaEntity;
 import wj.com.myplayer.R;
 import wj.com.myplayer.utils.MediaUtils;
 

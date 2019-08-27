@@ -1,4 +1,4 @@
-package wj.com.myplayer.daoDB;
+package wj.com.myplayer.daodb;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;

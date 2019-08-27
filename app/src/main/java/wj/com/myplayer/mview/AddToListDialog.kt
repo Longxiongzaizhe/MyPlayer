@@ -6,18 +6,16 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.example.commonlib.utils.DensityUtil
 import com.example.commonlib.utils.RecycleViewVerticalDivider
 import com.example.commonlib.utils.ToastUtil
 import kotlinx.android.synthetic.main.layout_add_to_list.*
 import wj.com.myplayer.R
-import wj.com.myplayer.daoDB.MediaListEntity
-import wj.com.myplayer.daoDB.MediaListManager
-import wj.com.myplayer.daoDB.MediaRelEntity
-import wj.com.myplayer.daoDB.MediaRelManager
+import wj.com.myplayer.daodb.MediaListEntity
+import wj.com.myplayer.daodb.MediaListManager
+import wj.com.myplayer.daodb.MediaRelEntity
+import wj.com.myplayer.daodb.MediaRelManager
 import wj.com.myplayer.view.adapter.SimpleMusicListAdapter
 
 class AddToListDialog(context:Context,var musicId: Long) : Dialog(context, R.style.BaseDialogStyle) {

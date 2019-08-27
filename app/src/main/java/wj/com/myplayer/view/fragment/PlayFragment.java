@@ -11,7 +11,7 @@ import com.example.commonlib.baseConfig.BaseFragment;
 
 import wj.com.myplayer.bean.MusicBean;
 import wj.com.myplayer.config.MainApplication;
-import wj.com.myplayer.daoDB.MediaEntity;
+import wj.com.myplayer.daodb.MediaEntity;
 import wj.com.myplayer.R;
 import wj.com.myplayer.utils.MediaUtils;
 import wj.com.myplayer.view.activity.MainMusic.MusicInterface;

@@ -1,6 +1,6 @@
 package wj.com.myplayer.view.activity.MainMusic;
 
-import wj.com.myplayer.daoDB.MediaEntity;
+import wj.com.myplayer.daodb.MediaEntity;
 
 public interface MusicInterface {
 
