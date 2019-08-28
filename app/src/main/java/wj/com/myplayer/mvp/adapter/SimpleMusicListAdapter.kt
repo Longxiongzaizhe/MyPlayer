@@ -1,4 +1,4 @@
-package wj.com.myplayer.view.adapter
+package wj.com.myplayer.mvp.adapter
 
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder

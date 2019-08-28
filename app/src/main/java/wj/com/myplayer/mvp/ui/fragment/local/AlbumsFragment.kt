@@ -1,4 +1,4 @@
-package wj.com.myplayer.view.fragment.local
+package wj.com.myplayer.mvp.ui.fragment.local
 
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
@@ -9,8 +9,8 @@ import wj.com.myplayer.R
 import wj.com.myplayer.constant.FlagConstant
 import wj.com.myplayer.daodb.MediaAuthorEntity
 import wj.com.myplayer.daodb.MediaAuthorManager
-import wj.com.myplayer.view.activity.MainMusic.MusicService
-import wj.com.myplayer.view.adapter.AlbumAdapter
+import wj.com.myplayer.mvp.ui.activity.MainMusic.MusicService
+import wj.com.myplayer.mvp.adapter.AlbumAdapter
 
 class AlbumsFragment : BaseFragment() {
 

@@ -19,15 +19,15 @@
         android:theme="@style/AppTheme">
 
         <service
-            android:name=".view.activity.MainMusic.MusicService"
+            android:name=".mvp.ui.activity.MainMusic.MusicService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".view.activity.ImageMultipleDisplayActivity" />
-        <activity android:name=".view.activity.navSetting.UserSettingActivity" />
+        <activity android:name=".mvp.ui.activity.ImageMultipleDisplayActivity" />
+        <activity android:name=".mvp.ui.activity.navSetting.UserSettingActivity" />
         <activity android:name="com.example.commonlib.baseConfig.BaseActivity" />
         <activity android:name=".testPackage.TestActivity" />
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".mvp.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

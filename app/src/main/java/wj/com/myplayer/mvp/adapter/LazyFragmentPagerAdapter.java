@@ -1,4 +1,4 @@
-package wj.com.myplayer.view.adapter;
+package wj.com.myplayer.mvp.adapter;
 
 
 import android.support.annotation.NonNull;

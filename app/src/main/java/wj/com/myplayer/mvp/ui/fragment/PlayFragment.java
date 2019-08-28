@@ -1,4 +1,4 @@
-package wj.com.myplayer.view.fragment;
+package wj.com.myplayer.mvp.ui.fragment;
 
 import android.view.View;
 import android.view.animation.Animation;
@@ -7,15 +7,14 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.commonlib.baseConfig.BaseFragment;
 
-import wj.com.myplayer.bean.MusicBean;
-import wj.com.myplayer.config.MainApplication;
-import wj.com.myplayer.daodb.MediaEntity;
 import wj.com.myplayer.R;
-import wj.com.myplayer.utils.MediaUtils;
-import wj.com.myplayer.view.activity.MainMusic.MusicInterface;
-import wj.com.myplayer.view.activity.MainMusic.MusicService;
+import wj.com.myplayer.bean.MusicBean;
+import wj.com.myplayer.daodb.MediaEntity;
+import wj.com.myplayer.mvp.ui.activity.MainMusic.MusicInterface;
+import wj.com.myplayer.mvp.ui.activity.MainMusic.MusicService;
 
 public class PlayFragment extends BaseFragment implements View.OnClickListener, MusicInterface.OnMediaChangeListener {
 
@@ -134,8 +133,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     public void initMusicData(MediaEntity entity) {
-        mMusicAblumsIv.setImageBitmap(MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
-                entity.getId(), entity.getAlbum_id(), true, true));
+        Glide.with(this).load(entity.coverUrl).into(mMusicPlayIv);
         mMusicNameTv.setText(entity.title);
         mMusicAuthorTv.setText(entity.getArtist());
         currentEntity = entity;
@@ -147,10 +145,4 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         }
     }
 
-    public void initMusicData(MusicBean entity) {
-        mMusicAblumsIv.setImageBitmap(MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
-                entity.getId(), entity.getAlbum_id(), true, true));
-        mMusicNameTv.setText(entity.title);
-        mMusicAuthorTv.setText(entity.getArtist());
-    }
 }

@@ -1,4 +1,4 @@
-package wj.com.myplayer.view.activity.MainMusic;
+package wj.com.myplayer.mvp.ui.activity.MainMusic;
 
 import wj.com.myplayer.daodb.MediaEntity;
 

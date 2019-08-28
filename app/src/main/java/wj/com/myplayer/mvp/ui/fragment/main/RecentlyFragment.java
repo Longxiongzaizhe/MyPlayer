@@ -1,4 +1,4 @@
-package wj.com.myplayer.view.fragment.main;
+package wj.com.myplayer.mvp.ui.fragment.main;
 
 
 import android.os.Bundle;
@@ -24,8 +24,8 @@ import wj.com.myplayer.daodb.MediaRelEntity;
 import wj.com.myplayer.daodb.MediaRelManager;
 import wj.com.myplayer.R;
 import wj.com.myplayer.mview.AddToListDialog;
-import wj.com.myplayer.view.activity.MainMusic.MusicService;
-import wj.com.myplayer.view.adapter.MusicAdapter;
+import wj.com.myplayer.mvp.ui.activity.MainMusic.MusicService;
+import wj.com.myplayer.mvp.adapter.MusicAdapter;
 import wj.com.myplayer.mview.MusicEditPopWindow;
 
 public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {

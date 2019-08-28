@@ -1,22 +1,13 @@
-package wj.com.myplayer.view.adapter;
+package wj.com.myplayer.mvp.adapter;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.example.commonlib.network.HttpHandler;
-import com.example.commonlib.utils.StringUtils;
 
 import java.util.List;
 
 import wj.com.myplayer.R;
 import wj.com.myplayer.daodb.MediaListEntity;
 import wj.com.myplayer.daodb.MediaRelManager;
-import wj.com.myplayer.net.DoubanNetworkWrapper;
-import wj.com.myplayer.net.bean.douban.MusicSearchBean;
 
 public class MusicListAdapter extends BaseQuickAdapter<MediaListEntity, BaseViewHolder> {
 

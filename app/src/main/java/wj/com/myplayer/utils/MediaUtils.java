@@ -11,7 +11,10 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.example.commonlib.network.HttpHandler;
 import com.example.commonlib.utils.StringUtils;
 
 import java.io.FileDescriptor;
@@ -22,8 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wj.com.myplayer.R;
+import wj.com.myplayer.config.MainApplication;
 import wj.com.myplayer.constant.MediaConstant;
 import wj.com.myplayer.daodb.MediaEntity;
+import wj.com.myplayer.net.DoubanNetworkWrapper;
+import wj.com.myplayer.net.bean.douban.MusicSearchBean;
 
 public class MediaUtils {
 
@@ -391,6 +397,49 @@ public class MediaUtils {
         }
 
         return musicMode;
+    }
+
+    public static void setMusicAlbum(Context context, MediaEntity entity, ImageView imageView){
+        DoubanNetworkWrapper.searchMusic(entity.getTitle(), "", "", "10", new HttpHandler<MusicSearchBean>() {
+            @Override
+            public void onSuccess(MusicSearchBean data) {
+                if (data.getMusics().size() == 0) return;
+                String url = data.getMusics().get(0).getImage();
+                LogUtils.i("searchMusic","title is "+entity.getTitle() +" url is: " + url);
+                Glide.with(context).load(data.getMusics().get(0).getImage()).into(imageView);
+                entity.setCoverUrl(url);
+                MainApplication.get().getMediaManager().update(entity);
+
+            }
+            @Override
+            public void onFailure(String message,String response) {
+                Bitmap bitmap = MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
+                        entity.getId(), entity.getAlbum_id(), true, true);
+                Glide.with(context).load(bitmap).into(imageView);
+            }
+        });
+    }
+
+    public static void initMusicAlbum(int pageSize,int pageIndex){
+        List<MediaEntity> list = MainApplication.get().getMediaManager().getAllList(pageSize,pageIndex);
+        for (MediaEntity entity : list){
+            if (StringUtils.isEmpty(entity.coverUrl)){
+                DoubanNetworkWrapper.searchMusic(entity.getTitle(), "", "", "10", new HttpHandler<MusicSearchBean>() {
+                    @Override
+                    public void onSuccess(MusicSearchBean data) {
+                        if (data.getMusics().size() == 0) return;
+                        String url = data.getMusics().get(0).getImage();
+                        entity.setCoverUrl(url);
+                        MainApplication.get().getMediaManager().update(entity);
+                    }
+
+                    @Override
+                    public void onFailure(String message, String response) {
+                        Log.e("initMusicAlbum",message);
+                    }
+                });
+            }
+        }
     }
 
 }

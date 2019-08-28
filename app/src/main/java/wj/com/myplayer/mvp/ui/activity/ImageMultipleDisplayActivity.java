@@ -1,4 +1,4 @@
-package wj.com.myplayer.view.activity;
+package wj.com.myplayer.mvp.ui.activity;
 
 
 import android.net.Uri;
@@ -18,7 +18,7 @@ import wj.com.myplayer.constant.FlagConstant;
 import wj.com.myplayer.R;
 import com.example.commonlib.utils.StringUtils;
 import com.example.commonlib.utils.ToastUtil;
-import wj.com.myplayer.view.adapter.LazyFragmentPagerAdapter;
+import wj.com.myplayer.mvp.adapter.LazyFragmentPagerAdapter;
 
 public class ImageMultipleDisplayActivity extends BaseMultipleActivity implements View.OnClickListener {
 

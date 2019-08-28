@@ -1,4 +1,4 @@
-package wj.com.myplayer.view.fragment.main;
+package wj.com.myplayer.mvp.ui.fragment.main;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,28 +20,30 @@ import com.example.commonlib.utils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import wj.com.myplayer.R;
 import wj.com.myplayer.config.MainApplication;
 import wj.com.myplayer.constant.FlagConstant;
 import wj.com.myplayer.constant.MediaConstant;
 import wj.com.myplayer.constant.SPConstant;
+import wj.com.myplayer.daodb.MediaAuthorEntity;
+import wj.com.myplayer.daodb.MediaAuthorManager;
 import wj.com.myplayer.daodb.MediaDaoManager;
 import wj.com.myplayer.daodb.MediaEntity;
 import wj.com.myplayer.daodb.MediaRelEntity;
 import wj.com.myplayer.daodb.MediaRelManager;
-import wj.com.myplayer.R;
 import wj.com.myplayer.mview.AddToListDialog;
-import wj.com.myplayer.utils.FileUtils;
-import wj.com.myplayer.utils.MediaUtils;
-import wj.com.myplayer.utils.SPUtils;
-import wj.com.myplayer.view.activity.MainMusic.MusicService;
-import wj.com.myplayer.view.adapter.MusicAdapter;
 import wj.com.myplayer.mview.ClearEditText;
 import wj.com.myplayer.mview.MusicEditPopWindow;
 import wj.com.myplayer.mview.MusicModePopWindow;
+import wj.com.myplayer.utils.FileUtils;
+import wj.com.myplayer.utils.MediaUtils;
+import wj.com.myplayer.utils.SPUtils;
+import wj.com.myplayer.mvp.ui.activity.MainMusic.MusicService;
+import wj.com.myplayer.mvp.adapter.MusicAdapter;
 
-public class FavoriteFragment extends BaseFragment implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
+public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
-    private RecyclerView mFavorMusicRv;
+    private RecyclerView mLocalMusicRv;
     private TextView mMusicModeTv;
     private TextView mCancelTv;
     private ImageView mSearchIv;
@@ -49,7 +51,6 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
     private ClearEditText mSearchEt;
 
     private List<MediaEntity> datalist;
-    private List<MediaRelEntity> relDataList;
     private List<MediaEntity> searchResultList = new ArrayList<>();
     private MusicAdapter adapter;
     private MusicService.MusicBinder mBinder;
@@ -57,34 +58,38 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
     private MediaConstant.MusicMode musicMode;
     private MusicModePopWindow popWindow;
     private MediaDaoManager manager = MainApplication.get().getMediaManager();
+    private MediaAuthorManager authorManager = MediaAuthorManager.getInstance();
+    private int pageIndex = 1;
 
-    public static FavoriteFragment newInstance(MusicService.MusicBinder mBinder){
+
+
+    public static LocalFragment newInstance(MusicService.MusicBinder mBinder){
         Bundle bundle = new Bundle();
         bundle.putSerializable(FlagConstant.BINDER,mBinder);
         return newInstance(bundle);
     }
 
-    public static FavoriteFragment newInstance(Bundle bundle){
+    public static LocalFragment newInstance(Bundle bundle){
 
-        FavoriteFragment favoriteFragment = new FavoriteFragment();
-        favoriteFragment.setArguments(bundle);
+        LocalFragment localFragment = new LocalFragment();
+        localFragment.setArguments(bundle);
 
-        return favoriteFragment;
+        return localFragment;
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_favorite;
+        return R.layout.fragment_local_music;
     }
 
     @Override
     protected void initView(View view) {
-        mFavorMusicRv = (RecyclerView)view.findViewById(R.id.favorite_music_rv);
+        mLocalMusicRv = (RecyclerView)view.findViewById(R.id.local_music_rv);
         mMusicModeTv = view.findViewById(R.id.music_mode_tv);
-        mSearchIv = view.findViewById(R.id.favorite_search_iv);
-        mRefreshIv = view.findViewById(R.id.favorite_refresh_iv);
-        mSearchEt = view.findViewById(R.id.favorite_search_et);
-        mCancelTv = view.findViewById(R.id.favorite_cancel_tv);
+        mSearchIv = view.findViewById(R.id.local_search_iv);
+        mRefreshIv = view.findViewById(R.id.local_refresh_iv);
+        mSearchEt = view.findViewById(R.id.local_search_et);
+        mCancelTv = view.findViewById(R.id.local_cancel_tv);
         mSearchIv.setOnClickListener(this);
         mRefreshIv.setOnClickListener(this);
         mCancelTv.setOnClickListener(this);
@@ -123,8 +128,39 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
 
         setModeTv(musicMode);
         popWindow = new MusicModePopWindow(getContext());
-        popWindow.setListener(this::setModeTv);
-        popWindow.getPopupWindow().setOnDismissListener(() -> popWindow.showBackgroundDIM(getActivity().getWindow(),1.0f));
+        popWindow.setListener(musicMode -> setModeTv(musicMode));
+        popWindow.getPopupWindow().setOnDismissListener(() -> {
+            popWindow.showBackgroundDIM(getActivity().getWindow(),1.0f);
+        });
+
+
+    }
+
+
+    @Override
+    protected void initData() {
+        datalist = MediaDaoManager.getInstance().getAllList(10,pageIndex++);
+        mLocalMusicRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new MusicAdapter(datalist);
+        mLocalMusicRv.setAdapter(adapter);
+        adapter.setEmptyView(R.layout.layout_no_content,mLocalMusicRv);
+        adapter.setOnItemClickListener(this);
+        adapter.setOnItemChildClickListener(this);
+        mBinder = (MusicService.MusicBinder) getArguments().getSerializable(FlagConstant.BINDER);
+        adapter.setOnLoadMoreListener(this,mLocalMusicRv);
+//        mLocalMusicRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//
+////                if (RecyclerView.SCROLL_STATE_IDLE == newState){
+////                    Glide.with(getContext()).resumeRequests();
+////                }else {
+////                    Glide.with(getContext()).pauseAllRequests();
+////                }
+//
+//            }
+//        });
     }
 
     public void setModeTv(MediaConstant.MusicMode mode){
@@ -158,47 +194,6 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    protected void initData() {
-        datalist = new ArrayList<>();
-        relDataList = new ArrayList<>();
-        relDataList = relManager.queryFavoriteList();
-        for (MediaRelEntity entity : relDataList){
-            MediaEntity mediaEntity = manager.query(entity.songId);
-            if (mediaEntity != null){
-                datalist.add(mediaEntity);
-            } else {
-                relManager.deleteSongRel(entity);
-            }
-
-        }
-        mFavorMusicRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MusicAdapter(datalist);
-        adapter.setEmptyView(R.layout.layout_no_content, mFavorMusicRv);
-        mFavorMusicRv.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
-        adapter.setOnItemChildClickListener(this);
-        mBinder = (MusicService.MusicBinder) getArguments().getSerializable(FlagConstant.BINDER);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == mRefreshIv){
-            adapter.notifyDataSetChanged();
-            ToastUtil.showSingleToast("已刷新");
-        }else if (v == mSearchIv){
-            mSearchIv.setVisibility(View.GONE);
-            mRefreshIv.setVisibility(View.GONE);
-            mSearchEt.setVisibility(View.VISIBLE);
-            mCancelTv.setVisibility(View.VISIBLE);
-        }else if (v == mCancelTv){
-            mSearchIv.setVisibility(View.VISIBLE);
-            mRefreshIv.setVisibility(View.VISIBLE);
-            mSearchEt.setVisibility(View.GONE);
-            mCancelTv.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         List<MediaEntity> list = adapter.getData();
         mBinder.play(list.get(position));
@@ -207,10 +202,15 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
         relManager.insert(new MediaRelEntity(null,MediaConstant.RECENTLY_LIST,list.get(position).getId()));
     }
 
+    public void setBinder(MusicService.MusicBinder binder){
+        mBinder = binder;
+    }
+
     @Override
     public boolean onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+        MusicEditPopWindow popWindow = new MusicEditPopWindow(getContext(),MusicEditPopWindow.EditMusicMode.LOCAL);
         List<MediaEntity> list = adapter.getData();
-        MusicEditPopWindow popWindow = new MusicEditPopWindow(getContext(),MusicEditPopWindow.EditMusicMode.FAVORITE);
         popWindow.setOnClickEditListener(name -> {
             switch (name){
                 case "删除":
@@ -223,21 +223,20 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
                         @Override
                         public void onClick(View v) {
                             if (FileUtils.deleteFile(entity.path, getContext())) {
-                                relManager.deleteSongAllRel(entity.id);
-                                ToastUtil.show("删除成功");
-                                list.remove(position);
-                                adapter.notifyDataSetChanged();
-                                dialog.dismiss();
-                            }
+                            relManager.deleteSongAllRel(entity.id);
+                            ToastUtil.show("删除成功");
+                            list.remove(position);
+                            manager.delete(entity.id);
+                            adapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                        }
                         }
                     });
                     dialog.show();
                     break;
-                case "移除收藏":
-                    relManager.deleteSongRel(list.get(position).id,MediaConstant.FAVORITE);
-                    list.remove(position);
-                    adapter.notifyDataSetChanged();
-                    ToastUtil.show("取消收藏");
+                case "收藏":
+                    relManager.saveFavorite(new MediaRelEntity(null,MediaConstant.FAVORITE,list.get(position).id));
+                    ToastUtil.show("收藏成功");
                     break;
                 case "添加到歌单":
                     AddToListDialog addToListDialog = new AddToListDialog(getContext(),list.get(position).getId());
@@ -252,5 +251,60 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
         });
 
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == mRefreshIv){
+            mMultipleStatusView.showLoading();
+            List<MediaEntity> list = MediaUtils.getAllMediaList(getContext(),"");
+            datalist.clear();
+            datalist.addAll(list);
+            manager.deleteAll();
+            manager.insert(list);
+            adapter.notifyDataSetChanged();
+            mMultipleStatusView.showContent();
+            ToastUtil.showSingleToast("已刷新");
+            authorManager.deleteAll();
+            for (long id :manager.getAllAlbums()){
+
+                String author = manager.getAuthorByAlbumId(id);
+//            String album = mediaManager.getAlbumByAlbumId(id);
+
+                MediaAuthorEntity entity = new MediaAuthorEntity(id,author,-1l);
+                authorManager.insert(entity);
+            }
+        }else if (v == mSearchIv){
+            mSearchIv.setVisibility(View.GONE);
+            mRefreshIv.setVisibility(View.GONE);
+            mSearchEt.setVisibility(View.VISIBLE);
+            mCancelTv.setVisibility(View.VISIBLE);
+        }else if (v == mCancelTv){
+            mSearchIv.setVisibility(View.VISIBLE);
+            mRefreshIv.setVisibility(View.VISIBLE);
+            mSearchEt.setVisibility(View.GONE);
+            mCancelTv.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        List<MediaEntity> list = manager.getAllList(10,pageIndex++);
+
+        datalist.addAll(list);
+        adapter.notifyDataSetChanged();
+        if (list.size() < 10){
+            adapter.loadMoreEnd();
+        }else {
+            adapter.loadMoreComplete();
+        }
+
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        pageIndex = 1;
     }
 }

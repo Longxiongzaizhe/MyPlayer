@@ -13,7 +13,7 @@ import wj.com.myplayer.bean.SimpleTextBean;
 import wj.com.myplayer.daodb.MediaRelManager;
 import wj.com.myplayer.R;
 import com.example.commonlib.utils.DensityUtil;
-import wj.com.myplayer.view.adapter.SimpleTextAdapter;
+import wj.com.myplayer.mvp.adapter.SimpleTextAdapter;
 
 public class MusicEditPopWindow extends BasePopWindow {
 

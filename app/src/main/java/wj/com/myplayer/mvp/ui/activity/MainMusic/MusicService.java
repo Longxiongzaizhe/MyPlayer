@@ -1,4 +1,4 @@
-package wj.com.myplayer.view.activity.MainMusic;
+package wj.com.myplayer.mvp.ui.activity.MainMusic;
 
 import android.app.Service;
 import android.content.Intent;

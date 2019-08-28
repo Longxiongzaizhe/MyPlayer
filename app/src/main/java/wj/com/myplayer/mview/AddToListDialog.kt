@@ -16,7 +16,7 @@ import wj.com.myplayer.daodb.MediaListEntity
 import wj.com.myplayer.daodb.MediaListManager
 import wj.com.myplayer.daodb.MediaRelEntity
 import wj.com.myplayer.daodb.MediaRelManager
-import wj.com.myplayer.view.adapter.SimpleMusicListAdapter
+import wj.com.myplayer.mvp.adapter.SimpleMusicListAdapter
 
 class AddToListDialog(context:Context,var musicId: Long) : Dialog(context, R.style.BaseDialogStyle) {
 

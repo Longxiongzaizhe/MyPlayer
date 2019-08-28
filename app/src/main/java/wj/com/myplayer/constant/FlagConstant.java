@@ -24,6 +24,11 @@ public class FlagConstant {
 
     public static final String BINDER = "service_binder";
 
+    public static final int UPDATE_KEY01 = 0x2000;
+    public static final int UPDATE_KEY02 = 0x2001;
+    public static final int UPDATE_KEY03 = 0x2002;
+    public static final int UPDATE_KEY04 = 0x2003;
+
 
 
 

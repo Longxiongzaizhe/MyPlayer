@@ -1,4 +1,4 @@
-package wj.com.myplayer.view.fragment.main;
+package wj.com.myplayer.mvp.ui.fragment.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,8 +27,8 @@ import wj.com.myplayer.daodb.MediaRelManager;
 import wj.com.myplayer.R;
 import wj.com.myplayer.net.bean.ItooisNetworkWrapper;
 import wj.com.myplayer.net.bean.itoois.KugouSearchBean;
-import wj.com.myplayer.view.MainActivity;
-import wj.com.myplayer.view.adapter.MusicListAdapter;
+import wj.com.myplayer.mvp.MainActivity;
+import wj.com.myplayer.mvp.adapter.MusicListAdapter;
 
 public class MainFragment extends BaseFragment implements View.OnClickListener {
 

@@ -1,4 +1,4 @@
-package wj.com.myplayer.view.activity;
+package wj.com.myplayer.mvp.ui.activity;
 
 import android.graphics.Bitmap;
 import android.net.Uri;

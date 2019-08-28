@@ -1,4 +1,4 @@
-package wj.com.myplayer.view.adapter
+package wj.com.myplayer.mvp.adapter
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide

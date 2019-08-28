@@ -1,13 +1,16 @@
-package wj.com.myplayer.view;
+package wj.com.myplayer.mvp;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.NavigationMenuView;
@@ -40,18 +43,19 @@ import wj.com.myplayer.daodb.MediaRelEntity;
 import wj.com.myplayer.daodb.MediaRelManager;
 import wj.com.myplayer.mview.NoScrollViewPager;
 import wj.com.myplayer.testPackage.TestFragment;
+import wj.com.myplayer.utils.MediaUtils;
 import wj.com.myplayer.utils.PermissionsUtiles;
 import wj.com.myplayer.utils.SPUtils;
-import wj.com.myplayer.view.activity.MainMusic.MusicService;
-import wj.com.myplayer.view.activity.navSetting.UserSettingActivity;
-import wj.com.myplayer.view.adapter.LazyFragmentPagerAdapter;
-import wj.com.myplayer.view.fragment.OneFragment;
-import wj.com.myplayer.view.fragment.PlayFragment;
-import wj.com.myplayer.view.fragment.local.AlbumsFragment;
-import wj.com.myplayer.view.fragment.main.FavoriteFragment;
-import wj.com.myplayer.view.fragment.main.LocalFragment;
-import wj.com.myplayer.view.fragment.main.MainFragment;
-import wj.com.myplayer.view.fragment.main.RecentlyFragment;
+import wj.com.myplayer.mvp.ui.activity.MainMusic.MusicService;
+import wj.com.myplayer.mvp.ui.activity.navSetting.UserSettingActivity;
+import wj.com.myplayer.mvp.adapter.LazyFragmentPagerAdapter;
+import wj.com.myplayer.mvp.ui.fragment.OneFragment;
+import wj.com.myplayer.mvp.ui.fragment.PlayFragment;
+import wj.com.myplayer.mvp.ui.fragment.local.AlbumsFragment;
+import wj.com.myplayer.mvp.ui.fragment.main.FavoriteFragment;
+import wj.com.myplayer.mvp.ui.fragment.main.LocalFragment;
+import wj.com.myplayer.mvp.ui.fragment.main.MainFragment;
+import wj.com.myplayer.mvp.ui.fragment.main.RecentlyFragment;
 
 public class MainActivity extends BaseMultipleActivity implements View.OnClickListener {
 
@@ -98,6 +102,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
         initView();
         initData();
+        Message msg = Message.obtain();
+        msg.what = FlagConstant.UPDATE_KEY01;
+        msg.arg1 = 1;
+        mInitUrlHandler.sendMessage(msg);
 
         PermissionsUtiles.requestPermissions(this, permissions); //请求权限
 //        List<MediaEntity> list = MediaUtils.getAllMediaList(this,"");
@@ -446,4 +454,23 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
         return super.onKeyDown(keyCode, event);
     }
+
+
+    @SuppressLint("HandlerLeak")
+    public static Handler mInitUrlHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == FlagConstant.UPDATE_KEY01){
+                int index = msg.arg1;
+                MediaUtils.initMusicAlbum(5,index++);
+                if (index*5 < MainApplication.get().getMediaManager().getAllList().size()){
+                    Message sendMsg = Message.obtain();
+                    sendMsg.what = FlagConstant.UPDATE_KEY01;
+                    sendMsg.arg1 = index;
+                    Log.i("initMusicUrl","index is:" + index);
+                    mInitUrlHandler.sendMessageDelayed(sendMsg,10000);
+                }
+            }
+        }
+    };
 }

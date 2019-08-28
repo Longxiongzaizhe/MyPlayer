@@ -1,4 +1,4 @@
-package wj.com.myplayer.view.activity.navSetting;
+package wj.com.myplayer.mvp.ui.activity.navSetting;
 
 import android.content.Context;
 import android.content.Intent;
