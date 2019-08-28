@@ -126,6 +126,9 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                     public void onSuccess(KugouSearchBean data) {
                         Log.d("TAG",data.getData().getInfo().get(0).getHash());
                     }
+
+
+
                 });
 
                 break;

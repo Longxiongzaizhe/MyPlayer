@@ -53,43 +53,40 @@ public abstract class HttpHandler<T> implements Callback{
 
     @Override
     public void onResponse(Call call, Response response) throws IOException {
-        if (response != null){
-            if (response.code() == 200){
-                //请求码成功
-                String respBodyStr = response.body().string();
-                final String httpUrl = response.request().url().toString();
-                Headers headers = response.request().headers();
-                Log.w(TAG, "resuest url: " + httpUrl + "\r\n  header:" + headers + "\r\n");
-                Log.w(TAG, "respBodyStr  result=:" + respBodyStr);
-                if (!Utils.isStringEmpty(respBodyStr)){
-                    T data = JsonUtils.toJsonBean(respBodyStr,entityClass);
-                    if (data != null){
-                        onSuccessOnUiThread(data);
-                    }else {
-                        onFailOnUiThread("JSON 解析错误",respBodyStr);
-                        Log.e(TAG,"JSON 解析错误");
-                    }
-
+        if (response.code() == 200){
+            //请求码成功
+            String respBodyStr = response.body().string();
+            final String httpUrl = response.request().url().toString();
+            Headers headers = response.request().headers();
+            Log.w(TAG, "resuest url: " + httpUrl + "\r\n  header:" + headers + "\r\n");
+            Log.w(TAG, "respBodyStr  result=:" + respBodyStr);
+            if (!Utils.isStringEmpty(respBodyStr)){
+                T data = JsonUtils.toJsonBean(respBodyStr,entityClass);
+                if (data != null){
+                    onSuccessOnUiThread(data);
                 }else {
-                    onFailOnUiThread("返回的结果为空",respBodyStr);
+                    onFailOnUiThread("JSON 解析错误",respBodyStr);
+                    Log.e(TAG,"JSON 解析错误");
                 }
+
             }else {
-                onFailOnUiThread("请求错误，错误码为：" + response.code(),response.body().string());
+                onFailOnUiThread("返回的结果为空",respBodyStr);
             }
+        }else {
+            onFailOnUiThread("请求错误，错误码为：" + response.code(),response.body().string());
         }
     }
 
-    public void onSuccessOnUiThread(T data){
+    private void onSuccessOnUiThread(T data){
         BaseApplication.runOnUIThread(()->{
             onSuccess(data);
             onFinish();
         });
     }
 
-    public void onFailOnUiThread(String message,String response){
+    private void onFailOnUiThread(String message, String response){
         BaseApplication.runOnUIThread(()->{
-            ToastUtil.showSingleToast(message);
-            onFailure(response);
+            onFailure(message,response);
             onFinish();
         });
     }
@@ -97,7 +94,7 @@ public abstract class HttpHandler<T> implements Callback{
     /**
      * 请求开始
      */
-    public void onStart(){
+    void onStart(){
         startTime = System.currentTimeMillis();
         Log.w(TAG,"===========================start request at " + com.example.commonlib.utils.DateUtils.getHttpRequetTime(startTime) + " ===========================");
     }
@@ -105,7 +102,7 @@ public abstract class HttpHandler<T> implements Callback{
     /**
      * 请求结束
      */
-    public void onFinish(){
+    private void onFinish(){
         long endTime = System.currentTimeMillis();
         Log.w(TAG,"===========================end request at " + com.example.commonlib.utils.DateUtils.getHttpRequetTime(endTime) + " ===========================");
         Log.w(TAG,"=========================== spend time is " + (endTime-startTime)+ " millis ===========================\n");
@@ -113,7 +110,8 @@ public abstract class HttpHandler<T> implements Callback{
 
     public abstract void onSuccess(T data);
 
-    public void onFailure(String response){
+    public void onFailure(String message, String response){
         // 有回应但是可能是请求参数有问题或者服务端有问题
+        ToastUtil.showSingleToast(message);// 默认打印信息
     }
 }

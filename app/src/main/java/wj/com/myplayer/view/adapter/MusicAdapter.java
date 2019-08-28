@@ -49,8 +49,8 @@ public class MusicAdapter extends BaseQuickAdapter<MediaEntity, BaseViewHolder> 
                 }
 
                 @Override
-                public void onFailure(String response) {
-                    super.onFailure(response);
+                public void onFailure(String message,String response) {
+                    super.onFailure(message,response);
                     //ToastUtil.showSingleToast(response,);
                 }
             });

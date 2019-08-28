@@ -12,7 +12,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="咦~这里是是空的~"
+        android:text="咦~这里是空的~"
         android:textColor="@color/common_text_assist_gray"
         android:textSize="@dimen/text_plus_size"
         app:layout_constraintBottom_toBottomOf="parent"
