@@ -44,9 +44,9 @@ public abstract class HttpHandler<T> implements Callback{
     public void onFailure(Call call, IOException e) {
         Log.d(TAG, "onFailure " + e.toString());
         if (e instanceof UnknownHostException || e instanceof SocketException) {
-            onFailOnUiThread("网络连接失败");
+            onFailOnUiThread("网络连接失败",e.getMessage());
         } else {
-            onFailOnUiThread("网络连接失败，请稍后再试");
+            onFailOnUiThread("网络连接失败，请稍后再试",e.getMessage());
         }
 
     }
@@ -66,15 +66,15 @@ public abstract class HttpHandler<T> implements Callback{
                     if (data != null){
                         onSuccessOnUiThread(data);
                     }else {
-                        onFailOnUiThread("JSON 解析错误");
+                        onFailOnUiThread("JSON 解析错误",respBodyStr);
                         Log.e(TAG,"JSON 解析错误");
                     }
 
                 }else {
-                    onFailOnUiThread("网络错误");
+                    onFailOnUiThread("返回的结果为空",respBodyStr);
                 }
             }else {
-                onFailOnUiThread("网络错误");
+                onFailOnUiThread("请求错误，错误码为：" + response.code(),response.body().string());
             }
         }
     }
@@ -86,10 +86,10 @@ public abstract class HttpHandler<T> implements Callback{
         });
     }
 
-    public void onFailOnUiThread(String message){
+    public void onFailOnUiThread(String message,String response){
         BaseApplication.runOnUIThread(()->{
             ToastUtil.showSingleToast(message);
-            onFailure();
+            onFailure(response);
             onFinish();
         });
     }
@@ -113,7 +113,7 @@ public abstract class HttpHandler<T> implements Callback{
 
     public abstract void onSuccess(T data);
 
-    public void onFailure(){
+    public void onFailure(String response){
         // 有回应但是可能是请求参数有问题或者服务端有问题
     }
 }

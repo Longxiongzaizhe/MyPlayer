@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.commonlib.baseConfig.BaseFragment;
 import com.example.commonlib.mview.BaseMarkDialog;
+import com.example.commonlib.network.HttpHandler;
 import com.example.commonlib.utils.RecycleViewVerticalDivider;
 import com.example.commonlib.utils.ToastUtil;
 
@@ -23,6 +25,8 @@ import wj.com.myplayer.daodb.MediaListEntity;
 import wj.com.myplayer.daodb.MediaListManager;
 import wj.com.myplayer.daodb.MediaRelManager;
 import wj.com.myplayer.R;
+import wj.com.myplayer.net.bean.ItooisNetworkWrapper;
+import wj.com.myplayer.net.bean.itoois.KugouSearchBean;
 import wj.com.myplayer.view.MainActivity;
 import wj.com.myplayer.view.adapter.MusicListAdapter;
 
@@ -116,6 +120,14 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             default:
                 break;
             case R.id.main_local_play:
+
+                ItooisNetworkWrapper.searchMusic("听妈妈的话", "song", 20, 1, new HttpHandler<KugouSearchBean>() {
+                    @Override
+                    public void onSuccess(KugouSearchBean data) {
+                        Log.d("TAG",data.getData().getInfo().get(0).getHash());
+                    }
+                });
+
                 break;
             case R.id.main_history_play:
 

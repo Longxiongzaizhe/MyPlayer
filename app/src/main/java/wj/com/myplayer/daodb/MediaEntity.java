@@ -22,6 +22,7 @@ public class MediaEntity {
     public String artist; // 艺术家
     public String singer; //歌手
     public long size;
+    public String coverUrl;
 
     public Bitmap getCover() {
         return cover;
@@ -33,9 +34,10 @@ public class MediaEntity {
 
     @Transient
     public Bitmap cover;
-    @Generated(hash = 806117419)
+    @Generated(hash = 1366985871)
     public MediaEntity(Long id, String title, String display_name, String path, long duration,
-            long album_id, String albums, String artist, String singer, long size) {
+            long album_id, String albums, String artist, String singer, long size,
+            String coverUrl) {
         this.id = id;
         this.title = title;
         this.display_name = display_name;
@@ -46,6 +48,7 @@ public class MediaEntity {
         this.artist = artist;
         this.singer = singer;
         this.size = size;
+        this.coverUrl = coverUrl;
     }
 
     @Generated(hash = 887223317)
@@ -120,5 +123,13 @@ public class MediaEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCoverUrl() {
+        return this.coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
     }
 }

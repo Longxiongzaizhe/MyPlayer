@@ -150,19 +150,19 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
         adapter.setOnItemChildClickListener(this);
         mBinder = (MusicService.MusicBinder) getArguments().getSerializable(FlagConstant.BINDER);
         adapter.setOnLoadMoreListener(this,mLocalMusicRv);
-        mLocalMusicRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                if (RecyclerView.SCROLL_STATE_IDLE == newState){
-                    Glide.with(getContext()).resumeRequests();
-                }else {
-                    Glide.with(getContext()).pauseAllRequests();
-                }
-
-            }
-        });
+//        mLocalMusicRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//
+////                if (RecyclerView.SCROLL_STATE_IDLE == newState){
+////                    Glide.with(getContext()).resumeRequests();
+////                }else {
+////                    Glide.with(getContext()).pauseAllRequests();
+////                }
+//
+//            }
+//        });
     }
 
     public void setModeTv(MediaConstant.MusicMode mode){

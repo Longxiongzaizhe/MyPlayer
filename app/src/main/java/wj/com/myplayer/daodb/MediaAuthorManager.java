@@ -4,6 +4,7 @@ import java.util.List;
 
 import wj.com.myplayer.config.MainApplication;
 
+
 public class MediaAuthorManager {
 
     private static MediaAuthorManager manager;
