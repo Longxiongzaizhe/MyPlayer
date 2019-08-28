@@ -9,12 +9,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.commonlib.baseConfig.BaseFragment;
+import com.example.commonlib.utils.StringUtils;
 
 import wj.com.myplayer.R;
 import wj.com.myplayer.bean.MusicBean;
 import wj.com.myplayer.daodb.MediaEntity;
 import wj.com.myplayer.mvp.ui.activity.MainMusic.MusicInterface;
 import wj.com.myplayer.mvp.ui.activity.MainMusic.MusicService;
+import wj.com.myplayer.utils.MediaUtils;
 
 public class PlayFragment extends BaseFragment implements View.OnClickListener, MusicInterface.OnMediaChangeListener {
 
@@ -133,7 +135,12 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     public void initMusicData(MediaEntity entity) {
-        Glide.with(this).load(entity.coverUrl).into(mMusicPlayIv);
+        if (!StringUtils.isEmpty(entity.coverUrl)){
+            Glide.with(this).load(entity.coverUrl).into(mMusicAblumsIv);
+        }else {
+            MediaUtils.setMusicAlbum(getContext(),entity,mMusicAblumsIv);
+        }
+
         mMusicNameTv.setText(entity.title);
         mMusicAuthorTv.setText(entity.getArtist());
         currentEntity = entity;
