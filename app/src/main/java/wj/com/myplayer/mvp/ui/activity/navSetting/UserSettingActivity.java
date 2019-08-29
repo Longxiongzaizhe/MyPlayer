@@ -190,7 +190,7 @@ public class UserSettingActivity extends BaseMultipleActivity implements View.On
         }
         Uri uri;
         if (Build.VERSION.SDK_INT >= 24) {
-            uri = FileProvider.getUriForFile(context,"com.wj.myplayer.provider", file);
+            uri = FileProvider.getUriForFile(context,"wj.com.myplayer.provider", file);
         } else {
             uri = Uri.fromFile(file);
         }

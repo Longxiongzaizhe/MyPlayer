@@ -349,16 +349,17 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         switch (flag){
             case FlagConstant.FRAGMENT_LOCAL:
                 if (localFragment == null) localFragment = LocalFragment.newInstance(mBinder);
-               // if (albumsFragment == null) albumsFragment = AlbumsFragment.instance.getInstance(mBinder);
+                if (albumsFragment == null) albumsFragment = AlbumsFragment.instance.getInstance(mBinder);
 
                 mFragments.set(0, localFragment);
-                //mFragments.set(1, albumsFragment);
+                mFragments.set(1, albumsFragment);
                 myPagerAdapter.notifyDataSetChanged();
                 setTitle(FlagConstant.FRAGMENT_LOCAL);
                 break;
             case FlagConstant.FRAGMENT_MAIN:
                 if (mainFragment == null) mainFragment = MainFragment.newInstance();
                 mFragments.set(0,mainFragment);
+                mMainViewpager.setCurrentItem(0);
                 myPagerAdapter.notifyDataSetChanged();
                 setTitle(FlagConstant.FRAGMENT_MAIN);
                 break;
@@ -462,13 +463,15 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         public void handleMessage(Message msg) {
             if (msg.what == FlagConstant.UPDATE_KEY01){
                 int index = msg.arg1;
-                MediaUtils.initMusicAlbum(5,index++);
+                MediaUtils.initMusicCover(5,index++);
                 if (index*5 < MainApplication.get().getMediaManager().getAllList().size()){
                     Message sendMsg = Message.obtain();
                     sendMsg.what = FlagConstant.UPDATE_KEY01;
                     sendMsg.arg1 = index;
                     Log.i("initMusicUrl","index is:" + index);
                     mInitUrlHandler.sendMessageDelayed(sendMsg,10000);
+                }else {
+                    MediaUtils.initAlbumCover();
                 }
             }
         }

@@ -199,6 +199,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
         mBinder.play(list.get(position));
         mBinder.getService().setPosition(position);
         mBinder.getService().setPlayList(list);
+        view.requestFocus();
         relManager.insert(new MediaRelEntity(null,MediaConstant.RECENTLY_LIST,list.get(position).getId()));
     }
 
@@ -211,6 +212,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 
         MusicEditPopWindow popWindow = new MusicEditPopWindow(getContext(),MusicEditPopWindow.EditMusicMode.LOCAL);
         List<MediaEntity> list = adapter.getData();
+
         popWindow.setOnClickEditListener(name -> {
             switch (name){
                 case "删除":
@@ -270,8 +272,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 
                 String author = manager.getAuthorByAlbumId(id);
 //            String album = mediaManager.getAlbumByAlbumId(id);
-
-                MediaAuthorEntity entity = new MediaAuthorEntity(id,author,-1l);
+                MediaAuthorEntity entity = new MediaAuthorEntity(id,author,"");
                 authorManager.insert(entity);
             }
         }else if (v == mSearchIv){

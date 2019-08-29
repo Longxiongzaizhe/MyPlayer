@@ -138,7 +138,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         if (!StringUtils.isEmpty(entity.coverUrl)){
             Glide.with(this).load(entity.coverUrl).into(mMusicAblumsIv);
         }else {
-            MediaUtils.setMusicAlbum(getContext(),entity,mMusicAblumsIv);
+            MediaUtils.setMusicCover(getContext(),entity,mMusicAblumsIv);
         }
 
         mMusicNameTv.setText(entity.title);

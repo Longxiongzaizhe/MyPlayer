@@ -37,6 +37,10 @@ public class MediaAuthorManager {
         dao.deleteAll();
     }
 
+    public void update(MediaAuthorEntity entity){
+        dao.updateInTx(entity);
+    }
+
 
 
 }

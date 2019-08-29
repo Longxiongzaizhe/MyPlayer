@@ -17,38 +17,7 @@ class AlbumAdapter(data :List<MediaAuthorEntity>): BaseQuickAdapter<MediaAuthorE
         helper!!.setText(R.id.album_tv,item?.author)
 
         var imageView = helper.getView<ImageView>(R.id.album_iv)
-//
-//        if(imageView.tag != FlagConstant.TAG_KEY){
-//            Glide.with(mContext).load(item!!.cover).into(helper.getView(R.id.album_iv) as ImageView)
-//            imageView.tag = FlagConstant.TAG_KEY
-//        }
-        val album = MediaDaoManager.getInstance().getAlbumByAlbumId(item!!.id)
-        if(imageView.tag != FlagConstant.TAG_KEY){
-            var bitmap = MediaUtils.getArtwork(MainApplication.get().applicationContext.contentResolver, album.toInt(),
-                    item?.id!!.toInt(), true, false)
-            if (bitmap != null){
-                Glide.with(mContext).load(bitmap).into(helper.getView(R.id.album_iv) as ImageView)
-                imageView.tag = FlagConstant.TAG_KEY
-            }
-        }
-
-//        if(imageView.tag != FlagConstant.TAG_KEY){
-//            var bitmap = MediaUtils.getArtwork(MainApplication.get().applicationContext.contentResolver, Integer.valueOf(item?.id.toString()),
-//                    item?.id!!.toInt(), true, false)
-//            if (bitmap != null){
-//                Glide.with(mContext).load(bitmap).into(helper.getView(R.id.album_iv) as ImageView)
-//                imageView.tag = FlagConstant.TAG_KEY
-//            }
-//        }
-
-//        var bitmap = MediaUtils.getArtwork(MainApplication.get().applicationContext.contentResolver, Integer.valueOf(item?.id.toString()),
-//                item?.id!!.toInt(), true, false)
-//        if (bitmap != null){
-//            Glide.with(mContext).load(bitmap).into(helper.getView(R.id.album_iv) as ImageView)
-//        }
-
-
-
+        Glide.with(mContext).load(item!!.coverurl).error(R.drawable.icon_dog).into(imageView);
     }
 
 }

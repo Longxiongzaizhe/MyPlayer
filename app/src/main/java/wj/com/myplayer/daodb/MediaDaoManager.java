@@ -109,6 +109,10 @@ public class MediaDaoManager {
         return list;
     }
 
+    public MediaEntity getMusicByAlbumId(long albumId){
+        return dao.queryBuilder().where(MediaEntityDao.Properties.Album_id.eq(albumId)).orderAsc(MediaEntityDao.Properties.Id).limit(1).unique();
+    }
+
     public String getAuthorByAlbumId(long albumId){
 
         String author = "";

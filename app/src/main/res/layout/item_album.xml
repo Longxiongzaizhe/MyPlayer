@@ -5,13 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="150dp"
     app:cardUseCompatPadding="true"
-    app:cardPreventCornerOverlap="true"
     app:cardCornerRadius="3dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
         <ImageView
             android:id="@+id/album_iv"
             android:layout_width="match_parent"
@@ -23,11 +21,16 @@
             app:layout_constraintTop_toTopOf="parent" />
         <TextView
             android:id="@+id/album_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="Crazy Baby"
             android:textSize="@dimen/text_large_size"
             android:textColor="@color/common_text_content_color"
+            android:gravity="center"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

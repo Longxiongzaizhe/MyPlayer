@@ -41,6 +41,9 @@ public class MainApplication extends BaseApplication {
     private MediaDaoManager mediaManager;
     private MediaListManager listManager;
     private MediaRelManager relManager;
+
+
+
     private MediaAuthorManager authorManager;
 
 
@@ -113,7 +116,7 @@ public class MainApplication extends BaseApplication {
 
             String author = mediaManager.getAuthorByAlbumId(id);
 
-            MediaAuthorEntity entity = new MediaAuthorEntity(id,author,-1l);
+            MediaAuthorEntity entity = new MediaAuthorEntity(id,author,"");
             authorManager.insert(entity);
         }
 
@@ -164,5 +167,9 @@ public class MainApplication extends BaseApplication {
 
     public MediaRelManager getRelManager() {
         return relManager;
+    }
+
+    public MediaAuthorManager getAuthorManager() {
+        return authorManager;
     }
 }

@@ -27,6 +27,9 @@ import java.util.List;
 import wj.com.myplayer.R;
 import wj.com.myplayer.config.MainApplication;
 import wj.com.myplayer.constant.MediaConstant;
+import wj.com.myplayer.daodb.MediaAuthorEntity;
+import wj.com.myplayer.daodb.MediaAuthorManager;
+import wj.com.myplayer.daodb.MediaDaoManager;
 import wj.com.myplayer.daodb.MediaEntity;
 import wj.com.myplayer.net.DoubanNetworkWrapper;
 import wj.com.myplayer.net.bean.douban.MusicSearchBean;
@@ -399,7 +402,7 @@ public class MediaUtils {
         return musicMode;
     }
 
-    public static void setMusicAlbum(Context context, MediaEntity entity, ImageView imageView){
+    public static void setMusicCover(Context context, MediaEntity entity, ImageView imageView){
         DoubanNetworkWrapper.searchMusic(entity.getTitle(), "", "", "10", new HttpHandler<MusicSearchBean>() {
             @Override
             public void onSuccess(MusicSearchBean data) {
@@ -415,12 +418,12 @@ public class MediaUtils {
             public void onFailure(String message,String response) {
                 Bitmap bitmap = MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
                         entity.getId(), entity.getAlbum_id(), true, true);
-                Glide.with(context).load(bitmap).into(imageView);
+                Glide.with(context).load(bitmap).error(R.drawable.icon_dog).into(imageView);
             }
         });
     }
 
-    public static void initMusicAlbum(int pageSize,int pageIndex){
+    public static void initMusicCover(int pageSize, int pageIndex){
         List<MediaEntity> list = MainApplication.get().getMediaManager().getAllList(pageSize,pageIndex);
         for (MediaEntity entity : list){
             if (StringUtils.isEmpty(entity.coverUrl)){
@@ -435,10 +438,41 @@ public class MediaUtils {
 
                     @Override
                     public void onFailure(String message, String response) {
-                        Log.e("initMusicAlbum",message);
+                        Log.e("initMusicCover",message);
                     }
                 });
             }
+        }
+    }
+
+    public static void initAlbumCover(){
+        List<MediaAuthorEntity> list = MediaAuthorManager.getInstance().getAll();
+        for (MediaAuthorEntity authorEntity : list){
+
+            MediaEntity entity = MediaDaoManager.getInstance().getMusicByAlbumId(authorEntity.id);
+            if (StringUtils.isEmpty(entity.getCoverUrl())){
+                DoubanNetworkWrapper.searchMusic(entity.getTitle(), "", "", "10", new HttpHandler<MusicSearchBean>() {
+                    @Override
+                    public void onSuccess(MusicSearchBean data) {
+                        if (data.getMusics().size() == 0) return;
+                        String url = data.getMusics().get(0).getImage();
+                        entity.setCoverUrl(url);
+                        MainApplication.get().getMediaManager().update(entity);
+                        authorEntity.setCoverurl(url);
+                        MainApplication.get().getAuthorManager().update(authorEntity);
+                    }
+
+                    @Override
+                    public void onFailure(String message, String response) {
+                        Log.e("initAlbumCover",message);
+                    }
+                });
+            }else {
+                authorEntity.setCoverurl(entity.getCoverUrl());
+                MainApplication.get().getAuthorManager().update(authorEntity);
+            }
+
+
         }
     }
 

@@ -29,12 +29,10 @@ public class MusicAdapter extends BaseQuickAdapter<MediaEntity, BaseViewHolder> 
         ImageView imageView = helper.getView(R.id.item_music_albums);
 
         if (StringUtils.isEmpty(item.getCoverUrl())){
-            MediaUtils.setMusicAlbum(mContext,item,imageView);
+            MediaUtils.setMusicCover(mContext,item,imageView);
         }else {
             Glide.with(mContext).load(item.getCoverUrl()).into(imageView);
         }
-
-
 
         helper.addOnClickListener(R.id.item_music_more);
 

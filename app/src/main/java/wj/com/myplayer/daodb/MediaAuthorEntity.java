@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Transient;
 
 @Entity
 public class MediaAuthorEntity {
@@ -15,17 +14,16 @@ public class MediaAuthorEntity {
     public Long id; //id标识
 
     public String author;
-    public Long album;
-
-    @Transient
-    public Bitmap cover;
+    public String coverurl;
 
 
-    @Generated(hash = 621369402)
-    public MediaAuthorEntity(Long id, String author, Long album) {
+
+
+    @Generated(hash = 1431228696)
+    public MediaAuthorEntity(Long id, String author, String coverurl) {
         this.id = id;
         this.author = author;
-        this.album = album;
+        this.coverurl = coverurl;
     }
     @Generated(hash = 144108233)
     public MediaAuthorEntity() {
@@ -42,11 +40,12 @@ public class MediaAuthorEntity {
     public void setAuthor(String author) {
         this.author = author;
     }
-    public Long getAlbum() {
-        return this.album;
+
+    public String getCoverurl() {
+        return this.coverurl;
     }
-    public void setAlbum(Long album) {
-        this.album = album;
+    public void setCoverurl(String coverurl) {
+        this.coverurl = coverurl;
     }
 
 }
