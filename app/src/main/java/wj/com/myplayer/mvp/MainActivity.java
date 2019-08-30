@@ -27,13 +27,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.commonlib.baseConfig.BaseMultipleActivity;
+import com.example.commonlib.base.BaseMultipleActivity;
 import com.example.commonlib.utils.ToastUtil;
+
+import org.reactivestreams.Subscriber;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
 import wj.com.myplayer.R;
 import wj.com.myplayer.config.MainApplication;
 import wj.com.myplayer.constant.FlagConstant;
@@ -42,7 +45,6 @@ import wj.com.myplayer.daodb.MediaDaoManager;
 import wj.com.myplayer.daodb.MediaRelEntity;
 import wj.com.myplayer.daodb.MediaRelManager;
 import wj.com.myplayer.mview.NoScrollViewPager;
-import wj.com.myplayer.testPackage.TestFragment;
 import wj.com.myplayer.utils.MediaUtils;
 import wj.com.myplayer.utils.PermissionsUtiles;
 import wj.com.myplayer.utils.SPUtils;
@@ -210,7 +212,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         super.initData();
         mFragments.add(MainFragment.newInstance());
         mFragments.add(new OneFragment());
-        mFragments.add(new TestFragment());
+        mFragments.add(new OneFragment());
         intent = new Intent();
 
         initMainTitle();
@@ -452,6 +454,16 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                 return true;
             }
         }
+
+        Observable observable = Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                subscriber.onNext("Hello");
+                subscriber.onNext("Hi");
+                subscriber.onNext("Aloha");
+                subscriber.onCompleted();
+            }
+        });
 
         return super.onKeyDown(keyCode, event);
     }

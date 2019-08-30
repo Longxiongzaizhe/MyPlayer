@@ -40,7 +40,7 @@ class AddToListDialog(context:Context,var musicId: Long) : Dialog(context, R.sty
                 context.resources.getColor(R.color.common_divider_line_color),DensityUtil.dp2px(15f),0,true))
         adapter = SimpleMusicListAdapter(data)
         adapter!!.setOnItemClickListener { adapter, view, position ->
-            relManager.insert(MediaRelEntity(null,data.get(position).id,musicId))
+            relManager.saveSongInList(MediaRelEntity(null,data.get(position).id,musicId))
             ToastUtil.showSingleToast("添加成功")
             dismiss()
         }

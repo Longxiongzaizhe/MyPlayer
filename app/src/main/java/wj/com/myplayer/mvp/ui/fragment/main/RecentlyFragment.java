@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.commonlib.baseConfig.BaseFragment;
+import com.example.commonlib.base.BaseFragment;
 import com.example.commonlib.mview.BaseTipDialog;
 import com.example.commonlib.utils.DensityUtil;
 import com.example.commonlib.utils.ToastUtil;

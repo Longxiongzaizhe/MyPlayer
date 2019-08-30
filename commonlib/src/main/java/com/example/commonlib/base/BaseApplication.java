@@ -1,4 +1,4 @@
-package com.example.commonlib.baseConfig;
+package com.example.commonlib.base;
 
 import android.app.Application;
 import android.os.Handler;

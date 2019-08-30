@@ -3,7 +3,7 @@ package wj.com.myplayer.config;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.example.commonlib.baseConfig.BaseApplication;
+import com.example.commonlib.base.BaseApplication;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -124,7 +124,6 @@ public class MainApplication extends BaseApplication {
             listManager.insert(new MediaListEntity(MediaConstant.FAVORITE,"",""));
             List<MediaEntity> list = MediaUtils.getAllMediaList(this,"");
             mediaManager.insert(list);
-
         }
         if (listManager.query(MediaConstant.LATELY_LIST) == null){
             listManager.insert(new MediaListEntity(MediaConstant.LATELY_LIST,"",""));

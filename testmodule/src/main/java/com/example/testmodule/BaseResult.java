@@ -1,4 +1,4 @@
-package wj.com.myplayer.testPackage;
+package com.example.testmodule;
 
 /**
  * 请求返回的data封装

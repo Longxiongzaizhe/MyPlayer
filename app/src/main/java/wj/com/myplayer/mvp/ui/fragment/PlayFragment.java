@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.commonlib.baseConfig.BaseFragment;
+import com.example.commonlib.base.BaseFragment;
 import com.example.commonlib.utils.StringUtils;
 
 import wj.com.myplayer.R;
@@ -136,6 +136,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
 
     public void initMusicData(MediaEntity entity) {
         if (!StringUtils.isEmpty(entity.coverUrl)){
+            if (getActivity() == null) return;
             Glide.with(this).load(entity.coverUrl).into(mMusicAblumsIv);
         }else {
             MediaUtils.setMusicCover(getContext(),entity,mMusicAblumsIv);

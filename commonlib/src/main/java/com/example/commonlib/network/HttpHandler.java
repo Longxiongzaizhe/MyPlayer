@@ -3,7 +3,7 @@ package com.example.commonlib.network;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.commonlib.baseConfig.BaseApplication;
+import com.example.commonlib.base.BaseApplication;
 import com.example.commonlib.utils.JsonUtils;
 import com.example.commonlib.utils.ToastUtil;
 import com.example.commonlib.utils.Utils;

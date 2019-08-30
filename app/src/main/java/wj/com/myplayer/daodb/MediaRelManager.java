@@ -49,6 +49,9 @@ public class MediaRelManager {
         dao.delete(entity);
     }
 
+    /**
+     * 保存歌曲到歌单 防止重复
+     */
     public void saveSongInList(MediaRelEntity entity){
         if (!isSongInList(entity.songId,entity.mediaListId)){
             dao.save(entity);

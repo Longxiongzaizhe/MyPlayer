@@ -73,5 +73,9 @@ dependencies {
     api deps.testespresso
     api deps.junnit
 
+    // rxjava
+    api deps.rxjava
+    api deps.rxandroid
+
 
 }

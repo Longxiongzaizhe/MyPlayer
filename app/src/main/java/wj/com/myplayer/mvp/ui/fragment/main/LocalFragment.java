@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.commonlib.baseConfig.BaseFragment;
+import com.example.commonlib.base.BaseFragment;
 import com.example.commonlib.mview.BaseTipDialog;
 import com.example.commonlib.utils.DensityUtil;
 import com.example.commonlib.utils.StringUtils;
@@ -128,7 +128,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 
         setModeTv(musicMode);
         popWindow = new MusicModePopWindow(getContext());
-        popWindow.setListener(musicMode -> setModeTv(musicMode));
+        popWindow.setOnModeSelectedListener(musicMode -> setModeTv(musicMode));
         popWindow.getPopupWindow().setOnDismissListener(() -> {
             popWindow.showBackgroundDIM(getActivity().getWindow(),1.0f);
         });

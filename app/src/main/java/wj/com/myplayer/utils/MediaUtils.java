@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.commonlib.base.BaseApplication;
 import com.example.commonlib.network.HttpHandler;
 import com.example.commonlib.utils.StringUtils;
 
@@ -23,6 +24,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import wj.com.myplayer.R;
 import wj.com.myplayer.config.MainApplication;
@@ -36,14 +39,16 @@ import wj.com.myplayer.net.bean.douban.MusicSearchBean;
 
 public class MediaUtils {
 
+    private static ExecutorService cacheThread = Executors.newCachedThreadPool();
 
     private static String TAG = MediaUtils.class.getSimpleName();
     //获取专辑封面的Uri
     private static final Uri albumArtUri = Uri.parse("content://media/external/audio/albumart");
 
     public static List<MediaEntity> getAllMediaList(Context context, String selection) {
+
         Cursor cursor = null;
-        List<MediaEntity> mediaList = new ArrayList<MediaEntity>();
+        List<MediaEntity> mediaList = new ArrayList<>();
         try {
             cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,null,
                     selection, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
@@ -56,9 +61,8 @@ public class MediaUtils {
                 Log.d(TAG, "The getMediaList cursor count is 0.");
                 return mediaList;
             }
-            mediaList = new ArrayList<MediaEntity>();
-            MediaEntity mediaEntity = null;
-//			String[] columns = cursor.getColumnNames();
+            mediaList = new ArrayList<>();
+            MediaEntity mediaEntity;
             while (cursor.moveToNext()) {
                 mediaEntity = new MediaEntity();
 
@@ -68,9 +72,6 @@ public class MediaUtils {
                 mediaEntity.duration = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
                 mediaEntity.size = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));
                 mediaEntity.album_id = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
-//                mediaEntity.cover = MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
-//                        mediaEntity.id,mediaEntity.album_id,true,true);
-               // mediaEntity.durationStr = longToStrTime(mediaEntity.duration);
 
                 if(!checkIsMusic(mediaEntity.duration, mediaEntity.size)) {
                     continue;
@@ -294,6 +295,9 @@ public class MediaUtils {
      * @return
      */
     public static Bitmap getArtwork(Context context, long song_id, long album_id, boolean allowdefalut, boolean small){
+
+
+
         if(album_id < 0) {
             if(song_id < 0) {
                 Bitmap bm = getArtworkFromFile(context, song_id, -1);
@@ -416,33 +420,40 @@ public class MediaUtils {
             }
             @Override
             public void onFailure(String message,String response) {
-                Bitmap bitmap = MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
-                        entity.getId(), entity.getAlbum_id(), true, true);
-                Glide.with(context).load(bitmap).error(R.drawable.icon_dog).into(imageView);
+                cacheThread.execute(() -> {
+                    Bitmap bitmap = MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
+                            entity.getId(), entity.getAlbum_id(), true, true);
+                    BaseApplication.runOnUIThread(()->  Glide.with(context).load(bitmap).error(R.drawable.icon_dog).into(imageView));
+
+                });
+
             }
         });
     }
 
     public static void initMusicCover(int pageSize, int pageIndex){
-        List<MediaEntity> list = MainApplication.get().getMediaManager().getAllList(pageSize,pageIndex);
-        for (MediaEntity entity : list){
-            if (StringUtils.isEmpty(entity.coverUrl)){
-                DoubanNetworkWrapper.searchMusic(entity.getTitle(), "", "", "10", new HttpHandler<MusicSearchBean>() {
-                    @Override
-                    public void onSuccess(MusicSearchBean data) {
-                        if (data.getMusics().size() == 0) return;
-                        String url = data.getMusics().get(0).getImage();
-                        entity.setCoverUrl(url);
-                        MainApplication.get().getMediaManager().update(entity);
-                    }
+        cacheThread.execute(() -> {
+            List<MediaEntity> list = MainApplication.get().getMediaManager().getAllList(pageSize,pageIndex);
+            for (MediaEntity entity : list){
+                if (StringUtils.isEmpty(entity.coverUrl)){
+                    DoubanNetworkWrapper.searchMusic(entity.getTitle(), "", "", "10", new HttpHandler<MusicSearchBean>() {
+                        @Override
+                        public void onSuccess(MusicSearchBean data) {
+                            if (data.getMusics().size() == 0) return;
+                            String url = data.getMusics().get(0).getImage();
+                            entity.setCoverUrl(url);
+                            MainApplication.get().getMediaManager().update(entity);
+                        }
 
-                    @Override
-                    public void onFailure(String message, String response) {
-                        Log.e("initMusicCover",message);
-                    }
-                });
+                        @Override
+                        public void onFailure(String message, String response) {
+                            Log.e("initMusicCover",message);
+                        }
+                    });
+                }
             }
-        }
+        });
+
     }
 
     public static void initAlbumCover(){

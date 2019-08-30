@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".testPackage.TestActivity">
+    tools:context="com.example.testmodule.TestActivity">
 
 
     <Button
@@ -50,7 +50,6 @@
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/icon_dog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

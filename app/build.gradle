@@ -49,7 +49,7 @@ dependencies {
 
     api project(':commonlib')
     if(!isModule.toBoolean()){
-
+        api project(':testmodule')
     }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

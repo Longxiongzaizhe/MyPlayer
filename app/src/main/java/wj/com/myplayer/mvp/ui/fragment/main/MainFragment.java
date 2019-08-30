@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.commonlib.baseConfig.BaseFragment;
+import com.example.commonlib.base.BaseFragment;
 import com.example.commonlib.mview.BaseMarkDialog;
 import com.example.commonlib.network.HttpHandler;
 import com.example.commonlib.utils.RecycleViewVerticalDivider;

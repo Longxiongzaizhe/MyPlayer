@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.commonlib.baseConfig.BaseMultipleActivity;
+import com.example.commonlib.base.BaseMultipleActivity;
 import com.example.commonlib.utils.PhotoUtils;
 
 import java.io.File;

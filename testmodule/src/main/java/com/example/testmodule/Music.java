@@ -1,4 +1,4 @@
-package wj.com.myplayer.testPackage;
+package com.example.testmodule;
 
 import android.graphics.Bitmap;
 

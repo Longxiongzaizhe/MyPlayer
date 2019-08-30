@@ -1,4 +1,4 @@
-package com.example.commonlib.baseConfig;
+package com.example.commonlib.base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,7 +18,6 @@ public abstract class BaseFragment extends Fragment {
 
     private Unbinder mBind;
     protected View mContentView;
-    protected View mView;
     protected MultipleStatusView mMultipleStatusView;
 
     @Override
@@ -31,23 +30,23 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        View mView = inflater.inflate(R.layout.fragment_base_multiple,container,false);
         mContentView = inflater.inflate(getLayoutId(),container,false);
-        mView = inflater.inflate(R.layout.fragment_base_multiple,container,false);
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mContentView.setLayoutParams(lp);
-
-        if (mView != null){
-            mMultipleStatusView = mView.findViewById(R.id.multiple_state_view);
+        mMultipleStatusView = mView.findViewById(R.id.multiple_state_view);
+        if (mMultipleStatusView != null){
             mMultipleStatusView.addView(mContentView);
             mMultipleStatusView.setContentView(mContentView);
             mMultipleStatusView.showContent();
             mBind = ButterKnife.bind(this, mView);
-            return mView;
         }else {
             mBind = ButterKnife.bind(this, mContentView);
-            return mContentView;
+            super.onCreateView(inflater, container, savedInstanceState);
         }
+
+        return mView;
 
     }
 

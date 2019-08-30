@@ -1,4 +1,4 @@
-package com.example.commonlib.baseConfig;
+package com.example.commonlib.base;
 
 import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;

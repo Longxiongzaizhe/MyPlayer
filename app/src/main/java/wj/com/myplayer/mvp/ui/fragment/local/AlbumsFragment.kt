@@ -5,7 +5,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.bumptech.glide.Glide
-import com.example.commonlib.baseConfig.BaseFragment
+import com.example.commonlib.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_album.*
 import wj.com.myplayer.R
 import wj.com.myplayer.constant.FlagConstant

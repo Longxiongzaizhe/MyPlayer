@@ -1,4 +1,4 @@
-package wj.com.myplayer.testPackage;
+package com.example.testmodule;
 
 /**
  * 网络failure统一封装

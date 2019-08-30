@@ -3,7 +3,7 @@ package com.example.commonlib.utils;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.example.commonlib.baseConfig.BaseApplication;
+import com.example.commonlib.base.BaseApplication;
 
 
 public class ToastUtil {

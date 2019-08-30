@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.example.commonlib.baseConfig.BaseMultipleActivity;
+import com.example.commonlib.base.BaseMultipleActivity;
 
 import java.util.ArrayList;
 import java.util.List;

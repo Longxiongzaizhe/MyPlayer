@@ -60,7 +60,7 @@ public class MusicModePopWindow extends BasePopWindow {
         mInstance.dismiss();
     }
 
-    public void setListener(OnItemClickListener listener) {
+    public void setOnModeSelectedListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
