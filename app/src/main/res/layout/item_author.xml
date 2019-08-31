@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="56dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/list_author_iv"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/icon_dog"
+        android:layout_marginStart="@dimen/margin_tiny_size"
+        app:type="round"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/author_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small_size"
+        android:layout_marginTop="6dp"
+        android:text="我的歌单"
+        android:textColor="@color/common_text_content_color"
+        android:textSize="@dimen/text_normal_size"
+        app:layout_constraintStart_toEndOf="@+id/list_author_iv"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/list_count_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20首"
+        android:layout_marginTop="4dp"
+        android:textSize="@dimen/text_small_size"
+        android:textColor="@color/common_text_assist_gray"
+        app:layout_constraintStart_toStartOf="@+id/author_tv"
+        app:layout_constraintTop_toBottomOf="@+id/author_tv" />
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/icon_arrow_right_blue"
+        android:layout_marginEnd="@dimen/margin_tiny_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

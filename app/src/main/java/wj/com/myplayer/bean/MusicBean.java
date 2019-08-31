@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import java.io.Serializable;
 
+@Deprecated
 public class MusicBean implements Serializable {
 
     public long id; //id标识

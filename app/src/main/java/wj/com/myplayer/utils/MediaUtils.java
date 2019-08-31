@@ -30,7 +30,7 @@ import java.util.concurrent.Executors;
 import wj.com.myplayer.R;
 import wj.com.myplayer.config.MainApplication;
 import wj.com.myplayer.constant.MediaConstant;
-import wj.com.myplayer.daodb.MediaAuthorEntity;
+import wj.com.myplayer.daodb.MediaAlbumsEntity;
 import wj.com.myplayer.daodb.MediaAuthorManager;
 import wj.com.myplayer.daodb.MediaDaoManager;
 import wj.com.myplayer.daodb.MediaEntity;
@@ -72,6 +72,7 @@ public class MediaUtils {
                 mediaEntity.duration = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
                 mediaEntity.size = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));
                 mediaEntity.album_id = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
+                mediaEntity.canGetCover = true;
 
                 if(!checkIsMusic(mediaEntity.duration, mediaEntity.size)) {
                     continue;
@@ -171,7 +172,7 @@ public class MediaUtils {
             //根据options参数，减少所需要的内存
             bm = BitmapFactory.decodeFileDescriptor(fd, null, options);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
         }
         return bm;
     }
@@ -457,8 +458,8 @@ public class MediaUtils {
     }
 
     public static void initAlbumCover(){
-        List<MediaAuthorEntity> list = MediaAuthorManager.getInstance().getAll();
-        for (MediaAuthorEntity authorEntity : list){
+        List<MediaAlbumsEntity> list = MediaAuthorManager.getInstance().getAllAlbums();
+        for (MediaAlbumsEntity authorEntity : list){
 
             MediaEntity entity = MediaDaoManager.getInstance().getMusicByAlbumId(authorEntity.id);
             if (StringUtils.isEmpty(entity.getCoverUrl())){
@@ -469,7 +470,7 @@ public class MediaUtils {
                         String url = data.getMusics().get(0).getImage();
                         entity.setCoverUrl(url);
                         MainApplication.get().getMediaManager().update(entity);
-                        authorEntity.setCoverurl(url);
+                        authorEntity.setCoverUrl(url);
                         MainApplication.get().getAuthorManager().update(authorEntity);
                     }
 
@@ -479,7 +480,7 @@ public class MediaUtils {
                     }
                 });
             }else {
-                authorEntity.setCoverurl(entity.getCoverUrl());
+                authorEntity.setCoverUrl(entity.getCoverUrl());
                 MainApplication.get().getAuthorManager().update(authorEntity);
             }
 

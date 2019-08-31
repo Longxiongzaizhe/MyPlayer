@@ -8,10 +8,10 @@ import wj.com.myplayer.config.MainApplication;
 public class MediaAuthorManager {
 
     private static MediaAuthorManager manager;
-    private MediaAuthorEntityDao dao;
+    private MediaAlbumsEntityDao dao;
 
     private MediaAuthorManager(){
-        dao = MainApplication.get().getDaoSession().getMediaAuthorEntityDao();
+        dao = MainApplication.get().getDaoSession().getMediaAlbumsEntityDao();
     }
 
     public static MediaAuthorManager getInstance(){
@@ -21,15 +21,15 @@ public class MediaAuthorManager {
         return manager;
     }
 
-    public void insert(MediaAuthorEntity entity){
+    public void insert(MediaAlbumsEntity entity){
         dao.insert(entity);
     }
 
-    public void insert(List<MediaAuthorEntity> data){
+    public void insert(List<MediaAlbumsEntity> data){
         dao.insertInTx(data);
     }
 
-    public List<MediaAuthorEntity> getAll(){
+    public List<MediaAlbumsEntity> getAllAlbums(){
         return dao.loadAll();
     }
 
@@ -37,7 +37,7 @@ public class MediaAuthorManager {
         dao.deleteAll();
     }
 
-    public void update(MediaAuthorEntity entity){
+    public void update(MediaAlbumsEntity entity){
         dao.updateInTx(entity);
     }
 

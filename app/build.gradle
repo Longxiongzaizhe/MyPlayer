@@ -24,7 +24,7 @@ android {
     //greendao配置
     greendao {
         //数据库版本号，升级时修改
-        schemaVersion 3
+        schemaVersion 5
         //生成的DAO，DaoMaster和DaoSession的包路径。默认与表实体所在的包路径相同
         daoPackage 'wj.com.myplayer.daodb'
         //生成源文件的路径。默认源文件目录是在build目录中的(build/generated/source/greendao)

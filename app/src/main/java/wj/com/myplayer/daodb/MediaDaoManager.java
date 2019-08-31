@@ -37,6 +37,14 @@ public class MediaDaoManager {
         dao.insertInTx(mediaList);
     }
 
+    public void addSafety(List<MediaEntity> mediaList){
+        for (MediaEntity entity : mediaList){
+            if (!isSongExist(entity.id)){
+                dao.insert(entity);
+            }
+        }
+    }
+
     public void delete(MediaEntity entity){
         dao.delete(entity);
     }
@@ -65,6 +73,10 @@ public class MediaDaoManager {
         return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Title.eq(name)).list();
     }
 
+    public boolean isSongExist(long id){
+        return dao.queryBuilder().where(MediaEntityDao.Properties.Id.eq(id)).unique() != null;
+    }
+
     public List<MediaEntity> searchByKey(String key){
 
         QueryBuilder qb = dao.queryBuilder();
@@ -79,6 +91,10 @@ public class MediaDaoManager {
 //        return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Id.eq(id)).list();
 //    }
 
+    public int getCountByAuthor(String author){
+        return dao.queryBuilder().where(MediaEntityDao.Properties.Artist.eq(author)).list().size();
+    }
+
     /**
      * 获取所有的作者列表
      */
@@ -90,8 +106,6 @@ public class MediaDaoManager {
             list.add(cursor.getString(cursor.getColumnIndex("ARTIST")));
         }
         cursor.close();
-
-
         return list;
     }
 

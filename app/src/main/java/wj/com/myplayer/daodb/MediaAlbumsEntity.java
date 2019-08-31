@@ -1,32 +1,30 @@
 package wj.com.myplayer.daodb;
 
 
-import android.graphics.Bitmap;
-
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
-public class MediaAuthorEntity {
+public class MediaAlbumsEntity {
 
     @Id(autoincrement = false)
-    public Long id; //id标识
+    public Long id; //id标识 专辑ID
 
     public String author;
-    public String coverurl;
+    public String coverUrl;
 
 
 
 
-    @Generated(hash = 1431228696)
-    public MediaAuthorEntity(Long id, String author, String coverurl) {
+    @Generated(hash = 1955643082)
+    public MediaAlbumsEntity(Long id, String author, String coverUrl) {
         this.id = id;
         this.author = author;
-        this.coverurl = coverurl;
+        this.coverUrl = coverUrl;
     }
-    @Generated(hash = 144108233)
-    public MediaAuthorEntity() {
+    @Generated(hash = 842706318)
+    public MediaAlbumsEntity() {
     }
     public Long getId() {
         return this.id;
@@ -41,11 +39,11 @@ public class MediaAuthorEntity {
         this.author = author;
     }
 
-    public String getCoverurl() {
-        return this.coverurl;
+    public String getCoverUrl() {
+        return this.coverUrl;
     }
-    public void setCoverurl(String coverurl) {
-        this.coverurl = coverurl;
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
     }
 
 }

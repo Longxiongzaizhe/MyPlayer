@@ -20,12 +20,18 @@ import com.example.commonlib.utils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import wj.com.myplayer.R;
 import wj.com.myplayer.config.MainApplication;
 import wj.com.myplayer.constant.FlagConstant;
 import wj.com.myplayer.constant.MediaConstant;
 import wj.com.myplayer.constant.SPConstant;
-import wj.com.myplayer.daodb.MediaAuthorEntity;
+import wj.com.myplayer.daodb.MediaAlbumsEntity;
 import wj.com.myplayer.daodb.MediaAuthorManager;
 import wj.com.myplayer.daodb.MediaDaoManager;
 import wj.com.myplayer.daodb.MediaEntity;
@@ -60,6 +66,8 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     private MediaDaoManager manager = MainApplication.get().getMediaManager();
     private MediaAuthorManager authorManager = MediaAuthorManager.getInstance();
     private int pageIndex = 1;
+
+    private Disposable disposable;
 
 
 
@@ -139,7 +147,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 
     @Override
     protected void initData() {
-        datalist = MediaDaoManager.getInstance().getAllList(10,pageIndex++);
+        datalist = manager.getAllList(10,pageIndex++);
         mLocalMusicRv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MusicAdapter(datalist);
         mLocalMusicRv.setAdapter(adapter);
@@ -259,22 +267,43 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     public void onClick(View v) {
         if (v == mRefreshIv){
             mMultipleStatusView.showLoading();
-            List<MediaEntity> list = MediaUtils.getAllMediaList(getContext(),"");
-            datalist.clear();
-            datalist.addAll(list);
-            manager.deleteAll();
-            manager.insert(list);
-            adapter.notifyDataSetChanged();
-            mMultipleStatusView.showContent();
-            ToastUtil.showSingleToast("已刷新");
-            authorManager.deleteAll();
-            for (long id :manager.getAllAlbums()){
+            Observable.create((ObservableOnSubscribe<String>) e -> {
+                List<MediaEntity> list = MediaUtils.getAllMediaList(getContext(),"");
+                datalist.clear();
+                manager.addSafety(list);
+                datalist.addAll(manager.getAllList());
+                e.onNext("已刷新");
+            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
+                @Override
+                public void onSubscribe(Disposable d) {
+                    disposable = d;
+                }
 
-                String author = manager.getAuthorByAlbumId(id);
-//            String album = mediaManager.getAlbumByAlbumId(id);
-                MediaAuthorEntity entity = new MediaAuthorEntity(id,author,"");
-                authorManager.insert(entity);
-            }
+                @Override
+                public void onNext(String value) {
+                    adapter.notifyDataSetChanged();
+                    mMultipleStatusView.showContent();
+                    ToastUtil.showSingleToast("已刷新");
+                    authorManager.deleteAll();
+                    for (long id :manager.getAllAlbums()){
+                        String author = manager.getAuthorByAlbumId(id);
+                        MediaAlbumsEntity entity = new MediaAlbumsEntity(id,author,"");
+                        authorManager.insert(entity);
+                    }
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            });
+
+
         }else if (v == mSearchIv){
             mSearchIv.setVisibility(View.GONE);
             mRefreshIv.setVisibility(View.GONE);
@@ -307,5 +336,14 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     public void onStop() {
         super.onStop();
         pageIndex = 1;
+    }
+
+    @Override
+    public void onDestroy() {
+        if(disposable != null && !disposable.isDisposed()){
+            disposable.dispose();
+        }
+        super.onDestroy();
+
     }
 }

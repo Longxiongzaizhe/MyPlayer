@@ -6,6 +6,8 @@ import com.example.commonlib.network.RequestParams;
 
 import java.io.File;
 
+import wj.com.myplayer.net.bean.SearchPicBean;
+
 public class NetworkWrapper {
 
     public static void face(String id, HttpHandler httpHandler){
@@ -26,5 +28,12 @@ public class NetworkWrapper {
         RequestParams params = new RequestParams();
         params.add("files", files);
         HttpUtils.uploadFile(path, params, handler);
+    }
+
+    public static void searchPic(String key,HttpHandler<SearchPicBean> httpHandler) {
+        String path = "http://image.so.com/j";
+        RequestParams params = new RequestParams();
+        params.add("q", key);
+        HttpUtils.get(path,params,httpHandler);
     }
 }

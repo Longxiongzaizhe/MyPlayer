@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import wj.com.myplayer.config.MainApplication;
+import wj.com.myplayer.constant.FileConstant;
 
 public class FileUtils {
 
@@ -143,7 +144,7 @@ public class FileUtils {
         }
         Uri uri;
         if (Build.VERSION.SDK_INT >= 24) {
-            uri = FileProvider.getUriForFile(context, "com.hjl.android7.fileprovider", file);
+            uri = FileProvider.getUriForFile(context, FileConstant.File_Authorities, file);
         } else {
             uri = Uri.fromFile(file);
         }

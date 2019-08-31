@@ -21,7 +21,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import wj.com.myplayer.BuildConfig;
 import wj.com.myplayer.R;
+import wj.com.myplayer.constant.FileConstant;
 import wj.com.myplayer.constant.FlagConstant;
 import wj.com.myplayer.constant.SPConstant;
 import wj.com.myplayer.mview.BaseEditDialog;
@@ -190,7 +192,7 @@ public class UserSettingActivity extends BaseMultipleActivity implements View.On
         }
         Uri uri;
         if (Build.VERSION.SDK_INT >= 24) {
-            uri = FileProvider.getUriForFile(context,"wj.com.myplayer.provider", file);
+            uri = FileProvider.getUriForFile(context, FileConstant.File_Authorities, file);
         } else {
             uri = Uri.fromFile(file);
         }

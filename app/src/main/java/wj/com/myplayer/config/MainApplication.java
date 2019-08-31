@@ -18,7 +18,7 @@ import wj.com.myplayer.constant.MediaConstant;
 import wj.com.myplayer.constant.SPConstant;
 import wj.com.myplayer.daodb.DaoMaster;
 import wj.com.myplayer.daodb.DaoSession;
-import wj.com.myplayer.daodb.MediaAuthorEntity;
+import wj.com.myplayer.daodb.MediaAlbumsEntity;
 import wj.com.myplayer.daodb.MediaAuthorManager;
 import wj.com.myplayer.daodb.MediaDaoManager;
 import wj.com.myplayer.daodb.MediaEntity;
@@ -116,7 +116,7 @@ public class MainApplication extends BaseApplication {
 
             String author = mediaManager.getAuthorByAlbumId(id);
 
-            MediaAuthorEntity entity = new MediaAuthorEntity(id,author,"");
+            MediaAlbumsEntity entity = new MediaAlbumsEntity(id,author,"");
             authorManager.insert(entity);
         }
 

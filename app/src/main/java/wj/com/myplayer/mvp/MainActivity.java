@@ -45,6 +45,7 @@ import wj.com.myplayer.daodb.MediaDaoManager;
 import wj.com.myplayer.daodb.MediaRelEntity;
 import wj.com.myplayer.daodb.MediaRelManager;
 import wj.com.myplayer.mview.NoScrollViewPager;
+import wj.com.myplayer.mvp.ui.fragment.local.AuthorFragment;
 import wj.com.myplayer.utils.MediaUtils;
 import wj.com.myplayer.utils.PermissionsUtiles;
 import wj.com.myplayer.utils.SPUtils;
@@ -355,6 +356,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
                 mFragments.set(0, localFragment);
                 mFragments.set(1, albumsFragment);
+                mFragments.set(2,new AuthorFragment());
                 myPagerAdapter.notifyDataSetChanged();
                 setTitle(FlagConstant.FRAGMENT_LOCAL);
                 break;
@@ -455,15 +457,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             }
         }
 
-        Observable observable = Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                subscriber.onNext("Hello");
-                subscriber.onNext("Hi");
-                subscriber.onNext("Aloha");
-                subscriber.onCompleted();
-            }
-        });
 
         return super.onKeyDown(keyCode, event);
     }
