@@ -10,14 +10,14 @@ import kotlinx.android.synthetic.main.fragment_album.*
 import wj.com.myplayer.R
 import wj.com.myplayer.constant.FlagConstant
 import wj.com.myplayer.daodb.MediaAlbumsEntity
-import wj.com.myplayer.daodb.MediaAuthorManager
+import wj.com.myplayer.daodb.MediaAlbumsManager
 import wj.com.myplayer.mvp.ui.activity.MainMusic.MusicService
 import wj.com.myplayer.mvp.adapter.AlbumAdapter
 import wj.com.myplayer.utils.MediaUtils
 
 class AlbumsFragment : BaseFragment() {
 
-    var data : List<MediaAlbumsEntity> = MediaAuthorManager.getInstance().allAlbums
+    var data : List<MediaAlbumsEntity> = MediaAlbumsManager.getInstance().allAlbums
     var adapter = AlbumAdapter(data)
 
 

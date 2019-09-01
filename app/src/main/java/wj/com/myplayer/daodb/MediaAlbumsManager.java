@@ -5,18 +5,18 @@ import java.util.List;
 import wj.com.myplayer.config.MainApplication;
 
 
-public class MediaAuthorManager {
+public class MediaAlbumsManager {
 
-    private static MediaAuthorManager manager;
+    private static MediaAlbumsManager manager;
     private MediaAlbumsEntityDao dao;
 
-    private MediaAuthorManager(){
+    private MediaAlbumsManager(){
         dao = MainApplication.get().getDaoSession().getMediaAlbumsEntityDao();
     }
 
-    public static MediaAuthorManager getInstance(){
+    public static MediaAlbumsManager getInstance(){
         if (manager == null){
-            manager = new MediaAuthorManager();
+            manager = new MediaAlbumsManager();
         }
         return manager;
     }

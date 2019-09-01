@@ -32,7 +32,7 @@ import wj.com.myplayer.constant.FlagConstant;
 import wj.com.myplayer.constant.MediaConstant;
 import wj.com.myplayer.constant.SPConstant;
 import wj.com.myplayer.daodb.MediaAlbumsEntity;
-import wj.com.myplayer.daodb.MediaAuthorManager;
+import wj.com.myplayer.daodb.MediaAlbumsManager;
 import wj.com.myplayer.daodb.MediaDaoManager;
 import wj.com.myplayer.daodb.MediaEntity;
 import wj.com.myplayer.daodb.MediaRelEntity;
@@ -64,7 +64,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     private MediaConstant.MusicMode musicMode;
     private MusicModePopWindow popWindow;
     private MediaDaoManager manager = MainApplication.get().getMediaManager();
-    private MediaAuthorManager authorManager = MediaAuthorManager.getInstance();
+    private MediaAlbumsManager authorManager = MediaAlbumsManager.getInstance();
     private int pageIndex = 1;
 
     private Disposable disposable;

@@ -4,151 +4,9 @@ import java.util.List;
 
 public class SearchPicBean {
 
-    private int total;
-    private boolean end;
-    private String sid;
-    private int ran;
-    private int ras;
-    private int kn;
-    private int cn;
-    private int gn;
-    private int ps;
-    private int pc;
-    private int adstar;
-    private int lastindex;
-    private int ceg;
-    private Object boxresult;
-    private Object wordguess;
-    private int prevsn;
+
     private List<ListBean> list;
 
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public boolean isEnd() {
-        return end;
-    }
-
-    public void setEnd(boolean end) {
-        this.end = end;
-    }
-
-    public String getSid() {
-        return sid;
-    }
-
-    public void setSid(String sid) {
-        this.sid = sid;
-    }
-
-    public int getRan() {
-        return ran;
-    }
-
-    public void setRan(int ran) {
-        this.ran = ran;
-    }
-
-    public int getRas() {
-        return ras;
-    }
-
-    public void setRas(int ras) {
-        this.ras = ras;
-    }
-
-    public int getKn() {
-        return kn;
-    }
-
-    public void setKn(int kn) {
-        this.kn = kn;
-    }
-
-    public int getCn() {
-        return cn;
-    }
-
-    public void setCn(int cn) {
-        this.cn = cn;
-    }
-
-    public int getGn() {
-        return gn;
-    }
-
-    public void setGn(int gn) {
-        this.gn = gn;
-    }
-
-    public int getPs() {
-        return ps;
-    }
-
-    public void setPs(int ps) {
-        this.ps = ps;
-    }
-
-    public int getPc() {
-        return pc;
-    }
-
-    public void setPc(int pc) {
-        this.pc = pc;
-    }
-
-    public int getAdstar() {
-        return adstar;
-    }
-
-    public void setAdstar(int adstar) {
-        this.adstar = adstar;
-    }
-
-    public int getLastindex() {
-        return lastindex;
-    }
-
-    public void setLastindex(int lastindex) {
-        this.lastindex = lastindex;
-    }
-
-    public int getCeg() {
-        return ceg;
-    }
-
-    public void setCeg(int ceg) {
-        this.ceg = ceg;
-    }
-
-    public Object getBoxresult() {
-        return boxresult;
-    }
-
-    public void setBoxresult(Object boxresult) {
-        this.boxresult = boxresult;
-    }
-
-    public Object getWordguess() {
-        return wordguess;
-    }
-
-    public void setWordguess(Object wordguess) {
-        this.wordguess = wordguess;
-    }
-
-    public int getPrevsn() {
-        return prevsn;
-    }
-
-    public void setPrevsn(int prevsn) {
-        this.prevsn = prevsn;
-    }
 
     public List<ListBean> getList() {
         return list;
@@ -195,13 +53,8 @@ public class SearchPicBean {
          */
 
         private String id;
-        private boolean qqface_down_url;
-        private boolean downurl;
         private String downurl_true;
-        private boolean grpmd5;
         private int type;
-        private String src;
-        private int color;
         private int index;
         private String title;
         private String litetitle;
@@ -224,7 +77,6 @@ public class SearchPicBean {
         private int thumbHeight;
         private String grpcnt;
         private boolean fixedSize;
-        private String fnum;
         private String comm_purl;
 
         public String getId() {
@@ -235,22 +87,6 @@ public class SearchPicBean {
             this.id = id;
         }
 
-        public boolean isQqface_down_url() {
-            return qqface_down_url;
-        }
-
-        public void setQqface_down_url(boolean qqface_down_url) {
-            this.qqface_down_url = qqface_down_url;
-        }
-
-        public boolean isDownurl() {
-            return downurl;
-        }
-
-        public void setDownurl(boolean downurl) {
-            this.downurl = downurl;
-        }
-
         public String getDownurl_true() {
             return downurl_true;
         }
@@ -259,36 +95,12 @@ public class SearchPicBean {
             this.downurl_true = downurl_true;
         }
 
-        public boolean isGrpmd5() {
-            return grpmd5;
-        }
-
-        public void setGrpmd5(boolean grpmd5) {
-            this.grpmd5 = grpmd5;
-        }
-
         public int getType() {
             return type;
         }
 
         public void setType(int type) {
             this.type = type;
-        }
-
-        public String getSrc() {
-            return src;
-        }
-
-        public void setSrc(String src) {
-            this.src = src;
-        }
-
-        public int getColor() {
-            return color;
-        }
-
-        public void setColor(int color) {
-            this.color = color;
         }
 
         public int getIndex() {
@@ -465,14 +277,6 @@ public class SearchPicBean {
 
         public void setFixedSize(boolean fixedSize) {
             this.fixedSize = fixedSize;
-        }
-
-        public String getFnum() {
-            return fnum;
-        }
-
-        public void setFnum(String fnum) {
-            this.fnum = fnum;
         }
 
         public String getComm_purl() {

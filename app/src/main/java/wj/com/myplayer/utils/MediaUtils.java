@@ -31,7 +31,7 @@ import wj.com.myplayer.R;
 import wj.com.myplayer.config.MainApplication;
 import wj.com.myplayer.constant.MediaConstant;
 import wj.com.myplayer.daodb.MediaAlbumsEntity;
-import wj.com.myplayer.daodb.MediaAuthorManager;
+import wj.com.myplayer.daodb.MediaAlbumsManager;
 import wj.com.myplayer.daodb.MediaDaoManager;
 import wj.com.myplayer.daodb.MediaEntity;
 import wj.com.myplayer.net.DoubanNetworkWrapper;
@@ -458,7 +458,7 @@ public class MediaUtils {
     }
 
     public static void initAlbumCover(){
-        List<MediaAlbumsEntity> list = MediaAuthorManager.getInstance().getAllAlbums();
+        List<MediaAlbumsEntity> list = MediaAlbumsManager.getInstance().getAllAlbums();
         for (MediaAlbumsEntity authorEntity : list){
 
             MediaEntity entity = MediaDaoManager.getInstance().getMusicByAlbumId(authorEntity.id);

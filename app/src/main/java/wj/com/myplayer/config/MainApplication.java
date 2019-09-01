@@ -19,7 +19,7 @@ import wj.com.myplayer.constant.SPConstant;
 import wj.com.myplayer.daodb.DaoMaster;
 import wj.com.myplayer.daodb.DaoSession;
 import wj.com.myplayer.daodb.MediaAlbumsEntity;
-import wj.com.myplayer.daodb.MediaAuthorManager;
+import wj.com.myplayer.daodb.MediaAlbumsManager;
 import wj.com.myplayer.daodb.MediaDaoManager;
 import wj.com.myplayer.daodb.MediaEntity;
 import wj.com.myplayer.daodb.MediaListEntity;
@@ -44,7 +44,7 @@ public class MainApplication extends BaseApplication {
 
 
 
-    private MediaAuthorManager authorManager;
+    private MediaAlbumsManager authorManager;
 
 
     public static MainApplication get() {
@@ -109,7 +109,7 @@ public class MainApplication extends BaseApplication {
         listManager = MediaListManager.getInstance();
         mediaManager = MediaDaoManager.getInstance();
         relManager = MediaRelManager.getInstance();
-        authorManager = MediaAuthorManager.getInstance();
+        authorManager = MediaAlbumsManager.getInstance();
 
         authorManager.deleteAll();
         for (long id :mediaManager.getAllAlbums()){
@@ -168,7 +168,7 @@ public class MainApplication extends BaseApplication {
         return relManager;
     }
 
-    public MediaAuthorManager getAuthorManager() {
+    public MediaAlbumsManager getAuthorManager() {
         return authorManager;
     }
 }
