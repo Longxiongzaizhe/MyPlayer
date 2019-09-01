@@ -29,6 +29,10 @@ public class FlagConstant {
     public static final int UPDATE_KEY03 = 0x2002;
     public static final int UPDATE_KEY04 = 0x2003;
 
+    public static final String RXJAVA_KEY_01 = "rxjava_key_01";
+    public static final String RXJAVA_KEY_02 = "rxjava_key_02";
+    public static final String RXJAVA_KEY_03 = "rxjava_key_03";
+
 
 
 

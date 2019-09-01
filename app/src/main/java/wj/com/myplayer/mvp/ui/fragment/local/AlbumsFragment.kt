@@ -6,18 +6,25 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.bumptech.glide.Glide
 import com.example.commonlib.base.BaseFragment
+import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
+import io.reactivex.ObservableOnSubscribe
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_album.*
 import wj.com.myplayer.R
 import wj.com.myplayer.constant.FlagConstant
 import wj.com.myplayer.daodb.MediaAlbumsEntity
 import wj.com.myplayer.daodb.MediaAlbumsManager
-import wj.com.myplayer.mvp.ui.activity.MainMusic.MusicService
 import wj.com.myplayer.mvp.adapter.AlbumAdapter
+import wj.com.myplayer.mvp.ui.activity.MainMusic.MusicService
 import wj.com.myplayer.utils.MediaUtils
 
 class AlbumsFragment : BaseFragment() {
 
-    var data : List<MediaAlbumsEntity> = MediaAlbumsManager.getInstance().allAlbums
+    var data : ArrayList<MediaAlbumsEntity> = ArrayList()
     var adapter = AlbumAdapter(data)
 
 
@@ -44,7 +51,6 @@ class AlbumsFragment : BaseFragment() {
         album_rv.layoutManager = GridLayoutManager(context,3)
         album_rv.adapter = adapter
         adapter.setEmptyView(R.layout.layout_no_content,album_rv)
-        MediaUtils.initAlbumCover()
 
         album_rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -61,10 +67,38 @@ class AlbumsFragment : BaseFragment() {
     }
 
     override fun initData() {
+        var disposable : Disposable? = null
 
+        Observable.create(object : ObservableOnSubscribe<String> {
+            override fun subscribe(e: ObservableEmitter<String>?) {
+                MediaUtils.initAlbumCover()
+                data.addAll(MediaAlbumsManager.getInstance().allAlbums)
+                e!!.onNext(FlagConstant.RXJAVA_KEY_01)
+                e.onComplete()
+            }
 
-        mMultipleStatusView.showContent()
-        adapter.notifyDataSetChanged()
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<String> {
+            override fun onSubscribe(d: Disposable?) {
+                disposable = d
+            }
+
+            override fun onNext(value: String?) {
+
+            }
+
+            override fun onError(e: Throwable?) {
+
+            }
+
+            override fun onComplete() {
+                mMultipleStatusView.showContent()
+                adapter.notifyDataSetChanged()
+                if (!disposable!!.isDisposed){
+                    disposable?.dispose()
+                }
+            }
+
+        })
 
     }
 

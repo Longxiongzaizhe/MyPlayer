@@ -30,13 +30,10 @@ import android.widget.TextView;
 import com.example.commonlib.base.BaseMultipleActivity;
 import com.example.commonlib.utils.ToastUtil;
 
-import org.reactivestreams.Subscriber;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
 import wj.com.myplayer.R;
 import wj.com.myplayer.config.MainApplication;
 import wj.com.myplayer.constant.FlagConstant;
@@ -45,20 +42,20 @@ import wj.com.myplayer.daodb.MediaDaoManager;
 import wj.com.myplayer.daodb.MediaRelEntity;
 import wj.com.myplayer.daodb.MediaRelManager;
 import wj.com.myplayer.mview.NoScrollViewPager;
-import wj.com.myplayer.mvp.ui.fragment.local.AuthorFragment;
-import wj.com.myplayer.utils.MediaUtils;
-import wj.com.myplayer.utils.PermissionsUtiles;
-import wj.com.myplayer.utils.SPUtils;
+import wj.com.myplayer.mvp.adapter.LazyFragmentPagerAdapter;
 import wj.com.myplayer.mvp.ui.activity.MainMusic.MusicService;
 import wj.com.myplayer.mvp.ui.activity.navSetting.UserSettingActivity;
-import wj.com.myplayer.mvp.adapter.LazyFragmentPagerAdapter;
 import wj.com.myplayer.mvp.ui.fragment.OneFragment;
 import wj.com.myplayer.mvp.ui.fragment.PlayFragment;
 import wj.com.myplayer.mvp.ui.fragment.local.AlbumsFragment;
+import wj.com.myplayer.mvp.ui.fragment.local.AuthorFragment;
 import wj.com.myplayer.mvp.ui.fragment.main.FavoriteFragment;
 import wj.com.myplayer.mvp.ui.fragment.main.LocalFragment;
 import wj.com.myplayer.mvp.ui.fragment.main.MainFragment;
 import wj.com.myplayer.mvp.ui.fragment.main.RecentlyFragment;
+import wj.com.myplayer.utils.MediaUtils;
+import wj.com.myplayer.utils.PermissionsUtiles;
+import wj.com.myplayer.utils.SPUtils;
 
 public class MainActivity extends BaseMultipleActivity implements View.OnClickListener {
 

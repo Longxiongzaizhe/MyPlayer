@@ -4,18 +4,26 @@ import wj.com.myplayer.config.MainApplication
 
 class MediaAuthorManager {
 
-    var manager : MediaAuthorManager? = null
-    var dao : MediaAuthorEntityDao? = null
-
-    init {
-        dao = MainApplication.get().daoSession.mediaAuthorEntityDao
-    }
+    var dao  = MainApplication.get().daoSession.mediaAuthorEntityDao
 
     private constructor()
 
 
+    fun insert(entity: MediaAuthorEntity){
+        dao.insert(entity)
+    }
 
+    fun insert(name : String){
+        dao.insert(MediaAuthorEntity(null,name,""))
+    }
 
+    fun update(entity: MediaAuthorEntity){
+        dao.update(entity)
+    }
+
+    fun getAll():List<MediaAuthorEntity>{
+        return dao.loadAll()
+    }
 
     companion object{
         private var instance : MediaAuthorManager? = null

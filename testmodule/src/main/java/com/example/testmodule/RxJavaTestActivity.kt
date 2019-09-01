@@ -13,8 +13,6 @@ import io.reactivex.Observable.create
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import org.reactivestreams.Subscriber
-import javax.xml.transform.Templates
 
 
 class RxJavaTestActivity : BaseMultipleActivity(), View.OnClickListener {

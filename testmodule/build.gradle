@@ -1,4 +1,3 @@
-
 /*1.需要根据模式修改类型*/
 if (isModule.toBoolean()) {
     apply plugin: 'com.android.application'
@@ -7,6 +6,7 @@ if (isModule.toBoolean()) {
 }
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion build_version.target_sdk

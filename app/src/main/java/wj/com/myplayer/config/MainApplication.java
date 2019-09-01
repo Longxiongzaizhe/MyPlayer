@@ -20,6 +20,7 @@ import wj.com.myplayer.daodb.DaoMaster;
 import wj.com.myplayer.daodb.DaoSession;
 import wj.com.myplayer.daodb.MediaAlbumsEntity;
 import wj.com.myplayer.daodb.MediaAlbumsManager;
+import wj.com.myplayer.daodb.MediaAuthorManager;
 import wj.com.myplayer.daodb.MediaDaoManager;
 import wj.com.myplayer.daodb.MediaEntity;
 import wj.com.myplayer.daodb.MediaListEntity;
@@ -124,6 +125,9 @@ public class MainApplication extends BaseApplication {
             listManager.insert(new MediaListEntity(MediaConstant.FAVORITE,"",""));
             List<MediaEntity> list = MediaUtils.getAllMediaList(this,"");
             mediaManager.insert(list);
+            for (String author : mediaManager.getAllAuthor()){
+                MediaAuthorManager.Companion.get().insert(author);
+            }
         }
         if (listManager.query(MediaConstant.LATELY_LIST) == null){
             listManager.insert(new MediaListEntity(MediaConstant.LATELY_LIST,"",""));

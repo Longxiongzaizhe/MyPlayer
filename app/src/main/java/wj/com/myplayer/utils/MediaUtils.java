@@ -14,7 +14,6 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.example.commonlib.base.BaseApplication;
 import com.example.commonlib.network.HttpHandler;
 import com.example.commonlib.utils.StringUtils;
 
@@ -35,6 +34,8 @@ import wj.com.myplayer.daodb.MediaAlbumsManager;
 import wj.com.myplayer.daodb.MediaDaoManager;
 import wj.com.myplayer.daodb.MediaEntity;
 import wj.com.myplayer.net.DoubanNetworkWrapper;
+import wj.com.myplayer.net.NetworkWrapper;
+import wj.com.myplayer.net.bean.SearchPicBean;
 import wj.com.myplayer.net.bean.douban.MusicSearchBean;
 
 public class MediaUtils {
@@ -414,20 +415,28 @@ public class MediaUtils {
                 if (data.getMusics().size() == 0) return;
                 String url = data.getMusics().get(0).getImage();
                 LogUtils.i("searchMusic","title is "+entity.getTitle() +" url is: " + url);
-                Glide.with(context).load(data.getMusics().get(0).getImage()).into(imageView);
+                Glide.with(context).load(url).into(imageView);
                 entity.setCoverUrl(url);
                 MainApplication.get().getMediaManager().update(entity);
-
             }
             @Override
             public void onFailure(String message,String response) {
-                cacheThread.execute(() -> {
-                    Bitmap bitmap = MediaUtils.getArtwork(MainApplication.get().getApplicationContext(),
-                            entity.getId(), entity.getAlbum_id(), true, true);
-                    BaseApplication.runOnUIThread(()->  Glide.with(context).load(bitmap).error(R.drawable.icon_dog).into(imageView));
+                NetworkWrapper.searchPic(entity.title + entity.artist, new HttpHandler<SearchPicBean>() {
+                    @Override
+                    public void onSuccess(SearchPicBean data) {
+                        if (data.getList() == null || data.getList().size() == 0) return;
+                        String url = data.getList().get(0).get_thumb();
+                        LogUtils.i("searchPic","title is "+entity.getTitle() +" url is: " + url);
+                        Glide.with(context).load(url).into(imageView);
+                        entity.setCoverUrl(url);
+                        MainApplication.get().getMediaManager().update(entity);
+                    }
 
+                    @Override
+                    public void onFailure(String message, String response) {
+
+                    }
                 });
-
             }
         });
     }
