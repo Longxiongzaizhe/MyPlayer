@@ -3,6 +3,7 @@ package wj.com.myplayer.mvp.ui.fragment.local
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import com.example.commonlib.base.BaseFragment
@@ -18,6 +19,7 @@ import wj.com.myplayer.R
 import wj.com.myplayer.constant.FlagConstant
 import wj.com.myplayer.daodb.MediaAlbumsEntity
 import wj.com.myplayer.daodb.MediaAlbumsManager
+import wj.com.myplayer.mview.WrapContentGridLayoutManager
 import wj.com.myplayer.mvp.adapter.AlbumAdapter
 import wj.com.myplayer.mvp.ui.activity.MainMusic.MusicService
 import wj.com.myplayer.utils.MediaUtils
@@ -28,7 +30,7 @@ class AlbumsFragment : BaseFragment() {
     var adapter = AlbumAdapter(data)
 
 
-    companion object instance{
+    companion object{
         fun getInstance(bundle: Bundle):AlbumsFragment{
             val albumsFragment = AlbumsFragment()
             albumsFragment.arguments = bundle
@@ -48,7 +50,7 @@ class AlbumsFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         mMultipleStatusView.showLoading()
-        album_rv.layoutManager = GridLayoutManager(context,3)
+        album_rv.layoutManager = WrapContentGridLayoutManager(context,3)
         album_rv.adapter = adapter
         adapter.setEmptyView(R.layout.layout_no_content,album_rv)
 
@@ -72,7 +74,10 @@ class AlbumsFragment : BaseFragment() {
         Observable.create(object : ObservableOnSubscribe<String> {
             override fun subscribe(e: ObservableEmitter<String>?) {
                 MediaUtils.initAlbumCover()
-                data.addAll(MediaAlbumsManager.getInstance().allAlbums)
+                synchronized(data){
+                    data.clear()
+                    data.addAll(MediaAlbumsManager.getInstance().allAlbums)
+                }
                 e!!.onNext(FlagConstant.RXJAVA_KEY_01)
                 e.onComplete()
             }
@@ -104,5 +109,18 @@ class AlbumsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        Log.d("AlbumsFragment","onResume")
     }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("AlbumsFragment","onPause")
+
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d("AlbumsFragment","onPause")
+    }
+
 }

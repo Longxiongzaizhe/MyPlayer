@@ -108,8 +108,10 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        musicList.clear();
-        musicList.addAll(listManager.getAllList());
+        synchronized (musicList){
+            musicList.clear();
+            musicList.addAll(listManager.getAllList());
+        }
         listAdapter.notifyDataSetChanged();
         listAdapter.setEmptyView(R.layout.layout_no_content,mListRv);
     }

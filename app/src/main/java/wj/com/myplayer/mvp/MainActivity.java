@@ -79,14 +79,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private MediaDaoManager manager = MainApplication.get().getMediaManager();
     private static String TAG = MainActivity.class.getSimpleName();
 
-    private FragmentManager fragmentManager = getSupportFragmentManager();
-    private LocalFragment localFragment;
-    private MainFragment mainFragment;
-    private RecentlyFragment recentlyFragment;
-    private FavoriteFragment favoriteFragment;
-
-    private AlbumsFragment albumsFragment;
-
     private MediaRelManager relManager = MediaRelManager.getInstance();
 
     private final String[] permissions = {
@@ -124,8 +116,8 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     }
 
     public void initView() {
-        mMainViewpager =  findViewById(R.id.main_viewpager);
-        mMainTabLayout = (TabLayout) findViewById(R.id.main_tab_layout);
+        mMainViewpager = findViewById(R.id.main_viewpager);
+        mMainTabLayout = findViewById(R.id.main_tab_layout);
         mMainViewpager.setNoScroll(true);
         FragmentManager fragmentManager = getSupportFragmentManager();
         playFragment = (PlayFragment) fragmentManager.findFragmentById(R.id.music_play_lay);
@@ -203,6 +195,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             }
         });
         mMainViewpager.addOnPageChangeListener(mOnPageChangeListener);
+        mMainViewpager.setOffscreenPageLimit(5);
     }
 
     @Override
@@ -220,8 +213,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         Intent startMusicIntent = new Intent(this,MusicService.class);
         bindService(startMusicIntent,connection,BIND_AUTO_CREATE) ;
         startService(startMusicIntent);
-
-        mainFragment = MainFragment.newInstance();
 
     }
 
@@ -348,31 +339,29 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     public void setFragment(int flag){
         switch (flag){
             case FlagConstant.FRAGMENT_LOCAL:
-                if (localFragment == null) localFragment = LocalFragment.newInstance(mBinder);
-                if (albumsFragment == null) albumsFragment = AlbumsFragment.instance.getInstance(mBinder);
 
-                mFragments.set(0, localFragment);
-                mFragments.set(1, albumsFragment);
+
+                mFragments.set(0,LocalFragment.newInstance(mBinder));
+                mFragments.set(1,AlbumsFragment.Companion.getInstance(mBinder));
                 mFragments.set(2,new AuthorFragment());
                 myPagerAdapter.notifyDataSetChanged();
                 setTitle(FlagConstant.FRAGMENT_LOCAL);
                 break;
             case FlagConstant.FRAGMENT_MAIN:
-                if (mainFragment == null) mainFragment = MainFragment.newInstance();
-                mFragments.set(0,mainFragment);
+                mFragments.set(0, MainFragment.newInstance());
+                mFragments.set(1,new OneFragment());
+                mFragments.set(2,new OneFragment());
                 mMainViewpager.setCurrentItem(0);
                 myPagerAdapter.notifyDataSetChanged();
                 setTitle(FlagConstant.FRAGMENT_MAIN);
                 break;
             case FlagConstant.FRAGMENT_RECENT:
-                if (recentlyFragment == null) recentlyFragment = RecentlyFragment.newInstance(mBinder);
-                mFragments.set(0,recentlyFragment);
+                mFragments.set(0, RecentlyFragment.newInstance(mBinder));
                 myPagerAdapter.notifyDataSetChanged();
                 setTitle(FlagConstant.FRAGMENT_RECENT);
                 break;
             case FlagConstant.FRAGMENT_FAVORITE:
-                if (favoriteFragment == null) favoriteFragment = FavoriteFragment.newInstance(mBinder);
-                mFragments.set(0,favoriteFragment);
+                mFragments.set(0,FavoriteFragment.newInstance(mBinder));
                 myPagerAdapter.notifyDataSetChanged();
                 setTitle(FlagConstant.FRAGMENT_FAVORITE);
                 break;
