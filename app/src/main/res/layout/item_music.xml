@@ -5,7 +5,7 @@
     android:layout_height="72dp"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <wj.com.myplayer.mview.RoundImageView
+    <com.wj.myplayer.mview.RoundImageView
         android:id="@+id/item_music_albums"
         android:layout_width="56dp"
         android:layout_height="56dp"

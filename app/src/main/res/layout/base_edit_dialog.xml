@@ -20,7 +20,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         />
-    <wj.com.myplayer.mview.ClearEditText
+    <com.wj.myplayer.mview.ClearEditText
         android:id="@+id/base_dialog_et"
         android:layout_width="match_parent"
         android:layout_height="32dp"

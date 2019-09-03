@@ -50,7 +50,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="gone"/>
 
-        <wj.com.myplayer.mview.ClearEditText
+        <com.wj.myplayer.mview.ClearEditText
             android:id="@+id/local_search_et"
             style="@style/SearchEditText"
             android:layout_width="0dp"
