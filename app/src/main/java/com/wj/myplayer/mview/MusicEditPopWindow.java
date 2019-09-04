@@ -9,8 +9,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hjl.commonlib.mview.BasePopWindow;
 import com.wj.myplayer.bean.SimpleTextBean;
-import com.wj.myplayer.daodb.MediaRelManager;
+import com.hjl.module_main.daodb.MediaRelManager;
 import com.wj.myplayer.R;
 import com.hjl.commonlib.utils.DensityUtil;
 import com.wj.myplayer.mvp.adapter.SimpleTextAdapter;

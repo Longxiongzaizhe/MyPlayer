@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import com.wj.myplayer.constant.FlagConstant;
+import com.hjl.module_main.constant.FlagConstant;
 import com.wj.myplayer.R;
 
 public class ImageDisplayFragment extends BaseFragment {

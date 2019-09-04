@@ -1,7 +1,7 @@
 package com.wj.myplayer.utils;
 
 import com.wj.myplayer.bean.MusicBean;
-import com.wj.myplayer.daodb.MediaEntity;
+import com.hjl.module_main.daodb.MediaEntity;
 
 public class DataTransferUtils {
 

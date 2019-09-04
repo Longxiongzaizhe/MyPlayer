@@ -12,10 +12,10 @@ import com.hjl.commonlib.utils.RecycleViewVerticalDivider
 import com.hjl.commonlib.utils.ToastUtil
 import kotlinx.android.synthetic.main.layout_add_to_list.*
 import com.wj.myplayer.R
-import com.wj.myplayer.daodb.MediaListEntity
-import com.wj.myplayer.daodb.MediaListManager
-import com.wj.myplayer.daodb.MediaRelEntity
-import com.wj.myplayer.daodb.MediaRelManager
+import com.hjl.module_main.daodb.MediaListEntity
+import com.hjl.module_main.daodb.MediaListManager
+import com.hjl.module_main.daodb.MediaRelEntity
+import com.hjl.module_main.daodb.MediaRelManager
 import com.wj.myplayer.mvp.adapter.SimpleMusicListAdapter
 
 class AddToListDialog(context:Context,var musicId: Long) : Dialog(context, R.style.BaseDialogStyle) {

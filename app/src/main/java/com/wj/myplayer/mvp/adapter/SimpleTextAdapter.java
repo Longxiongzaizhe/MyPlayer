@@ -11,7 +11,7 @@ import com.wj.myplayer.R;
 public class SimpleTextAdapter extends BaseQuickAdapter<SimpleTextBean, BaseViewHolder> {
 
     public SimpleTextAdapter( List<SimpleTextBean> data) {
-        super(R.layout.item_base_tv, data);
+        super(R.layout.common_item_base_tv, data);
     }
 
     @Override

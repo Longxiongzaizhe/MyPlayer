@@ -6,8 +6,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.List;
 
 import com.wj.myplayer.R;
-import com.wj.myplayer.daodb.MediaListEntity;
-import com.wj.myplayer.daodb.MediaRelManager;
+import com.hjl.module_main.daodb.MediaListEntity;
+import com.hjl.module_main.daodb.MediaRelManager;
 
 public class MusicListAdapter extends BaseQuickAdapter<MediaListEntity, BaseViewHolder> {
 

@@ -19,14 +19,14 @@ import com.hjl.commonlib.utils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wj.myplayer.constant.FlagConstant;
-import com.wj.myplayer.daodb.MediaDaoManager;
-import com.wj.myplayer.daodb.MediaListEntity;
-import com.wj.myplayer.daodb.MediaListManager;
-import com.wj.myplayer.daodb.MediaRelManager;
+import com.hjl.module_main.constant.FlagConstant;
+import com.hjl.module_main.daodb.MediaDaoManager;
+import com.hjl.module_main.daodb.MediaListEntity;
+import com.hjl.module_main.daodb.MediaListManager;
+import com.hjl.module_main.daodb.MediaRelManager;
 import com.wj.myplayer.R;
-import com.wj.myplayer.net.bean.ItooisNetworkWrapper;
-import com.wj.myplayer.net.bean.itoois.KugouSearchBean;
+import com.hjl.module_main.net.bean.ItooisNetworkWrapper;
+import com.hjl.module_main.net.bean.itoois.KugouSearchBean;
 import com.wj.myplayer.mvp.MainActivity;
 import com.wj.myplayer.mvp.adapter.MusicListAdapter;
 
@@ -123,15 +123,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.main_local_play:
 
-                ItooisNetworkWrapper.searchMusic("听妈妈的话", "song", 20, 1, new HttpHandler<KugouSearchBean>() {
-                    @Override
-                    public void onSuccess(KugouSearchBean data) {
-                        Log.d("TAG",data.getData().getInfo().get(0).getHash());
-                    }
-
-
-
-                });
 
                 break;
             case R.id.main_history_play:
@@ -142,13 +133,13 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             case R.id.main_download_play:
                 break;
             case R.id.local_lay:
-                activity.setFragment(FlagConstant.FRAGMENT_LOCAL);
+                activity.showFragment(FlagConstant.FRAGMENT_LOCAL);
                 break;
             case R.id.history_lay:
-                activity.setFragment(FlagConstant.FRAGMENT_RECENT);
+                activity.showFragment(FlagConstant.FRAGMENT_RECENT);
                 break;
             case R.id.favourite_lay:
-                activity.setFragment(FlagConstant.FRAGMENT_FAVORITE);
+                activity.showFragment(FlagConstant.FRAGMENT_FAVORITE);
                 break;
             case R.id.download_lay:
                 break;
@@ -169,6 +160,16 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             case R.id.main_list_edit:
                 break;
         }
+    }
+
+    @Override
+    public void notifyDataChange() {
+        mMainLocalNum.setText(String.format(getString(R.string.music_num),manager.getAllList().size()));
+        mMainHistoryNum.setText(String.format(getString(R.string.music_num),relManager.queryRecentList().size()));
+        mMainFavouriteNum.setText(String.format(getString(R.string.music_num),relManager.queryFavoriteList().size()));
+        musicList.clear();
+        musicList.addAll(listManager.getAllList());
+        listAdapter.notifyDataSetChanged();
     }
 
     @Override

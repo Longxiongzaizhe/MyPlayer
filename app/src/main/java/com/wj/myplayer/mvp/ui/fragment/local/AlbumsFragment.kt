@@ -15,13 +15,13 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_album.*
 import com.wj.myplayer.R
-import com.wj.myplayer.constant.FlagConstant
-import com.wj.myplayer.daodb.MediaAlbumsEntity
-import com.wj.myplayer.daodb.MediaAlbumsManager
+import com.hjl.module_main.constant.FlagConstant
+import com.hjl.module_main.daodb.MediaAlbumsEntity
+import com.hjl.module_main.daodb.MediaAlbumsManager
 import com.wj.myplayer.mview.WrapContentGridLayoutManager
 import com.wj.myplayer.mvp.adapter.AlbumAdapter
-import com.wj.myplayer.mvp.ui.activity.MainMusic.MusicService
-import com.wj.myplayer.utils.MediaUtils
+import com.hjl.module_main.mvp.fragment.MusicService
+import com.hjl.module_main.utils.MediaUtils
 
 class AlbumsFragment : BaseFragment() {
 
@@ -30,16 +30,16 @@ class AlbumsFragment : BaseFragment() {
 
 
     companion object{
-        fun getInstance(bundle: Bundle):AlbumsFragment{
+        fun newInstance(bundle: Bundle):AlbumsFragment{
             val albumsFragment = AlbumsFragment()
             albumsFragment.arguments = bundle
             return albumsFragment
         }
 
-        fun getInstance(mBinder:MusicService.MusicBinder):AlbumsFragment{
+        fun newInstance(mBinder: MusicService.MusicBinder):AlbumsFragment{
             val bundle = Bundle()
             bundle.putSerializable(FlagConstant.BINDER,mBinder)
-            return getInstance(bundle)
+            return newInstance(bundle)
         }
     }
 
@@ -106,20 +106,5 @@ class AlbumsFragment : BaseFragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d("AlbumsFragment","onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("AlbumsFragment","onPause")
-
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.d("AlbumsFragment","onPause")
-    }
 
 }

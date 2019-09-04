@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/music_play_lay"
-        android:name="com.wj.myplayer.mvp.ui.fragment.PlayFragment"
+        android:name="com.hjl.module_main.mvp.fragment.PlayFragment"
         android:layout_width="match_parent"
         android:layout_height="72dp"/>
 

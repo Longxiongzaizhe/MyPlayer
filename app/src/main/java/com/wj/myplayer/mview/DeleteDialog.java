@@ -3,6 +3,8 @@ package com.wj.myplayer.mview;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.hjl.commonlib.mview.BaseDialog;
+
 public class DeleteDialog extends BaseDialog {
 
 

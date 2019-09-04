@@ -5,7 +5,7 @@ import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.wj.myplayer.R
-import com.wj.myplayer.daodb.MediaAlbumsEntity
+import com.hjl.module_main.daodb.MediaAlbumsEntity
 
 class AlbumAdapter(data :List<MediaAlbumsEntity>): BaseQuickAdapter<MediaAlbumsEntity, BaseViewHolder>(R.layout.item_album,data) {
 

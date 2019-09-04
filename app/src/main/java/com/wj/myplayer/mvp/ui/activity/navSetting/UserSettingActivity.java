@@ -22,13 +22,13 @@ import java.io.FileNotFoundException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import com.wj.myplayer.R;
-import com.wj.myplayer.constant.FileConstant;
-import com.wj.myplayer.constant.FlagConstant;
-import com.wj.myplayer.constant.SPConstant;
-import com.wj.myplayer.mview.BaseEditDialog;
-import com.wj.myplayer.mview.IOSDialog;
-import com.wj.myplayer.utils.FileUtils;
-import com.wj.myplayer.utils.SPUtils;
+import com.hjl.module_main.constant.FileConstant;
+import com.hjl.module_main.constant.FlagConstant;
+import com.hjl.module_main.constant.SPConstant;
+import com.hjl.commonlib.mview.BaseEditDialog;
+import com.hjl.commonlib.mview.IOSDialog;
+import com.hjl.module_main.utils.FileUtils;
+import com.hjl.module_main.utils.SPUtils;
 
 public class UserSettingActivity extends BaseMultipleActivity implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
 

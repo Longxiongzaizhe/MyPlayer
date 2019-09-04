@@ -14,7 +14,7 @@ import com.hjl.commonlib.base.BaseMultipleActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wj.myplayer.constant.FlagConstant;
+import com.hjl.module_main.constant.FlagConstant;
 import com.wj.myplayer.R;
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.commonlib.utils.ToastUtil;

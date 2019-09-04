@@ -9,6 +9,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="IOSDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowEnterAnimation">@anim/common_ios_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/common_ios_dialog_out</item>
+    </style>
 
     <style name="MultipleStateView"/>
     <style name="MultipleStateView.Content">

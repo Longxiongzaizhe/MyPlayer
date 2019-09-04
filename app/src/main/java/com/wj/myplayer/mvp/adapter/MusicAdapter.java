@@ -10,9 +10,9 @@ import com.hjl.commonlib.utils.StringUtils;
 import java.util.List;
 
 import com.wj.myplayer.R;
-import com.wj.myplayer.daodb.MediaDaoManager;
-import com.wj.myplayer.daodb.MediaEntity;
-import com.wj.myplayer.utils.MediaUtils;
+import com.hjl.module_main.daodb.MediaDaoManager;
+import com.hjl.module_main.daodb.MediaEntity;
+import com.hjl.module_main.utils.MediaUtils;
 
 public class MusicAdapter extends BaseQuickAdapter<MediaEntity, BaseViewHolder> {
 

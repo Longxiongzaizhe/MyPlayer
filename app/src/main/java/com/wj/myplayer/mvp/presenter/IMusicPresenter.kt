@@ -2,7 +2,7 @@ package com.wj.myplayer.mvp.presenter
 
 import android.content.Context
 import android.widget.ImageView
-import com.wj.myplayer.daodb.MediaEntity
+import com.hjl.module_main.daodb.MediaEntity
 
 interface IMusicPresenter {
 

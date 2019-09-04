@@ -15,55 +15,46 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.base.BaseMultipleActivity;
 import com.hjl.commonlib.utils.ToastUtil;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.wj.myplayer.R;
-import com.wj.myplayer.config.MainApplication;
-import com.wj.myplayer.constant.FlagConstant;
-import com.wj.myplayer.constant.SPConstant;
-import com.wj.myplayer.daodb.MediaDaoManager;
-import com.wj.myplayer.daodb.MediaRelEntity;
-import com.wj.myplayer.daodb.MediaRelManager;
-import com.wj.myplayer.mview.NoScrollViewPager;
+import com.hjl.module_main.MainApplication;
+import com.hjl.module_main.constant.FlagConstant;
+import com.hjl.module_main.constant.SPConstant;
+import com.hjl.module_main.daodb.MediaDaoManager;
+import com.hjl.module_main.daodb.MediaRelEntity;
+import com.hjl.module_main.daodb.MediaRelManager;
 import com.wj.myplayer.mvp.adapter.LazyFragmentPagerAdapter;
-import com.wj.myplayer.mvp.ui.activity.MainMusic.MusicService;
+import com.hjl.module_main.mvp.fragment.MusicService;
 import com.wj.myplayer.mvp.ui.activity.navSetting.UserSettingActivity;
-import com.wj.myplayer.mvp.ui.fragment.OneFragment;
-import com.wj.myplayer.mvp.ui.fragment.PlayFragment;
-import com.wj.myplayer.mvp.ui.fragment.local.AlbumsFragment;
-import com.wj.myplayer.mvp.ui.fragment.local.AuthorFragment;
+import com.hjl.module_main.mvp.fragment.PlayFragment;
 import com.wj.myplayer.mvp.ui.fragment.main.FavoriteFragment;
-import com.wj.myplayer.mvp.ui.fragment.main.LocalFragment;
 import com.wj.myplayer.mvp.ui.fragment.main.MainFragment;
+import com.wj.myplayer.mvp.ui.fragment.main.MainLocalFragment;
 import com.wj.myplayer.mvp.ui.fragment.main.RecentlyFragment;
-import com.wj.myplayer.utils.MediaUtils;
+import com.hjl.module_main.utils.MediaUtils;
 import com.wj.myplayer.utils.PermissionsUtiles;
-import com.wj.myplayer.utils.SPUtils;
+import com.hjl.module_main.utils.SPUtils;
 
 public class MainActivity extends BaseMultipleActivity implements View.OnClickListener {
 
-    private TabLayout mMainTabLayout;
-    private NoScrollViewPager mMainViewpager;
-
-    private List<Fragment> mFragments;
-    private List<String> mTitles;
     private LazyFragmentPagerAdapter myPagerAdapter;
     private DrawerLayout mMainDrawerLayout;
     private NavigationView mMainNavView;
@@ -74,10 +65,16 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
     private PlayFragment playFragment;
     private MusicService.MusicBinder mBinder;
+    private FrameLayout mFragmentFrame;
+    private Fragment lastFragment;
 
     private Intent intent;
     private MediaDaoManager manager = MainApplication.get().getMediaManager();
     private static String TAG = MainActivity.class.getSimpleName();
+
+    private FragmentTransaction transaction;
+    private FragmentManager fragmentManager = getSupportFragmentManager();
+
 
     private MediaRelManager relManager = MediaRelManager.getInstance();
 
@@ -116,19 +113,15 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     }
 
     public void initView() {
-        mMainViewpager = findViewById(R.id.main_viewpager);
-        mMainTabLayout = findViewById(R.id.main_tab_layout);
-        mMainViewpager.setNoScroll(true);
+        mFragmentFrame = findViewById(R.id.fragment_frame);
         FragmentManager fragmentManager = getSupportFragmentManager();
         playFragment = (PlayFragment) fragmentManager.findFragmentById(R.id.music_play_lay);
+        transaction = getSupportFragmentManager().beginTransaction();
+        MainFragment mainFragment = MainFragment.newInstance();
+        transaction.add(R.id.fragment_frame,mainFragment,MainFragment.class.getSimpleName());
+        transaction.addToBackStack(null);
+        transaction.commit();
 
-        mFragments = new ArrayList<>();
-        mTitles = new ArrayList<>();
-        myPagerAdapter = new LazyFragmentPagerAdapter(getSupportFragmentManager(), mFragments, mTitles);
-        mMainViewpager.setAdapter(myPagerAdapter);
-        mMainTabLayout.setupWithViewPager(mMainViewpager);
-        mMainTabLayout.setOnClickListener(this);
-        mMainViewpager.setOnClickListener(this);
 
         mMainDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         mMainNavView = (NavigationView) findViewById(R.id.main_nav_view);
@@ -194,20 +187,15 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
             }
         });
-        mMainViewpager.addOnPageChangeListener(mOnPageChangeListener);
-        mMainViewpager.setOffscreenPageLimit(5);
     }
 
     @Override
     public void initData() {
         super.initData();
-        mFragments.add(MainFragment.newInstance());
-        mFragments.add(new OneFragment());
-        mFragments.add(new OneFragment());
+//        mFragments.add(MainFragment.newInstance());
+//        mFragments.add(new OneFragment());
+//        mFragments.add(new OneFragment());
         intent = new Intent();
-
-        initMainTitle();
-
 
 
         Intent startMusicIntent = new Intent(this,MusicService.class);
@@ -216,22 +204,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
     }
 
-    private void initMainTitle() {
-        mTitles.clear();
-        mTitles.add("我的");
-        mTitles.add("热门");
-        mTitles.add("FM");
-        myPagerAdapter.notifyDataSetChanged();
-    }
-
-    private void initLocalTitle(){
-        mTitles.clear();
-        mTitles.add("音乐");
-        mTitles.add("专辑");
-        mTitles.add("歌手");
-
-        myPagerAdapter.notifyDataSetChanged();
-    }
 
     @Override
     protected void onStart() {
@@ -254,10 +226,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         switch (v.getId()) {
             default:
                 break;
-            case R.id.main_tab_layout:
-                break;
-            case R.id.main_viewpager:
-                break;
             case R.id.title_left_iv:
                 mMultipleStateView.showContent();
                 mMainDrawerLayout.openDrawer(GravityCompat.START);
@@ -266,9 +234,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                 //startActivity(TestActivity.class);
                 break;
             case R.id.title_right_iv:
-                if (mFragments.get(0).getClass()== RecentlyFragment.class){
-                    ((RecentlyFragment)mFragments.get(0)).deleteRecentList();
-                }
+
                 break;
         }
     }
@@ -291,28 +257,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
     }
 
-    private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            if (mTitles.get(0).equals("我的")){
-                mMainViewpager.setCurrentItem(0);
-                if (position != 0) {
-                    ToastUtil.showSingleToast("暂未开放，敬请期待");
-                }
-            }
-
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
-    };
 
     private ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -326,8 +270,19 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             }
 
             playFragment.setBinder(mBinder);
+            MainLocalFragment mainLocalFragment = MainLocalFragment.Companion.newInstance(mBinder);
+            FavoriteFragment favoriteFragment = FavoriteFragment.newInstance(mBinder);
+            RecentlyFragment recentlyFragment = RecentlyFragment.newInstance(mBinder);
 
-            //    mBinder.play();
+            transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.fragment_frame,mainLocalFragment,MainLocalFragment.class.getSimpleName());
+            transaction.add(R.id.fragment_frame,favoriteFragment,FavoriteFragment.class.getSimpleName());
+            transaction.add(R.id.fragment_frame,recentlyFragment,RecentlyFragment.class.getSimpleName());
+            transaction.hide(mainLocalFragment);
+            transaction.hide(favoriteFragment);
+            transaction.hide(recentlyFragment);
+            transaction.commit();
+
         }
 
         @Override
@@ -336,78 +291,65 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         }
     };
 
-    public void setFragment(int flag){
-        switch (flag){
-            case FlagConstant.FRAGMENT_LOCAL:
+    public void showFragment(String name){
 
-
-                mFragments.set(0,LocalFragment.newInstance(mBinder));
-                mFragments.set(1,AlbumsFragment.Companion.getInstance(mBinder));
-                mFragments.set(2,new AuthorFragment());
-                myPagerAdapter.notifyDataSetChanged();
-                setTitle(FlagConstant.FRAGMENT_LOCAL);
-                break;
-            case FlagConstant.FRAGMENT_MAIN:
-                mFragments.set(0, MainFragment.newInstance());
-                mFragments.set(1,new OneFragment());
-                mFragments.set(2,new OneFragment());
-                mMainViewpager.setCurrentItem(0);
-                myPagerAdapter.notifyDataSetChanged();
-                setTitle(FlagConstant.FRAGMENT_MAIN);
-                break;
-            case FlagConstant.FRAGMENT_RECENT:
-                mFragments.set(0, RecentlyFragment.newInstance(mBinder));
-                myPagerAdapter.notifyDataSetChanged();
-                setTitle(FlagConstant.FRAGMENT_RECENT);
-                break;
-            case FlagConstant.FRAGMENT_FAVORITE:
-                mFragments.set(0,FavoriteFragment.newInstance(mBinder));
-                myPagerAdapter.notifyDataSetChanged();
-                setTitle(FlagConstant.FRAGMENT_FAVORITE);
-                break;
+        BaseFragment fragment =(BaseFragment) getSupportFragmentManager().findFragmentByTag(name);
+        if (fragment != null){
+            transaction = getSupportFragmentManager().beginTransaction();
+            transaction.show(fragment);
+            if (lastFragment != null){
+                transaction.hide(lastFragment);
+            }
+            lastFragment = fragment;
+            fragment.notifyDataChange();
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }else {
+            ToastUtil.showSingleToast(name + "is no found");
         }
+
     }
 
-    public void setTitle(int flag){
-
-        mTitleRightIv.setVisibility(View.GONE);
-        switch (flag){
-            case FlagConstant.FRAGMENT_LOCAL:
-                mMainViewpager.setNoScroll(false);
-                mTitleLeftIv.setImageResource(R.drawable.ic_back);
-                mTitleCenterTv.setText("本地音乐");
-                mTitleLeftIv.setOnClickListener(v-> setFragment(FlagConstant.FRAGMENT_MAIN));
-                initLocalTitle();
-
-                break;
-            case FlagConstant.FRAGMENT_RECENT:
-                mTitleLeftIv.setImageResource(R.drawable.ic_back);
-                mTitleRightIv.setVisibility(View.VISIBLE);
-                mTitleRightIv.setImageResource(R.drawable.icon_garbage);
-                mTitleRightIv.setOnClickListener(this);
-                mTitleLeftIv.setOnClickListener(v-> setFragment(FlagConstant.FRAGMENT_MAIN));
-                mMainTabLayout.setVisibility(View.GONE);
-                mTitleCenterTv.setText("最近播放");
-                break;
-            case FlagConstant.FRAGMENT_MAIN:
-                mMainViewpager.setNoScroll(true);
-                mTitleLeftIv.setImageResource(R.drawable.ic_menu);
-                mTitleCenterTv.setText("音乐园");
-                mTitleLeftIv.setOnClickListener(v->{
-                    mMultipleStateView.showContent();
-                    mMainDrawerLayout.openDrawer(GravityCompat.START);
-                });
-                mMainTabLayout.setVisibility(View.VISIBLE);
-                initMainTitle();
-                break;
-            case FlagConstant.FRAGMENT_FAVORITE:
-                mTitleLeftIv.setImageResource(R.drawable.ic_back);
-                mTitleCenterTv.setText("我的收藏");
-                mTitleLeftIv.setOnClickListener(v-> setFragment(FlagConstant.FRAGMENT_MAIN));
-                mMainTabLayout.setVisibility(View.GONE);
-                break;
-        }
-    }
+//    public void setTitle(int flag){
+//
+//        mTitleRightIv.setVisibility(View.GONE);
+//        switch (flag){
+//            case FlagConstant.FRAGMENT_LOCAL:
+//                mMainViewpager.setNoScroll(false);
+//                mTitleLeftIv.setImageResource(R.drawable.ic_back);
+//                mTitleCenterTv.setText("本地音乐");
+//                mTitleLeftIv.setOnClickListener(v-> showFragment(FlagConstant.FRAGMENT_MAIN));
+//                initLocalTitle();
+//
+//                break;
+//            case FlagConstant.FRAGMENT_RECENT:
+//                mTitleLeftIv.setImageResource(R.drawable.ic_back);
+//                mTitleRightIv.setVisibility(View.VISIBLE);
+//                mTitleRightIv.setImageResource(R.drawable.icon_garbage);
+//                mTitleRightIv.setOnClickListener(this);
+//                mTitleLeftIv.setOnClickListener(v-> showFragment(FlagConstant.FRAGMENT_MAIN));
+//                mMainTabLayout.setVisibility(View.GONE);
+//                mTitleCenterTv.setText("最近播放");
+//                break;
+//            case FlagConstant.FRAGMENT_MAIN:
+//                mMainViewpager.setNoScroll(true);
+//                mTitleLeftIv.setImageResource(R.drawable.ic_menu);
+//                mTitleCenterTv.setText("音乐园");
+//                mTitleLeftIv.setOnClickListener(v->{
+//                    mMultipleStateView.showContent();
+//                    mMainDrawerLayout.openDrawer(GravityCompat.START);
+//                });
+//                mMainTabLayout.setVisibility(View.VISIBLE);
+//                initMainTitle();
+//                break;
+//            case FlagConstant.FRAGMENT_FAVORITE:
+//                mTitleLeftIv.setImageResource(R.drawable.ic_back);
+//                mTitleCenterTv.setText("我的收藏");
+//                mTitleLeftIv.setOnClickListener(v-> showFragment(FlagConstant.FRAGMENT_MAIN));
+//                mMainTabLayout.setVisibility(View.GONE);
+//                break;
+//        }
+//    }
 
 
     private void disableNavigationViewScrollbars(NavigationView navigationView) {
@@ -437,16 +379,53 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK){
-            if (mFragments.get(0).getClass()!= MainFragment.class){
-                setFragment(FlagConstant.FRAGMENT_MAIN);
-                return true;
-            }
+//            int backStackCount = fragmentManager.getBackStackEntryCount();
+//            String fragmentName = fragmentManager.getBackStackEntryAt(backStackCount-1).getName();
+//            if (fragmentName != null){
+//                lastFragment = fragmentManager.findFragmentByTag(fragmentName);
+//            }
         }
 
 
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void onBackPressed() {
+       // super.onBackPressed();
+        //通过管理类可以获取到当前的栈内数量
+        int backStackEntryCount = fragmentManager.getBackStackEntryCount();
+        //当栈内数量中大于0 的时候才能进行操作不然会造成索引越界
+        if (backStackEntryCount>0){
+            //退栈
+            fragmentManager.popBackStackImmediate();
+            //获取一下栈内的数量
+            backStackEntryCount = fragmentManager.getBackStackEntryCount();
+            //二次判断
+            if (backStackEntryCount>0){
+                //退栈完 元素 -1 就是当前的栈顶Fragemn
+                FragmentManager.BackStackEntry backStackEntryAt = fragmentManager.getBackStackEntryAt(backStackEntryCount - 1);
+                //重新过去name
+                String name = backStackEntryAt.getName();
+                Log.d("BACK",name + "");
+                //重新获取 Fragment
+                BaseFragment fragmentByTag = (BaseFragment) fragmentManager.findFragmentByTag(name);
+                //重新赋值
+                lastFragment =fragmentByTag;
+
+                if (backStackEntryCount == 1){
+                    BaseFragment fragment =(BaseFragment) fragmentManager.findFragmentByTag(MainFragment.class.getSimpleName());
+                    if (fragment != null) {
+                        fragment.notifyDataChange();
+                    }
+                }
+
+            }else {
+                finish();
+            }
+
+        }
+    }
 
     @SuppressLint("HandlerLeak")
     public static Handler mInitUrlHandler = new Handler(){

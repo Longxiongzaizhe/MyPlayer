@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,24 +21,35 @@ import com.hjl.commonlib.utils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wj.myplayer.config.MainApplication;
-import com.wj.myplayer.constant.FlagConstant;
-import com.wj.myplayer.constant.MediaConstant;
-import com.wj.myplayer.constant.SPConstant;
-import com.wj.myplayer.daodb.MediaDaoManager;
-import com.wj.myplayer.daodb.MediaEntity;
-import com.wj.myplayer.daodb.MediaRelEntity;
-import com.wj.myplayer.daodb.MediaRelManager;
+import com.hjl.module_main.MainApplication;
+import com.hjl.module_main.bean.MainFragmentBusBean;
+import com.hjl.module_main.constant.FlagConstant;
+import com.hjl.module_main.constant.MediaConstant;
+import com.hjl.module_main.constant.SPConstant;
+import com.hjl.module_main.daodb.MediaDaoManager;
+import com.hjl.module_main.daodb.MediaEntity;
+import com.hjl.module_main.daodb.MediaRelEntity;
+import com.hjl.module_main.daodb.MediaRelManager;
 import com.wj.myplayer.R;
 import com.wj.myplayer.mview.AddToListDialog;
-import com.wj.myplayer.utils.FileUtils;
-import com.wj.myplayer.utils.MediaUtils;
-import com.wj.myplayer.utils.SPUtils;
-import com.wj.myplayer.mvp.ui.activity.MainMusic.MusicService;
+import com.hjl.module_main.utils.FileUtils;
+import com.hjl.module_main.utils.MediaUtils;
+import com.hjl.module_main.utils.SPUtils;
+import com.hjl.module_main.mvp.fragment.MusicService;
 import com.wj.myplayer.mvp.adapter.MusicAdapter;
 import com.wj.myplayer.mview.ClearEditText;
 import com.wj.myplayer.mview.MusicEditPopWindow;
 import com.wj.myplayer.mview.MusicModePopWindow;
+
+import org.greenrobot.eventbus.EventBus;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class FavoriteFragment extends BaseFragment implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
 
@@ -57,6 +69,8 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
     private MediaConstant.MusicMode musicMode;
     private MusicModePopWindow popWindow;
     private MediaDaoManager manager = MainApplication.get().getMediaManager();
+    
+    private String TAG = "FavoriteFragment";
 
     public static FavoriteFragment newInstance(MusicService.MusicBinder mBinder){
         Bundle bundle = new Bundle();
@@ -181,6 +195,45 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
+    public void notifyDataChange() {
+        Observable.create((ObservableOnSubscribe<String>) e -> {
+            relDataList = relManager.queryFavoriteList();
+            datalist.clear();
+            for (MediaRelEntity entity : relDataList){
+                MediaEntity mediaEntity = manager.query(entity.songId);
+                if (mediaEntity != null){
+                    datalist.add(mediaEntity);
+                } else {
+                    relManager.deleteSongRel(entity);
+                }
+            }
+            e.onNext(FlagConstant.RXJAVA_KEY_01);
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                disposable = d;
+            }
+
+            @Override
+            public void onNext(String value) {
+                if (value.equals(FlagConstant.RXJAVA_KEY_01)){
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    @Override
     public void onClick(View v) {
         if (v == mRefreshIv){
             adapter.notifyDataSetChanged();
@@ -215,7 +268,6 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
             switch (name){
                 case "删除":
                     MediaEntity entity = list.get(position);
-
                     BaseTipDialog dialog = new BaseTipDialog(getContext(), BaseTipDialog.TipDialogEnum.DIALOG_WITH_CONTENT);
                     dialog.setTitle("删除");
                     dialog.setContent(String.format("是否删除 %s 歌曲文件?", entity.getTitle()));
@@ -242,6 +294,7 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
                 case "添加到歌单":
                     AddToListDialog addToListDialog = new AddToListDialog(getContext(),list.get(position).getId());
                     addToListDialog.show();
+
                     break;
             }
         });
@@ -253,4 +306,5 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
 
         return true;
     }
+
 }

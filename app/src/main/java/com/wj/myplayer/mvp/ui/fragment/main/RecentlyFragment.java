@@ -16,17 +16,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.wj.myplayer.constant.FlagConstant;
-import com.wj.myplayer.constant.MediaConstant;
-import com.wj.myplayer.daodb.MediaDaoManager;
-import com.wj.myplayer.daodb.MediaEntity;
-import com.wj.myplayer.daodb.MediaRelEntity;
-import com.wj.myplayer.daodb.MediaRelManager;
+import com.hjl.module_main.constant.FlagConstant;
+import com.hjl.module_main.constant.MediaConstant;
+import com.hjl.module_main.daodb.MediaDaoManager;
+import com.hjl.module_main.daodb.MediaEntity;
+import com.hjl.module_main.daodb.MediaRelEntity;
+import com.hjl.module_main.daodb.MediaRelManager;
 import com.wj.myplayer.R;
 import com.wj.myplayer.mview.AddToListDialog;
-import com.wj.myplayer.mvp.ui.activity.MainMusic.MusicService;
+import com.hjl.module_main.mvp.fragment.MusicService;
 import com.wj.myplayer.mvp.adapter.MusicAdapter;
 import com.wj.myplayer.mview.MusicEditPopWindow;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
 
@@ -96,6 +103,45 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
 
 
     @Override
+    public void notifyDataChange() {
+        Observable.create((ObservableOnSubscribe<String>) e -> {
+            datalist = MediaRelManager.getInstance().queryRecentList();
+            mediaEntityList.clear();
+            for (MediaRelEntity entity : datalist){
+                MediaEntity mediaEntity = mediaDaoManager.query(entity.getSongId());
+                if (mediaEntity!= null){
+                    mediaEntityList.add(mediaEntity);
+                }else {
+                    relManager.deleteSongRel(entity);
+                }
+            }
+            e.onNext(FlagConstant.RXJAVA_KEY_01);
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                disposable = d;
+            }
+
+            @Override
+            public void onNext(String value) {
+                if (value.equals(FlagConstant.RXJAVA_KEY_01)){
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         List<MediaEntity> data = adapter.getData();
         mBinder.play(data.get(position));
@@ -121,7 +167,7 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
                     dialog.setOnConfirmClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            relManager.deleteSongRel(entity.id,MediaConstant.LATELY_LIST);
+                            relManager.deleteSongRel(entity.id,MediaConstant.RECENTLY_LIST);
                             ToastUtil.show("删除成功");
                             mediaEntityList.remove(position);
                             adapter.notifyDataSetChanged();

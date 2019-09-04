@@ -18,13 +18,15 @@
 
     <TextView
         android:id="@+id/author_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_small_size"
         android:layout_marginTop="6dp"
         android:text="我的歌单"
         android:textColor="@color/common_text_content_color"
         android:textSize="@dimen/text_normal_size"
+        android:layout_marginEnd="@dimen/margin_tiny_size"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintStart_toEndOf="@+id/list_author_iv"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,10 +42,10 @@
         app:layout_constraintTop_toBottomOf="@+id/author_tv" />
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:src="@drawable/icon_arrow_right_blue"
-        android:layout_marginEnd="@dimen/margin_tiny_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
