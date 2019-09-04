@@ -3,11 +3,11 @@
     package="com.example.testmodule">
 
     <application
-        android:name="com.example.commonlib.base.BaseApplication"
+        android:name="com.hjl.commonlib.base.BaseApplication"
         android:label="测试组件"
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme">
-        <activity android:name=".RxJavaTestActivity">
+        <activity android:name="com.hjl.testmodule.RxJavaTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

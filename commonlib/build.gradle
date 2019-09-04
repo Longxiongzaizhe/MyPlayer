@@ -16,11 +16,6 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME : project.getName() ]
-            }
-        }
 
     }
 
@@ -31,18 +26,25 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
 }
+// 2、kotlin 配置ARouter
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // ARouter
     api deps.arouter_api
-    annotationProcessor deps.arouter_compiler
+    kapt deps.arouter_compiler
     annotationProcessor deps.buffer_knife_compiler
 
     // support

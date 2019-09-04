@@ -59,6 +59,13 @@ android {
 
 }
 
+// 2、kotlin 配置ARouter
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -66,8 +73,7 @@ dependencies {
     // ARouter
     /* 每个module都需要加入*/
     api deps.arouter_api
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    annotationProcessor deps.arouter_compiler
-    annotationProcessor deps.buffer_knife_compiler
+    kapt deps.arouter_compiler
+    kapt deps.buffer_knife_compiler
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
