@@ -20,7 +20,7 @@
         android:layout_width="128dp"
         android:layout_height="128dp"
         android:layout_marginTop="36dp"
-        android:background="@color/gray"
+        android:background="@color/common_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
         android:layout_height="25dp"
         android:gravity="center"
         android:text="标题单行"
-        android:textColor="@color/black"
+        android:textColor="@color/common_black"
         android:textSize="@dimen/text_plus_size"
         android:layout_marginTop="@dimen/margin_tiny_size"
         app:layout_constraintTop_toBottomOf="@+id/base_dialog_img_iv"
@@ -44,7 +44,7 @@
         android:layout_marginLeft="19dp"
         android:layout_marginRight="19dp"
         android:textSize="@dimen/text_normal_size"
-        android:textColor="@color/gray"
+        android:textColor="@color/common_gray"
         app:layout_constraintTop_toBottomOf="@+id/base_dialog_title"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="说明当前状态、提示用户解决方案，最好不要超过两行"
@@ -53,14 +53,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray_DDE0E6"
+        android:background="@color/common_gray_DDE0E6"
         app:layout_constraintBottom_toTopOf="@+id/base_dialog_confirm_tv"/>
     <TextView
         android:id="@+id/base_dialog_confirm_tv"
         android:layout_width="96dp"
         android:layout_height="36dp"
         android:text="确定"
-        android:textColor="@color/base_blue"
+        android:textColor="@color/common_base_blue"
         android:textSize="@dimen/text_large_size"
         android:gravity="center"
         android:layout_marginBottom="10dp"
