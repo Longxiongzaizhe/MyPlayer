@@ -4,6 +4,8 @@ import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.hjl.commonlib.BuildConfig;
 import com.hjl.commonlib.utils.LoggerUtils;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
@@ -14,6 +16,7 @@ public class BaseApplication extends Application {
 
     protected static Handler mHandler;
     private static BaseApplication application;
+
 
     @Override
     public void onCreate() {
@@ -30,6 +33,17 @@ public class BaseApplication extends Application {
 
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
 
+        initARouter();
+
+    }
+
+    private void initARouter() {
+        if (BuildConfig.DEBUG){  // 这两行必须写在init之前，否则这些配置在init过程中将无效
+            ARouter.openLog();     // 打印日志
+            ARouter.openDebug();   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
+        }
+
+        ARouter.init(this);
     }
 
     public static BaseApplication getApplication(){
@@ -43,5 +57,7 @@ public class BaseApplication extends Application {
     public static void runOnUIThread(Runnable runnable,long delay){
         mHandler.postDelayed(runnable,delay);
     }
+
+
 
 }

@@ -1,10 +1,11 @@
 package com.hjl.module_main.daodb;
 
-import java.util.List;
-
-import com.hjl.module_main.MainApplication;
-import com.hjl.module_main.constant.MediaConstant;
+import com.hjl.commonlib.base.BaseApplication;
 import com.hjl.commonlib.utils.ToastUtil;
+import com.hjl.module_main.constant.MediaConstant;
+import com.hjl.module_main.module.ILocalModuleAppImpl;
+
+import java.util.List;
 
 public class MediaRelManager {
 
@@ -12,7 +13,8 @@ public class MediaRelManager {
     private MediaRelEntityDao dao;
 
     private MediaRelManager(){
-        dao = MainApplication.get().getDaoSession().getMediaRelEntityDao();
+        DaoSession daoSession = new ILocalModuleAppImpl().initDaoSession(BaseApplication.getApplication());
+        dao = daoSession.getMediaRelEntityDao();
     }
 
     public static MediaRelManager getInstance(){

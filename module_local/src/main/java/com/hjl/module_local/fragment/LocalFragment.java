@@ -20,7 +20,6 @@ import com.hjl.commonlib.utils.DensityUtil;
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_local.R;
-import com.hjl.module_main.MainApplication;
 import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.constant.SPConstant;
@@ -30,6 +29,7 @@ import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
+import com.hjl.module_main.module.RApp;
 import com.hjl.module_main.mview.AddToListDialog;
 import com.hjl.module_main.mview.MusicEditPopWindow;
 import com.hjl.module_main.mview.MusicModePopWindow;
@@ -37,7 +37,6 @@ import com.hjl.module_main.mvp.adapter.MusicAdapter;
 import com.hjl.module_main.mvp.fragment.MusicService;
 import com.hjl.module_main.utils.FileUtils;
 import com.hjl.module_main.utils.MediaUtils;
-import com.hjl.module_main.utils.RApp;
 import com.hjl.module_main.utils.SPUtils;
 
 import java.util.ArrayList;
@@ -64,10 +63,10 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     private List<MediaEntity> searchResultList = new ArrayList<>();
     private MusicAdapter adapter;
     private MusicService.MusicBinder mBinder;
-    private MediaRelManager relManager = MainApplication.get().getRelManager();
+    private MediaRelManager relManager = MediaRelManager.getInstance();
     private MediaConstant.MusicMode musicMode;
     private MusicModePopWindow popWindow;
-    private MediaDaoManager manager = MainApplication.get().getMediaManager();
+    private MediaDaoManager manager = MediaDaoManager.getInstance();
     private MediaAlbumsManager authorManager = MediaAlbumsManager.getInstance();
     private int pageIndex = 1;
 

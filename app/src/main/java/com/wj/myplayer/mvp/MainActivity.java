@@ -27,31 +27,29 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hjl.commonlib.adapter.LazyFragmentPagerAdapter;
 import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.base.BaseMultipleActivity;
+import com.hjl.commonlib.utils.PermissionsUtiles;
 import com.hjl.commonlib.utils.ToastUtil;
-
-import java.io.File;
-import java.util.List;
-
-import com.wj.myplayer.R;
-import com.hjl.module_main.MainApplication;
 import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.module_main.constant.SPConstant;
 import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
-import com.hjl.commonlib.adapter.LazyFragmentPagerAdapter;
 import com.hjl.module_main.mvp.fragment.MusicService;
-import com.wj.myplayer.mvp.ui.activity.navSetting.UserSettingActivity;
 import com.hjl.module_main.mvp.fragment.PlayFragment;
+import com.hjl.module_main.utils.MediaUtils;
+import com.hjl.module_main.utils.SPUtils;
+import com.wj.myplayer.R;
+import com.wj.myplayer.mvp.ui.activity.navSetting.UserSettingActivity;
 import com.wj.myplayer.mvp.ui.fragment.main.FavoriteFragment;
 import com.wj.myplayer.mvp.ui.fragment.main.MainFragment;
 import com.wj.myplayer.mvp.ui.fragment.main.MainLocalFragment;
 import com.wj.myplayer.mvp.ui.fragment.main.RecentlyFragment;
-import com.hjl.module_main.utils.MediaUtils;
-import com.wj.myplayer.utils.PermissionsUtiles;
-import com.hjl.module_main.utils.SPUtils;
+
+import java.io.File;
+import java.util.List;
 
 public class MainActivity extends BaseMultipleActivity implements View.OnClickListener {
 
@@ -69,7 +67,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private Fragment lastFragment;
 
     private Intent intent;
-    private MediaDaoManager manager = MainApplication.get().getMediaManager();
+    private MediaDaoManager manager = MediaDaoManager.getInstance();
     private static String TAG = MainActivity.class.getSimpleName();
 
     private FragmentTransaction transaction;
@@ -227,7 +225,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             default:
                 break;
             case R.id.title_left_iv:
-                mMultipleStateView.showContent();
+                //mMultipleStateView.showContent();
                 mMainDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.nav_head_iv:
@@ -307,49 +305,26 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         }else {
             ToastUtil.showSingleToast(name + "is no found");
         }
+        switch (name){
+            case FlagConstant.FRAGMENT_LOCAL:
+                mTitleCenterTv.setText("本地音乐");
+                mTitleLeftIv.setImageResource(R.drawable.ic_back);
+                mTitleLeftIv.setOnClickListener((v)-> popBackStack());
+                break;
+            case FlagConstant.FRAGMENT_RECENT:
+                mTitleCenterTv.setText("最近播放");
+                mTitleLeftIv.setImageResource(R.drawable.ic_back);
+                mTitleLeftIv.setOnClickListener((v)-> popBackStack());
+                break;
+            case FlagConstant.FRAGMENT_FAVORITE:
+                mTitleCenterTv.setText("我的收藏");
+                mTitleLeftIv.setImageResource(R.drawable.ic_back);
+                mTitleLeftIv.setOnClickListener((v)-> popBackStack());
+                break;
+        }
 
     }
 
-//    public void setTitle(int flag){
-//
-//        mTitleRightIv.setVisibility(View.GONE);
-//        switch (flag){
-//            case FlagConstant.FRAGMENT_LOCAL:
-//                mMainViewpager.setNoScroll(false);
-//                mTitleLeftIv.setImageResource(R.drawable.ic_back);
-//                mTitleCenterTv.setText("本地音乐");
-//                mTitleLeftIv.setOnClickListener(v-> showFragment(FlagConstant.FRAGMENT_MAIN));
-//                initLocalTitle();
-//
-//                break;
-//            case FlagConstant.FRAGMENT_RECENT:
-//                mTitleLeftIv.setImageResource(R.drawable.ic_back);
-//                mTitleRightIv.setVisibility(View.VISIBLE);
-//                mTitleRightIv.setImageResource(R.drawable.icon_garbage);
-//                mTitleRightIv.setOnClickListener(this);
-//                mTitleLeftIv.setOnClickListener(v-> showFragment(FlagConstant.FRAGMENT_MAIN));
-//                mMainTabLayout.setVisibility(View.GONE);
-//                mTitleCenterTv.setText("最近播放");
-//                break;
-//            case FlagConstant.FRAGMENT_MAIN:
-//                mMainViewpager.setNoScroll(true);
-//                mTitleLeftIv.setImageResource(R.drawable.ic_menu);
-//                mTitleCenterTv.setText("音乐园");
-//                mTitleLeftIv.setOnClickListener(v->{
-//                    mMultipleStateView.showContent();
-//                    mMainDrawerLayout.openDrawer(GravityCompat.START);
-//                });
-//                mMainTabLayout.setVisibility(View.VISIBLE);
-//                initMainTitle();
-//                break;
-//            case FlagConstant.FRAGMENT_FAVORITE:
-//                mTitleLeftIv.setImageResource(R.drawable.ic_back);
-//                mTitleCenterTv.setText("我的收藏");
-//                mTitleLeftIv.setOnClickListener(v-> showFragment(FlagConstant.FRAGMENT_MAIN));
-//                mMainTabLayout.setVisibility(View.GONE);
-//                break;
-//        }
-//    }
 
 
     private void disableNavigationViewScrollbars(NavigationView navigationView) {
@@ -379,11 +354,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK){
-//            int backStackCount = fragmentManager.getBackStackEntryCount();
-//            String fragmentName = fragmentManager.getBackStackEntryAt(backStackCount-1).getName();
-//            if (fragmentName != null){
-//                lastFragment = fragmentManager.findFragmentByTag(fragmentName);
-//            }
+
         }
 
 
@@ -393,6 +364,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     @Override
     public void onBackPressed() {
        // super.onBackPressed();
+        popBackStack();
+    }
+
+    private void popBackStack() {
         //通过管理类可以获取到当前的栈内数量
         int backStackEntryCount = fragmentManager.getBackStackEntryCount();
         //当栈内数量中大于0 的时候才能进行操作不然会造成索引越界
@@ -418,6 +393,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                     if (fragment != null) {
                         fragment.notifyDataChange();
                     }
+                    mTitleCenterTv.setText("音乐园");
+                    mTitleLeftIv.setImageResource(R.drawable.ic_menu);
+                    mTitleLeftIv.setOnClickListener((v)-> mMainDrawerLayout.openDrawer(GravityCompat.START));
                 }
 
             }else {
@@ -434,7 +412,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             if (msg.what == FlagConstant.UPDATE_KEY01){
                 int index = msg.arg1;
                 MediaUtils.initMusicCover(5,index++);
-                if (index*5 < MainApplication.get().getMediaManager().getAllList().size()){
+                if (index*5 < MediaDaoManager.getInstance().getAllList().size()){
                     Message sendMsg = Message.obtain();
                     sendMsg.what = FlagConstant.UPDATE_KEY01;
                     sendMsg.arg1 = index;

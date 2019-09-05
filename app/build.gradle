@@ -4,9 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 
-
-
-
 android {
     compileSdkVersion build_version.target_sdk
     defaultConfig {
@@ -19,8 +16,6 @@ android {
 
 
     }
-
-
 
 
     buildTypes {

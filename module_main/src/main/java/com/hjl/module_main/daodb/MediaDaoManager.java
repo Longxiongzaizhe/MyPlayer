@@ -1,25 +1,25 @@
 package com.hjl.module_main.daodb;
 
 import android.database.Cursor;
-import android.graphics.Bitmap;
 
+import com.hjl.commonlib.base.BaseApplication;
 import com.hjl.commonlib.utils.StringUtils;
+import com.hjl.module_main.module.ILocalModuleAppImpl;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hjl.module_main.MainApplication;
-import com.hjl.module_main.utils.MediaUtils;
-
 public class MediaDaoManager {
 
     private static MediaDaoManager manager;
     private MediaEntityDao dao;
+    private DaoSession daoSession;
 
     private MediaDaoManager(){
-        dao = MainApplication.get().getDaoSession().getMediaEntityDao();
+        daoSession = new ILocalModuleAppImpl().initDaoSession(BaseApplication.getApplication());
+        dao = daoSession.getMediaEntityDao();
     }
 
     public static MediaDaoManager getInstance(){
@@ -88,7 +88,7 @@ public class MediaDaoManager {
     }
 
 //    public List<MediaEntity> query(long id){
-//        return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Id.eq(id)).list();
+//        return entitydao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Id.eq(id)).list();
 //    }
 
     public int getCountByAuthor(String author){
@@ -101,7 +101,7 @@ public class MediaDaoManager {
     public List<String> getAllAuthor(){
 
         List<String> list = new ArrayList<>();
-        Cursor cursor = MainApplication.get().getDaoSession().getDatabase().rawQuery("SELECT DISTINCT ARTIST FROM MEDIA_ENTITY",null);
+        Cursor cursor = daoSession.getDatabase().rawQuery("SELECT DISTINCT ARTIST FROM MEDIA_ENTITY",null);
         while (cursor.moveToNext()){
             list.add(cursor.getString(cursor.getColumnIndex("ARTIST")));
         }
@@ -115,7 +115,7 @@ public class MediaDaoManager {
     public List<Long> getAllAlbums(){
 
         List<Long> list = new ArrayList<>();
-        Cursor cursor = MainApplication.get().getDaoSession().getDatabase().rawQuery("SELECT DISTINCT ALBUM_ID FROM MEDIA_ENTITY",null);
+        Cursor cursor = daoSession.getDatabase().rawQuery("SELECT DISTINCT ALBUM_ID FROM MEDIA_ENTITY",null);
         while (cursor.moveToNext()){
             list.add(cursor.getLong( cursor.getColumnIndex("ALBUM_ID")));
         }
@@ -135,19 +135,6 @@ public class MediaDaoManager {
                 author = entity.artist;
             }
         return author;
-    }
-
-    public long getAlbumByAlbumId(long albumId) {
-        long albums = -1;
-        for (MediaEntity entity : dao.queryBuilder().where(MediaEntityDao.Properties.Album_id.eq(albumId)).list()){
-
-            Bitmap bitmap = MediaUtils.getArtwork(MainApplication.get().getApplicationContext().getContentResolver(),Integer.valueOf(entity.id.toString()),
-                    (int)entity.album_id,true,true);
-            if (bitmap != null ){
-                albums = entity.id;
-            }
-        }
-        return albums;
     }
 
 

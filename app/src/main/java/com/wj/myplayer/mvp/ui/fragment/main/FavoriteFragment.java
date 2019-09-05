@@ -16,11 +16,6 @@ import com.hjl.commonlib.mview.BaseTipDialog;
 import com.hjl.commonlib.utils.DensityUtil;
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.commonlib.utils.ToastUtil;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hjl.module_main.MainApplication;
 import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.constant.SPConstant;
@@ -28,16 +23,19 @@ import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
-import com.wj.myplayer.R;
 import com.hjl.module_main.mview.AddToListDialog;
+import com.hjl.module_main.mview.MusicEditPopWindow;
+import com.hjl.module_main.mview.MusicModePopWindow;
+import com.hjl.module_main.mvp.adapter.MusicAdapter;
+import com.hjl.module_main.mvp.fragment.MusicService;
 import com.hjl.module_main.utils.FileUtils;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;
-import com.hjl.module_main.mvp.fragment.MusicService;
-import com.hjl.module_main.mvp.adapter.MusicAdapter;
+import com.wj.myplayer.R;
 import com.wj.myplayer.mview.ClearEditText;
-import com.hjl.module_main.mview.MusicEditPopWindow;
-import com.hjl.module_main.mview.MusicModePopWindow;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
@@ -60,10 +58,10 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
     private List<MediaEntity> searchResultList = new ArrayList<>();
     private MusicAdapter adapter;
     private MusicService.MusicBinder mBinder;
-    private MediaRelManager relManager = MainApplication.get().getRelManager();
+    private MediaRelManager relManager = MediaRelManager.getInstance();
     private MediaConstant.MusicMode musicMode;
     private MusicModePopWindow popWindow;
-    private MediaDaoManager manager = MainApplication.get().getMediaManager();
+    private MediaDaoManager manager = MediaDaoManager.getInstance();
     
     private String TAG = "FavoriteFragment";
 

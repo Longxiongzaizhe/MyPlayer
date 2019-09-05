@@ -3,6 +3,7 @@ package com.hjl.module_main.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.hjl.commonlib.base.BaseApplication;
 import com.hjl.commonlib.utils.Utils;
 
 import java.io.ByteArrayInputStream;
@@ -17,8 +18,6 @@ import java.io.StreamCorruptedException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
-
-import com.hjl.module_main.MainApplication;
 
 public class SPUtils {
     /**
@@ -230,7 +229,7 @@ public class SPUtils {
     }
 
     public static void putForAgr(String key, Object object) {
-        MainApplication appContext = MainApplication.get();
+        BaseApplication appContext = BaseApplication.getApplication();
         SharedPreferences sp = appContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 

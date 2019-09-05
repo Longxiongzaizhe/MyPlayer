@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/common_background_color"
     tools:context=".LocalMusicActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/local_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/common_white"
+        app:tabIndicatorColor="@color/base_blue"/>
+
+    <com.hjl.commonlib.mview.NoScrollViewPager
+        android:id="@+id/local_viewpager"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/margin_tiny_size"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <fragment
+        android:id="@+id/play_fragment"
+        android:name="com.hjl.module_main.mvp.fragment.PlayFragment"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"/>
+
+
+</LinearLayout>

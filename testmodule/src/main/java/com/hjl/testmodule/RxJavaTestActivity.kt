@@ -3,8 +3,9 @@ package com.hjl.testmodule
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.example.testmodule.R
+import com.alibaba.android.arouter.launcher.ARouter
 import com.hjl.commonlib.base.BaseMultipleActivity
+import com.hjl.module_main.module.RApp
 import io.reactivex.Observable
 import io.reactivex.Observable.create
 import io.reactivex.ObservableEmitter
@@ -103,6 +104,7 @@ class RxJavaTestActivity : BaseMultipleActivity(), View.OnClickListener {
                     subscribeOn(Schedulers.newThread()). // 新线程执行耗时操作
                     observeOn(AndroidSchedulers.mainThread()). // 主线程进行UI更新等
                     subscribe(observer)
+            R.id.test_btn_four -> ARouter.getInstance().build(RApp.LOCAL_FRAGMENT).navigation()
 
         }
     }

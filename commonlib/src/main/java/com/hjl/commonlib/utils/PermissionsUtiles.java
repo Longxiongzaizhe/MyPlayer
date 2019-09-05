@@ -1,4 +1,4 @@
-package com.wj.myplayer.utils;
+package com.hjl.commonlib.utils;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;

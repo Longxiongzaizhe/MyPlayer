@@ -74,7 +74,7 @@ kapt {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation project(':module_main')
+    api project(':module_main')
     // ARouter
     /* 每个module都需要加入*/
     api deps.arouter_api

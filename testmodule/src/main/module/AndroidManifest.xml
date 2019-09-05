@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.testmodule">
+    package="com.hjl.testmodule">
 
     <application
         android:name="com.hjl.commonlib.base.BaseApplication"
-        android:label="测试组件"
         android:icon="@mipmap/ic_launcher"
+        android:label="测试组件"
         android:theme="@style/AppTheme">
-        <activity android:name="com.hjl.testmodule.RxJavaTestActivity">
+        <activity android:name=".TestActivity">
+
+        </activity>
+        <activity android:name=".RxJavaTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

@@ -1,29 +1,35 @@
 package com.hjl.module_main.daodb
 
-import com.hjl.module_main.MainApplication
+import com.hjl.commonlib.base.BaseApplication
+import com.hjl.module_main.module.ILocalModuleAppImpl
 
 
 class MediaAuthorManager {
 
-    var dao  = MainApplication.get().daoSession.mediaAuthorEntityDao
+    private var dao:MediaAuthorEntityDao?  = null
 
     private constructor()
 
+    init {
+        val daoSession = ILocalModuleAppImpl().initDaoSession(BaseApplication.getApplication())
+        dao = daoSession.mediaAuthorEntityDao
+    }
+
 
     fun insert(entity: MediaAuthorEntity){
-        dao.insert(entity)
+        dao!!.insert(entity)
     }
 
     fun insert(name : String){
-        dao.insert(MediaAuthorEntity(null,name,""))
+        dao!!.insert(MediaAuthorEntity(null,name,""))
     }
 
     fun update(entity: MediaAuthorEntity){
-        dao.update(entity)
+        dao!!.update(entity)
     }
 
     fun getAll():List<MediaAuthorEntity>{
-        return dao.loadAll()
+        return dao!!.loadAll()
     }
 
     companion object{

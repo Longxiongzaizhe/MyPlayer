@@ -13,7 +13,7 @@ import com.hjl.module_main.mvp.fragment.MusicService
 import com.wj.myplayer.R
 import kotlinx.android.synthetic.main.fragment_main_local.*
 
-public class MainLocalFragment : BaseFragment(){
+class MainLocalFragment : BaseFragment(){
 
     val fragments : ArrayList<Fragment> = ArrayList()
     val mTitles : ArrayList<String> = ArrayList()

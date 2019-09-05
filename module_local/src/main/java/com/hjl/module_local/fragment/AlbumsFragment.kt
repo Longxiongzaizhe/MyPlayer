@@ -14,7 +14,7 @@ import com.hjl.module_main.daodb.MediaAlbumsManager
 import com.hjl.module_main.mview.WrapContentGridLayoutManager
 import com.hjl.module_main.mvp.fragment.MusicService
 import com.hjl.module_main.utils.MediaUtils
-import com.hjl.module_main.utils.RApp
+import com.hjl.module_main.module.RApp
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import io.reactivex.ObservableOnSubscribe

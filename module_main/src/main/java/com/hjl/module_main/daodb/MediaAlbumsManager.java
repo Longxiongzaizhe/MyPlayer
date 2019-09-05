@@ -1,8 +1,9 @@
 package com.hjl.module_main.daodb;
 
-import java.util.List;
+import com.hjl.commonlib.base.BaseApplication;
+import com.hjl.module_main.module.ILocalModuleAppImpl;
 
-import com.hjl.module_main.MainApplication;
+import java.util.List;
 
 
 public class MediaAlbumsManager {
@@ -11,7 +12,8 @@ public class MediaAlbumsManager {
     private MediaAlbumsEntityDao dao;
 
     private MediaAlbumsManager(){
-        dao = MainApplication.get().getDaoSession().getMediaAlbumsEntityDao();
+        DaoSession daoSession = new ILocalModuleAppImpl().initDaoSession(BaseApplication.getApplication());
+        dao = daoSession.getMediaAlbumsEntityDao();
     }
 
     public static MediaAlbumsManager getInstance(){

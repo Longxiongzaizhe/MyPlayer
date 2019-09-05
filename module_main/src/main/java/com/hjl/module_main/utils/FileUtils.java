@@ -8,13 +8,13 @@ import android.os.Build;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
 
+import com.hjl.commonlib.base.BaseApplication;
+import com.hjl.module_main.constant.FileConstant;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import com.hjl.module_main.MainApplication;
-import com.hjl.module_main.constant.FileConstant;
 
 public class FileUtils {
 
@@ -63,7 +63,7 @@ public class FileUtils {
      */
 
     public static String getInternalStorageCachePath(){
-        File ISCacheFile = MainApplication.get().getCacheDir();
+        File ISCacheFile = BaseApplication.getApplication().getCacheDir();
         if (ISCacheFile != null){
             return ISCacheFile.getAbsolutePath();
         }else {
@@ -80,7 +80,7 @@ public class FileUtils {
 
         File sdFile = null ;
         if (Environment.isExternalStorageEmulated()){
-            sdFile = MainApplication.get().getExternalCacheDir();
+            sdFile = BaseApplication.getApplication().getExternalCacheDir();
         }
         if (sdFile != null){
             return sdFile.getAbsolutePath();

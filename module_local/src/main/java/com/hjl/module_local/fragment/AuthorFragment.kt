@@ -13,7 +13,7 @@ import com.hjl.module_main.constant.FlagConstant
 import com.hjl.module_main.daodb.MediaAuthorEntity
 import com.hjl.module_main.daodb.MediaAuthorManager
 import com.hjl.module_main.mvp.fragment.MusicService
-import com.hjl.module_main.utils.RApp
+import com.hjl.module_main.module.RApp
 
 import kotlinx.android.synthetic.main.fragment_author.*
 

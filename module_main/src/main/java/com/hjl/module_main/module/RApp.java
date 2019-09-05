@@ -1,4 +1,4 @@
-package com.hjl.module_main.utils;
+package com.hjl.module_main.module;
 
 public class RApp {
 

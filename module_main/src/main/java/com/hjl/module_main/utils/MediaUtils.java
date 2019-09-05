@@ -17,18 +17,7 @@ import com.bumptech.glide.Glide;
 import com.hjl.commonlib.network.HttpHandler;
 import com.hjl.commonlib.utils.LogUtils;
 import com.hjl.commonlib.utils.StringUtils;
-
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import com.hjl.module_main.R;
-import com.hjl.module_main.MainApplication;
 import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.daodb.MediaAlbumsEntity;
 import com.hjl.module_main.daodb.MediaAlbumsManager;
@@ -39,6 +28,15 @@ import com.hjl.module_main.net.NetworkWrapper;
 import com.hjl.module_main.net.bean.SearchPicBean;
 import com.hjl.module_main.net.bean.douban.MusicSearchBean;
 
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class MediaUtils {
 
     private static ExecutorService cacheThread = Executors.newCachedThreadPool();
@@ -46,6 +44,7 @@ public class MediaUtils {
     private static String TAG = MediaUtils.class.getSimpleName();
     //获取专辑封面的Uri
     private static final Uri albumArtUri = Uri.parse("content://media/external/audio/albumart");
+    private static MediaDaoManager mediaDaoManager = MediaDaoManager.getInstance();
 
     public static List<MediaEntity> getAllMediaList(Context context, String selection) {
 
@@ -418,7 +417,7 @@ public class MediaUtils {
                 LogUtils.i("searchMusic","title is "+entity.getTitle() +" url is: " + url);
                 Glide.with(context).load(url).into(imageView);
                 entity.setCoverUrl(url);
-                MainApplication.get().getMediaManager().update(entity);
+                mediaDaoManager.update(entity);
             }
             @Override
             public void onFailure(String message,String response) {
@@ -430,7 +429,7 @@ public class MediaUtils {
                         LogUtils.i("searchPic","title is "+entity.getTitle() +" url is: " + url);
                         Glide.with(context).load(url).into(imageView);
                         entity.setCoverUrl(url);
-                        MainApplication.get().getMediaManager().update(entity);
+                        mediaDaoManager.update(entity);
                     }
 
                     @Override
@@ -444,7 +443,7 @@ public class MediaUtils {
 
     public static void initMusicCover(int pageSize, int pageIndex){
         cacheThread.execute(() -> {
-            List<MediaEntity> list = MainApplication.get().getMediaManager().getAllList(pageSize,pageIndex);
+            List<MediaEntity> list = mediaDaoManager.getAllList(pageSize,pageIndex);
             for (MediaEntity entity : list){
                 if (StringUtils.isEmpty(entity.coverUrl)){
                     DoubanNetworkWrapper.searchMusic(entity.getTitle(), "", "", "10", new HttpHandler<MusicSearchBean>() {
@@ -453,7 +452,7 @@ public class MediaUtils {
                             if (data.getMusics().size() == 0) return;
                             String url = data.getMusics().get(0).getImage();
                             entity.setCoverUrl(url);
-                            MainApplication.get().getMediaManager().update(entity);
+                            mediaDaoManager.update(entity);
                         }
 
                         @Override
@@ -469,9 +468,9 @@ public class MediaUtils {
 
     public static void initAlbumCover(){
         List<MediaAlbumsEntity> list = MediaAlbumsManager.getInstance().getAllAlbums();
-        for (MediaAlbumsEntity authorEntity : list){
+        for (MediaAlbumsEntity albumsEntity : list){
 
-            MediaEntity entity = MediaDaoManager.getInstance().getMusicByAlbumId(authorEntity.id);
+            MediaEntity entity = mediaDaoManager.getMusicByAlbumId(albumsEntity.id);
             if (StringUtils.isEmpty(entity.getCoverUrl())){
                 DoubanNetworkWrapper.searchMusic(entity.getTitle(), "", "", "10", new HttpHandler<MusicSearchBean>() {
                     @Override
@@ -479,9 +478,9 @@ public class MediaUtils {
                         if (data.getMusics().size() == 0) return;
                         String url = data.getMusics().get(0).getImage();
                         entity.setCoverUrl(url);
-                        MainApplication.get().getMediaManager().update(entity);
-                        authorEntity.setCoverUrl(url);
-                        MainApplication.get().getAuthorManager().update(authorEntity);
+                        MediaDaoManager.getInstance().update(entity);
+                        albumsEntity.setCoverUrl(url);
+                        MediaAlbumsManager.getInstance().update(albumsEntity);
                     }
 
                     @Override
@@ -490,8 +489,8 @@ public class MediaUtils {
                     }
                 });
             }else {
-                authorEntity.setCoverUrl(entity.getCoverUrl());
-                MainApplication.get().getAuthorManager().update(authorEntity);
+                albumsEntity.setCoverUrl(entity.getCoverUrl());
+                MediaAlbumsManager.getInstance().update(albumsEntity);
             }
 
 

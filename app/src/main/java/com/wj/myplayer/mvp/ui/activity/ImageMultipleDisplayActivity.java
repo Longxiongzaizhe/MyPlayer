@@ -156,26 +156,11 @@ public class ImageMultipleDisplayActivity extends BaseMultipleActivity implement
                 if (StringUtils.isEmpty(displayUrl)){
                     return;
                 }
-
                 if (!displayUrl.startsWith("http")) {
                     ToastUtil.showSingleToast("请前往 " + displayUrl + " 查看");
                     return;
                 }
-
                 ToastUtil.showSingleToast("正在保存,请稍后...");
-//                if (!StringUtils.isEmpty(displayUrl)) {
-//                    new Thread(() -> {
-//                        final Bitmap bt = FileUtil.getBitmap(displayUrl);
-//                      //  final Bitmap bt = BitmapFactory.decodeFile(displayUrl);
-//                        MainApplication.runUiThread(() -> {
-//                            MobclickAgent.onEvent(this, UmengEventConstant.C_MONITOR_PICTURE_DOWNLOAD);
-//                            String fileName = "snapshot-" + System.currentTimeMillis() + ".png";
-//                            FileUtils.saveBitmap(bt, fileName, 100, FileUtils.SAVEDIR_IMAGE);
-//                            ToastUtil.show(this, "下载成功!请前往" + FileUtils.SAVEDIR_IMAGE + File.separator + fileName + "查看");
-//                        });
-//
-//                    }).start();
-//                }
                 break;
         }
     }
