@@ -1,5 +1,6 @@
 package com.hjl.module_main.mvp.fragment;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -13,7 +14,9 @@ import com.hjl.commonlib.utils.StringUtils;
 
 import com.hjl.module_main.R;
 
+import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.module_main.daodb.MediaEntity;
+import com.hjl.module_main.mvp.activity.MusicDetailActivity;
 import com.hjl.module_main.utils.MediaUtils;
 
 
@@ -26,13 +29,13 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
     private ImageView mMusicPlayIv;
     private ImageView mMusicNextIv;
     private ImageView mMusicPreIv;
-    private ImageView mMusicAblumsIv;
+    private ImageView mMusicAlbumsIv;
     private MediaEntity currentEntity;
     private Animation animation;
 
     public void setBinder(MusicService.MusicBinder binder){
         this.mBinder = binder;
-        mBinder.setOnMediaChangeListener(this);
+        mBinder.addOnMediaChangeListener(this);
         service = mBinder.getService();
         if (mBinder.getCurrentEntity() != null){
             initMusicData(mBinder.getCurrentEntity());
@@ -50,7 +53,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         mMusicPlayIv = view.findViewById(R.id.main_play);
         mMusicNameTv = view.findViewById(R.id.main_music_title);
         mMusicAuthorTv = view.findViewById(R.id.main_music_author);
-        mMusicAblumsIv = view.findViewById(R.id.main_music_albums);
+        mMusicAlbumsIv = view.findViewById(R.id.main_music_albums);
         mMusicNextIv = view.findViewById(R.id.main_next);
         mMusicPreIv = view.findViewById(R.id.main_previous);
         animation = AnimationUtils.loadAnimation(getContext(),R.anim.view_rotate);
@@ -58,6 +61,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         mMusicPlayIv.setOnClickListener(this);
         mMusicNextIv.setOnClickListener(this);
         mMusicPreIv.setOnClickListener(this);
+        mMusicAlbumsIv.setOnClickListener(this);
 
     }
 
@@ -74,36 +78,22 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
             if (mBinder.getService().getPlayer().isPlaying()){
                 mBinder.pause();
                 mMusicPlayIv.setImageResource(R.drawable.play_btn);
-                mMusicAblumsIv.clearAnimation();
+                mMusicAlbumsIv.clearAnimation();
             }else {
                 mBinder.play();
                 mMusicPlayIv.setImageResource(R.drawable.icon_pause);
-                mMusicAblumsIv.startAnimation(animation);
+                mMusicAlbumsIv.startAnimation(animation);
 
             }
         }else if (v == mMusicNextIv){
-            if (service.getPlayList() == null){
-                return;
-            }
-            if (service.getPlayList().size() != service.getPosition()+1){
-                mBinder.play(service.getPlayList().get(service.getPosition()+1));
-                service.setPosition(service.getPosition()+1);
-            }else {
-                mBinder.play(service.getPlayList().get(0));
-                service.setPosition(0);
-            }
+           mBinder.playNext();
         } else if (v == mMusicPreIv){
-            if (service.getPlayList() == null){
-                return;
-            }
-
-            if ( service.getPosition() != 0){
-                mBinder.play(service.getPlayList().get(service.getPosition()- 1));
-                service.setPosition(service.getPosition() - 1);
-            } else {
-                mBinder.play(service.getPlayList().get(service.getPlayList().size() - 1));
-                service.setPosition(service.getPlayList().size() - 1);
-            }
+            mBinder.playPrevious();
+        }else if (v == mMusicAlbumsIv){
+            Intent intent = new Intent(getContext(), MusicDetailActivity.class);
+            intent.putExtra(FlagConstant.INTENT_KEY01,currentEntity.id);
+            intent.putExtra(FlagConstant.BINDER,mBinder);
+            startActivity(intent);
         }
 
     }
@@ -113,7 +103,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         currentEntity = entity;
         initMusicData(currentEntity);
         mMusicPlayIv.setImageResource(R.drawable.icon_pause);
-        mMusicAblumsIv.startAnimation(animation);
+        mMusicAlbumsIv.startAnimation(animation);
         /*if (mBinder.getService().getPlayer().isPlaying()){
             mMusicPlayIv.setImageResource(R.drawable.pause_btn);
         }else {
@@ -124,15 +114,15 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onPlayEnd() {
         mMusicPlayIv.setImageResource(R.drawable.play_btn);
-        mMusicAblumsIv.clearAnimation();
+        mMusicAlbumsIv.clearAnimation();
     }
 
     public void initMusicData(MediaEntity entity) {
         if (!StringUtils.isEmpty(entity.coverUrl)){
             if (getActivity() == null) return;
-            Glide.with(this).load(entity.coverUrl).into(mMusicAblumsIv);
+            Glide.with(this).load(entity.coverUrl).into(mMusicAlbumsIv);
         }else {
-            MediaUtils.setMusicCover(getContext(),entity,mMusicAblumsIv);
+            MediaUtils.setMusicCover(getContext(),entity, mMusicAlbumsIv);
         }
 
         mMusicNameTv.setText(entity.title);
@@ -140,7 +130,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         currentEntity = entity;
         if (mBinder !=null && mBinder.getService().getPlayer().isPlaying()){
             mMusicPlayIv.setImageResource(R.drawable.icon_pause);
-            mMusicAblumsIv.startAnimation(animation);
+            mMusicAlbumsIv.startAnimation(animation);
         }else {
             mMusicPlayIv.setImageResource(R.drawable.play_btn);
         }

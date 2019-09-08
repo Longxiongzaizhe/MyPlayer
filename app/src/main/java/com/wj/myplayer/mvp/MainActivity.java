@@ -27,7 +27,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hjl.commonlib.adapter.LazyFragmentPagerAdapter;
 import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.base.BaseMultipleActivity;
 import com.hjl.commonlib.utils.PermissionsUtiles;
@@ -53,7 +52,6 @@ import java.util.List;
 
 public class MainActivity extends BaseMultipleActivity implements View.OnClickListener {
 
-    private LazyFragmentPagerAdapter myPagerAdapter;
     private DrawerLayout mMainDrawerLayout;
     private NavigationView mMainNavView;
     private TextView userNameTv;
@@ -72,9 +70,12 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
     private FragmentTransaction transaction;
     private FragmentManager fragmentManager = getSupportFragmentManager();
-
-
     private MediaRelManager relManager = MediaRelManager.getInstance();
+
+    // title
+    private TextView mMainCenterTv;
+    private ImageView mMainLeftIv;
+    private ImageView mMainRightIv;
 
     private final String[] permissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -105,9 +106,8 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
     @Override
     public void initTitle() {
-        mTitleLeftIv.setImageResource(R.drawable.ic_menu);
-        mTitleLeftIv.setOnClickListener(this);
-        mTitleCenterTv.setText("音乐园");
+        mTitleCl.setVisibility(View.GONE);
+
     }
 
     public void initView() {
@@ -132,6 +132,14 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         userIcon.setOnClickListener(this);
         navBackgrounpIv = navHeadView.findViewById(R.id.head_bg_iv);
         userNameTv.setText(SPUtils.get(this,SPConstant.USER_NAME,"Sunny"));
+
+        mMainCenterTv = findViewById(R.id.main_center_tv);
+        mMainLeftIv = findViewById(R.id.main_left_iv);
+        mMainRightIv = findViewById(R.id.main_right_iv);
+
+        mMainLeftIv.setImageResource(R.drawable.ic_menu);
+        mMainLeftIv.setOnClickListener(this);
+        mMainCenterTv.setText("音乐园");
 
         mMainNavView.setNavigationItemSelectedListener(menuItem -> {
 
@@ -224,14 +232,14 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         switch (v.getId()) {
             default:
                 break;
-            case R.id.title_left_iv:
+            case R.id.main_left_iv:
                 //mMultipleStateView.showContent();
                 mMainDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.nav_head_iv:
                 //startActivity(TestActivity.class);
                 break;
-            case R.id.title_right_iv:
+            case R.id.main_right_iv:
 
                 break;
         }
@@ -307,19 +315,19 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         }
         switch (name){
             case FlagConstant.FRAGMENT_LOCAL:
-                mTitleCenterTv.setText("本地音乐");
-                mTitleLeftIv.setImageResource(R.drawable.ic_back);
-                mTitleLeftIv.setOnClickListener((v)-> popBackStack());
+                mMainCenterTv.setText("本地音乐");
+                mMainLeftIv.setImageResource(R.drawable.ic_back);
+                mMainLeftIv.setOnClickListener((v)-> popBackStack());
                 break;
             case FlagConstant.FRAGMENT_RECENT:
-                mTitleCenterTv.setText("最近播放");
-                mTitleLeftIv.setImageResource(R.drawable.ic_back);
-                mTitleLeftIv.setOnClickListener((v)-> popBackStack());
+                mMainCenterTv.setText("最近播放");
+                mMainLeftIv.setImageResource(R.drawable.ic_back);
+                mMainLeftIv.setOnClickListener((v)-> popBackStack());
                 break;
             case FlagConstant.FRAGMENT_FAVORITE:
-                mTitleCenterTv.setText("我的收藏");
-                mTitleLeftIv.setImageResource(R.drawable.ic_back);
-                mTitleLeftIv.setOnClickListener((v)-> popBackStack());
+                mMainCenterTv.setText("我的收藏");
+                mMainLeftIv.setImageResource(R.drawable.ic_back);
+                mMainLeftIv.setOnClickListener((v)-> popBackStack());
                 break;
         }
 
@@ -393,9 +401,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                     if (fragment != null) {
                         fragment.notifyDataChange();
                     }
-                    mTitleCenterTv.setText("音乐园");
-                    mTitleLeftIv.setImageResource(R.drawable.ic_menu);
-                    mTitleLeftIv.setOnClickListener((v)-> mMainDrawerLayout.openDrawer(GravityCompat.START));
+                    mMainCenterTv.setText("音乐园");
+                    mMainLeftIv.setImageResource(R.drawable.ic_menu);
+                    mMainLeftIv.setOnClickListener((v)-> mMainDrawerLayout.openDrawer(GravityCompat.START));
                 }
 
             }else {

@@ -57,7 +57,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/icon_previous"
+        android:src="@drawable/icon_previous_transparent"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/main_play"
@@ -68,17 +68,18 @@
         android:layout_width="@dimen/dp_40"
         android:layout_height="40dp"
         android:layout_marginEnd="56dp"
-        android:src="@drawable/play_btn"
+        android:src="@drawable/icon_play_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/play_frag_line"/>
 
     <ImageView
         android:id="@+id/main_next"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_marginStart="8dp"
-        android:src="@drawable/icon_next"
+        android:padding="@dimen/padding_tiny_size"
+        android:src="@drawable/icon_next_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/main_play"
         app:layout_constraintTop_toTopOf="@+id/play_frag_line" />

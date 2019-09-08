@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +27,12 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
     protected MultipleStatusView mMultipleStateView;
     protected LinearLayout mLlRoot;
     protected FrameLayout mFlRoot;
+    protected ConstraintLayout mTitleCl;
     protected TextView mTitleCenterTv;
     protected ImageView mTitleRightIv;
     protected ImageView mTitleLeftIv;
     protected TextView mTitleRightTv;
+    protected TextView mTitleCenterSmallTv;
 
 
 
@@ -78,6 +81,8 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
         mTitleLeftIv = findViewById(R.id.title_left_iv);
         mTitleRightIv = findViewById(R.id.title_right_iv);
         mTitleRightTv = findViewById(R.id.title_right_tv);
+        mTitleCl = findViewById(R.id.common_title_layout);
+        mTitleCenterSmallTv = findViewById(R.id.title_center_small_tv);
 
         mTitleLeftIv.setImageResource(R.drawable.ic_back);
         mTitleLeftIv.setOnClickListener(v -> {

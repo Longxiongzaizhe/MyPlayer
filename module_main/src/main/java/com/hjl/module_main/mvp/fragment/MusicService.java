@@ -7,16 +7,17 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Random;
-
 import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.constant.SPConstant;
+import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;
-import com.hjl.module_main.daodb.MediaEntity;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 
 public class MusicService extends Service {
@@ -62,7 +63,19 @@ public class MusicService extends Service {
                 if (playList != null && ++position < playList.size()) {
                     mBinder.play(playList.get(position));
                 }else {
-                    mBinder.onMediaChangeListener.onPlayEnd();
+                    if (mBinder.listeners.size() != 0){
+                        for (MusicInterface.OnMediaChangeListener listener : mBinder.listeners){
+                            listener.onPlayEnd();
+                        }
+                    }
+                }
+            }
+
+            if (!player.isPlaying()){
+                if (mBinder.listeners.size() != 0){
+                    for (MusicInterface.OnMediaChangeListener listener : mBinder.listeners){
+                        listener.onPlayEnd();
+                    }
                 }
             }
 
@@ -119,7 +132,7 @@ public class MusicService extends Service {
 
 
         private MediaEntity currentEntity;
-        private MusicInterface.OnMediaChangeListener onMediaChangeListener;
+        private List<MusicInterface.OnMediaChangeListener> listeners = new ArrayList<>();
 
         public void setData(MediaEntity entity){
 
@@ -149,8 +162,10 @@ public class MusicService extends Service {
                 player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
-                        if (onMediaChangeListener!= null){
-                            onMediaChangeListener.onDataChange(entity);
+                        if (listeners.size() != 0){
+                           for (MusicInterface.OnMediaChangeListener listener : listeners){
+                               listener.onDataChange(entity);
+                           }
                         }
                         player.start();
                     }
@@ -172,12 +187,51 @@ public class MusicService extends Service {
             }
         }
 
+        public void playNext(){
+            if (getPlayList() == null){
+                return;
+            }
+            if (getPlayList().size() != getPosition()+1){
+                mBinder.play(getPlayList().get(getPosition()+1));
+                setPosition(getPosition()+1);
+            }else {
+                mBinder.play(getPlayList().get(0));
+                setPosition(0);
+            }
+        }
+
+        public void playPrevious(){
+            if (getPlayList() == null){
+                return;
+            }
+
+            if (getPosition() != 0){
+                mBinder.play(getPlayList().get(getPosition()- 1));
+                setPosition(getPosition() - 1);
+            } else {
+                mBinder.play(getPlayList().get(getPlayList().size() - 1));
+                setPosition(getPlayList().size() - 1);
+            }
+        }
+
+        public void changeState(boolean isPlay){
+            if (isPlay){
+                pause();
+            }else {
+                play();
+            }
+        }
+
+        public boolean isPlaying(){
+            return player.isPlaying();
+        }
+
         public MediaEntity getCurrentEntity() {
             return currentEntity;
         }
 
-        public void setOnMediaChangeListener(MusicInterface.OnMediaChangeListener onMediaChangeListener) {
-            this.onMediaChangeListener = onMediaChangeListener;
+        public void addOnMediaChangeListener(MusicInterface.OnMediaChangeListener onMediaChangeListener) {
+            listeners.add(onMediaChangeListener);
         }
 
         public MusicService getService(){

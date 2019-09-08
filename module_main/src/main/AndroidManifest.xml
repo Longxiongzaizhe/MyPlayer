@@ -1,11 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hjl.module_main" >
-
+    package="com.hjl.module_main">
 
     <application>
+        <activity android:name=".mvp.activity.MusicDetailActivity"></activity>
 
         <service
-            android:name="com.hjl.module_main.mvp.fragment.MusicService"
+            android:name=".mvp.fragment.MusicService"
             android:enabled="true"
             android:exported="true" />
     </application>
