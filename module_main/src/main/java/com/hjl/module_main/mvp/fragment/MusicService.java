@@ -222,6 +222,10 @@ public class MusicService extends Service {
             }
         }
 
+        public void setPlayList(List<MediaEntity> list){
+            playList = list;
+        }
+
         public boolean isPlaying(){
             return player.isPlaying();
         }

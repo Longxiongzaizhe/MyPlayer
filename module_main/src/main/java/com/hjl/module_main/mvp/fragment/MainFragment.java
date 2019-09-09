@@ -17,18 +17,21 @@ import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.mview.BaseMarkDialog;
 import com.hjl.commonlib.utils.RecycleViewVerticalDivider;
 import com.hjl.commonlib.utils.ToastUtil;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
+import com.hjl.module_main.daodb.DaoManager;
+import com.hjl.module_main.daodb.DaoManagerFactory;
 import com.hjl.module_main.daodb.MediaDaoManager;
+import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.daodb.MediaListEntity;
 import com.hjl.module_main.daodb.MediaListManager;
 import com.hjl.module_main.daodb.MediaRelManager;
 import com.hjl.module_main.mvp.activity.MainActivity;
 import com.hjl.module_main.mvp.adapter.MusicListAdapter;
+import com.hjl.module_main.utils.MediaUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainFragment extends BaseFragment implements View.OnClickListener {
 
@@ -137,9 +140,24 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.main_local_play) {
+            if (mBinder != null){
+                mBinder.play(manager.loadAll().get(0));
+                mBinder.setPlayList(manager.loadAll());
+            }
         } else if (id == R.id.main_history_play) {
+            if (mBinder != null){
+                List<MediaEntity> list = MediaUtils.getRecentlyList();
+                mBinder.play(list.get(0));
+                mBinder.setPlayList(list);
+            }
         } else if (id == R.id.main_favourite_play) {
+            if (mBinder != null){
+                List<MediaEntity> list = MediaUtils.getFavoriteList();
+                mBinder.play(list.get(0));
+                mBinder.setPlayList(list);
+            }
         } else if (id == R.id.main_download_play) {
+
         } else if (id == R.id.local_lay) {
             activity.showFragment(FlagConstant.FRAGMENT_LOCAL);
         } else if (id == R.id.history_lay) {

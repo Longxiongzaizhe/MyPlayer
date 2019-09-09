@@ -23,6 +23,8 @@ import com.hjl.module_main.daodb.MediaAlbumsEntity;
 import com.hjl.module_main.daodb.MediaAlbumsManager;
 import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaEntity;
+import com.hjl.module_main.daodb.MediaRelEntity;
+import com.hjl.module_main.daodb.MediaRelManager;
 import com.hjl.module_main.net.DoubanNetworkWrapper;
 import com.hjl.module_main.net.NetworkWrapper;
 import com.hjl.module_main.net.bean.SearchPicBean;
@@ -33,6 +35,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -439,6 +442,39 @@ public class MediaUtils {
                 });
             }
         });
+    }
+
+
+    public static List<MediaEntity> getFavoriteList(){
+
+        List<MediaEntity> mediaEntityList = new LinkedList<>();
+
+        for (MediaRelEntity entity :  MediaRelManager.getInstance().queryFavoriteList()){
+            MediaEntity mediaEntity = mediaDaoManager.query(entity.songId);
+            if (mediaEntity != null){
+                mediaEntityList.add(mediaEntity);
+            } else {
+                MediaRelManager.getInstance().deleteSongRel(entity);
+            }
+        }
+
+        return mediaEntityList;
+    }
+
+    public static List<MediaEntity> getRecentlyList(){
+
+        List<MediaEntity> mediaEntityList = new LinkedList<>();
+
+        for (MediaRelEntity entity : MediaRelManager.getInstance().queryRecentList()){
+            MediaEntity mediaEntity = mediaDaoManager.query(entity.getSongId());
+            if (mediaEntity!= null){
+                mediaEntityList.add(mediaEntity);
+            }else {
+                MediaRelManager.getInstance().deleteSongRel(entity);
+            }
+        }
+
+        return mediaEntityList;
     }
 
     public static void initMusicCover(int pageSize, int pageIndex){
