@@ -1,4 +1,4 @@
-package com.wj.myplayer.mvp.presenter
+package com.hjl.module_main.mvp.presenter
 
 import android.content.Context
 import android.widget.ImageView

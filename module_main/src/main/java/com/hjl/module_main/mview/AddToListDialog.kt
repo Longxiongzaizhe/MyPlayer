@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.layout_add_to_list.*
 
 class AddToListDialog(context:Context,var musicId: Long) : Dialog(context, R.style.BaseDialogStyle) {
 
-    var data: List<MediaListEntity> = MediaListManager.getInstance().allList!!
+    var data: List<MediaListEntity> = MediaListManager.getInstance().loadAll()!!
     var adapter : SimpleMusicListAdapter? = null
     var relManager = MediaRelManager.getInstance()
 

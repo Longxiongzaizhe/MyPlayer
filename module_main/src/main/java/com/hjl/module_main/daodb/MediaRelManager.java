@@ -7,7 +7,7 @@ import com.hjl.module_main.module.ILocalModuleAppImpl;
 
 import java.util.List;
 
-public class MediaRelManager {
+public class MediaRelManager implements DaoManager<MediaRelEntity>{
 
     private static MediaRelManager manager;
     private MediaRelEntityDao dao;
@@ -24,11 +24,42 @@ public class MediaRelManager {
         return manager;
     }
 
+    @Override
+    public MediaRelEntity query(long id) {
+        return null;
+    }
+
+    @Override
+    public List<MediaRelEntity> loadAll() {
+        return dao.loadAll();
+    }
+
+    @Override
+    public void delete(long id) {
+        dao.deleteByKey(id);
+    }
+
+    @Override
+    public void delete(MediaRelEntity entity) {
+        dao.delete(entity);
+    }
+
     /**
      * 直接插入数据 不做任何处理
      */
+    @Override
     public void insert(MediaRelEntity entity){
         dao.insert(entity);
+    }
+
+    @Override
+    public void deleteAll() {
+        dao.deleteAll();
+    }
+
+    @Override
+    public void update(MediaRelEntity entity) {
+        dao.update(entity);
     }
 
     /**

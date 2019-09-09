@@ -17,6 +17,20 @@ android {
 
     }
 
+    //自定义apk名字
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                // apk_渠道名-版本号-版本名称-编译时间.apk
+//                def fileName = "Gwadar Pro-${variant.buildType.name}-${defaultConfig.versionCode}-v${defaultConfig.versionName}-${buildTime()}.apk"
+                //apk_地区名-版本号-版本名称-编译时间.apk
+                def fileName = "MyPlayer-${variant.buildType.name}-${defaultConfig.versionCode}-V${defaultConfig.versionName}__${buildTime()}.apk"
+                outputFileName = fileName
+            }
+        }
+    }
+
 
     buildTypes {
         release {
@@ -52,6 +66,16 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 }
+
 repositories {
     mavenCentral()
 }
+
+
+def buildTime() {
+    def date = new Date()
+    def formattedDate = date.format('yyyy_MM_dd--HH：mm')
+    return formattedDate
+}
+
+

@@ -1,26 +1,22 @@
-package com.wj.myplayer.mvp.ui.activity;
+package com.hjl.module_main.mvp;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-
 import com.bumptech.glide.Glide;
 import com.hjl.commonlib.base.BaseFragment;
 import com.github.chrisbanes.photoview.PhotoView;
-
 import java.io.IOException;
-
-import butterknife.BindView;
-import butterknife.OnClick;
+import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
-import com.wj.myplayer.R;
 
-public class ImageDisplayFragment extends BaseFragment {
 
-    @BindView(R.id.img_iv)
-    PhotoView mPhotoView;
+public class ImageDisplayFragment extends BaseFragment implements View.OnClickListener {
+
+
+    private PhotoView mPhotoView;
 
     private String displayUrl;
     private Bitmap displayBitmap;
@@ -63,6 +59,9 @@ public class ImageDisplayFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
 
+        mPhotoView = view.findViewById(R.id.img_iv);
+        mPhotoView.setOnClickListener(this);
+
         switch (type){
             case 1:
                 Glide.with(this).load(displayUrl).placeholder(R.drawable.default_img).into(mPhotoView);
@@ -92,14 +91,12 @@ public class ImageDisplayFragment extends BaseFragment {
         return R.layout.fragment_iv_display;
     }
 
-    @OnClick({R.id.img_iv})
+    @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
-            case R.id.img_iv:
-                getActivity().finish();
-                getActivity().overridePendingTransition(0,R.anim.activity_out);
-                break;
+        if (v.getId() == R.id.img_iv) {
+            getActivity().finish();
+            getActivity().overridePendingTransition(0, R.anim.activity_out);
         }
     }
 }

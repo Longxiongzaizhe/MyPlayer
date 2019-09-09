@@ -1,4 +1,4 @@
-package com.wj.myplayer.mvp.ui.activity;
+package com.hjl.module_main.mvp;
 
 
 import android.net.Uri;
@@ -14,8 +14,8 @@ import com.hjl.commonlib.base.BaseMultipleActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
-import com.wj.myplayer.R;
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.commonlib.adapter.LazyFragmentPagerAdapter;
@@ -148,20 +148,15 @@ public class ImageMultipleDisplayActivity extends BaseMultipleActivity implement
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            default:
-                break;
-            case R.id.down_load_iv:
-
-                if (StringUtils.isEmpty(displayUrl)){
-                    return;
-                }
-                if (!displayUrl.startsWith("http")) {
-                    ToastUtil.showSingleToast("请前往 " + displayUrl + " 查看");
-                    return;
-                }
-                ToastUtil.showSingleToast("正在保存,请稍后...");
-                break;
+        if (v.getId() == R.id.down_load_iv) {
+            if (StringUtils.isEmpty(displayUrl)) {
+                return;
+            }
+            if (!displayUrl.startsWith("http")) {
+                ToastUtil.showSingleToast("请前往 " + displayUrl + " 查看");
+                return;
+            }
+            ToastUtil.showSingleToast("正在保存,请稍后...");
         }
     }
 }

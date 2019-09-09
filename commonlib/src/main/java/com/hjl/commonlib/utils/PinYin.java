@@ -1,4 +1,4 @@
-package com.wj.myplayer.utils;
+package com.hjl.commonlib.utils;
 
 import java.util.ArrayList;
 import java.util.Locale;

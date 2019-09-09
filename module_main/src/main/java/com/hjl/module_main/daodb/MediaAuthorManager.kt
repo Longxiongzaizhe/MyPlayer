@@ -4,11 +4,12 @@ import com.hjl.commonlib.base.BaseApplication
 import com.hjl.module_main.module.ILocalModuleAppImpl
 
 
-class MediaAuthorManager {
+class MediaAuthorManager : DaoManager<MediaAuthorEntity>{
+
+
 
     private var dao:MediaAuthorEntityDao?  = null
 
-    private constructor()
 
     init {
         val daoSession = ILocalModuleAppImpl().initDaoSession(BaseApplication.getApplication())
@@ -16,7 +17,7 @@ class MediaAuthorManager {
     }
 
 
-    fun insert(entity: MediaAuthorEntity){
+    override fun insert(entity: MediaAuthorEntity){
         dao!!.insert(entity)
     }
 
@@ -24,12 +25,28 @@ class MediaAuthorManager {
         dao!!.insert(MediaAuthorEntity(null,name,""))
     }
 
-    fun update(entity: MediaAuthorEntity){
+    override fun update(entity: MediaAuthorEntity){
         dao!!.update(entity)
     }
 
-    fun getAll():List<MediaAuthorEntity>{
+    override fun query(id: Long): MediaAuthorEntity {
+        return dao!!.queryBuilder().where(MediaAlbumsEntityDao.Properties.Id.eq(id)).unique()
+    }
+
+    override fun loadAll(): MutableList<MediaAuthorEntity> {
         return dao!!.loadAll()
+    }
+
+    override fun delete(id: Long) {
+        dao!!.deleteByKey(id)
+    }
+
+    override fun delete(entity: MediaAuthorEntity?) {
+        dao!!.delete(entity)
+    }
+
+    override fun deleteAll() {
+        dao!!.deleteAll()
     }
 
     companion object{
@@ -41,6 +58,7 @@ class MediaAuthorManager {
             return field
         }
 
+        @JvmStatic
         fun get() : MediaAuthorManager{
             return instance!!
         }

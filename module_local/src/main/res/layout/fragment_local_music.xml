@@ -60,6 +60,7 @@
             android:layout_weight="1"
             android:hint="输入关键词搜索本地歌曲"
             android:visibility="gone"
+            android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/local_cancel_tv"
             app:layout_constraintStart_toEndOf="@+id/music_mode_tv"

@@ -1,4 +1,4 @@
-package com.wj.myplayer.mvp.ui.fragment.main;
+package com.hjl.module_main.mvp.fragment;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,9 +13,11 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.mview.BaseTipDialog;
+import com.hjl.commonlib.mview.ClearEditText;
 import com.hjl.commonlib.utils.DensityUtil;
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.commonlib.utils.ToastUtil;
+import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.constant.SPConstant;
@@ -27,12 +29,9 @@ import com.hjl.module_main.mview.AddToListDialog;
 import com.hjl.module_main.mview.MusicEditPopWindow;
 import com.hjl.module_main.mview.MusicModePopWindow;
 import com.hjl.module_main.mvp.adapter.MusicAdapter;
-import com.hjl.module_main.mvp.fragment.MusicService;
 import com.hjl.module_main.utils.FileUtils;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;
-import com.wj.myplayer.R;
-import com.wj.myplayer.mview.ClearEditText;
 
 import java.util.ArrayList;
 import java.util.List;

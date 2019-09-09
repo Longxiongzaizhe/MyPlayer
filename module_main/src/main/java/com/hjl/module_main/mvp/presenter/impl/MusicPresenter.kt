@@ -1,4 +1,4 @@
-package com.wj.myplayer.mvp.presenter.impl
+package com.hjl.module_main.mvp.presenter.impl
 
 import android.content.Context
 import android.widget.ImageView
@@ -11,7 +11,7 @@ import com.hjl.module_main.daodb.MediaEntity
 import com.hjl.module_main.net.DoubanNetworkWrapper
 import com.hjl.module_main.net.bean.douban.MusicSearchBean
 import com.hjl.module_main.utils.MediaUtils
-import com.wj.myplayer.mvp.presenter.IMusicPresenter
+import com.hjl.module_main.mvp.presenter.IMusicPresenter
 
 class MusicPresenter : IMusicPresenter {
 

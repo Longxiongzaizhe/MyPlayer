@@ -17,11 +17,11 @@ import com.hjl.module_main.module.RApp
 
 import kotlinx.android.synthetic.main.fragment_author.*
 
-@Route(path = RApp.LOCAL_FRAGMENT)
+@Route(path = RApp.AUTHOR_FRAGMENT)
 class AuthorFragment : BaseFragment() {
 
     var adapter : AuthorAdapter? = null
-    var datalist : List<MediaAuthorEntity> = MediaAuthorManager.get().getAll()
+    var datalist : List<MediaAuthorEntity> = MediaAuthorManager.get().loadAll()
 
 
     companion object{
@@ -34,7 +34,7 @@ class AuthorFragment : BaseFragment() {
         fun newInstance(mBinder: MusicService.MusicBinder): AuthorFragment {
             val bundle = Bundle()
             bundle.putSerializable(FlagConstant.BINDER,mBinder)
-            return Companion.newInstance(bundle)
+            return newInstance(bundle)
         }
     }
 

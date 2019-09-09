@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.wj.myplayer.utils;
+package com.hjl.commonlib.utils;
 
 import android.text.TextUtils;
 import android.util.Log;

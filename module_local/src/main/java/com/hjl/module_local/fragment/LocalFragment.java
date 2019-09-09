@@ -150,7 +150,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     @Override
     protected void initData() {
         ARouter.getInstance().inject(this);
-        datalist = manager.getAllList(10,pageIndex++);
+        datalist = manager.loadAll(10,pageIndex++);
         mLocalMusicRv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MusicAdapter(datalist);
         mLocalMusicRv.setAdapter(adapter);
@@ -276,7 +276,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
                 List<MediaEntity> list = MediaUtils.getAllMediaList(getContext(),"");
                 datalist.clear();
                 manager.addSafety(list);
-                datalist.addAll(manager.getAllList());
+                datalist.addAll(manager.loadAll());
                 e.onNext("已刷新");
             }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
                 @Override
@@ -324,7 +324,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 
     @Override
     public void onLoadMoreRequested() {
-        List<MediaEntity> list = manager.getAllList(10,pageIndex++);
+        List<MediaEntity> list = manager.loadAll(10,pageIndex++);
 
         datalist.addAll(list);
         adapter.notifyDataSetChanged();

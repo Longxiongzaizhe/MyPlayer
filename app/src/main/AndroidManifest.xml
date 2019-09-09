@@ -19,16 +19,6 @@
         android:theme="@style/AppTheme">
 
 
-        <activity android:name="com.wj.myplayer.mvp.ui.activity.ImageMultipleDisplayActivity" />
-        <activity android:name="com.wj.myplayer.mvp.ui.activity.navSetting.UserSettingActivity" />
-        <activity android:name="com.hjl.commonlib.base.BaseActivity" />
-        <activity android:name="com.wj.myplayer.mvp.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

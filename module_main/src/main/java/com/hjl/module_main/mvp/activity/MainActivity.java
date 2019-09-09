@@ -1,4 +1,4 @@
-package com.wj.myplayer.mvp;
+package com.hjl.module_main.mvp.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -31,6 +31,7 @@ import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.base.BaseMultipleActivity;
 import com.hjl.commonlib.utils.PermissionsUtiles;
 import com.hjl.commonlib.utils.ToastUtil;
+import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.module_main.constant.SPConstant;
 import com.hjl.module_main.daodb.MediaDaoManager;
@@ -40,12 +41,10 @@ import com.hjl.module_main.mvp.fragment.MusicService;
 import com.hjl.module_main.mvp.fragment.PlayFragment;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;
-import com.wj.myplayer.R;
-import com.wj.myplayer.mvp.ui.activity.navSetting.UserSettingActivity;
-import com.wj.myplayer.mvp.ui.fragment.main.FavoriteFragment;
-import com.wj.myplayer.mvp.ui.fragment.main.MainFragment;
-import com.wj.myplayer.mvp.ui.fragment.main.MainLocalFragment;
-import com.wj.myplayer.mvp.ui.fragment.main.RecentlyFragment;
+import com.hjl.module_main.mvp.fragment.FavoriteFragment;
+import com.hjl.module_main.mvp.fragment.MainFragment;
+import com.hjl.module_main.mvp.fragment.MainLocalFragment;
+import com.hjl.module_main.mvp.fragment.RecentlyFragment;
 
 import java.io.File;
 import java.util.List;
@@ -143,27 +142,21 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
         mMainNavView.setNavigationItemSelectedListener(menuItem -> {
 
-            switch (menuItem.getItemId()){
-                case R.id.nav_clock:
-                    ToastUtil.showSingleToast("暂未开放定时功能哟~");
-                    break;
-                case R.id.nav_color:
-                    ToastUtil.showSingleToast("暂未开放主题功能哟~");
-                   // mMultipleStateView.showLoading();
-                    break;
-                case R.id.nav_exit:
-                    finish();
-                 //   mMultipleStateView.showEmpty();
-                    break;
-                case R.id.nav_setting:
-                    intent.setClass(MainActivity.this, UserSettingActivity.class);
-                    break;
-                case R.id.nav_wifi:
-                    ToastUtil.showSingleToast("暂未开放网络功能哟~");
-                    break;
-                case R.id.nav_about:
-                    ToastUtil.showSingleToast("Author is WuJun From SZU");
-                    break;
+            int itemId = menuItem.getItemId();
+            if (itemId == R.id.nav_clock) {
+                ToastUtil.showSingleToast("暂未开放定时功能哟~");
+            } else if (itemId == R.id.nav_color) {
+                ToastUtil.showSingleToast("暂未开放主题功能哟~");
+                // mMultipleStateView.showLoading();
+            } else if (itemId == R.id.nav_exit) {
+                finish();
+                //   mMultipleStateView.showEmpty();
+            } else if (itemId == R.id.nav_setting) {
+                intent.setClass(MainActivity.this, UserSettingActivity.class);
+            } else if (itemId == R.id.nav_wifi) {
+                ToastUtil.showSingleToast("暂未开放网络功能哟~");
+            } else if (itemId == R.id.nav_about) {
+                ToastUtil.showSingleToast("Author is WuJun From SZU");
             }
             mMainDrawerLayout.closeDrawers();
             return true;
@@ -229,19 +222,11 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            default:
-                break;
-            case R.id.main_left_iv:
-                //mMultipleStateView.showContent();
-                mMainDrawerLayout.openDrawer(GravityCompat.START);
-                break;
-            case R.id.nav_head_iv:
-                //startActivity(TestActivity.class);
-                break;
-            case R.id.main_right_iv:
-
-                break;
+        int id = v.getId();
+        if (id == R.id.main_left_iv) {//mMultipleStateView.showContent();
+            mMainDrawerLayout.openDrawer(GravityCompat.START);
+        } else if (id == R.id.nav_head_iv) {//startActivity(TestActivity.class);
+        } else if (id == R.id.main_right_iv) {
         }
     }
 
@@ -420,7 +405,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             if (msg.what == FlagConstant.UPDATE_KEY01){
                 int index = msg.arg1;
                 MediaUtils.initMusicCover(5,index++);
-                if (index*5 < MediaDaoManager.getInstance().getAllList().size()){
+                if (index*5 < MediaDaoManager.getInstance().loadAll().size()){
                     Message sendMsg = Message.obtain();
                     sendMsg.what = FlagConstant.UPDATE_KEY01;
                     sendMsg.arg1 = index;

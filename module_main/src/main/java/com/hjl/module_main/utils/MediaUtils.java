@@ -443,7 +443,7 @@ public class MediaUtils {
 
     public static void initMusicCover(int pageSize, int pageIndex){
         cacheThread.execute(() -> {
-            List<MediaEntity> list = mediaDaoManager.getAllList(pageSize,pageIndex);
+            List<MediaEntity> list = mediaDaoManager.loadAll(pageSize,pageIndex);
             for (MediaEntity entity : list){
                 if (StringUtils.isEmpty(entity.coverUrl)){
                     DoubanNetworkWrapper.searchMusic(entity.getTitle(), "", "", "10", new HttpHandler<MusicSearchBean>() {
@@ -467,7 +467,7 @@ public class MediaUtils {
     }
 
     public static void initAlbumCover(){
-        List<MediaAlbumsEntity> list = MediaAlbumsManager.getInstance().getAllAlbums();
+        List<MediaAlbumsEntity> list = MediaAlbumsManager.getInstance().loadAll();
         for (MediaAlbumsEntity albumsEntity : list){
 
             MediaEntity entity = mediaDaoManager.getMusicByAlbumId(albumsEntity.id);

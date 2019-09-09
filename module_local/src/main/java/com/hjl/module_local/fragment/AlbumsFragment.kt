@@ -78,7 +78,7 @@ class AlbumsFragment : BaseFragment() {
                 MediaUtils.initAlbumCover()
                 synchronized(data){
                     data.clear()
-                    data.addAll(MediaAlbumsManager.getInstance().allAlbums)
+                    data.addAll(MediaAlbumsManager.getInstance().loadAll())
                 }
                 e!!.onNext(FlagConstant.RXJAVA_KEY_01)
                 e.onComplete()

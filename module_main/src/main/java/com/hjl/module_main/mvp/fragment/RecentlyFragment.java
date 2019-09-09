@@ -1,4 +1,4 @@
-package com.wj.myplayer.mvp.ui.fragment.main;
+package com.hjl.module_main.mvp.fragment;
 
 
 import android.os.Bundle;
@@ -16,15 +16,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
-import com.wj.myplayer.R;
 import com.hjl.module_main.mview.AddToListDialog;
-import com.hjl.module_main.mvp.fragment.MusicService;
 import com.hjl.module_main.mvp.adapter.MusicAdapter;
 import com.hjl.module_main.mview.MusicEditPopWindow;
 

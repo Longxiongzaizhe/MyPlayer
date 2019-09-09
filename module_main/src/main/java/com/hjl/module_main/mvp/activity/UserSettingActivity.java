@@ -1,4 +1,4 @@
-package com.wj.myplayer.mvp.ui.activity.navSetting;
+package com.hjl.module_main.mvp.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +21,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import com.wj.myplayer.R;
+
+import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FileConstant;
 import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.module_main.constant.SPConstant;
@@ -89,20 +90,15 @@ public class UserSettingActivity extends BaseMultipleActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            default:
-                break;
-            case R.id.setting_user_icon_iv:
-                type = 0;
-                mDialog.show();
-                break;
-            case R.id.setting_user_bg_iv:
-                type = 1;
-                mDialog.show();
-                break;
-            case R.id.setting_user_name_tv:
-                editDialog.show();
-                break;
+        int id = v.getId();
+        if (id == R.id.setting_user_icon_iv) {
+            type = 0;
+            mDialog.show();
+        } else if (id == R.id.setting_user_bg_iv) {
+            type = 1;
+            mDialog.show();
+        } else if (id == R.id.setting_user_name_tv) {
+            editDialog.show();
         }
     }
 

@@ -6,7 +6,7 @@ import com.hjl.module_main.module.ILocalModuleAppImpl;
 import java.util.List;
 
 
-public class MediaAlbumsManager {
+public class MediaAlbumsManager implements DaoManager<MediaAlbumsEntity>{
 
     private static MediaAlbumsManager manager;
     private MediaAlbumsEntityDao dao;
@@ -27,16 +27,13 @@ public class MediaAlbumsManager {
         dao.insert(entity);
     }
 
+    @Override
+    public void deleteAll() {
+        dao.deleteAll();
+    }
+
     public void insert(List<MediaAlbumsEntity> data){
         dao.insertInTx(data);
-    }
-
-    public List<MediaAlbumsEntity> getAllAlbums(){
-        return dao.loadAll();
-    }
-
-    public void deleteAll(){
-        dao.deleteAll();
     }
 
     public void update(MediaAlbumsEntity entity){
@@ -44,5 +41,23 @@ public class MediaAlbumsManager {
     }
 
 
+    @Override
+    public MediaAlbumsEntity query(long id) {
+        return dao.queryBuilder().orderAsc(MediaAlbumsEntityDao.Properties.Id).where(MediaAlbumsEntityDao.Properties.Id.eq(id)).unique();
+    }
 
+    @Override
+    public List<MediaAlbumsEntity> loadAll() {
+        return dao.loadAll();
+    }
+
+    @Override
+    public void delete(long id) {
+        dao.deleteByKey(id);
+    }
+
+    @Override
+    public void delete(MediaAlbumsEntity entity) {
+        dao.delete(entity);
+    }
 }

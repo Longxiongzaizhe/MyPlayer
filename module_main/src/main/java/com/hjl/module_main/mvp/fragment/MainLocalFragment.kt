@@ -1,16 +1,16 @@
-package com.wj.myplayer.mvp.ui.fragment.main
+package com.hjl.module_main.mvp.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
+import com.alibaba.android.arouter.launcher.ARouter
 import com.hjl.commonlib.adapter.LazyFragmentPagerAdapter
 import com.hjl.commonlib.base.BaseFragment
-import com.hjl.module_local.fragment.AlbumsFragment
-import com.hjl.module_local.fragment.AuthorFragment
-import com.hjl.module_local.fragment.LocalFragment
+import com.hjl.module_main.R
+
 import com.hjl.module_main.constant.FlagConstant
-import com.hjl.module_main.mvp.fragment.MusicService
-import com.wj.myplayer.R
+import com.hjl.module_main.module.RApp
+
 import kotlinx.android.synthetic.main.fragment_main_local.*
 
 class MainLocalFragment : BaseFragment(){
@@ -19,9 +19,6 @@ class MainLocalFragment : BaseFragment(){
     val mTitles : ArrayList<String> = ArrayList()
     var mPageAdapter : LazyFragmentPagerAdapter? = null
 
-    var localFragment : LocalFragment? = null
-    var albumsFragment: AlbumsFragment? = null
-    var authorFragment : AuthorFragment? = null
 
     companion object{
         fun newInstance(bundle: Bundle): MainLocalFragment {
@@ -45,15 +42,18 @@ class MainLocalFragment : BaseFragment(){
 
     override fun initData() {
         val binder  = arguments!!.getSerializable(FlagConstant.BINDER) as MusicService.MusicBinder
-//        var localFragment :LocalFragment = ARouter.getInstance().build(RApp.LOCAL_FRAGMENT).navigation() as LocalFragment
-//        var authorFragment :AuthorFragment = ARouter.getInstance().build(RApp.AUTHOR_FRAGMENT).navigation() as AuthorFragment
-//        var albumsFragment :AlbumsFragment = ARouter.getInstance().build(RApp.ALBUMS_FRAGMENT).navigation() as AlbumsFragment
-       // localFragment =
+        var localFragment  = ARouter.getInstance().build(RApp.LOCAL_FRAGMENT).navigation() as BaseFragment
+        var authorFragment  = ARouter.getInstance().build(RApp.AUTHOR_FRAGMENT).navigation() as BaseFragment
+        var albumsFragment = ARouter.getInstance().build(RApp.ALBUMS_FRAGMENT).navigation() as BaseFragment
+
+        localFragment.arguments = Bundle().also { it.putSerializable(FlagConstant.BINDER,binder) }
+        authorFragment.arguments = Bundle().also { it.putSerializable(FlagConstant.BINDER,binder) }
+        albumsFragment.arguments = Bundle().also { it.putSerializable(FlagConstant.BINDER,binder) }
 
 
-        fragments.add(LocalFragment.newInstance(binder))
-        fragments.add(AlbumsFragment.newInstance(binder))
-        fragments.add(AuthorFragment.newInstance(binder))
+        fragments.add(localFragment)
+        fragments.add(authorFragment)
+        fragments.add(albumsFragment)
 
         mPageAdapter = LazyFragmentPagerAdapter(fragmentManager, fragments, mTitles)
         local_viewpager.adapter = mPageAdapter

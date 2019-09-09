@@ -1,10 +1,10 @@
-package com.wj.myplayer.mvp.adapter;
+package com.hjl.module_main.mvp.adapter;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.hjl.module_main.R;
 import com.hjl.module_main.daodb.MediaListEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
-import com.wj.myplayer.R;
 
 import java.util.List;
 
@@ -20,10 +20,7 @@ public class MusicListAdapter extends BaseQuickAdapter<MediaListEntity, BaseView
     protected void convert(BaseViewHolder helper, MediaListEntity item) {
         helper.setText(R.id.list_name_tv,item.name);
         helper.setText(R.id.list_count_tv,relManager.queryMediaList(item.id).size() + "首");
-//        if (!StringUtils.isEmpty(item.albums)){
-//            Bitmap bitmap = BitmapFactory.decodeFile(item.albums);
-//            Glide.with(mContext).load(bitmap).into((ImageView) helper.getView(R.id.list_album_iv));
-//        }
+
 
 
     }

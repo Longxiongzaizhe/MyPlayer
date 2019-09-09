@@ -19,7 +19,7 @@ versions.glide = "4.9.0"
 versions.circleview = "2.1.0"
 versions.skeleton = "1.1.2"
 versions.photoview = "2.0.0"
-
+versions.glide_tools = "4.0.1"
 
 versions.greendao = "3.2.2"
 versions.eventbus = "3.1.1"
@@ -49,6 +49,7 @@ deps.circleimageview = "de.hdodenhof:circleimageview:$versions.circleview"
 deps.photoview = "com.github.chrisbanes:PhotoView:$versions.photoview"
 deps.smartrefresh = "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-31"
 deps.shimmer = "io.supercharge:shimmerlayout:$versions.shimmer"
+deps.glide_tools = "jp.wasabeef:glide-transformations:$versions.glide_tools"
 
 // tools
 

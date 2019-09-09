@@ -56,7 +56,7 @@ dependencies {
     //view
     api deps.constraint_layout
     api deps.glide
-    api 'jp.wasabeef:glide-transformations:2.0.1'
+    api deps.glide_tools
     api deps.skeleton
     api deps.circleimageview
     api deps.photoview

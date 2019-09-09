@@ -11,7 +11,7 @@ import org.greenrobot.greendao.query.QueryBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MediaDaoManager {
+public class MediaDaoManager implements DaoManager<MediaEntity>{
 
     private static MediaDaoManager manager;
     private MediaEntityDao dao;
@@ -29,6 +29,7 @@ public class MediaDaoManager {
         return manager;
     }
 
+    @Override
     public void insert(MediaEntity entity){
         dao.insert(entity);
     }
@@ -45,14 +46,17 @@ public class MediaDaoManager {
         }
     }
 
+    @Override
     public void delete(MediaEntity entity){
         dao.delete(entity);
     }
 
+    @Override
     public void delete(long id){
         dao.deleteByKey(id);
     }
 
+    @Override
     public void deleteAll(){
         dao.deleteAll();
     }
@@ -61,11 +65,12 @@ public class MediaDaoManager {
         dao.updateInTx(entity);
     }
 
-    public List<MediaEntity> getAllList(){
+    @Override
+    public List<MediaEntity> loadAll(){
         return dao.loadAll();
     }
 
-    public List<MediaEntity> getAllList(int pageSize,int pageIndex){
+    public List<MediaEntity> loadAll(int pageSize, int pageIndex){
         return dao.queryBuilder().offset((pageIndex -1)*pageSize).limit(pageSize).orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Id.notEq(-1)).list();
     }
 
@@ -139,6 +144,7 @@ public class MediaDaoManager {
 
 
 
+    @Override
     public MediaEntity query(long id){
         return dao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Id.eq(id)).unique();
     }

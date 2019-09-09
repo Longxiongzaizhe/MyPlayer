@@ -1,10 +1,13 @@
-package com.wj.myplayer.mvp.ui.fragment.main;
+package com.hjl.module_main.mvp.fragment;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,23 +15,20 @@ import android.widget.TextView;
 
 import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.mview.BaseMarkDialog;
-import com.hjl.commonlib.network.HttpHandler;
 import com.hjl.commonlib.utils.RecycleViewVerticalDivider;
 import com.hjl.commonlib.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaListEntity;
 import com.hjl.module_main.daodb.MediaListManager;
 import com.hjl.module_main.daodb.MediaRelManager;
-import com.wj.myplayer.R;
-import com.hjl.module_main.net.bean.ItooisNetworkWrapper;
-import com.hjl.module_main.net.bean.itoois.KugouSearchBean;
-import com.wj.myplayer.mvp.MainActivity;
-import com.wj.myplayer.mvp.adapter.MusicListAdapter;
+import com.hjl.module_main.mvp.activity.MainActivity;
+import com.hjl.module_main.mvp.adapter.MusicListAdapter;
 
 public class MainFragment extends BaseFragment implements View.OnClickListener {
 
@@ -55,6 +55,8 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     private MediaDaoManager manager = MediaDaoManager.getInstance();
     private MediaRelManager relManager = MediaRelManager.getInstance();
     private MediaListManager listManager = MediaListManager.getInstance();
+
+    private MusicService.MusicBinder mBinder;
 
 
 
@@ -100,17 +102,32 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         mListRv.setLayoutManager(new LinearLayoutManager(getContext()));
         mListRv.addItemDecoration(new RecycleViewVerticalDivider(getContext(),1,getResources().getColor(R.color.common_divider_line_color)));
 
-//        mMainLocalNum.setText(manager.getAllList().size() + "首");
-        mMainLocalNum.setText(String.format(getString(R.string.music_num),manager.getAllList().size()));
+//        mMainLocalNum.setText(manager.loadAll().size() + "首");
+        mMainLocalNum.setText(String.format(getString(R.string.music_num),manager.loadAll().size()));
         mMainHistoryNum.setText(String.format(getString(R.string.music_num),relManager.queryRecentList().size()));
         mMainFavouriteNum.setText(String.format(getString(R.string.music_num),relManager.queryFavoriteList().size()));
+        Intent startMusicIntent = new Intent(getContext(), MusicService.class);
+        getActivity().bindService(startMusicIntent,connection,getActivity().BIND_AUTO_CREATE) ;
     }
+
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mBinder = (MusicService.MusicBinder) service;
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
     @Override
     protected void initData() {
         synchronized (musicList){
             musicList.clear();
-            musicList.addAll(listManager.getAllList());
+            musicList.addAll(listManager.loadAll());
         }
         listAdapter.notifyDataSetChanged();
         listAdapter.setEmptyView(R.layout.layout_no_content,mListRv);
@@ -118,57 +135,41 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            default:
-                break;
-            case R.id.main_local_play:
-
-
-                break;
-            case R.id.main_history_play:
-
-                break;
-            case R.id.main_favourite_play:
-                break;
-            case R.id.main_download_play:
-                break;
-            case R.id.local_lay:
-                activity.showFragment(FlagConstant.FRAGMENT_LOCAL);
-                break;
-            case R.id.history_lay:
-                activity.showFragment(FlagConstant.FRAGMENT_RECENT);
-                break;
-            case R.id.favourite_lay:
-                activity.showFragment(FlagConstant.FRAGMENT_FAVORITE);
-                break;
-            case R.id.download_lay:
-                break;
-            case R.id.main_list_add:
-                BaseMarkDialog dialog = new BaseMarkDialog(getContext(), BaseMarkDialog.MarkDialogEnum.DIALOG_SMALL_MARK);
-                dialog.setTitle("请输入歌单名字").setEditText("未命名").setConfirmText("添加").setHint("请输入歌单名字");
-                dialog.setOnConfirmListener(data -> {
-                    listManager.insert(new MediaListEntity(null,data,""));
-                    dialog.dismiss();
-                    musicList.clear();
-                    musicList.addAll(listManager.getAllList());
-                    listAdapter.notifyDataSetChanged();
-                    ToastUtil.showSingleToast("添加成功");
-                });
-                dialog.show();
-
-                break;
-            case R.id.main_list_edit:
-                break;
+        int id = v.getId();
+        if (id == R.id.main_local_play) {
+        } else if (id == R.id.main_history_play) {
+        } else if (id == R.id.main_favourite_play) {
+        } else if (id == R.id.main_download_play) {
+        } else if (id == R.id.local_lay) {
+            activity.showFragment(FlagConstant.FRAGMENT_LOCAL);
+        } else if (id == R.id.history_lay) {
+            activity.showFragment(FlagConstant.FRAGMENT_RECENT);
+        } else if (id == R.id.favourite_lay) {
+            activity.showFragment(FlagConstant.FRAGMENT_FAVORITE);
+        } else if (id == R.id.download_lay) {
+        } else if (id == R.id.main_list_add) {
+            BaseMarkDialog dialog = new BaseMarkDialog(getContext(), BaseMarkDialog.MarkDialogEnum.DIALOG_SMALL_MARK);
+            dialog.setTitle("请输入歌单名字").setEditText("未命名").setConfirmText("添加").setHint("请输入歌单名字");
+            dialog.setOnConfirmListener(data -> {
+                listManager.insert(new MediaListEntity(null, data, ""));
+                dialog.dismiss();
+                musicList.clear();
+                musicList.addAll(listManager.loadAll());
+                listAdapter.notifyDataSetChanged();
+                ToastUtil.showSingleToast("添加成功");
+            });
+            dialog.show();
+        } else if (id == R.id.main_list_edit) {
         }
     }
 
     @Override
     public void notifyDataChange() {
-        mMainLocalNum.setText(String.format(getString(R.string.music_num),manager.getAllList().size()));
+        mMainLocalNum.setText(String.format(getString(R.string.music_num),manager.loadAll().size()));
         mMainHistoryNum.setText(String.format(getString(R.string.music_num),relManager.queryRecentList().size()));
         mMainFavouriteNum.setText(String.format(getString(R.string.music_num),relManager.queryFavoriteList().size()));
         musicList.clear();
-        musicList.addAll(listManager.getAllList());
+        musicList.addAll(listManager.loadAll());
         listAdapter.notifyDataSetChanged();
     }
 

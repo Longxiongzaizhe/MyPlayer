@@ -48,7 +48,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="gone"/>
 
-        <com.wj.myplayer.mview.ClearEditText
+        <com.hjl.commonlib.mview.ClearEditText
             android:id="@+id/favorite_search_et"
             style="@style/SearchEditText"
             android:layout_width="0dp"
@@ -59,6 +59,7 @@
             android:layout_weight="1"
             android:hint="输入关键词搜索本地歌曲"
             android:visibility="gone"
+            android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/favorite_cancel_tv"
             app:layout_constraintStart_toEndOf="@+id/music_mode_tv"
