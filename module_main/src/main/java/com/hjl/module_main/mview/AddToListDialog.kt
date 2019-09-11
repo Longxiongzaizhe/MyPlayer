@@ -18,7 +18,7 @@ import com.hjl.module_main.daodb.MediaRelManager
 import com.hjl.module_main.mvp.adapter.SimpleMusicListAdapter
 import kotlinx.android.synthetic.main.layout_add_to_list.*
 
-class AddToListDialog(context:Context,var musicId: Long) : Dialog(context, R.style.BaseDialogStyle) {
+class AddToListDialog(context:Context,var musicId: Long) : Dialog(context, R.style.AddToListDialogStyle) {
 
     var data: List<MediaListEntity> = MediaListManager.getInstance().loadAll()!!
     var adapter : SimpleMusicListAdapter? = null
@@ -54,6 +54,7 @@ class AddToListDialog(context:Context,var musicId: Long) : Dialog(context, R.sty
         lp.width = ViewGroup.LayoutParams.MATCH_PARENT
         lp.height = DensityUtil.dp2px(300f)
         window.attributes = lp
+        window.setWindowAnimations(com.hjl.commonlib.R.style.IOSDialogStyle)
     }
 
 }

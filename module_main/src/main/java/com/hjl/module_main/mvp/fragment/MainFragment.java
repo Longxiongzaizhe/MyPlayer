@@ -3,6 +3,9 @@ package com.hjl.module_main.mvp.fragment;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -15,6 +18,8 @@ import android.widget.TextView;
 
 import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.mview.BaseMarkDialog;
+import com.hjl.commonlib.mview.BaseTipDialog;
+import com.hjl.commonlib.utils.DensityUtil;
 import com.hjl.commonlib.utils.RecycleViewVerticalDivider;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.R;
@@ -29,6 +34,13 @@ import com.hjl.module_main.daodb.MediaRelManager;
 import com.hjl.module_main.mvp.activity.MainActivity;
 import com.hjl.module_main.mvp.adapter.MusicListAdapter;
 import com.hjl.module_main.utils.MediaUtils;
+import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
+import com.yanzhenjie.recyclerview.SwipeMenu;
+import com.yanzhenjie.recyclerview.SwipeMenuBridge;
+import com.yanzhenjie.recyclerview.SwipeMenuCreator;
+import com.yanzhenjie.recyclerview.SwipeMenuItem;
+import com.yanzhenjie.recyclerview.SwipeRecyclerView;
+import com.yanzhenjie.recyclerview.touch.OnItemMoveListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +63,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
 
     private ImageView mListEditIv;
     private ImageView mListAddIv;
-    private RecyclerView mListRv;
+    private SwipeRecyclerView mListRv;
     private MusicListAdapter listAdapter;
     private List<MediaListEntity> musicList = new ArrayList<>();
 
@@ -101,9 +113,72 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         mListEditIv.setOnClickListener(this);
         mListRv = view.findViewById(R.id.main_list_rv);
         listAdapter = new MusicListAdapter(musicList);
-        mListRv.setAdapter(listAdapter);
+
+        mListRv.setItemViewSwipeEnabled(false);
         mListRv.setLayoutManager(new LinearLayoutManager(getContext()));
         mListRv.addItemDecoration(new RecycleViewVerticalDivider(getContext(),1,getResources().getColor(R.color.common_divider_line_color)));
+
+        mListRv.setSwipeMenuCreator((leftMenu, rightMenu, position) -> {
+            SwipeMenuItem deleteItem = new SwipeMenuItem(getContext());
+            // 各种文字和图标属性设置。
+            deleteItem.setBackgroundColor(Color.RED);
+            deleteItem.setImage(R.drawable.main_icon_rubbish); // 图标。
+            deleteItem.setWidth(DensityUtil.dp2px(40)); // 宽度。
+            deleteItem.setHeight(LinearLayout.LayoutParams.MATCH_PARENT); // 高度。
+            rightMenu.addMenuItem(deleteItem); // 在Item左侧添加一个菜单。
+        });
+        mListRv.setOnItemMenuClickListener((menuBridge, adapterPosition) -> {
+            // 任何操作必须先关闭菜单，否则可能出现Item菜单打开状态错乱。
+            int direction = menuBridge.getDirection();
+            // SwipeRecyclerView.RIGHT_DIRECTION SwipeRecyclerView.LEFT_DIRECTION
+            // 菜单在Item中的Position：
+            int menuPosition = menuBridge.getPosition();
+            BaseTipDialog dialog = new BaseTipDialog(getContext(), BaseTipDialog.TipDialogEnum.DIALOG_WITH_CONTENT).
+                        setTitle("是否删除列表" + musicList.get(adapterPosition).name + "?").setContent("删除此列表数据但不包括歌曲文件");
+
+                dialog.setOnConfirmClickListener(v -> {
+                    listManager.delete(musicList.get(adapterPosition));
+                    musicList.remove(adapterPosition);
+                    listAdapter.notifyItemRemoved(adapterPosition);
+                    dialog.dismiss();
+                }).setOnCancelClickListener(v -> {
+                    listAdapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                }).show();
+        });
+
+        // setAdapter 需要在设置菜单之后
+        mListRv.setAdapter(listAdapter);
+
+//        mListRv.setOnItemMoveListener(new OnItemMoveListener() {
+//            @Override
+//            public boolean onItemMove(RecyclerView.ViewHolder srcHolder, RecyclerView.ViewHolder targetHolder) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onItemDismiss(RecyclerView.ViewHolder srcHolder) {
+//                if (musicList.size() == 0) {
+//                    ToastUtil.showSingleToast("已经没有数据啦");
+//                    return;
+//                }
+//                int position = srcHolder.getAdapterPosition();
+//                BaseTipDialog dialog = new BaseTipDialog(getContext(), BaseTipDialog.TipDialogEnum.DIALOG_WITH_CONTENT).
+//                        setTitle("是否删除列表" + musicList.get(position).name + "?").setContent("删除此列表数据但不包括歌曲文件");
+//
+//                dialog.setOnConfirmClickListener(v -> {
+//                    musicList.remove(position);
+//                    listAdapter.notifyItemRemoved(position);
+//                    dialog.dismiss();
+//                }).setOnCancelClickListener(v -> {
+//                    listAdapter.notifyDataSetChanged();
+//                    dialog.dismiss();
+//                }).show();
+//
+//
+//            }
+//        });
+
 
 //        mMainLocalNum.setText(manager.loadAll().size() + "首");
         mMainLocalNum.setText(String.format(getString(R.string.music_num),manager.loadAll().size()));

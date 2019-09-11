@@ -38,7 +38,8 @@
             android:layout_marginEnd="@dimen/common_margin_tiny_size"
             android:ellipsize="end"
             android:maxLines="2"
-            tools:text="账号或密码不一致，请重账号或密码不一致试账号或密码不一致账号或密码不一致"
+            android:gravity="center"
+            tools:text="账号或密码不一致试账号或密码不一致账号或密码不一致"
             tools:visibility="visible"/>
 
 

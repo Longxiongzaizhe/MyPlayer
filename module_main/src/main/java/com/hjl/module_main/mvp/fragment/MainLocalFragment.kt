@@ -52,8 +52,9 @@ class MainLocalFragment : BaseFragment(){
 
 
         fragments.add(localFragment)
-        fragments.add(authorFragment)
         fragments.add(albumsFragment)
+        fragments.add(authorFragment)
+
 
         mPageAdapter = LazyFragmentPagerAdapter(fragmentManager, fragments, mTitles)
         local_viewpager.adapter = mPageAdapter

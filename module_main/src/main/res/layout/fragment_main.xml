@@ -248,7 +248,7 @@
                         android:background="@color/common_divider_line_color"
                         app:layout_constraintTop_toBottomOf="@+id/my_list_tv"/>
 
-                    <android.support.v7.widget.RecyclerView
+                    <com.yanzhenjie.recyclerview.SwipeRecyclerView
                         android:id="@+id/main_list_rv"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -261,7 +261,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/main_line_list">
 
-                    </android.support.v7.widget.RecyclerView>
+                    </com.yanzhenjie.recyclerview.SwipeRecyclerView>
 
                 </android.support.constraint.ConstraintLayout>
 
