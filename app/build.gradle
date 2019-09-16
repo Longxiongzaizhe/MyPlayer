@@ -74,7 +74,7 @@ repositories {
 
 def buildTime() {
     def date = new Date()
-    def formattedDate = date.format('yyyy_MM_dd--HH：mm')
+    def formattedDate = date.format('yyyy_MM_dd--HH_mm')
     return formattedDate
 }
 

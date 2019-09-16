@@ -62,6 +62,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private MusicService.MusicBinder mBinder;
     private FrameLayout mFragmentFrame;
     private Fragment lastFragment;
+    private long exitTime = 0;
+    private final static int SECONDS = 2000;//按下的间隔秒数
+    private final static int STATUS = 0;//0 正常结束程序;1 异常关闭程序
 
     private Intent intent;
     private MediaDaoManager manager = MediaDaoManager.getInstance();
@@ -211,10 +214,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         if (mBinder != null && playFragment != null){
             playFragment.setBinder(mBinder);
         }
-        List<String> list = MediaDaoManager.getInstance().getAllAuthor();
-        for (String da : list){
-            Log.e("author",da);
-        }
+
     }
 
     @Override
@@ -391,7 +391,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         //通过管理类可以获取到当前的栈内数量
         int backStackEntryCount = fragmentManager.getBackStackEntryCount();
         //当栈内数量中大于0 的时候才能进行操作不然会造成索引越界
-        if (backStackEntryCount>0){
+        if (backStackEntryCount>1){
             //退栈
             fragmentManager.popBackStackImmediate();
             //获取一下栈内的数量
@@ -418,10 +418,15 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                     mMainLeftIv.setOnClickListener((v)-> mMainDrawerLayout.openDrawer(GravityCompat.START));
                 }
 
-            }else {
-                finish();
             }
 
+        } else {
+            if ((System.currentTimeMillis() - exitTime) > SECONDS) {
+                ToastUtil.show(this,"再按一下退出程序");
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
         }
     }
 

@@ -38,7 +38,7 @@ public class ILocalModuleAppImpl implements IComponentApplication {
             MediaAlbumsEntity entity = new MediaAlbumsEntity(id,author,"");
             albumsManager.insert(entity);
         }
-
+        MediaAuthorManager.Companion.get().deleteAll();
         for (String author : mediaManager.getAllAuthor()){
             MediaAuthorManager.Companion.get().insert(author);
         }

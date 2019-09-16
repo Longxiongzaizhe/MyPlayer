@@ -42,13 +42,13 @@ class MainLocalFragment : BaseFragment(){
 
     override fun initData() {
         val binder  = arguments!!.getSerializable(FlagConstant.BINDER) as MusicService.MusicBinder
-        var localFragment  = ARouter.getInstance().build(RApp.LOCAL_FRAGMENT).navigation() as BaseFragment
-        var authorFragment  = ARouter.getInstance().build(RApp.AUTHOR_FRAGMENT).navigation() as BaseFragment
-        var albumsFragment = ARouter.getInstance().build(RApp.ALBUMS_FRAGMENT).navigation() as BaseFragment
+        val localFragment  = ARouter.getInstance().build(RApp.LOCAL_FRAGMENT).navigation() as BaseFragment
+        val authorFragment  = ARouter.getInstance().build(RApp.AUTHOR_FRAGMENT).navigation() as BaseFragment
+        val albumsFragment = ARouter.getInstance().build(RApp.ALBUMS_FRAGMENT).navigation() as BaseFragment
 
-        localFragment.arguments = Bundle().also { it.putSerializable(FlagConstant.BINDER,binder) }
-        authorFragment.arguments = Bundle().also { it.putSerializable(FlagConstant.BINDER,binder) }
-        albumsFragment.arguments = Bundle().also { it.putSerializable(FlagConstant.BINDER,binder) }
+        localFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,binder) }
+        authorFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,binder) }
+        albumsFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,binder) }
 
 
         fragments.add(localFragment)
