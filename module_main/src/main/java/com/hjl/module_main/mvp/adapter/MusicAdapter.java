@@ -16,6 +16,7 @@ import java.util.List;
 public class MusicAdapter extends BaseQuickAdapter<MediaEntity, BaseViewHolder> {
 
     private MediaDaoManager manager = MediaDaoManager.getInstance();
+    private boolean isShowEdit = true;
 
     public MusicAdapter(List<MediaEntity> data) {
         super(R.layout.item_music, data);
@@ -32,8 +33,13 @@ public class MusicAdapter extends BaseQuickAdapter<MediaEntity, BaseViewHolder> 
         }else {
             Glide.with(mContext).load(item.getCoverUrl()).into(imageView);
         }
+        helper.setVisible(R.id.item_music_more,isShowEdit);
 
         helper.addOnClickListener(R.id.item_music_more);
 
+    }
+
+    public void setShowEdit(boolean showEdit) {
+        isShowEdit = showEdit;
     }
 }

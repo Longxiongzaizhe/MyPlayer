@@ -4,18 +4,16 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.mview.BaseMarkDialog;
 import com.hjl.commonlib.mview.BaseTipDialog;
@@ -24,28 +22,22 @@ import com.hjl.commonlib.utils.RecycleViewVerticalDivider;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
-import com.hjl.module_main.daodb.DaoManager;
-import com.hjl.module_main.daodb.DaoManagerFactory;
 import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.daodb.MediaListEntity;
 import com.hjl.module_main.daodb.MediaListManager;
 import com.hjl.module_main.daodb.MediaRelManager;
 import com.hjl.module_main.mvp.activity.MainActivity;
+import com.hjl.module_main.mvp.activity.MusicListActivity;
 import com.hjl.module_main.mvp.adapter.MusicListAdapter;
 import com.hjl.module_main.utils.MediaUtils;
-import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
-import com.yanzhenjie.recyclerview.SwipeMenu;
-import com.yanzhenjie.recyclerview.SwipeMenuBridge;
-import com.yanzhenjie.recyclerview.SwipeMenuCreator;
 import com.yanzhenjie.recyclerview.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
-import com.yanzhenjie.recyclerview.touch.OnItemMoveListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends BaseFragment implements View.OnClickListener {
+public class MainFragment extends BaseFragment implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
 
     private TextView mMainLocalNum;
     private ImageView mMainLocalPlay;
@@ -146,6 +138,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                     dialog.dismiss();
                 }).show();
         });
+        listAdapter.setOnItemClickListener(this);
 
         // setAdapter 需要在设置菜单之后
         mListRv.setAdapter(listAdapter);
@@ -180,7 +173,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
 //        });
 
 
-//        mMainLocalNum.setText(manager.loadAll().size() + "首");
+//        mMainLocalNum.setText(relManager.loadAll().size() + "首");
         mMainLocalNum.setText(String.format(getString(R.string.music_num),manager.loadAll().size()));
         mMainHistoryNum.setText(String.format(getString(R.string.music_num),relManager.queryRecentList().size()));
         mMainFavouriteNum.setText(String.format(getString(R.string.music_num),relManager.queryFavoriteList().size()));
@@ -270,5 +263,26 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         activity = (MainActivity) getActivity();
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        long id = musicList.get(position).id;
+        Intent intent = new Intent(getContext(), MusicListActivity.class);
+        intent.putExtra(FlagConstant.INTENT_KEY01,id);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unbindService(connection);
     }
 }

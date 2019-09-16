@@ -187,6 +187,11 @@ public class MusicView extends View implements ValueAnimator.AnimatorUpdateListe
         mNeedlePauseAnimator.start();
     }
 
+    public void setCoverBm(Bitmap bitmap){
+        mCoverBm = bitmap;
+        initOnLayout();
+    }
+
     private Runnable mRotationRunnable = new Runnable() {
         @Override
         public void run() {

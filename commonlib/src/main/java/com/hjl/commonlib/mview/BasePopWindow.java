@@ -70,7 +70,7 @@ public abstract class BasePopWindow implements View.OnClickListener {
 
     public static class LayoutGravity {
         private int layoutGravity;
-        // waring, don't change the order of these constants!
+        // warning, don't change the order of these constants!
         public static final int ALIGN_LEFT=0x1;
         public static final int ALIGN_ABOVE=0x2;
         public static final int ALIGN_RIGHT=0x4;

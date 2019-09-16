@@ -4,6 +4,8 @@ import com.hjl.commonlib.base.BaseApplication;
 import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.module.ILocalModuleAppImpl;
 
+import org.greenrobot.greendao.query.WhereCondition;
+
 import java.util.List;
 
 
@@ -15,6 +17,11 @@ public class MediaListManager implements DaoManager<MediaListEntity>{
     private MediaListManager(){
         DaoSession daoSession = new ILocalModuleAppImpl().initDaoSession(BaseApplication.getApplication());
         dao = daoSession.getMediaListEntityDao();
+    }
+
+    @Override
+    public List<MediaListEntity> query(WhereCondition cond, WhereCondition... condMore) {
+        return dao.queryBuilder().where(cond,condMore).list();
     }
 
     public static MediaListManager getInstance(){
