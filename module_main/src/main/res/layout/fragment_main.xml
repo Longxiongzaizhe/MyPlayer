@@ -238,6 +238,7 @@
                         android:src="@drawable/icon_more_ver"
                         android:layout_marginEnd="@dimen/margin_tiny_size"
                         android:padding="@dimen/padding_small_size"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="@+id/main_line_list"/>
