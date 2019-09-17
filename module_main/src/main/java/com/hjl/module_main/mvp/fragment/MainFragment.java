@@ -35,7 +35,16 @@ import com.yanzhenjie.recyclerview.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainFragment extends BaseFragment implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
 
@@ -173,10 +182,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
 //        });
 
 
-//        mMainLocalNum.setText(relManager.loadAll().size() + "首");
-        mMainLocalNum.setText(String.format(getString(R.string.music_num),manager.loadAll().size()));
-        mMainHistoryNum.setText(String.format(getString(R.string.music_num),relManager.queryRecentList().size()));
-        mMainFavouriteNum.setText(String.format(getString(R.string.music_num),relManager.queryFavoriteList().size()));
+
         Intent startMusicIntent = new Intent(getContext(), MusicService.class);
         getActivity().bindService(startMusicIntent,connection,getActivity().BIND_AUTO_CREATE) ;
     }
@@ -196,11 +202,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected void initData() {
-        synchronized (musicList){
-            musicList.clear();
-            musicList.addAll(listManager.loadAll());
-        }
-        listAdapter.notifyDataSetChanged();
+        updateData();
         listAdapter.setEmptyView(R.layout.layout_no_content,mListRv);
     }
 
@@ -251,12 +253,50 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void notifyDataChange() {
-        mMainLocalNum.setText(String.format(getString(R.string.music_num),manager.loadAll().size()));
-        mMainHistoryNum.setText(String.format(getString(R.string.music_num),relManager.queryRecentList().size()));
-        mMainFavouriteNum.setText(String.format(getString(R.string.music_num),relManager.queryFavoriteList().size()));
-        musicList.clear();
-        musicList.addAll(listManager.loadAll());
-        listAdapter.notifyDataSetChanged();
+        updateData();
+    }
+
+    private void updateData() {
+        Observable.create((ObservableOnSubscribe<Map<String,Integer>>) e -> {
+            int localNum,historyNum,favouriteNum;
+            HashMap<String,Integer> map = new HashMap<>();
+            localNum = manager.loadAll().size();
+            historyNum = relManager.queryRecentList().size();
+            favouriteNum = relManager.queryFavoriteList().size();
+            map.put(FlagConstant.RXJAVA_KEY_01,localNum);
+            map.put(FlagConstant.RXJAVA_KEY_02,historyNum);
+            map.put(FlagConstant.RXJAVA_KEY_03,favouriteNum);
+
+            musicList.clear();
+            musicList.addAll(listManager.loadAll());
+
+            e.onNext(map);
+            e.onComplete();
+
+        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Map<String, Integer>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Map<String, Integer> value) {
+                mMainLocalNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_01)));
+                mMainHistoryNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_02)));
+                mMainFavouriteNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_03)));
+                listAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
     @Override
@@ -285,4 +325,8 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         super.onDestroy();
         getActivity().unbindService(connection);
     }
+
+
+
+
 }

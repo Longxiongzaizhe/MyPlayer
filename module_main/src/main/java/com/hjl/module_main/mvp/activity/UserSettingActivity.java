@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjl.commonlib.base.BaseMultipleActivity;
 import com.hjl.commonlib.utils.PhotoUtils;
@@ -192,5 +193,17 @@ public class UserSettingActivity extends BaseMultipleActivity implements View.On
             uri = Uri.fromFile(file);
         }
         return uri;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bgFile = null;
+        iconFile = null;
+        tempFile = null;
+        Glide.get(this).clearMemory();
+        System.gc();
+
+
     }
 }

@@ -109,7 +109,7 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
            // detail_music_view.setmCoverUrl(entity?.coverUrl)
             if (!StringUtils.isEmpty(entity?.coverUrl)){
                 val options : RequestOptions = RequestOptions().circleCrop()
-                val bitmap = Glide.with(this).asBitmap().centerCrop().apply(options).load(entity?.coverUrl).submit(500, 500).get()
+                var bitmap = Glide.with(this).asBitmap().centerCrop().apply(options).load(entity?.coverUrl).submit(500, 500).get()
                 detail_music_view.setCoverBm(bitmap)
             }
 
@@ -123,8 +123,6 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
 
     override fun initData() {
         setMusicMode(SPUtils.get(this, SPConstant.MUSIC_PLAY_MODE, "CIRCLE"))
-
-
 
     }
 
