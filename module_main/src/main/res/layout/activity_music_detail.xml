@@ -26,10 +26,18 @@
         android:id="@+id/seek_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_tiny_size"
-        android:layout_marginEnd="@dimen/margin_tiny_size"
-        android:layout_marginTop="@dimen/base_margin_size"
-        android:layout_marginBottom="@dimen/margin_tiny_size"/>
+        android:progressDrawable="@drawable/seek_bar_style"
+        android:splitTrack="false"
+        android:maxHeight="4dp"
+        android:minHeight="4dp"
+        android:thumb="@drawable/common_seek_bar"
+        />
+
+<!--        android:layout_marginStart="@dimen/margin_tiny_size"-->
+<!--        android:layout_marginEnd="@dimen/margin_tiny_size"-->
+<!--        android:layout_marginTop="@dimen/base_margin_size"-->
+<!--        android:layout_marginBottom="@dimen/margin_tiny_size"-->
+
 
     <LinearLayout
         android:layout_width="match_parent"

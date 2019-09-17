@@ -1,8 +1,12 @@
 package com.hjl.module_main.mvp.activity
 
 import android.graphics.drawable.Drawable
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.view.View
+import android.widget.SeekBar
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -25,6 +29,8 @@ import com.hjl.module_main.utils.SPUtils
 import kotlinx.android.synthetic.main.activity_music_detail.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import java.lang.ref.WeakReference
+import java.util.*
 
 
 class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChangeListener, View.OnClickListener {
@@ -33,6 +39,11 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
     private var mBinder : MusicService.MusicBinder? = null
     private var isPlaying : Boolean = false
     private var popWindow: MusicModePopWindow? = null
+    private var timeTask: MyTimeTask? = null //定期器任务
+    private var timer: Timer? = null
+    private var handler = MusicSeekHander(this)
+    lateinit var player : MediaPlayer
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +63,9 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
 
         mBinder = intent.getSerializableExtra(FlagConstant.BINDER) as MusicService.MusicBinder
         mBinder?.addOnMediaChangeListener(this)
+        if (mBinder != null){
+            player = mBinder!!.service.player
+        }
 
         EventBus.getDefault().register(this)
 
@@ -182,8 +196,79 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if(timeTask == null) run {
+            //设定定时器任务
+            timeTask = MyTimeTask()
+            timer = Timer()
+            timer!!.schedule(timeTask, 50, 50) //设定定时器
+        }
+    }
+
+    inner class MyTimeTask : TimerTask(){
+        override fun run() {
+            if (player.isPlaying) {
+                //获取当前的播放进度
+                val duration = player.duration //总长度
+                val position = player.currentPosition //当前进度
+
+                //发送消息给主线程
+                val msg = Message()
+                msg.what = 1
+                msg.arg1 = duration
+                msg.arg2 = position
+                handler.sendMessage(msg)
+            }
+        }
+
+    }
+
+
+    class MusicSeekHander(activity: MusicDetailActivity):Handler(){
+        var weekActivity :WeakReference<MusicDetailActivity> = WeakReference(activity)
+
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+
+            if (weekActivity.get() == null || weekActivity.get()!!.isFinishing) return
+
+            if (msg?.what == 1) {
+                val duration = msg.arg1
+                val position = msg.arg2
+
+
+                weekActivity.get()!!.seek_bar.max = duration
+                weekActivity.get()!!.seek_bar.progress = position
+
+                //设定拖动播放
+                weekActivity.get()!!.seek_bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                    }
+
+                    override fun onStartTrackingTouch(seekBar: SeekBar) {
+                    }
+
+                    override fun onStopTrackingTouch(seekBar: SeekBar) {
+                        weekActivity.get()!!.player.seekTo(seekBar.progress) //设定播放器到进度条的进度
+                        if (!weekActivity.get()!!.player.isPlaying) {
+                            weekActivity.get()!!.player.start()
+                            weekActivity.get()!!.detail_play_btn.setImageResource(R.drawable.main_icon_pause_transparent)
+                        }
+                    }
+                })
+
+            }
+        }
+    }
+
+
     override fun onDestroy() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
+        timer?.cancel()
+        timer?.purge()
+        timer = null
+        timeTask = null
     }
 }
