@@ -3,6 +3,8 @@ package com.hjl.module_main.daodb;
 import com.hjl.commonlib.base.BaseApplication;
 import com.hjl.module_main.module.ILocalModuleAppImpl;
 
+import org.greenrobot.greendao.query.WhereCondition;
+
 import java.util.List;
 
 
@@ -49,6 +51,11 @@ public class MediaAlbumsManager implements DaoManager<MediaAlbumsEntity>{
     @Override
     public List<MediaAlbumsEntity> loadAll() {
         return dao.loadAll();
+    }
+
+    @Override
+    public List<MediaAlbumsEntity> query(WhereCondition cond, WhereCondition... condMore) {
+        return dao.queryBuilder().where(cond,condMore).list();
     }
 
     @Override

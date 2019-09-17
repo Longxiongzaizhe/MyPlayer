@@ -5,6 +5,8 @@ import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.module.ILocalModuleAppImpl;
 
+import org.greenrobot.greendao.query.WhereCondition;
+
 import java.util.List;
 
 public class MediaRelManager implements DaoManager<MediaRelEntity>{
@@ -32,6 +34,11 @@ public class MediaRelManager implements DaoManager<MediaRelEntity>{
     @Override
     public List<MediaRelEntity> loadAll() {
         return dao.loadAll();
+    }
+
+    @Override
+    public List<MediaRelEntity> query(WhereCondition cond, WhereCondition... condMore) {
+        return dao.queryBuilder().where(cond,condMore).list();
     }
 
     @Override

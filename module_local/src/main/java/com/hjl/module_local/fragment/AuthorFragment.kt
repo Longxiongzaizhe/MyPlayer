@@ -3,7 +3,6 @@ package com.hjl.module_local.fragment
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +15,8 @@ import com.hjl.module_local.adapter.AuthorAdapter
 import com.hjl.module_main.constant.FlagConstant
 import com.hjl.module_main.daodb.MediaAuthorEntity
 import com.hjl.module_main.daodb.MediaAuthorManager
-import com.hjl.module_main.mvp.fragment.MusicService
 import com.hjl.module_main.module.RApp
-
+import com.hjl.module_main.mvp.fragment.MusicService
 import kotlinx.android.synthetic.main.fragment_author.*
 
 @Route(path = RApp.AUTHOR_FRAGMENT)

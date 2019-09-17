@@ -18,6 +18,7 @@ public class FlagConstant {
     public static final String FRAGMENT_MAIN = "MainFragment";
     public static final String FRAGMENT_RECENT = "RecentlyFragment";
     public static final String FRAGMENT_FAVORITE = "FavoriteFragment";
+    public static final String FRAGMENT_LIST = "MusicListFragment";
 
     public static final int TAG_KEY = 0x1000;
     public static final int TAG_KEY02 = 0x1001;

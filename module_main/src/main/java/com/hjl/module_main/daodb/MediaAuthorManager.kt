@@ -2,10 +2,13 @@ package com.hjl.module_main.daodb
 
 import com.hjl.commonlib.base.BaseApplication
 import com.hjl.module_main.module.ILocalModuleAppImpl
+import org.greenrobot.greendao.query.WhereCondition
 
 
 class MediaAuthorManager : DaoManager<MediaAuthorEntity>{
-
+    override fun query(cond: WhereCondition?, vararg condMore: WhereCondition?): MutableList<MediaAuthorEntity> {
+        return dao?.queryBuilder()?.where(cond, *condMore)?.list()!!
+    }
 
 
     private var dao:MediaAuthorEntityDao?  = null

@@ -20,8 +20,8 @@ import com.hjl.commonlib.utils.DensityUtil;
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_local.R;
+import com.hjl.module_main.bean.MusicModeBus;
 import com.hjl.module_main.constant.FlagConstant;
-import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.constant.SPConstant;
 import com.hjl.module_main.daodb.MediaAlbumsEntity;
 import com.hjl.module_main.daodb.MediaAlbumsManager;
@@ -39,6 +39,9 @@ import com.hjl.module_main.utils.FileUtils;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +51,14 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.hjl.module_main.constant.MediaConstant.FAVORITE;
+import static com.hjl.module_main.constant.MediaConstant.MusicMode;
+import static com.hjl.module_main.constant.MediaConstant.MusicMode.CIRCLE;
+import static com.hjl.module_main.constant.MediaConstant.MusicMode.RANDOM;
+import static com.hjl.module_main.constant.MediaConstant.MusicMode.SEQUENT;
+import static com.hjl.module_main.constant.MediaConstant.MusicMode.SINGLE;
+import static com.hjl.module_main.constant.MediaConstant.RECENTLY_LIST;
 
 @Route(path = RApp.LOCAL_FRAGMENT)
 public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
@@ -64,7 +75,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     private MusicAdapter adapter;
     private MusicService.MusicBinder mBinder;
     private MediaRelManager relManager = MediaRelManager.getInstance();
-    private MediaConstant.MusicMode musicMode;
+    private MusicMode musicMode;
     private MusicModePopWindow popWindow;
     private MediaDaoManager manager = MediaDaoManager.getInstance();
     private MediaAlbumsManager authorManager = MediaAlbumsManager.getInstance();
@@ -103,6 +114,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
         mSearchIv.setOnClickListener(this);
         mRefreshIv.setOnClickListener(this);
         mCancelTv.setOnClickListener(this);
+        EventBus.getDefault().register(this);
 
         mSearchEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -138,7 +150,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 
         setModeTv(musicMode);
         popWindow = new MusicModePopWindow(getContext());
-        popWindow.setOnModeSelectedListener(musicMode -> setModeTv(musicMode));
+        popWindow.setOnModeSelectedListener(this::setModeTv);
         popWindow.getPopupWindow().setOnDismissListener(() -> {
             popWindow.showBackgroundDIM(getActivity().getWindow(),1.0f);
         });
@@ -174,7 +186,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 //        });
     }
 
-    public void setModeTv(MediaConstant.MusicMode mode){
+    public void setModeTv(MusicMode mode){
 
         Drawable drawable = null;
 
@@ -211,7 +223,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
         mBinder.getService().setPosition(position);
         mBinder.getService().setPlayList(list);
         view.requestFocus();
-        relManager.insert(new MediaRelEntity(null,MediaConstant.RECENTLY_LIST,list.get(position).getId()));
+        relManager.insert(new MediaRelEntity(null, RECENTLY_LIST,list.get(position).getId()));
 
     }
 
@@ -249,7 +261,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
                     dialog.show();
                     break;
                 case "收藏":
-                    relManager.saveFavorite(new MediaRelEntity(null,MediaConstant.FAVORITE,list.get(position).id));
+                    relManager.saveFavorite(new MediaRelEntity(null, FAVORITE,list.get(position).id));
                     ToastUtil.show("收藏成功");
                     break;
                 case "添加到歌单":
@@ -335,7 +347,28 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
         }
 
     }
+    @Subscribe
+    public void setMusicMode(MusicModeBus mode){
 
+        MusicMode musicMode= CIRCLE;
+
+        switch (mode.getMode()){
+            case "CIRCLE":
+                musicMode = CIRCLE;
+                break;
+            case "SEQUENT":
+                musicMode = SEQUENT;
+                break;
+            case "SINGLE":
+                musicMode = SINGLE;
+                break;
+            case "RANDOM":
+                musicMode = RANDOM;
+                break;
+        }
+
+        setModeTv(musicMode);
+    }
 
     @Override
     public void onStop() {
@@ -347,5 +380,6 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     public void onDestroy() {
         super.onDestroy();
 
+        EventBus.getDefault().unregister(this);
     }
 }

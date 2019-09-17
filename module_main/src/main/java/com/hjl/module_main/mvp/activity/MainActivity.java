@@ -37,14 +37,14 @@ import com.hjl.module_main.constant.SPConstant;
 import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
-import com.hjl.module_main.mvp.fragment.MusicService;
-import com.hjl.module_main.mvp.fragment.PlayFragment;
-import com.hjl.module_main.utils.MediaUtils;
-import com.hjl.module_main.utils.SPUtils;
 import com.hjl.module_main.mvp.fragment.FavoriteFragment;
 import com.hjl.module_main.mvp.fragment.MainFragment;
 import com.hjl.module_main.mvp.fragment.MainLocalFragment;
+import com.hjl.module_main.mvp.fragment.MusicService;
+import com.hjl.module_main.mvp.fragment.PlayFragment;
 import com.hjl.module_main.mvp.fragment.RecentlyFragment;
+import com.hjl.module_main.utils.MediaUtils;
+import com.hjl.module_main.utils.SPUtils;
 
 import java.io.File;
 import java.util.List;
@@ -102,8 +102,8 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 //        for (MediaEntity entity : list){
 //            Log.e(TAG,entity.toString());
 //        }
-//        manager.deleteAll();
-//        manager.insert(list);
+//        relManager.deleteAll();
+//        relManager.insert(list);
     }
 
     @Override
@@ -194,9 +194,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     @Override
     public void initData() {
         super.initData();
-//        mFragments.add(MainFragment.newInstance());
-//        mFragments.add(new OneFragment());
-//        mFragments.add(new OneFragment());
         intent = new Intent();
 
 
@@ -264,14 +261,17 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             MainLocalFragment mainLocalFragment = MainLocalFragment.Companion.newInstance(mBinder);
             FavoriteFragment favoriteFragment = FavoriteFragment.newInstance(mBinder);
             RecentlyFragment recentlyFragment = RecentlyFragment.newInstance(mBinder);
+           // MusicListFragment listFragment = MusicListFragment.Companion.newInstance(mBinder);
 
             transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.fragment_frame,mainLocalFragment,MainLocalFragment.class.getSimpleName());
             transaction.add(R.id.fragment_frame,favoriteFragment,FavoriteFragment.class.getSimpleName());
             transaction.add(R.id.fragment_frame,recentlyFragment,RecentlyFragment.class.getSimpleName());
+           // transaction.add(R.id.fragment_frame,listFragment,MusicListFragment.class.getSimpleName());
             transaction.hide(mainLocalFragment);
             transaction.hide(favoriteFragment);
             transaction.hide(recentlyFragment);
+          //  transaction.hide(listFragment);
             transaction.commit();
 
         }
@@ -315,6 +315,33 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                 mMainLeftIv.setOnClickListener((v)-> popBackStack());
                 break;
         }
+
+    }
+
+    public void showFragment(String name,Object... object){
+
+        if (object.length == 0){
+            showFragment(name);
+            return;
+        }
+
+//        if (name.equals(FlagConstant.FRAGMENT_LIST)){
+//            MusicListFragment fragment =(MusicListFragment) getSupportFragmentManager().findFragmentByTag(name);
+//            if (fragment != null){
+//                fragment.notifyDataChange((long)object[0]);
+//                transaction = getSupportFragmentManager().beginTransaction();
+//                transaction.show(fragment);
+//                if (lastFragment != null){
+//                    transaction.hide(lastFragment);
+//                }
+//                lastFragment = fragment;
+//                fragment.notifyDataChange();
+//                transaction.addToBackStack(null);
+//                transaction.commit();
+//            }else {
+//                ToastUtil.showSingleToast(name + "is no found");
+//            }
+//        }
 
     }
 

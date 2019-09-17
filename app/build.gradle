@@ -25,7 +25,7 @@ android {
                 // apk_渠道名-版本号-版本名称-编译时间.apk
 //                def fileName = "Gwadar Pro-${variant.buildType.name}-${defaultConfig.versionCode}-v${defaultConfig.versionName}-${buildTime()}.apk"
                 //apk_地区名-版本号-版本名称-编译时间.apk
-                def fileName = "MyPlayer-${variant.buildType.name}-V${defaultConfig.versionName}__${buildTime()}.apk"
+                def fileName = "MyPlayer-${variant.buildType.name}-${defaultConfig.versionCode}-V${defaultConfig.versionName}__${buildTime()}.apk"
                 outputFileName = fileName
             }
         }
@@ -74,7 +74,7 @@ repositories {
 
 def buildTime() {
     def date = new Date()
-    def formattedDate = date.format('yyyy_MM_dd--HH：mm')
+    def formattedDate = date.format('yyyy_MM_dd--HH_mm')
     return formattedDate
 }
 
