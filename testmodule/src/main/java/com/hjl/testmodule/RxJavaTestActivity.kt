@@ -20,9 +20,11 @@ import kotlinx.android.synthetic.main.activity_rx_java_test.*
 class RxJavaTestActivity : BaseMultipleActivity(), View.OnClickListener {
 
     var observer: Observer<String> = object : Observer<String> {
-        override fun onSubscribe(d: Disposable?) {
+        override fun onSubscribe(d: Disposable) {
             Log.d("observer", "onSubscribe!")
         }
+
+
 
         override fun onComplete() {
             Log.d("observer", "Completed!")
@@ -74,27 +76,26 @@ class RxJavaTestActivity : BaseMultipleActivity(), View.OnClickListener {
         when(v!!.id){
             R.id.test_btn_one -> observable.safeSubscribe(observer)
 
-            R.id.test_btn_two -> create(object : ObservableOnSubscribe<Int>{
-                override fun subscribe(e: ObservableEmitter<Int>?) {
-                    e!!.onNext(1)
-                    e.onNext(2)
-                    e.onNext(3)
-                    e.onError(object : Throwable("on error"){})
-                }
+            R.id.test_btn_two -> create(ObservableOnSubscribe<Int> { e ->
+                e!!.onNext(1)
+                e.onNext(2)
+                e.onNext(3)
+                e.onError(object : Throwable("on error"){})
             }).subscribe(object : Observer<Int>{
+
                 override fun onComplete() {
                     Log.d("Observer","onComplete")
                 }
 
-                override fun onSubscribe(d: Disposable?) {
+                override fun onSubscribe(d: Disposable) {
                     Log.d("Observer","onSubscribe")
                 }
 
-                override fun onNext(value: Int?) {
+                override fun onNext(value: Int) {
                     Log.d("Observer", "onNext$value")
                 }
 
-                override fun onError(e: Throwable?) {
+                override fun onError(e: Throwable) {
                     Log.d("Observer","onError")
                 }
 

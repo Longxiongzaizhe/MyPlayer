@@ -100,7 +100,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_local_music;
+        return R.layout.local_fragment_local_music;
     }
 
     @Override

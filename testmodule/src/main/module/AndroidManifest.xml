@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hjl.testmodule">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.hjl.commonlib.base.BaseApplication"
         android:icon="@mipmap/ic_launcher"
@@ -16,6 +18,7 @@
         </activity>
         <activity android:name=".MusicViewActivity" />
         <activity android:name=".TestActivity" />
+        <activity android:name=".retrofit.RetrofitActivity"></activity>
         <activity android:name=".RxJavaTestActivity">
 
         </activity>

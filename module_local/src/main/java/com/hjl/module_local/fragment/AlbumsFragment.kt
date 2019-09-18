@@ -22,7 +22,7 @@ import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_album.*
+import kotlinx.android.synthetic.main.local_fragment_album.*
 
 
 @Route(path = RApp.ALBUMS_FRAGMENT)
@@ -47,7 +47,7 @@ class AlbumsFragment : BaseFragment() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_album
+        return R.layout.local_fragment_album
     }
 
     override fun initView(view: View?) {

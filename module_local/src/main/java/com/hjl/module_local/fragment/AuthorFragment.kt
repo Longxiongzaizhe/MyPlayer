@@ -17,7 +17,7 @@ import com.hjl.module_main.daodb.MediaAuthorEntity
 import com.hjl.module_main.daodb.MediaAuthorManager
 import com.hjl.module_main.module.RApp
 import com.hjl.module_main.mvp.fragment.MusicService
-import kotlinx.android.synthetic.main.fragment_author.*
+import kotlinx.android.synthetic.main.local_fragment_author.*
 
 @Route(path = RApp.AUTHOR_FRAGMENT)
 class AuthorFragment : BaseFragment() {
@@ -60,7 +60,7 @@ class AuthorFragment : BaseFragment() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_author
+        return R.layout.local_fragment_author
     }
 
     override fun onDestroyView() {

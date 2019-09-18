@@ -15,7 +15,7 @@ import com.hjl.module_main.daodb.MediaDaoManager
 import com.hjl.module_main.net.NetworkWrapper
 import com.hjl.module_main.net.bean.SearchPicBean
 
-class AuthorAdapter(datalist : List<MediaAuthorEntity>) : BaseQuickAdapter<MediaAuthorEntity, BaseViewHolder>(R.layout.item_author,datalist) {
+class AuthorAdapter(datalist : List<MediaAuthorEntity>) : BaseQuickAdapter<MediaAuthorEntity, BaseViewHolder>(R.layout.local_item_author,datalist) {
 
     override fun convert(helper: BaseViewHolder?, item: MediaAuthorEntity?) {
         if (item != null) {

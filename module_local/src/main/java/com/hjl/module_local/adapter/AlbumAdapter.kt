@@ -7,7 +7,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.hjl.module_local.R
 import com.hjl.module_main.daodb.MediaAlbumsEntity
 
-class AlbumAdapter(data :List<MediaAlbumsEntity>): BaseQuickAdapter<MediaAlbumsEntity, BaseViewHolder>(R.layout.item_album,data) {
+class AlbumAdapter(data :List<MediaAlbumsEntity>): BaseQuickAdapter<MediaAlbumsEntity, BaseViewHolder>(R.layout.local_item_album,data) {
 
     override fun convert(helper: BaseViewHolder?, item: MediaAlbumsEntity?) {
         helper!!.setText(R.id.album_tv,item?.author)

@@ -29,8 +29,8 @@ class LocalMusicActivity : BaseMultipleActivity() {
     private val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET, Manifest.permission.CAMERA)
 
     override fun initTitle() {
-        mTitleCenterTv.setText(resources.getString(R.string.local_app_name))
-        mTitleLeftIv.visibility = View.GONE
+        mTitleCenterTv.text = resources.getString(R.string.local_app_name)
+        mTitleLeftIv.visibility = View.INVISIBLE
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
