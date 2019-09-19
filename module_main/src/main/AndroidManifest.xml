@@ -6,7 +6,8 @@
         <activity android:name=".mvp.activity.MusicListActivity"></activity>
         <activity android:name=".mvp.activity.MusicDetailActivity" />
         <activity android:name=".mvp.activity.UserSettingActivity" />
-        <activity android:name=".mvp.activity.MainActivity">
+        <activity android:name=".mvp.activity.MainActivity"
+            android:theme="@style/MusicAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

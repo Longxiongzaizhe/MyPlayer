@@ -89,6 +89,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
 
         initView();

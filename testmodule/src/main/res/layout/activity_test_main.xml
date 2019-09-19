@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="76dp"
         android:text="rxjava"
+        android:layout_margin="@dimen/base_margin_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="108dp"
         android:text="musicview"
+        android:layout_margin="@dimen/base_margin_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +34,7 @@
         android:id="@+id/retrofit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/base_margin_size"
+        android:layout_margin="@dimen/base_margin_size"
         android:text="retrofit"
         app:layout_constraintBottom_toTopOf="@+id/rxjava"
         app:layout_constraintEnd_toEndOf="@+id/rxjava" />
@@ -40,7 +42,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/base_margin_size"
+        android:layout_margin="@dimen/base_margin_size"
         app:layout_constraintBottom_toTopOf="@+id/music_view"
         app:layout_constraintEnd_toEndOf="@+id/music_view" />
 

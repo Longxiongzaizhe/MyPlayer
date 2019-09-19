@@ -5,6 +5,12 @@ import android.os.Bundle
 import com.hjl.commonlib.utils.ToastUtil
 import com.hjl.module_main.net.bean.douban.MusicSearchBean
 import com.hjl.testmodule.R
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_retrofit.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,6 +67,40 @@ class RetrofitActivity : AppCompatActivity() {
                 }
 
             })
+        }
+
+        get_rxfy_btn.setOnClickListener {
+            var retrofit = Retrofit.Builder()
+                    .baseUrl("http://fy.iciba.com/")
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
+                    .build()
+            val request = retrofit.create(Rx_Get_interface::class.java)
+
+            var observable : Observable<fyBean> = request.fy
+
+            observable.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : Observer<fyBean>{
+                        override fun onComplete() {
+                            ToastUtil.showSingleToast("网络请求完成")
+
+                        }
+
+                        override fun onSubscribe(d: Disposable) {
+
+                        }
+
+                        override fun onNext(t: fyBean) {
+                            response_tv.text = t.content.toString()
+                        }
+
+                        override fun onError(e: Throwable) {
+                            ToastUtil.showSingleToast("网络请求失败")
+                        }
+
+                    })
+
         }
     }
 }
