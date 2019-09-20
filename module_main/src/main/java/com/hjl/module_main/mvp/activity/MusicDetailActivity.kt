@@ -12,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.hjl.commonlib.base.BaseMultipleActivity
+import com.hjl.commonlib.utils.DateUtils
 import com.hjl.commonlib.utils.DensityUtil
 import com.hjl.commonlib.utils.StringUtils
 import com.hjl.commonlib.utils.ToastUtil
@@ -65,6 +66,9 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
         mBinder?.addOnMediaChangeListener(this)
         if (mBinder != null){
             player = mBinder!!.service.player
+            detail_current_tv.text = DateUtils.getMusicTime(player.currentPosition)
+            detail_duration_tv.text = DateUtils.getMusicTime(player.duration)
+
         }
 
         EventBus.getDefault().register(this)
@@ -86,6 +90,7 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
             isPlaying = mBinder!!.isPlaying
             detail_music_view.start()
             detail_play_btn.setImageResource(R.drawable.main_icon_pause_transparent)
+
         }
 
         detail_play_btn.setOnClickListener(this)
@@ -240,6 +245,8 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
 
                 weekActivity.get()!!.seek_bar.max = duration
                 weekActivity.get()!!.seek_bar.progress = position
+                weekActivity.get()!!.detail_current_tv.text = DateUtils.getMusicTime(position)
+                weekActivity.get()!!.detail_duration_tv.text = DateUtils.getMusicTime(duration)
 
                 //设定拖动播放
                 weekActivity.get()!!.seek_bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
