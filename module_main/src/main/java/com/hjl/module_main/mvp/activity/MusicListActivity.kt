@@ -48,21 +48,15 @@ class MusicListActivity : BaseMultipleActivity(), BaseQuickAdapter.OnItemClickLi
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_music_list)
-
-        var intent = Intent(this, MusicService::class.java)
-        bindService(intent,connection,BIND_AUTO_CREATE)
-        getKeyData()
-        initView()
-        initData()
-
-
+    override fun getLayoutId(): Int {
+        return R.layout.activity_music_list
     }
+
 
     override fun getKeyData() {
         listId = intent.getLongExtra(FlagConstant.INTENT_KEY01,-1)
+        val intent = Intent(this, MusicService::class.java)
+        bindService(intent,connection,BIND_AUTO_CREATE)
     }
 
     override fun initView() {

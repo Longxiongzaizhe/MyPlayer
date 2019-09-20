@@ -1,5 +1,6 @@
 package com.hjl.testmodule.retrofit
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.hjl.commonlib.utils.ToastUtil
@@ -67,6 +68,10 @@ class RetrofitActivity : AppCompatActivity() {
                 }
 
             })
+        }
+
+        login_mvp.setOnClickListener {
+            startActivity(Intent(this,LoginMVPActivity::class.java))
         }
 
         get_rxfy_btn.setOnClickListener {

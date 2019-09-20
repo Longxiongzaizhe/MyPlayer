@@ -35,6 +35,17 @@
     </LinearLayout>
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/login_mvp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/base_margin_size"
+            android:text="Login"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/response_tv"
         android:layout_width="match_parent"

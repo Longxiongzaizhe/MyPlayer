@@ -20,6 +20,10 @@ import kotlinx.android.synthetic.main.activity_local_music.*
 
 class LocalMusicActivity : BaseMultipleActivity() {
 
+    override fun getLayoutId(): Int {
+        return R.layout.activity_local_music
+    }
+
     val fragments : ArrayList<Fragment> = ArrayList()
     val mTitles : ArrayList<String> = ArrayList()
     var mPageAdapter : LazyFragmentPagerAdapter? = null
@@ -33,21 +37,12 @@ class LocalMusicActivity : BaseMultipleActivity() {
         mTitleLeftIv.visibility = View.INVISIBLE
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_local_music)
-
-        initView()
-        initData()
+    override fun initView() {
 
         PermissionsUtiles.requestPermissions(this, permissions) //请求权限
         val startMusicIntent = Intent(this, MusicService::class.java)
         bindService(startMusicIntent, connection,BIND_AUTO_CREATE)
         startService(startMusicIntent)
-    }
-
-    override fun initView() {
-
 
         mPageAdapter = LazyFragmentPagerAdapter(supportFragmentManager, fragments, mTitles)
         local_viewpager.adapter = mPageAdapter

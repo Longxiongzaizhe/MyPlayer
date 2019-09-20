@@ -45,12 +45,8 @@ public class ImageMultipleDisplayActivity extends BaseMultipleActivity implement
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_multiple_display);
-        getKeyData();
-        initView();
-        initData();
+    protected int getLayoutId() {
+        return R.layout.activity_image_multiple_display;
     }
 
     @Override
@@ -72,6 +68,7 @@ public class ImageMultipleDisplayActivity extends BaseMultipleActivity implement
         }
     }
 
+    @Override
     protected void initView() {
         mIvDisplayVp = (ViewPager) findViewById(R.id.iv_display_vp);
         pagerAdapter = new LazyFragmentPagerAdapter(getSupportFragmentManager(), mFragments);
@@ -110,6 +107,8 @@ public class ImageMultipleDisplayActivity extends BaseMultipleActivity implement
         mMultiplyDisplayLl = findViewById(R.id.multiply_display_ll);
         mMultiplyDisplayLl.setBackgroundColor(getResources().getColor(R.color.black));
     }
+
+
 
     @Override
     protected void initData() {

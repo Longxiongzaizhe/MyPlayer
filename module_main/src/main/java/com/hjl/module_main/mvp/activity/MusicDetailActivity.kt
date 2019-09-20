@@ -22,7 +22,7 @@ import com.hjl.module_main.constant.MediaConstant
 import com.hjl.module_main.constant.SPConstant
 import com.hjl.module_main.daodb.MediaDaoManager
 import com.hjl.module_main.daodb.MediaEntity
-import com.hjl.module_main.mview.MusicModePopWindow
+import com.hjl.module_main.customview.MusicModePopWindow
 import com.hjl.module_main.mvp.fragment.MusicInterface
 import com.hjl.module_main.mvp.fragment.MusicService
 import com.hjl.module_main.utils.SPUtils
@@ -45,13 +45,9 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
     lateinit var player : MediaPlayer
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_music_detail)
 
-        getKeyData()
-        initView()
-        initData()
+    override fun getLayoutId(): Int {
+        return R.layout.activity_music_detail
     }
 
     override fun initTitle() {

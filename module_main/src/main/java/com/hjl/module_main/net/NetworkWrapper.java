@@ -1,7 +1,7 @@
 package com.hjl.module_main.net;
 
-import com.hjl.commonlib.network.HttpHandler;
-import com.hjl.commonlib.network.HttpUtils;
+import com.hjl.commonlib.network.okhttp.HttpHandler;
+import com.hjl.commonlib.network.okhttp.HttpUtils;
 import com.hjl.commonlib.network.RequestParams;
 
 import java.io.File;
@@ -10,15 +10,15 @@ import com.hjl.module_main.net.bean.SearchPicBean;
 
 public class NetworkWrapper {
 
-    public static void face(String id, HttpHandler httpHandler){
-        String path = "http://seven.xy-mind.com:8006/ssh/HWAI/is_collect_face";
+    public static void warning(String id, HttpHandler httpHandler){
+        String path = "https://seven.xy-mind.com:8443/ssh/SysWarning/getWarningById";
         RequestParams params = new RequestParams();
-        params.add("identity",id);
+        params.add("warningId",id);
         HttpUtils.post(path,params,httpHandler);
     }
 
     public static void getMsg(String groupCode,HttpHandler httpHandler){
-        String path = "http://seven.xy-mind.com:8006/ssh/intercom/getGroupByCode/" + groupCode;
+        String path = "https://seven.xy-mind.com:8443/ssh/intercom/getGroupByCode/" + groupCode;
         RequestParams params = new RequestParams();
         params.add("groupCode",groupCode);
         HttpUtils.get(path,httpHandler);

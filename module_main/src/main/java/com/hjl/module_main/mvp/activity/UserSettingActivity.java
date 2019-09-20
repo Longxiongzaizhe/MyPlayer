@@ -47,11 +47,12 @@ public class UserSettingActivity extends BaseMultipleActivity implements View.On
     private BaseEditDialog editDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_setting);
-        initView();
+    protected int getLayoutId() {
+        return R.layout.activity_user_setting;
+    }
 
+    @Override
+    protected void initData() {
         bgFile = new File(SPConstant.USER_BG_PATH);
         iconFile = new File(SPConstant.USER_ICON_PATH);
         iconUri = getUriForFile(this,iconFile);
@@ -63,6 +64,7 @@ public class UserSettingActivity extends BaseMultipleActivity implements View.On
         mTitleCenterTv.setText("设置");
     }
 
+    @Override
     protected void initView() {
 
         mSettingUserIconIv = (CircleImageView) findViewById(R.id.setting_user_icon_iv);

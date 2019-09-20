@@ -4,7 +4,7 @@ import android.content.Context
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.hjl.commonlib.base.BaseApplication
-import com.hjl.commonlib.network.HttpHandler
+import com.hjl.commonlib.network.okhttp.HttpHandler
 import com.hjl.commonlib.utils.LogUtils
 import com.hjl.module_main.daodb.MediaDaoManager
 import com.hjl.module_main.daodb.MediaEntity

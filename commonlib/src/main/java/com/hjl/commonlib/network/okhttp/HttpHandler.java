@@ -1,4 +1,4 @@
-package com.hjl.commonlib.network;
+package com.hjl.commonlib.network.okhttp;
 
 import android.content.Context;
 import android.util.Log;

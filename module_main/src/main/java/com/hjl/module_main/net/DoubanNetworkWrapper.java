@@ -1,7 +1,7 @@
 package com.hjl.module_main.net;
 
-import com.hjl.commonlib.network.HttpHandler;
-import com.hjl.commonlib.network.HttpUtils;
+import com.hjl.commonlib.network.okhttp.HttpHandler;
+import com.hjl.commonlib.network.okhttp.HttpUtils;
 import com.hjl.commonlib.utils.StringUtils;
 
 import com.hjl.module_main.net.bean.douban.MusicSearchBean;

@@ -1,6 +1,8 @@
-package com.hjl.commonlib.network;
+package com.hjl.commonlib.network.okhttp;
 
 import android.util.Log;
+
+import com.hjl.commonlib.network.RequestParams;
 
 import java.io.File;
 import java.net.FileNameMap;
@@ -28,7 +30,7 @@ public class CommonRequest {
      * post 请求
      */
 
-    public static Request createPostRequest(String url,RequestParams params){
+    public static Request createPostRequest(String url, RequestParams params){
         return createPostRequest(url,params,null);
     }
 

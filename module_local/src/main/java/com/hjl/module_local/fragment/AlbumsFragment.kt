@@ -11,7 +11,7 @@ import com.hjl.module_local.adapter.AlbumAdapter
 import com.hjl.module_main.constant.FlagConstant
 import com.hjl.module_main.daodb.MediaAlbumsEntity
 import com.hjl.module_main.daodb.MediaAlbumsManager
-import com.hjl.module_main.mview.WrapContentGridLayoutManager
+import com.hjl.module_main.customview.WrapContentGridLayoutManager
 import com.hjl.module_main.mvp.fragment.MusicService
 import com.hjl.module_main.utils.MediaUtils
 import com.hjl.module_main.module.RApp

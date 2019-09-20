@@ -18,6 +18,9 @@ import kotlinx.android.synthetic.main.activity_rx_java_test.*
 
 
 class RxJavaTestActivity : BaseMultipleActivity(), View.OnClickListener {
+    override fun getLayoutId(): Int {
+        return R.layout.activity_rx_java_test
+    }
 
     var observer: Observer<String> = object : Observer<String> {
         override fun onSubscribe(d: Disposable) {
@@ -60,16 +63,11 @@ class RxJavaTestActivity : BaseMultipleActivity(), View.OnClickListener {
         mTitleCenterTv.text = "测试组件—— RxJava"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_rx_java_test)
-
+    override fun initView() {
         test_btn_one.setOnClickListener(this)
         test_btn_two.setOnClickListener(this)
         test_btn_three.setOnClickListener(this)
         test_btn_four.setOnClickListener(this)
-
-
     }
 
     override fun onClick(v: View?) {
