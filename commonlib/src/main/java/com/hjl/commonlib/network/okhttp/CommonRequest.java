@@ -1,4 +1,4 @@
-package com.hjl.commonlib.network;
+package com.hjl.commonlib.network.okhttp;
 
 import android.util.Log;
 
@@ -28,7 +28,7 @@ public class CommonRequest {
      * post 请求
      */
 
-    public static Request createPostRequest(String url,RequestParams params){
+    public static Request createPostRequest(String url, RequestParams params){
         return createPostRequest(url,params,null);
     }
 

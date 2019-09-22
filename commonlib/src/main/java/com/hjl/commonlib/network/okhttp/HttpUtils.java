@@ -1,4 +1,4 @@
-package com.hjl.commonlib.network;
+package com.hjl.commonlib.network.okhttp;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -39,7 +39,7 @@ public class HttpUtils {
     /**
      * 异步post请求 带请求头
      */
-    public static void post(String url, RequestParams params,RequestParams headers,HttpHandler httpHandler ){
+    public static void post(String url, RequestParams params, RequestParams headers, HttpHandler httpHandler ){
         Request request = CommonRequest.createPostRequest(url,params,headers);
         getClient().newCall(request).enqueue(httpHandler);
         httpHandler.onStart();

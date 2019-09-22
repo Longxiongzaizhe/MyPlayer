@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hjl.commonlib.R;
+import com.hjl.commonlib.utils.StatusBarUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -39,11 +40,19 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base_multiple);
-        mBind = ButterKnife.bind(this);
-        initBaseView();
+        setTheme(R.style.AppTheme);
+        setContentView(getLayoutId());
 
+
+        initBaseView();
+        mBind = ButterKnife.bind(this);
+        setStatusBar();
+        getWindow().setBackgroundDrawable(null);
+
+        getKeyData();
         initTitle();
+        initView();
+        initData();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
@@ -53,6 +62,10 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
     public void setContentView(int layoutResID) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert inflater != null;
+        View rootView = inflater.inflate(R.layout.activity_base_multiple,null);
+        setContentView(rootView);
+        mMultipleStateView = rootView.findViewById(R.id.multiple_state_view);
+
         View contentView = inflater.inflate(layoutResID, null);
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -73,8 +86,8 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    protected void initBaseView(){
-        mMultipleStateView = findViewById(R.id.multiple_state_view);
+    private void initBaseView(){
+
         mLlRoot = findViewById(R.id.ll_root);
         mFlRoot = findViewById(R.id.fl_root);
         mTitleCenterTv = findViewById(R.id.title_center_tv);
@@ -119,6 +132,8 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
 
     }
 
+    protected abstract int getLayoutId();
+
     public void showProgress(String msg,boolean cancelable){
         progressDialog = ProgressDialog.show(this,null,msg,false,cancelable);
     }
@@ -131,5 +146,10 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
         if (progressDialog.isShowing()){
             progressDialog.dismiss();
         }
+    }
+
+    protected void setStatusBar() {
+        //这里做了两件事情，1.使状态栏透明并使contentView填充到状态栏 2.预留出状态栏的位置，防止界面上的控件离顶部靠的太近。这样就可以实现开头说的第二种情况的沉浸式状态栏了
+        StatusBarUtil.setTransparent(this);
     }
 }

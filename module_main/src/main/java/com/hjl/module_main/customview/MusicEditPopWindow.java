@@ -1,4 +1,4 @@
-package com.hjl.module_main.mview;
+package com.hjl.module_main.customview;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;

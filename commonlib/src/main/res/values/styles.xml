@@ -51,4 +51,12 @@
         <item name="android:windowEnterAnimation">@anim/common_ios_dialog_in</item>
         <item name="android:windowExitAnimation">@anim/common_ios_dialog_out</item>
     </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 </resources>

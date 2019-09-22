@@ -5,7 +5,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.hjl.commonlib.network.HttpHandler
+import com.hjl.commonlib.network.okhttp.HttpHandler
 import com.hjl.commonlib.utils.StringUtils
 import com.hjl.module_local.R
 

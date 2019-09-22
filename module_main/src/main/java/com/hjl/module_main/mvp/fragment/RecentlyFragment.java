@@ -23,9 +23,9 @@ import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
-import com.hjl.module_main.mview.AddToListDialog;
+import com.hjl.module_main.customview.AddToListDialog;
 import com.hjl.module_main.mvp.adapter.MusicAdapter;
-import com.hjl.module_main.mview.MusicEditPopWindow;
+import com.hjl.module_main.customview.MusicEditPopWindow;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;

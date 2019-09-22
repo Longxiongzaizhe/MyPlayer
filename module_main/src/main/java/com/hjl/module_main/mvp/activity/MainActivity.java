@@ -87,25 +87,18 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setTheme(R.style.AppTheme);
-        setContentView(R.layout.activity_main);
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
 
-        initView();
-        initData();
+    @Override
+    protected void getKeyData() {
         Message msg = Message.obtain();
         msg.what = FlagConstant.UPDATE_KEY01;
         msg.arg1 = 1;
         mInitUrlHandler.sendMessage(msg);
 
         PermissionsUtiles.requestPermissions(this, permissions); //请求权限
-//        List<MediaEntity> list = MediaUtils.getAllMediaList(this,"");
-//        for (MediaEntity entity : list){
-//            Log.e(TAG,entity.toString());
-//        }
-//        relManager.deleteAll();
-//        relManager.insert(list);
     }
 
     @Override
@@ -114,6 +107,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
     }
 
+    @Override
     public void initView() {
         mFragmentFrame = findViewById(R.id.fragment_frame);
         FragmentManager fragmentManager = getSupportFragmentManager();

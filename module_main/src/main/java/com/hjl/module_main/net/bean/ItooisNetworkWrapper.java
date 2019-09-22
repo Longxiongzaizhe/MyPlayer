@@ -1,8 +1,8 @@
 package com.hjl.module_main.net.bean;
 
-import com.hjl.commonlib.network.HttpHandler;
-import com.hjl.commonlib.network.HttpUtils;
-import com.hjl.commonlib.network.RequestParams;
+import com.hjl.commonlib.network.okhttp.HttpHandler;
+import com.hjl.commonlib.network.okhttp.HttpUtils;
+import com.hjl.commonlib.network.okhttp.RequestParams;
 
 import com.hjl.module_main.BuildConfig;
 import com.hjl.module_main.net.bean.itoois.KugouSearchBean;

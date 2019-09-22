@@ -9,14 +9,13 @@ import com.hjl.commonlib.base.BaseFragment
 import com.hjl.module_local.R
 import com.hjl.module_local.adapter.AlbumAdapter
 import com.hjl.module_main.constant.FlagConstant
+import com.hjl.module_main.customview.WrapContentGridLayoutManager
 import com.hjl.module_main.daodb.MediaAlbumsEntity
 import com.hjl.module_main.daodb.MediaAlbumsManager
-import com.hjl.module_main.mview.WrapContentGridLayoutManager
+import com.hjl.module_main.module.RApp
 import com.hjl.module_main.mvp.fragment.MusicService
 import com.hjl.module_main.utils.MediaUtils
-import com.hjl.module_main.module.RApp
 import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -73,27 +72,24 @@ class AlbumsFragment : BaseFragment() {
     override fun initData() {
         var disposable : Disposable? = null
 
-        Observable.create(object : ObservableOnSubscribe<String> {
-            override fun subscribe(e: ObservableEmitter<String>?) {
-                MediaUtils.initAlbumCover()
-                synchronized(data){
-                    data.clear()
-                    data.addAll(MediaAlbumsManager.getInstance().loadAll())
-                }
-                e!!.onNext(FlagConstant.RXJAVA_KEY_01)
-                e.onComplete()
+        Observable.create(ObservableOnSubscribe<String> { e ->
+            MediaUtils.initAlbumCover()
+            synchronized(data){
+                data.clear()
+                data.addAll(MediaAlbumsManager.getInstance().loadAll())
             }
-
+            e.onNext(FlagConstant.RXJAVA_KEY_01)
+            e.onComplete()
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<String> {
-            override fun onSubscribe(d: Disposable?) {
+            override fun onSubscribe(d: Disposable) {
                 disposable = d
             }
 
-            override fun onNext(value: String?) {
+            override fun onNext(value: String) {
 
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
 
             }
 
