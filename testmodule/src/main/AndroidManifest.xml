@@ -3,7 +3,7 @@
     package="com.hjl.testmodule">
 
     <application>
-        <activity android:name=".retrofit.LoginMVPActivity"></activity>
+        <activity android:name=".retrofit.mvp.RxMvpActivity"></activity>
         <activity android:name=".retrofit.RetrofitActivity" />
         <activity android:name=".RxJavaTestActivity" />
     </application>

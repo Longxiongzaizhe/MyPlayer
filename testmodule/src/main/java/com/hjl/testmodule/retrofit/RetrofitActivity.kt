@@ -1,10 +1,12 @@
 package com.hjl.testmodule.retrofit
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.hjl.commonlib.utils.ToastUtil
 import com.hjl.module_main.net.bean.douban.MusicSearchBean
 import com.hjl.testmodule.R
+import com.hjl.testmodule.retrofit.mvp.RxMvpActivity
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -68,8 +70,8 @@ class RetrofitActivity : AppCompatActivity() {
             })
         }
 
-        login_mvp.setOnClickListener {
-
+        rx_mvp.setOnClickListener {
+            startActivity(Intent(this, RxMvpActivity::class.java))
         }
 
         get_rxfy_btn.setOnClickListener {

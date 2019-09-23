@@ -14,6 +14,7 @@ public abstract class BaseMvpMultipleActivity<P extends BaseMvpPresenter> extend
         super.onCreate(savedInstanceState);
 
         mPresenter = createPresenter();
+        mPresenter.attach(this);
         mPresenter.start();
 
     }
@@ -21,11 +22,14 @@ public abstract class BaseMvpMultipleActivity<P extends BaseMvpPresenter> extend
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
 
         if (mPresenter != null){
             mPresenter.detach();
         }
+
+        super.onDestroy();
+
+
     }
 
     @Override

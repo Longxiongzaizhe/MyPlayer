@@ -17,10 +17,13 @@ class TestMainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_test_main)
 
         PermissionsUtiles.requestPermissions(this, permissions) //请求权限
+
+        // 播放view
         music_view.setOnClickListener {
             startActivity(Intent(this,MusicViewActivity::class.java))
         }
 
+        // retrofit
         retrofit.setOnClickListener { startActivity(Intent(this,RetrofitActivity::class.java)) }
 
 

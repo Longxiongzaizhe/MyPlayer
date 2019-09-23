@@ -15,7 +15,6 @@ import retrofit2.HttpException;
 
 public abstract class HttpObserver<T> extends DisposableObserver<T> {
 
-    protected IBaseMvpView view;
     /**
      * 解析数据失败
      */
@@ -34,8 +33,8 @@ public abstract class HttpObserver<T> extends DisposableObserver<T> {
     public static final int CONNECT_TIMEOUT = 1004;
 
 
-    public HttpObserver(IBaseMvpView view) {
-        this.view = view;
+    public HttpObserver() {
+
     }
 
     @Override
