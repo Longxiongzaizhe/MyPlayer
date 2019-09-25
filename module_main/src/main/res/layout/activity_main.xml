@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.hjl.module_main.mvp.activity.MainActivity">
+    tools:context=".ui.activity.MainActivity">
 
 
     <LinearLayout
@@ -80,7 +80,7 @@
             </FrameLayout>
             <fragment
                 android:id="@+id/music_play_lay"
-                android:name="com.hjl.module_main.mvp.fragment.PlayFragment"
+                android:name="com.hjl.module_main.ui.fragment.PlayFragment"
                 android:layout_gravity="bottom"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"/>

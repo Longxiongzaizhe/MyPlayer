@@ -1,4 +1,4 @@
-package com.hjl.module_main.mvp.fragment;
+package com.hjl.module_main.ui.fragment;
 
 import android.content.ComponentName;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjl.commonlib.base.BaseFragment;
+import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment;
 import com.hjl.commonlib.mview.BaseMarkDialog;
 import com.hjl.commonlib.mview.BaseTipDialog;
 import com.hjl.commonlib.utils.DensityUtil;
@@ -27,9 +28,11 @@ import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.daodb.MediaListEntity;
 import com.hjl.module_main.daodb.MediaListManager;
 import com.hjl.module_main.daodb.MediaRelManager;
-import com.hjl.module_main.mvp.activity.MainActivity;
-import com.hjl.module_main.mvp.activity.MusicListActivity;
-import com.hjl.module_main.mvp.adapter.MusicListAdapter;
+import com.hjl.module_main.mvp.contract.MainContract;
+import com.hjl.module_main.mvp.presenter.impl.MainPresenter;
+import com.hjl.module_main.ui.activity.MainActivity;
+import com.hjl.module_main.ui.activity.MusicListActivity;
+import com.hjl.module_main.ui.adapter.MusicListAdapter;
 import com.hjl.module_main.utils.MediaUtils;
 import com.yanzhenjie.recyclerview.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
@@ -46,7 +49,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainFragment extends BaseFragment implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
+public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener,MainContract.IMainView{
 
     private TextView mMainLocalNum;
     private ImageView mMainLocalPlay;
@@ -73,6 +76,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
     private MediaListManager listManager = MediaListManager.getInstance();
 
     private MusicService.MusicBinder mBinder;
+
 
 
 
@@ -251,10 +255,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         }
     }
 
-    @Override
-    public void notifyDataChange() {
-        updateData();
-    }
 
     private void updateData() {
         Observable.create((ObservableOnSubscribe<Map<String,Integer>>) e -> {
@@ -315,6 +315,11 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
+    protected MainPresenter createPresenter() {
+        return new MainPresenter();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
 
@@ -327,6 +332,19 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
+    @Override
+    public void updateDataFinish(int localNum, int historyNum, int favouriteNum) {
+        mMainLocalNum.setText(String.format(getString(R.string.music_num),localNum));
+        mMainHistoryNum.setText(String.format(getString(R.string.music_num),historyNum));
+        mMainFavouriteNum.setText(String.format(getString(R.string.music_num),favouriteNum));
+        listAdapter.notifyDataSetChanged();
+        musicList.clear();
+        musicList.addAll(listManager.loadAll());
+    }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.updateData();
+    }
 }

@@ -1,4 +1,4 @@
-package com.hjl.module_main.mvp.activity;
+package com.hjl.module_main.ui.activity;
 
 import android.content.Context;
 import android.graphics.Bitmap;

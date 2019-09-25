@@ -3,6 +3,7 @@ package com.hjl.commonlib.network.retrofit;
 
 
 import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
@@ -10,6 +11,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HeaderMap;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -54,6 +56,10 @@ public interface ApiServer{
     @Multipart
     Observable<BaseListModel<String>> upLoadImg(@Part MultipartBody.Part[] parts, @Part("APP_KEY") RequestBody APP_KEY, @Part("APP_TOKEN") RequestBody APP_TOKEN);
     */
+    // 加入 header
+//    @FormUrlEncoded
+//    @POST("v1/wyBase/login")
+//    Observable<BaseResponse> login(@HeaderMap Map<String,String> headers, @FieldMap Map<String,String> data);
 
 
     /**

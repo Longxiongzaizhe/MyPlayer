@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Bundle
 import android.os.IBinder
 import android.support.v4.app.Fragment
 import android.view.View
@@ -14,8 +13,8 @@ import com.hjl.commonlib.utils.PermissionsUtiles
 import com.hjl.module_local.fragment.AlbumsFragment
 import com.hjl.module_local.fragment.AuthorFragment
 import com.hjl.module_local.fragment.LocalFragment
-import com.hjl.module_main.mvp.fragment.MusicService
-import com.hjl.module_main.mvp.fragment.PlayFragment
+import com.hjl.module_main.ui.fragment.MusicService
+import com.hjl.module_main.ui.fragment.PlayFragment
 import kotlinx.android.synthetic.main.activity_local_music.*
 
 class LocalMusicActivity : BaseMultipleActivity() {

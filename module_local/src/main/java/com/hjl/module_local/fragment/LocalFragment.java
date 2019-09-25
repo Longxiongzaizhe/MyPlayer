@@ -33,8 +33,8 @@ import com.hjl.module_main.module.RApp;
 import com.hjl.module_main.customview.AddToListDialog;
 import com.hjl.module_main.customview.MusicEditPopWindow;
 import com.hjl.module_main.customview.MusicModePopWindow;
-import com.hjl.module_main.mvp.adapter.MusicAdapter;
-import com.hjl.module_main.mvp.fragment.MusicService;
+import com.hjl.module_main.ui.adapter.MusicAdapter;
+import com.hjl.module_main.ui.fragment.MusicService;
 import com.hjl.module_main.utils.FileUtils;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;
@@ -227,9 +227,6 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 
     }
 
-    public void setBinder(MusicService.MusicBinder binder){
-        mBinder = binder;
-    }
 
     @Override
     public boolean onItemChildClick(final BaseQuickAdapter adapter, View view, final int position) {
@@ -347,6 +344,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
         }
 
     }
+
     @Subscribe
     public void setMusicMode(MusicModeBus mode){
 

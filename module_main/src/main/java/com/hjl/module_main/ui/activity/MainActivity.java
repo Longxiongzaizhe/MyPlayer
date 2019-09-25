@@ -1,4 +1,4 @@
-package com.hjl.module_main.mvp.activity;
+package com.hjl.module_main.ui.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -7,12 +7,10 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -38,16 +36,15 @@ import com.hjl.module_main.constant.SPConstant;
 import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
-import com.hjl.module_main.mvp.fragment.FavoriteFragment;
-import com.hjl.module_main.mvp.fragment.MainFragment;
-import com.hjl.module_main.mvp.fragment.MainLocalFragment;
-import com.hjl.module_main.mvp.fragment.MusicService;
-import com.hjl.module_main.mvp.fragment.PlayFragment;
-import com.hjl.module_main.mvp.fragment.RecentlyFragment;
+import com.hjl.module_main.ui.fragment.FavoriteFragment;
+import com.hjl.module_main.ui.fragment.MainFragment;
+import com.hjl.module_main.ui.fragment.MainLocalFragment;
+import com.hjl.module_main.ui.fragment.MusicService;
+import com.hjl.module_main.ui.fragment.PlayFragment;
+import com.hjl.module_main.ui.fragment.RecentlyFragment;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;
 
-import java.io.File;
 import java.util.List;
 
 public class MainActivity extends BaseMultipleActivity implements View.OnClickListener {
@@ -192,7 +189,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         super.initData();
         intent = new Intent();
 
-
         Intent startMusicIntent = new Intent(this,MusicService.class);
         bindService(startMusicIntent,connection,BIND_AUTO_CREATE) ;
         startService(startMusicIntent);
@@ -223,14 +219,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data != null){
-            File file = new File(SPConstant.USER_ICON_PATH);
-            File getFile = new File(data.getData().toString());
-        }
-    }
 
     @Override
     protected void onStop() {

@@ -1,4 +1,4 @@
-package com.hjl.module_main.mvp.fragment;
+package com.hjl.module_main.ui.fragment;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -28,7 +28,7 @@ import com.hjl.module_main.daodb.MediaRelManager;
 import com.hjl.module_main.customview.AddToListDialog;
 import com.hjl.module_main.customview.MusicEditPopWindow;
 import com.hjl.module_main.customview.MusicModePopWindow;
-import com.hjl.module_main.mvp.adapter.MusicAdapter;
+import com.hjl.module_main.ui.adapter.MusicAdapter;
 import com.hjl.module_main.utils.FileUtils;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;

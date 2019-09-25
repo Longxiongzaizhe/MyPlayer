@@ -1,11 +1,10 @@
-package com.hjl.module_main.mvp.activity
+package com.hjl.module_main.ui.activity
 
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.BitmapFactory
-import android.os.Bundle
 import android.os.IBinder
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -17,8 +16,8 @@ import com.hjl.commonlib.utils.PhotoUtils
 import com.hjl.module_main.R
 import com.hjl.module_main.constant.FlagConstant
 import com.hjl.module_main.daodb.*
-import com.hjl.module_main.mvp.adapter.MusicAdapter
-import com.hjl.module_main.mvp.fragment.MusicService
+import com.hjl.module_main.ui.adapter.MusicAdapter
+import com.hjl.module_main.ui.fragment.MusicService
 import com.hjl.module_main.utils.FileUtils
 import com.yanzhenjie.recyclerview.touch.OnItemMoveListener
 import kotlinx.android.synthetic.main.activity_music_list.*

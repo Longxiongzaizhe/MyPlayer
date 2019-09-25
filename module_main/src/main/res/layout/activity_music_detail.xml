@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/transparent"
-    tools:context=".mvp.activity.MusicDetailActivity"
+    tools:context=".ui.activity.MusicDetailActivity"
     tools:background="@color/gray">
 
     <com.hjl.module_main.customview.MusicView

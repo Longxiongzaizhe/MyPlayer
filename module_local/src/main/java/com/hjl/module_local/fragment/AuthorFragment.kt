@@ -16,7 +16,7 @@ import com.hjl.module_main.constant.FlagConstant
 import com.hjl.module_main.daodb.MediaAuthorEntity
 import com.hjl.module_main.daodb.MediaAuthorManager
 import com.hjl.module_main.module.RApp
-import com.hjl.module_main.mvp.fragment.MusicService
+import com.hjl.module_main.ui.fragment.MusicService
 import kotlinx.android.synthetic.main.local_fragment_author.*
 
 @Route(path = RApp.AUTHOR_FRAGMENT)

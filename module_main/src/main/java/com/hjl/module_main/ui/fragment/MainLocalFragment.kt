@@ -1,4 +1,4 @@
-package com.hjl.module_main.mvp.fragment
+package com.hjl.module_main.ui.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -15,9 +15,9 @@ import kotlinx.android.synthetic.main.fragment_main_local.*
 
 class MainLocalFragment : BaseFragment(){
 
-    val fragments : ArrayList<Fragment> = ArrayList()
-    val mTitles : ArrayList<String> = ArrayList()
-    var mPageAdapter : LazyFragmentPagerAdapter? = null
+    private val fragments : ArrayList<Fragment> = ArrayList()
+    private val mTitles : ArrayList<String> = ArrayList()
+    private var mPageAdapter : LazyFragmentPagerAdapter? = null
 
 
     companion object{

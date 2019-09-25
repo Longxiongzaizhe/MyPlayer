@@ -1,4 +1,4 @@
-package com.hjl.module_main.mvp.fragment;
+package com.hjl.module_main.ui.fragment;
 
 import android.content.Intent;
 import android.view.View;
@@ -16,7 +16,7 @@ import com.hjl.module_main.R;
 
 import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.module_main.daodb.MediaEntity;
-import com.hjl.module_main.mvp.activity.MusicDetailActivity;
+import com.hjl.module_main.ui.activity.MusicDetailActivity;
 import com.hjl.module_main.utils.MediaUtils;
 
 

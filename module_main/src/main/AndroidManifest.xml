@@ -3,10 +3,10 @@
     package="com.hjl.module_main">
 
     <application>
-        <activity android:name=".mvp.activity.MusicListActivity"></activity>
-        <activity android:name=".mvp.activity.MusicDetailActivity" />
-        <activity android:name=".mvp.activity.UserSettingActivity" />
-        <activity android:name=".mvp.activity.MainActivity"
+        <activity android:name="com.hjl.module_main.ui.activity.MusicListActivity"></activity>
+        <activity android:name="com.hjl.module_main.ui.activity.MusicDetailActivity" />
+        <activity android:name="com.hjl.module_main.ui.activity.UserSettingActivity" />
+        <activity android:name="com.hjl.module_main.ui.activity.MainActivity"
             android:theme="@style/MusicAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,7 +16,7 @@
         </activity>
 
         <service
-            android:name=".mvp.fragment.MusicService"
+            android:name="com.hjl.module_main.ui.fragment.MusicService"
             android:enabled="true"
             android:exported="true" />
     </application>

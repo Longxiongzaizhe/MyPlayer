@@ -15,7 +15,7 @@ import com.hjl.module_main.daodb.MediaListEntity
 import com.hjl.module_main.daodb.MediaListManager
 import com.hjl.module_main.daodb.MediaRelEntity
 import com.hjl.module_main.daodb.MediaRelManager
-import com.hjl.module_main.mvp.adapter.SimpleMusicListAdapter
+import com.hjl.module_main.ui.adapter.SimpleMusicListAdapter
 import kotlinx.android.synthetic.main.layout_add_to_list.*
 
 class AddToListDialog(context:Context,var musicId: Long) : Dialog(context, R.style.AddToListDialogStyle) {

@@ -1,4 +1,4 @@
-package com.hjl.module_main.mvp.activity;
+package com.hjl.module_main.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.view.View;

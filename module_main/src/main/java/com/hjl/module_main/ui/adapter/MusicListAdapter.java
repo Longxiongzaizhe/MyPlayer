@@ -1,4 +1,4 @@
-package com.hjl.module_main.mvp.adapter;
+package com.hjl.module_main.ui.adapter;
 
 import android.graphics.BitmapFactory;
 

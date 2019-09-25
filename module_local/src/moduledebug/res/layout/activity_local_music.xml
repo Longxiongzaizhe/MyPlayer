@@ -24,7 +24,7 @@
         android:layout_weight="1"/>
     <fragment
         android:id="@+id/play_fragment"
-        android:name="com.hjl.module_main.mvp.fragment.PlayFragment"
+        android:name="com.hjl.module_main.ui.fragment.PlayFragment"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="72dp"/>
