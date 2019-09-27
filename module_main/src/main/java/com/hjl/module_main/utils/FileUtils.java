@@ -38,11 +38,23 @@ public class FileUtils {
      */
     public final static String SD_ROOT_VIDEO = SD_ROOT_CACHE_PATH + "/video";
 
+    /**
+     * 保存文件目录  /storage/emulated/0/Android/data/com.xxx/files
+     */
+
+    public final static String SD_FILES_PATH = getSDFilesPath();
 
     /**
-     * 缓存存储 根目录 /storage/emulated/0/Android/data  若无外部存储 则为 /data/data/0/com.example.filetest/cache
+     * 保存文件目录 /storage/emulated/0/Android/data/com.xxx/files/image
+     */
+
+    public final static String SD_FILES_IMAGE = getSDFilesPath() + File.separator + "image";
+
+    /**
+     * 缓存存储 根目录 /storage/emulated/0/Android/data/com.xxx/cache  若无外部存储 则为 /data/data/0/com.example.filetest/cache
      */
     public final static String SD_CACHE_PATH = getSDCachePath();
+
 
     /**
      * 缓存存储 图片存储目录
@@ -87,9 +99,25 @@ public class FileUtils {
         }else {
             return getInternalStorageCachePath();
         }
-
     }
 
+    /**
+     * SD卡 /storage/emulated/0/Android/data/com.xxx/files
+     * @return
+     */
+
+    public static String getSDFilesPath(){
+
+        File sdFile = null ;
+        if (Environment.isExternalStorageEmulated()){
+            sdFile = BaseApplication.getApplication().getExternalFilesDir("");
+        }
+        if (sdFile != null){
+            return sdFile.getAbsolutePath();
+        }else {
+            return getInternalStorageCachePath();
+        }
+    }
 
     /**
      * SD卡根目录

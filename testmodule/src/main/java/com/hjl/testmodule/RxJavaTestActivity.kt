@@ -4,7 +4,7 @@ import android.util.Log
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hjl.commonlib.base.BaseMultipleActivity
-import com.hjl.module_main.module.RApp
+import com.hjl.module_main.router.RApp
 import io.reactivex.Observable
 import io.reactivex.Observable.create
 import io.reactivex.ObservableOnSubscribe

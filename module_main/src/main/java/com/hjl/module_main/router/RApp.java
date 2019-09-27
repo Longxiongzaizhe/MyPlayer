@@ -1,4 +1,4 @@
-package com.hjl.module_main.module;
+package com.hjl.module_main.router;
 
 public class RApp {
 

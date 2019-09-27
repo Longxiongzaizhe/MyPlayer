@@ -77,7 +77,7 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
         initViewByMedia(entityId)
 
         popWindow = MusicModePopWindow(this)
-        popWindow!!.getPopupWindow().setOnDismissListener {
+        popWindow!!.popupWindow.setOnDismissListener {
             popWindow!!.showBackgroundDIM(window, 1.0f)
         }
 

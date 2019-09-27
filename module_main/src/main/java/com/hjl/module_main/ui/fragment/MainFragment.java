@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment;
 import com.hjl.commonlib.mview.BaseMarkDialog;
 import com.hjl.commonlib.mview.BaseTipDialog;
@@ -23,6 +22,7 @@ import com.hjl.commonlib.utils.RecycleViewVerticalDivider;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
+import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.daodb.MediaListEntity;
@@ -31,7 +31,7 @@ import com.hjl.module_main.daodb.MediaRelManager;
 import com.hjl.module_main.mvp.contract.MainContract;
 import com.hjl.module_main.mvp.presenter.impl.MainPresenter;
 import com.hjl.module_main.ui.activity.MainActivity;
-import com.hjl.module_main.ui.activity.MusicListActivity;
+import com.hjl.module_main.mvvm.MusicListActivity;
 import com.hjl.module_main.ui.adapter.MusicListAdapter;
 import com.hjl.module_main.utils.MediaUtils;
 import com.yanzhenjie.recyclerview.SwipeMenuItem;
@@ -309,7 +309,8 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         long id = musicList.get(position).id;
         Intent intent = new Intent(getContext(), MusicListActivity.class);
-        intent.putExtra(FlagConstant.INTENT_KEY01,id);
+        intent.putExtra(FlagConstant.INTENT_KEY01, MediaConstant.LIST_CUSTOM);
+        intent.putExtra(FlagConstant.INTENT_KEY02,id);
         startActivity(intent);
 
     }

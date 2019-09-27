@@ -9,7 +9,7 @@ import com.hjl.commonlib.base.BaseFragment
 import com.hjl.module_main.R
 
 import com.hjl.module_main.constant.FlagConstant
-import com.hjl.module_main.module.RApp
+import com.hjl.module_main.router.RApp
 
 import kotlinx.android.synthetic.main.fragment_main_local.*
 

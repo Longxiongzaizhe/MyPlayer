@@ -12,7 +12,7 @@ import com.hjl.module_main.constant.FlagConstant
 import com.hjl.module_main.customview.WrapContentGridLayoutManager
 import com.hjl.module_main.daodb.MediaAlbumsEntity
 import com.hjl.module_main.daodb.MediaAlbumsManager
-import com.hjl.module_main.module.RApp
+import com.hjl.module_main.router.RApp
 import com.hjl.module_main.ui.fragment.MusicService
 import com.hjl.module_main.utils.MediaUtils
 import io.reactivex.Observable

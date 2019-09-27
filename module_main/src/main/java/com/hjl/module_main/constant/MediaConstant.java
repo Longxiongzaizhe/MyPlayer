@@ -11,8 +11,11 @@ public interface MediaConstant {
         RANDOM, // 随机播放
         SINGLE,  // 单曲循环
         SEQUENT // 顺序播放
-
     }
+
+    int LIST_CUSTOM = 1;
+    int LIST_ALBUMS = 2;
+    int LIST_AUTHOR = 3;
 
 
 }
