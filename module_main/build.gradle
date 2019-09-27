@@ -31,6 +31,10 @@ android {
         }
     }
 
+    dataBinding {
+        enabled true
+    }
+
 //greendao配置
     greendao {
         //数据库版本号，升级时修改

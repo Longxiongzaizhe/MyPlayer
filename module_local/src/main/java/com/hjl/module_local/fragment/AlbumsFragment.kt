@@ -4,15 +4,19 @@ import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.hjl.commonlib.base.BaseFragment
 import com.hjl.module_local.R
 import com.hjl.module_local.adapter.AlbumAdapter
 import com.hjl.module_main.constant.FlagConstant
+import com.hjl.module_main.constant.MediaConstant
 import com.hjl.module_main.customview.WrapContentGridLayoutManager
 import com.hjl.module_main.daodb.MediaAlbumsEntity
 import com.hjl.module_main.daodb.MediaAlbumsManager
 import com.hjl.module_main.router.RApp
+import com.hjl.module_main.router.RMain
 import com.hjl.module_main.ui.fragment.MusicService
 import com.hjl.module_main.utils.MediaUtils
 import io.reactivex.Observable
@@ -25,10 +29,11 @@ import kotlinx.android.synthetic.main.local_fragment_album.*
 
 
 @Route(path = RApp.ALBUMS_FRAGMENT)
-class AlbumsFragment : BaseFragment() {
+class AlbumsFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener {
 
-    var data : ArrayList<MediaAlbumsEntity> = ArrayList()
-    var adapter = AlbumAdapter(data)
+
+    var datalist : ArrayList<MediaAlbumsEntity> = ArrayList()
+    var adapter = AlbumAdapter(datalist)
 
 
     companion object{
@@ -53,7 +58,10 @@ class AlbumsFragment : BaseFragment() {
         mMultipleStatusView.showLoading()
         album_rv.layoutManager = WrapContentGridLayoutManager(context,3)
         album_rv.adapter = adapter
-        adapter.setEmptyView(R.layout.layout_no_content,album_rv)
+        with(adapter){
+            setEmptyView(R.layout.layout_no_content,album_rv)
+            onItemClickListener = this@AlbumsFragment
+        }
 
         album_rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -69,14 +77,21 @@ class AlbumsFragment : BaseFragment() {
         })
     }
 
+    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+        ARouter.getInstance().build(RMain.RMusicList)
+                .withInt(FlagConstant.INTENT_KEY01, MediaConstant.LIST_ALBUMS)
+                .withLong(FlagConstant.INTENT_KEY02,datalist[position].id)
+                .navigation()
+    }
+
     override fun initData() {
         var disposable : Disposable? = null
 
         Observable.create(ObservableOnSubscribe<String> { e ->
             MediaUtils.initAlbumCover()
-            synchronized(data){
-                data.clear()
-                data.addAll(MediaAlbumsManager.getInstance().loadAll())
+            synchronized(datalist){
+                datalist.clear()
+                datalist.addAll(MediaAlbumsManager.getInstance().loadAll())
             }
             e.onNext(FlagConstant.RXJAVA_KEY_01)
             e.onComplete()

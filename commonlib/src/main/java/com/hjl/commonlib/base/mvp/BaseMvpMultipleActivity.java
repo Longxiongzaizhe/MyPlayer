@@ -11,11 +11,10 @@ public abstract class BaseMvpMultipleActivity<P extends BaseMvpPresenter> extend
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         mPresenter = createPresenter();
         mPresenter.attach(this);
         mPresenter.start();
+        super.onCreate(savedInstanceState);
 
     }
 

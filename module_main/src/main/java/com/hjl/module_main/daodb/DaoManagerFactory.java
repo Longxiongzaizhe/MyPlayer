@@ -13,7 +13,7 @@ public class DaoManagerFactory {
         return factory;
     }
 
-    public DaoManager getManager(){
+    public MediaDaoManager getManager(){
         return MediaDaoManager.getInstance();
     }
 

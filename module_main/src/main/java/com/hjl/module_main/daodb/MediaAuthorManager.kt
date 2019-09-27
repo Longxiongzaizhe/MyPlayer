@@ -19,13 +19,16 @@ class MediaAuthorManager : DaoManager<MediaAuthorEntity>{
         dao = daoSession.mediaAuthorEntityDao
     }
 
+    fun insert(name : String){
+        dao!!.insert(MediaAuthorEntity(null,name,""))
+    }
+
+    fun query(name : String) : MediaAuthorEntity{
+        return dao!!.queryBuilder().where(MediaAuthorEntityDao.Properties.Name.eq(name)).unique()
+    }
 
     override fun insert(entity: MediaAuthorEntity){
         dao!!.insert(entity)
-    }
-
-    fun insert(name : String){
-        dao!!.insert(MediaAuthorEntity(null,name,""))
     }
 
     override fun update(entity: MediaAuthorEntity){

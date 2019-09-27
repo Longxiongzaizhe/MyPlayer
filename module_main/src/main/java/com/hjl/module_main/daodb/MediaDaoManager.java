@@ -98,9 +98,14 @@ public class MediaDaoManager implements DaoManager<MediaEntity>{
         return list;
     }
 
-//    public List<MediaEntity> query(long id){
-//        return entitydao.queryBuilder().orderAsc(MediaEntityDao.Properties.Id).where(MediaEntityDao.Properties.Id.eq(id)).list();
-//    }
+
+    /**
+     * 根据作者名查找音乐
+     */
+
+    public List<MediaEntity> queryByAuthor(String author){
+        return dao.queryBuilder().where(MediaEntityDao.Properties.Artist.eq(author)).list();
+    }
 
     public int getCountByAuthor(String author){
         return dao.queryBuilder().where(MediaEntityDao.Properties.Artist.eq(author)).list().size();
@@ -136,6 +141,10 @@ public class MediaDaoManager implements DaoManager<MediaEntity>{
 
     public MediaEntity getMusicByAlbumId(long albumId){
         return dao.queryBuilder().where(MediaEntityDao.Properties.Album_id.eq(albumId)).orderAsc(MediaEntityDao.Properties.Id).limit(1).unique();
+    }
+
+    public List<MediaEntity> queryByAlbumId(long albumId){
+        return dao.queryBuilder().where(MediaEntityDao.Properties.Album_id.eq(albumId)).orderAsc(MediaEntityDao.Properties.Id).list();
     }
 
     public String getAuthorByAlbumId(long albumId){

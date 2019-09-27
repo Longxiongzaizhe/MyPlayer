@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 
 import com.hjl.commonlib.base.BaseFragment;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 /**
  * created by long on 2019/9/25
  */
@@ -12,6 +15,7 @@ public abstract class BaseMvpMultipleFragment<P extends BaseMvpPresenter> extend
 
     protected P mPresenter;
     protected abstract P createPresenter();
+    private CompositeDisposable compositeDisposable;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,8 +32,19 @@ public abstract class BaseMvpMultipleFragment<P extends BaseMvpPresenter> extend
             mPresenter.detach();
         }
 
+        if (compositeDisposable != null) {
+            compositeDisposable.clear();
+        }
+
         super.onDestroy();
 
+    }
+
+    public void addDisposable(Disposable disposable){
+        if (compositeDisposable == null) {
+            compositeDisposable = new CompositeDisposable();
+        }
+        compositeDisposable.add(disposable);
     }
 
     @Override

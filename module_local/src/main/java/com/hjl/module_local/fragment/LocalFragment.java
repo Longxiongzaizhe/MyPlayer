@@ -78,7 +78,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     private MusicMode musicMode;
     private MusicModePopWindow popWindow;
     private MediaDaoManager manager = MediaDaoManager.getInstance();
-    private MediaAlbumsManager authorManager = MediaAlbumsManager.getInstance();
+    private MediaAlbumsManager albumsManager = MediaAlbumsManager.getInstance();
     private int pageIndex = 1;
 
 
@@ -300,11 +300,11 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
                     adapter.notifyDataSetChanged();
                     mMultipleStatusView.showContent();
                     ToastUtil.showSingleToast("已刷新");
-                    authorManager.deleteAll();
+                    albumsManager.deleteAll();
                     for (long id :manager.getAllAlbums()){
                         String author = manager.getAuthorByAlbumId(id);
                         MediaAlbumsEntity entity = new MediaAlbumsEntity(id,author,"");
-                        authorManager.insert(entity);
+                        albumsManager.insert(entity);
                     }
                 }
 

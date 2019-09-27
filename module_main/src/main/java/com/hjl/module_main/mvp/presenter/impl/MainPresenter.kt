@@ -1,6 +1,7 @@
 package com.hjl.module_main.mvp.presenter.impl
 
 import com.hjl.commonlib.base.mvp.BaseMvpPresenter
+import com.hjl.commonlib.utils.RxSchedulers
 import com.hjl.module_main.R
 import com.hjl.module_main.constant.FlagConstant
 import com.hjl.module_main.daodb.MediaDaoManager
@@ -47,7 +48,7 @@ class MainPresenter : BaseMvpPresenter<MainContract.IMainView>(),MainContract.IM
     * */
 
     override fun updateData() {
-        Observable.create(ObservableOnSubscribe<Map<String,Int>> {
+        addDisposable(Observable.create(ObservableOnSubscribe<Map<String,Int>> {
             val localNum: Int = manager.loadAll().size
             val historyNum: Int = relManager.queryRecentList().size
             val favouriteNum: Int = relManager.queryFavoriteList().size
@@ -57,28 +58,12 @@ class MainPresenter : BaseMvpPresenter<MainContract.IMainView>(),MainContract.IM
             map[FlagConstant.RXJAVA_KEY_03] = favouriteNum
 
             it.onNext(map)
-            it.onComplete()
 
-        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<Map<String, Int>> {
-            override fun onSubscribe(d: Disposable) {
-
-            }
-
-            override fun onNext(value: Map<String, Int>) {
-                view.updateDataFinish(
-                        value[FlagConstant.RXJAVA_KEY_01] ?: error(""),
-                        value[FlagConstant.RXJAVA_KEY_02] ?: error(""),
-                        value[FlagConstant.RXJAVA_KEY_03] ?: error(""))
-
-            }
-
-            override fun onError(e: Throwable) {
-
-            }
-
-            override fun onComplete() {
-
-            }
+        }).compose(RxSchedulers.io_main()).subscribe{
+            view.updateDataFinish(
+                    it[FlagConstant.RXJAVA_KEY_01] ?: error(""),
+                    it[FlagConstant.RXJAVA_KEY_02] ?: error(""),
+                    it[FlagConstant.RXJAVA_KEY_03] ?: error(""))
         })
 
     }

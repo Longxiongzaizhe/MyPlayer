@@ -3,7 +3,7 @@
     package="com.hjl.module_main">
 
     <application>
-        <activity android:name="com.hjl.module_main.mvvm.MusicListActivity"></activity>
+        <activity android:name="com.hjl.module_main.ui.activity.MusicListActivity"></activity>
         <activity android:name="com.hjl.module_main.ui.activity.MusicDetailActivity" />
         <activity android:name="com.hjl.module_main.ui.activity.UserSettingActivity" />
         <activity android:name="com.hjl.module_main.ui.activity.MainActivity"

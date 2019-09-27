@@ -19,6 +19,7 @@ import com.hjl.commonlib.mview.BaseMarkDialog;
 import com.hjl.commonlib.mview.BaseTipDialog;
 import com.hjl.commonlib.utils.DensityUtil;
 import com.hjl.commonlib.utils.RecycleViewVerticalDivider;
+import com.hjl.commonlib.utils.RxSchedulers;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
@@ -31,7 +32,7 @@ import com.hjl.module_main.daodb.MediaRelManager;
 import com.hjl.module_main.mvp.contract.MainContract;
 import com.hjl.module_main.mvp.presenter.impl.MainPresenter;
 import com.hjl.module_main.ui.activity.MainActivity;
-import com.hjl.module_main.mvvm.MusicListActivity;
+import com.hjl.module_main.ui.activity.MusicListActivity;
 import com.hjl.module_main.ui.adapter.MusicListAdapter;
 import com.hjl.module_main.utils.MediaUtils;
 import com.yanzhenjie.recyclerview.SwipeMenuItem;
@@ -44,10 +45,6 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener,MainContract.IMainView{
 
@@ -134,6 +131,7 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
         });
         mListRv.setOnItemMenuClickListener((menuBridge, adapterPosition) -> {
             // 任何操作必须先关闭菜单，否则可能出现Item菜单打开状态错乱。
+            menuBridge.closeMenu();
             int direction = menuBridge.getDirection();
             // SwipeRecyclerView.RIGHT_DIRECTION SwipeRecyclerView.LEFT_DIRECTION
             // 菜单在Item中的Position：
@@ -155,37 +153,6 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
 
         // setAdapter 需要在设置菜单之后
         mListRv.setAdapter(listAdapter);
-
-//        mListRv.setOnItemMoveListener(new OnItemMoveListener() {
-//            @Override
-//            public boolean onItemMove(RecyclerView.ViewHolder srcHolder, RecyclerView.ViewHolder targetHolder) {
-//                return false;
-//            }
-//
-//            @Override
-//            public void onItemDismiss(RecyclerView.ViewHolder srcHolder) {
-//                if (musicList.size() == 0) {
-//                    ToastUtil.showSingleToast("已经没有数据啦");
-//                    return;
-//                }
-//                int position = srcHolder.getAdapterPosition();
-//                BaseTipDialog dialog = new BaseTipDialog(getContext(), BaseTipDialog.TipDialogEnum.DIALOG_WITH_CONTENT).
-//                        setTitle("是否删除列表" + musicList.get(position).name + "?").setContent("删除此列表数据但不包括歌曲文件");
-//
-//                dialog.setOnConfirmClickListener(v -> {
-//                    musicList.remove(position);
-//                    listAdapter.notifyItemRemoved(position);
-//                    dialog.dismiss();
-//                }).setOnCancelClickListener(v -> {
-//                    listAdapter.notifyDataSetChanged();
-//                    dialog.dismiss();
-//                }).show();
-//
-//
-//            }
-//        });
-
-
 
         Intent startMusicIntent = new Intent(getContext(), MusicService.class);
         getActivity().bindService(startMusicIntent,connection,getActivity().BIND_AUTO_CREATE) ;
@@ -257,7 +224,7 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
 
 
     private void updateData() {
-        Observable.create((ObservableOnSubscribe<Map<String,Integer>>) e -> {
+        addDisposable(Observable.create((ObservableOnSubscribe<Map<String,Integer>>) e -> {
             int localNum,historyNum,favouriteNum;
             HashMap<String,Integer> map = new HashMap<>();
             localNum = manager.loadAll().size();
@@ -273,30 +240,12 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
             e.onNext(map);
             e.onComplete();
 
-        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Map<String, Integer>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(Map<String, Integer> value) {
-                mMainLocalNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_01)));
-                mMainHistoryNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_02)));
-                mMainFavouriteNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_03)));
-                listAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
+        }).compose(RxSchedulers.io_main()).subscribe(value ->{
+            mMainLocalNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_01)));
+            mMainHistoryNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_02)));
+            mMainFavouriteNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_03)));
+            listAdapter.notifyDataSetChanged();
+        }));
     }
 
     @Override
