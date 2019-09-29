@@ -18,6 +18,7 @@ class MainLocalFragment : BaseFragment(){
     private val fragments : ArrayList<Fragment> = ArrayList()
     private val mTitles : ArrayList<String> = ArrayList()
     private var mPageAdapter : LazyFragmentPagerAdapter? = null
+    private lateinit var mBinder : MusicService.MusicBinder
 
 
     companion object{
@@ -41,14 +42,15 @@ class MainLocalFragment : BaseFragment(){
     }
 
     override fun initData() {
-        val binder  = arguments!!.getSerializable(FlagConstant.BINDER) as MusicService.MusicBinder
+        if (arguments == null) return
+        mBinder  = arguments!!.getSerializable(FlagConstant.BINDER) as MusicService.MusicBinder
         val localFragment  = ARouter.getInstance().build(RApp.LOCAL_FRAGMENT).navigation() as BaseFragment
         val authorFragment  = ARouter.getInstance().build(RApp.AUTHOR_FRAGMENT).navigation() as BaseFragment
         val albumsFragment = ARouter.getInstance().build(RApp.ALBUMS_FRAGMENT).navigation() as BaseFragment
 
-        localFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,binder) }
-        authorFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,binder) }
-        albumsFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,binder) }
+        localFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,mBinder) }
+        authorFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,mBinder) }
+        albumsFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,mBinder) }
 
 
         fragments.add(localFragment)
@@ -64,6 +66,14 @@ class MainLocalFragment : BaseFragment(){
     override fun getLayoutId(): Int {
         return R.layout.fragment_main_local
     }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // setArguments 只能在 new 时传递数据
+//        arguments = Bundle().also { it.putSerializable(FlagConstant.BINDER,mBinder) }
+    }
+
 
 
 }

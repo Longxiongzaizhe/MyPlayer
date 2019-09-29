@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -329,8 +330,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
     }
 
-
-
+    /**
+     * 关闭滑动条
+     * @param navigationView
+     */
     private void disableNavigationViewScrollbars(NavigationView navigationView) {
         if (navigationView != null) {
             for (int i = 0; i < navigationView.getChildCount(); i++) {
@@ -349,6 +352,28 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        PermissionsUtiles.onRequestPermissionsResult(requestCode,permissions,grantResults,this);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        PermissionsUtiles.onActivityResult(requestCode,this,permissions);
+    }
+
+    /**
+     *
+     */
+
+
+
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         unbindService(connection);
@@ -360,7 +385,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         if (keyCode == KeyEvent.KEYCODE_BACK){
 
         }
-
 
         return super.onKeyDown(keyCode, event);
     }
