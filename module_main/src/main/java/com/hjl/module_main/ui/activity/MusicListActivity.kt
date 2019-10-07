@@ -150,6 +150,7 @@ class MusicListActivity : BaseMvpMultipleActivity<MusicListPresenter>(), BaseQui
             MediaConstant.LIST_ALBUMS -> {
                 albumsManager.query(listId).let {
                     Glide.with(this).load(it.coverUrl).into(toolbar_iv)
+                    mTitleCenterTv.text = it.author
                 }
             }
             MediaConstant.LIST_AUTHOR -> {
@@ -203,7 +204,10 @@ class MusicListActivity : BaseMvpMultipleActivity<MusicListPresenter>(), BaseQui
         adapter.notifyDataSetChanged()
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        unbindService(connection)
+    }
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         mBinder.play(datalist[position])
         mBinder.setPlayList(datalist)
