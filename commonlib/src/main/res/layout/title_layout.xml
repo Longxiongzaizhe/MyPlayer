@@ -38,6 +38,8 @@
             android:textColor="@color/common_white"
             android:textStyle="normal"
             android:layout_gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
             tools:text="标题" />
         <TextView
             android:id="@+id/title_center_small_tv"
@@ -48,6 +50,8 @@
             android:textStyle="normal"
             android:layout_marginTop="2dp"
             android:visibility="gone"
+            android:maxLines="1"
+            android:ellipsize="end"
             tools:text="小标题"
             tools:visibility="visible"
             />

@@ -2,6 +2,7 @@ package com.hjl.module_main.mvp;
 
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -14,6 +15,7 @@ import com.hjl.commonlib.base.BaseMultipleActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hjl.commonlib.utils.PhotoUtils;
 import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.commonlib.utils.StringUtils;
@@ -26,8 +28,8 @@ public class ImageMultipleDisplayActivity extends BaseMultipleActivity implement
     private ViewPager mIvDisplayVp;
     private LazyFragmentPagerAdapter pagerAdapter;
     private List<Fragment> mFragments = new ArrayList<>();
-    private List<String> mImgs;
-    private List<Uri> mUris;
+    private List<String> mImgs; // 网络url
+    private List<Uri> mUris; // 本地Uri
     private int type; // 1 网络url 2 本地Uri 3 Bitmap
     private int position;
     private ImageView mDownLoadIv;
@@ -38,6 +40,8 @@ public class ImageMultipleDisplayActivity extends BaseMultipleActivity implement
     public static final int NETWORK_URL = 1;
     public static final int LOCAL_URI = 2;
     private FrameLayout mMultiplyDisplayLl;
+
+    public static final String IMG_TRANSITION = "IMG_TRANSITION";
 
     @Override
     public void initTitle() {
@@ -59,11 +63,13 @@ public class ImageMultipleDisplayActivity extends BaseMultipleActivity implement
         switch (type) {
             case NETWORK_URL:
                 mImgs = getIntent().getStringArrayListExtra(FlagConstant.INTENT_KEY02);
+                if (position < 0 || position > mImgs.size() - 1) position = 0;
                 displayUrl = mImgs.get(position);
                 break;
             case LOCAL_URI:
                 mUris = getIntent().getParcelableArrayListExtra(FlagConstant.INTENT_KEY02);
-              //  displayUrl = ImagePicker.getPath(ImageMultipleDisplayActivity.this, mUris.get(position));
+                if (position < 0 || position > mUris.size() - 1) position = 0;
+                displayUrl = PhotoUtils.getPath(ImageMultipleDisplayActivity.this, mUris.get(position));
                 break;
         }
     }
@@ -106,6 +112,16 @@ public class ImageMultipleDisplayActivity extends BaseMultipleActivity implement
         }
         mMultiplyDisplayLl = findViewById(R.id.multiply_display_ll);
         mMultiplyDisplayLl.setBackgroundColor(getResources().getColor(R.color.black));
+        initTransition();
+    }
+
+    public void initTransition(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
+            //ViewCompat.setTransitionName(mIvDisplayVp, IMG_TRANSITION);
+            mIvDisplayVp.setTransitionName(IMG_TRANSITION);
+            startPostponedEnterTransition();
+        }
     }
 
 

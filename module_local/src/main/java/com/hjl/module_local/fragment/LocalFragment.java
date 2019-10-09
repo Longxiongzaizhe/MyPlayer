@@ -330,6 +330,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
             mRefreshIv.setVisibility(View.VISIBLE);
             mSearchEt.setVisibility(View.GONE);
             mCancelTv.setVisibility(View.GONE);
+            mSearchEt.setText("");
         }
     }
 

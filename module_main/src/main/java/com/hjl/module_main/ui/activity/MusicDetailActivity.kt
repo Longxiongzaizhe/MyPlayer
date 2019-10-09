@@ -2,8 +2,10 @@ package com.hjl.module_main.ui.activity
 
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Handler
 import android.os.Message
+import android.support.v4.view.ViewCompat
 import android.view.View
 import android.widget.SeekBar
 import com.bumptech.glide.Glide
@@ -44,6 +46,14 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
     private var handler = MusicSeekHander(this)
     lateinit var player : MediaPlayer
 
+    companion object{
+        const val IMG_TRANSITION = "IMG_TRANSITION"
+        const val BTN_PLAY = "BTN_PLAY"
+        const val BTN_NEXT = "BTN_NEXT"
+        const val TV_NAME = "TV_NAME"
+        const val TV_AUTHOR = "TV_AUTHOR"
+    }
+
 
 
     override fun getLayoutId(): Int {
@@ -71,6 +81,9 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
     }
 
     override fun initView() {
+
+        initTransition()
+
         val entityId = intent.getLongExtra(FlagConstant.INTENT_KEY01,-1)
         if (entityId == -1L)  return
 
@@ -94,8 +107,19 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
         detail_next_btn.setOnClickListener(this)
         detail_menu_btn.setOnClickListener(this)
         detail_mode_btn.setOnClickListener(this)
+        mTitleLeftIv.setOnClickListener(this)
 
 
+    }
+
+    private fun initTransition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+           // ViewCompat.setTransitionName(detail_music_view, IMG_TRANSITION)
+            ViewCompat.setTransitionName(detail_play_btn, BTN_PLAY)
+            ViewCompat.setTransitionName(mTitleCenterTv, TV_NAME)
+            ViewCompat.setTransitionName(mTitleCenterSmallTv, TV_AUTHOR)
+            ViewCompat.setTransitionName(detail_next_btn, BTN_NEXT)
+        }
     }
 
     private fun initViewByMedia(entityId: Long) {
@@ -171,6 +195,9 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
 
                 popWindow?.showBackgroundDIM(window, -1f)
                 popWindow?.showAsDropDown(detail_mode_btn,DensityUtil.dp2px(50f),-DensityUtil.dp2px(200f))
+            }
+            R.id.title_left_iv -> {
+                finishAfterTransition()
             }
 
         }
