@@ -1,6 +1,11 @@
 package com.hjl.module_main.ui.fragment;
 
 import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+
+import android.support.v4.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -93,7 +98,19 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
             Intent intent = new Intent(getContext(), MusicDetailActivity.class);
             intent.putExtra(FlagConstant.INTENT_KEY01,currentEntity.id);
             intent.putExtra(FlagConstant.BINDER,mBinder);
-            startActivity(intent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && getContext() != null && getActivity() != null){
+                Pair<View,String> pair = new Pair<>(mMusicAlbumsIv, MusicDetailActivity.IMG_TRANSITION);
+                Pair<View,String> playBtnPair = new Pair<>(mMusicPlayIv, MusicDetailActivity.BTN_PLAY);
+                Pair<View,String> namePair = new Pair<>(mMusicNameTv, MusicDetailActivity.TV_NAME);
+                Pair<View,String> authorPair = new Pair<>(mMusicAuthorTv, MusicDetailActivity.TV_AUTHOR);
+                Pair<View,String> nextBtnPair = new Pair<>(mMusicNextIv, MusicDetailActivity.BTN_NEXT);
+                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),playBtnPair,namePair,authorPair,nextBtnPair);
+                ActivityCompat.startActivity(getContext(),intent,optionsCompat.toBundle());
+            }else {
+                startActivity(intent);
+            }
+
+          //  startActivity(intent);
         }
 
     }
