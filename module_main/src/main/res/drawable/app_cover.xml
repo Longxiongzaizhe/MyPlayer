@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <color android:color="@color/common_background_color"/>
+    </item>
+
+    <item android:top="250dp">
+        <bitmap
+            android:gravity="top|center_horizontal"
+            android:src="@drawable/ic_launcher" />
+    </item>
+
+    <item android:top="310dp">
+        <bitmap
+            android:gravity="top|center_horizontal"
+            android:src="@drawable/drawable_app_name"/>
+    </item>
+
+    <item android:bottom="50dp">
+        <bitmap
+            android:gravity="bottom|center_horizontal"
+            android:src="@drawable/drawable_app_text" />
+    </item>
+
+
+</layer-list>

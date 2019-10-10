@@ -74,7 +74,8 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private MediaRelManager relManager = MediaRelManager.getInstance();
 
     // title
-    private TextView mMainCenterTv;
+    private TextView mMainMineTv;
+    private TextView mMainListenTv;
     private ImageView mMainLeftIv;
     private ImageView mMainRightIv;
 
@@ -129,13 +130,15 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         navBackgrounpIv = navHeadView.findViewById(R.id.head_bg_iv);
         userNameTv.setText(SPUtils.get(this,SPConstant.USER_NAME,"Sunny"));
 
-        mMainCenterTv = findViewById(R.id.main_center_tv);
+        mMainMineTv = findViewById(R.id.main_center_tv);
         mMainLeftIv = findViewById(R.id.main_left_iv);
         mMainRightIv = findViewById(R.id.main_right_iv);
+        mMainListenTv = findViewById(R.id.main_listen_tv);
 
         mMainLeftIv.setImageResource(R.drawable.ic_menu);
         mMainLeftIv.setOnClickListener(this);
-        mMainCenterTv.setText("音乐园");
+        mMainMineTv.setText("音乐园");
+
 
         mMainNavView.setNavigationItemSelectedListener(menuItem -> {
 
@@ -285,17 +288,20 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         }
         switch (name){
             case FlagConstant.FRAGMENT_LOCAL:
-                mMainCenterTv.setText("本地音乐");
+                mMainMineTv.setText("本地音乐");
+                mMainListenTv.setVisibility(View.GONE);
                 mMainLeftIv.setImageResource(R.drawable.ic_back);
                 mMainLeftIv.setOnClickListener((v)-> popBackStack());
                 break;
             case FlagConstant.FRAGMENT_RECENT:
-                mMainCenterTv.setText("最近播放");
+                mMainMineTv.setText("最近播放");
+                mMainListenTv.setVisibility(View.GONE);
                 mMainLeftIv.setImageResource(R.drawable.ic_back);
                 mMainLeftIv.setOnClickListener((v)-> popBackStack());
                 break;
             case FlagConstant.FRAGMENT_FAVORITE:
-                mMainCenterTv.setText("我的收藏");
+                mMainMineTv.setText("我的收藏");
+                mMainListenTv.setVisibility(View.GONE);
                 mMainLeftIv.setImageResource(R.drawable.ic_back);
                 mMainLeftIv.setOnClickListener((v)-> popBackStack());
                 break;
@@ -331,7 +337,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     }
 
     /**
-     * 关闭滑动条
+     * 关闭抽屉布局滑动条
      * @param navigationView
      */
     private void disableNavigationViewScrollbars(NavigationView navigationView) {
@@ -421,7 +427,8 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                     if (fragment != null) {
                         fragment.notifyDataChange();
                     }
-                    mMainCenterTv.setText("音乐园");
+                    mMainMineTv.setText("音乐园");
+                    mMainListenTv.setVisibility(View.VISIBLE);
                     mMainLeftIv.setImageResource(R.drawable.ic_menu);
                     mMainLeftIv.setOnClickListener((v)-> mMainDrawerLayout.openDrawer(GravityCompat.START));
                 }
