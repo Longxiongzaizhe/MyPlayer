@@ -67,8 +67,8 @@ public class MainAgentFragment extends BaseFragment {
             transaction = fragmentManager.beginTransaction();
             transaction.show(fragment);
             if (lastFragment != null){
-                transaction.hide(lastFragment);
-                Log.i("popback","not null:" + lastFragment.getClass());
+                transaction.hide(lastFragment); // 隐藏防止重叠 TODO: 获取不到上一个lastFragment 这里始终为空
+                Log.i("showFragment","not null:" + lastFragment.getClass());
             }else {
                 Log.i("popback","null");
             }

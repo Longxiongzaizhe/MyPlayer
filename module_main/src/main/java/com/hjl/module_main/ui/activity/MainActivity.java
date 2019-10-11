@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -18,13 +19,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -33,6 +37,7 @@ import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.base.BaseMultipleActivity;
 import com.hjl.commonlib.mview.NoScrollViewPager;
 import com.hjl.commonlib.utils.PermissionsUtiles;
+import com.hjl.commonlib.utils.TabLayoutUtils;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
@@ -144,6 +149,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         mMainMineTv.setText("音乐园");
 
 
+
+
+
+
         mMainNavView.setNavigationItemSelectedListener(menuItem -> {
 
             int itemId = menuItem.getItemId();
@@ -210,6 +219,43 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         viewPager.setNoScroll(false);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab != null) {
+                tab.setCustomView(getTabView(i));
+            }
+        }
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                View view = tab.getCustomView();
+                if (view instanceof TextView) {
+                    ((TextView) view).setTextSize(22);
+                    ((TextView) view).getPaint().setFakeBoldText(true);
+                    ((TextView) view).setTextColor(getResources().getColor(R.color.white_EAEAEA));
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                View view = tab.getCustomView();
+                if (view instanceof TextView) {
+                    ((TextView) view).setTextSize(18);
+                    ((TextView) view).getPaint().setFakeBoldText(false);
+                    ((TextView) view).setTextColor(getResources().getColor(R.color.common_white));
+                }
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        tabLayout.setSelected(true);
 
 
         Intent startMusicIntent = new Intent(this,MusicService.class);
@@ -278,21 +324,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     };
 
     public void showFragment(String name){
-
-//        BaseFragment fragment =(BaseFragment) getSupportFragmentManager().findFragmentByTag(name);
-//        if (fragment != null){
-//            transaction = getSupportFragmentManager().beginTransaction();
-//            transaction.show(fragment);
-//            if (lastFragment != null){
-//                transaction.hide(lastFragment);
-//            }
-//            //lastFragment = fragment;
-//            fragment.notifyDataChange();
-//            transaction.addToBackStack(null);
-//            transaction.commit();
-//        }else {
-//            ToastUtil.showSingleToast(name + "is no found");
-//        }
         switch (name){
             case FlagConstant.FRAGMENT_LOCAL:
                 mMainMineTv.setText("本地音乐");
@@ -333,6 +364,15 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
         }
     }
+
+    private View getTabView(int currentPosition) {
+        View view = LayoutInflater.from(this).inflate(R.layout.item_tab, null);
+        TextView textView =  view.findViewById(R.id.tab_item_tv);
+        textView.setText(tabTitleList.get(currentPosition));
+        return view;
+    }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -385,8 +425,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             backStackEntryCount = fragmentManager.getBackStackEntryCount();
             //二次判断
             if (backStackEntryCount>0){
-                // 经验证  backStackEntryAt.getName()始终为空 切调用popBackStackImmediate（）不必手动hide（）fragment
-                // 退栈完 元素 -1 就是当前的栈顶Fragment
+                // 退栈完 元素 -1 就是当前的栈顶Fragment TODO:经验证  backStackEntryAt.getName()始终为空
                 FragmentManager.BackStackEntry backStackEntryAt = fragmentManager.getBackStackEntryAt(backStackEntryCount - 1);
                 // 重新获取name
                 String name = backStackEntryAt.getName();
