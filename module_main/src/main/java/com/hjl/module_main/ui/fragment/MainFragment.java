@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hjl.commonlib.base.BaseActivity;
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment;
 import com.hjl.commonlib.mview.BaseMarkDialog;
 import com.hjl.commonlib.mview.BaseTipDialog;
@@ -74,6 +75,7 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
 
     private MusicService.MusicBinder mBinder;
 
+    private MainAgentFragment agentFragment;
 
 
 
@@ -154,8 +156,9 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
         // setAdapter 需要在设置菜单之后
         mListRv.setAdapter(listAdapter);
 
+        agentFragment =(MainAgentFragment) getParentFragment();
         Intent startMusicIntent = new Intent(getContext(), MusicService.class);
-        getActivity().bindService(startMusicIntent,connection,getActivity().BIND_AUTO_CREATE) ;
+        getActivity().bindService(startMusicIntent,connection, BaseActivity.BIND_AUTO_CREATE) ;
     }
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -200,11 +203,11 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
         } else if (id == R.id.main_download_play) {
 
         } else if (id == R.id.local_lay) {
-            activity.showFragment(FlagConstant.FRAGMENT_LOCAL);
+            agentFragment.showFragment(FlagConstant.FRAGMENT_LOCAL);
         } else if (id == R.id.history_lay) {
-            activity.showFragment(FlagConstant.FRAGMENT_RECENT);
+            agentFragment.showFragment(FlagConstant.FRAGMENT_RECENT);
         } else if (id == R.id.favourite_lay) {
-            activity.showFragment(FlagConstant.FRAGMENT_FAVORITE);
+            agentFragment.showFragment(FlagConstant.FRAGMENT_FAVORITE);
         } else if (id == R.id.download_lay) {
         } else if (id == R.id.main_list_add) {
             BaseMarkDialog dialog = new BaseMarkDialog(getContext(), BaseMarkDialog.MarkDialogEnum.DIALOG_SMALL_MARK);
