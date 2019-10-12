@@ -1,1 +1,1 @@
-include ':app', ':commonlib', ':testmodule', ':module_main', ':module_local'
+include ':app', ':commonlib', ':testmodule', ':module_main', ':module_local', ':module_net'

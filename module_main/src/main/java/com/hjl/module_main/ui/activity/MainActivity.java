@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Paint;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -19,25 +18,23 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.hjl.commonlib.adapter.LazyFragmentPagerAdapter;
 import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.base.BaseMultipleActivity;
+import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment;
 import com.hjl.commonlib.mview.NoScrollViewPager;
 import com.hjl.commonlib.utils.PermissionsUtiles;
-import com.hjl.commonlib.utils.TabLayoutUtils;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
@@ -45,13 +42,11 @@ import com.hjl.module_main.constant.SPConstant;
 import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
-import com.hjl.module_main.ui.fragment.FavoriteFragment;
-import com.hjl.module_main.ui.fragment.MainAgentFragment;
-import com.hjl.module_main.ui.fragment.MainFragment;
-import com.hjl.module_main.ui.fragment.MainLocalFragment;
-import com.hjl.module_main.ui.fragment.MusicService;
+import com.hjl.module_main.router.RLocal;
+import com.hjl.module_main.ui.fragment.local.MainAgentFragment;
+import com.hjl.module_main.ui.fragment.local.MainFragment;
+import com.hjl.module_main.service.MusicService;
 import com.hjl.module_main.ui.fragment.PlayFragment;
-import com.hjl.module_main.ui.fragment.RecentlyFragment;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;
 
@@ -210,9 +205,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         fragments = new ArrayList<>();
 
         agentFragment = MainAgentFragment.newInstance();
-        MainFragment mainFragment = MainFragment.newInstance();
+        BaseMvpMultipleFragment netMainFragment = (BaseMvpMultipleFragment)ARouter.getInstance().build(RLocal.LOCAL_FRAGMENT).navigation();
         fragments.add(agentFragment);
-        fragments.add(mainFragment);
+        fragments.add(netMainFragment);
         tabTitleList.add("我");
         tabTitleList.add("听");
         pagerAdapter = new LazyFragmentPagerAdapter(getSupportFragmentManager(),fragments,tabTitleList);
@@ -369,6 +364,11 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         View view = LayoutInflater.from(this).inflate(R.layout.item_tab, null);
         TextView textView =  view.findViewById(R.id.tab_item_tv);
         textView.setText(tabTitleList.get(currentPosition));
+        if (currentPosition == 0){
+            textView.setTextSize(22);
+            textView.getPaint().setFakeBoldText(true);
+            textView.setTextColor(getResources().getColor(R.color.white_EAEAEA));
+        }
         return view;
     }
 

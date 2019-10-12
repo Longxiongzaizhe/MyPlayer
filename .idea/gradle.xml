@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/commonlib" />
             <option value="$PROJECT_DIR$/module_local" />
             <option value="$PROJECT_DIR$/module_main" />
+            <option value="$PROJECT_DIR$/module_net" />
             <option value="$PROJECT_DIR$/testmodule" />
           </set>
         </option>

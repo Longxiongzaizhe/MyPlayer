@@ -13,7 +13,6 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.hjl.commonlib.base.BaseMultipleActivity
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleActivity
 import com.hjl.commonlib.mview.IOSDialog
 import com.hjl.commonlib.utils.PhotoUtils
@@ -26,7 +25,7 @@ import com.hjl.module_main.mvp.contract.MusicListContract
 import com.hjl.module_main.mvp.presenter.impl.MusicListPresenter
 import com.hjl.module_main.router.RMain
 import com.hjl.module_main.ui.adapter.MusicAdapter
-import com.hjl.module_main.ui.fragment.MusicService
+import com.hjl.module_main.service.MusicService
 import com.hjl.module_main.utils.FileUtils
 import com.yanzhenjie.recyclerview.touch.OnItemMoveListener
 import kotlinx.android.synthetic.main.activity_music_list.*

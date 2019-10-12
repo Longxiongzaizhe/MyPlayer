@@ -1,4 +1,4 @@
-package com.hjl.module_main.ui.fragment;
+package com.hjl.module_main.service;
 
 
 import com.hjl.module_main.daodb.MediaEntity;

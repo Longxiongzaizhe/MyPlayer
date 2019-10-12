@@ -25,8 +25,8 @@ import com.hjl.module_main.constant.SPConstant
 import com.hjl.module_main.daodb.MediaDaoManager
 import com.hjl.module_main.daodb.MediaEntity
 import com.hjl.module_main.customview.MusicModePopWindow
-import com.hjl.module_main.ui.fragment.MusicInterface
-import com.hjl.module_main.ui.fragment.MusicService
+import com.hjl.module_main.service.MusicInterface
+import com.hjl.module_main.service.MusicService
 import com.hjl.module_main.utils.SPUtils
 import kotlinx.android.synthetic.main.activity_music_detail.*
 import org.greenrobot.eventbus.EventBus

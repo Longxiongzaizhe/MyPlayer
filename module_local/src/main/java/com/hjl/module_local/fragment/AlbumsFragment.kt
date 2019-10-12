@@ -16,8 +16,9 @@ import com.hjl.module_main.customview.WrapContentGridLayoutManager
 import com.hjl.module_main.daodb.MediaAlbumsEntity
 import com.hjl.module_main.daodb.MediaAlbumsManager
 import com.hjl.module_main.router.RApp
+import com.hjl.module_main.router.RLocal
 import com.hjl.module_main.router.RMain
-import com.hjl.module_main.ui.fragment.MusicService
+import com.hjl.module_main.service.MusicService
 import com.hjl.module_main.utils.MediaUtils
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
@@ -28,7 +29,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.local_fragment_album.*
 
 
-@Route(path = RApp.ALBUMS_FRAGMENT)
+@Route(path = RLocal.ALBUMS_FRAGMENT)
 class AlbumsFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener {
 
 

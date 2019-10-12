@@ -1,5 +1,2 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hjl.commonlib" >
-
-
-</manifest>
+    package="com.hjl.module_net" />

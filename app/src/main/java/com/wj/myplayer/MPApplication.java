@@ -2,10 +2,13 @@ package com.wj.myplayer;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.hjl.commonlib.base.BaseApplication;
+import com.hjl.commonlib.network.NetWorkStateReceiver;
+import com.hjl.commonlib.utils.NetWorkUtils;
 import com.hjl.module_main.module.IComponentApplication;
 
 public class MPApplication extends BaseApplication {
@@ -23,6 +26,8 @@ public class MPApplication extends BaseApplication {
         Log.d("print", "onCreate: 执行初始化");
         sInst = this;
         modulesApplicationInit();
+
+        NetWorkUtils.registerNerWorkReceiver(this);
     }
 
     private void modulesApplicationInit() {
@@ -79,5 +84,7 @@ public class MPApplication extends BaseApplication {
     public static MPApplication get(){
         return sInst;
     }
+
+
 
 }

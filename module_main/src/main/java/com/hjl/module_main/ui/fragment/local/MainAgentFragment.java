@@ -1,4 +1,4 @@
-package com.hjl.module_main.ui.fragment;
+package com.hjl.module_main.ui.fragment.local;
 
 import android.content.ComponentName;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.R;
 import com.hjl.module_main.ui.activity.MainActivity;
+import com.hjl.module_main.service.MusicService;
 
 
 /**
