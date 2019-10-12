@@ -3,9 +3,9 @@ package com.hjl.module_net
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment
-import com.hjl.module_main.R
-import com.hjl.module_main.mvp.presenter.impl.NetMainPresenter
 import com.hjl.module_main.router.RNet
+import com.hjl.module_net.presenter.impl.NetMainPresenter
+
 
 /**
  * created by long on 2019/10/12

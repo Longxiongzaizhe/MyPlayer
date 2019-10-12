@@ -43,6 +43,7 @@ import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
 import com.hjl.module_main.router.RLocal;
+import com.hjl.module_main.router.RNet;
 import com.hjl.module_main.ui.fragment.local.MainAgentFragment;
 import com.hjl.module_main.ui.fragment.local.MainFragment;
 import com.hjl.module_main.service.MusicService;
@@ -205,7 +206,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         fragments = new ArrayList<>();
 
         agentFragment = MainAgentFragment.newInstance();
-        BaseMvpMultipleFragment netMainFragment = (BaseMvpMultipleFragment)ARouter.getInstance().build(RLocal.LOCAL_FRAGMENT).navigation();
+        BaseMvpMultipleFragment netMainFragment = (BaseMvpMultipleFragment)ARouter.getInstance().build(RNet.RNetMain).navigation();
         fragments.add(agentFragment);
         fragments.add(netMainFragment);
         tabTitleList.add("我");
