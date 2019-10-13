@@ -19,11 +19,12 @@ import com.hjl.module_main.constant.MediaConstant
 import com.hjl.module_main.daodb.MediaAuthorEntity
 import com.hjl.module_main.daodb.MediaAuthorManager
 import com.hjl.module_main.router.RApp
+import com.hjl.module_main.router.RLocal
 import com.hjl.module_main.router.RMain
-import com.hjl.module_main.ui.fragment.MusicService
+import com.hjl.module_main.service.MusicService
 import kotlinx.android.synthetic.main.local_fragment_author.*
 
-@Route(path = RApp.AUTHOR_FRAGMENT)
+@Route(path = RLocal.AUTHOR_FRAGMENT)
 class AuthorFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener {
 
 

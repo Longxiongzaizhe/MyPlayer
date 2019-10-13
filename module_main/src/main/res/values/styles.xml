@@ -9,4 +9,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@drawable/app_cover</item>
     </style>
+
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">@dimen/text_plus_size</item>
+    </style>
 </resources>

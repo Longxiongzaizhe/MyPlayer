@@ -21,6 +21,8 @@ import com.hjl.module_main.R;
 
 import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.module_main.daodb.MediaEntity;
+import com.hjl.module_main.service.MusicInterface;
+import com.hjl.module_main.service.MusicService;
 import com.hjl.module_main.ui.activity.MusicDetailActivity;
 import com.hjl.module_main.utils.MediaUtils;
 

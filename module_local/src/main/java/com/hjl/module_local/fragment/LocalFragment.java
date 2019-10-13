@@ -33,8 +33,9 @@ import com.hjl.module_main.router.RApp;
 import com.hjl.module_main.customview.AddToListDialog;
 import com.hjl.module_main.customview.MusicEditPopWindow;
 import com.hjl.module_main.customview.MusicModePopWindow;
+import com.hjl.module_main.router.RLocal;
 import com.hjl.module_main.ui.adapter.MusicAdapter;
-import com.hjl.module_main.ui.fragment.MusicService;
+import com.hjl.module_main.service.MusicService;
 import com.hjl.module_main.utils.FileUtils;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;
@@ -60,7 +61,7 @@ import static com.hjl.module_main.constant.MediaConstant.MusicMode.SEQUENT;
 import static com.hjl.module_main.constant.MediaConstant.MusicMode.SINGLE;
 import static com.hjl.module_main.constant.MediaConstant.RECENTLY_LIST;
 
-@Route(path = RApp.LOCAL_FRAGMENT)
+@Route(path = RLocal.LOCAL_FRAGMENT)
 public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private RecyclerView mLocalMusicRv;

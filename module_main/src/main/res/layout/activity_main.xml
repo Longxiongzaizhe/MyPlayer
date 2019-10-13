@@ -29,35 +29,33 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
-            <LinearLayout
+            <android.support.design.widget.TabLayout
+                android:id="@+id/main_tab_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:minWidth="150dp"
+                app:tabTextAppearance="@style/TabLayoutTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-                <TextView
-                    android:id="@+id/main_center_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_plus_size"
-                    android:textColor="@color/common_white"
-                    android:textStyle="normal"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/base_padding_size"
-                    tools:text="我" />
-                <TextView
-                    android:id="@+id/main_listen_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_plus_size"
-                    android:textColor="@color/common_white"
-                    android:textStyle="normal"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/base_padding_size"
-                    tools:text="听"/>
-            </LinearLayout>
+                app:layout_constraintTop_toTopOf="parent"
+                app:tabIndicatorColor="@color/transparent"
+                app:tabTextColor="@color/common_white"/>
+            <TextView
+                android:id="@+id/main_center_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_plus_size"
+                android:textColor="@color/common_white"
+                android:textStyle="normal"
+                android:layout_gravity="center"
+                android:padding="@dimen/base_padding_size"
+                android:visibility="gone"
+                tools:text="我"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>/>
 
 
 
@@ -90,12 +88,11 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="0dp">
-            <FrameLayout
-                android:id="@+id/fragment_frame"
+            <com.hjl.commonlib.mview.NoScrollViewPager
+                android:id="@+id/main_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="60dp">
-            </FrameLayout>
+                android:paddingBottom="60dp"/>
             <fragment
                 android:id="@+id/music_play_lay"
                 android:name="com.hjl.module_main.ui.fragment.PlayFragment"

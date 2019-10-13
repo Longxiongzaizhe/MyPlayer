@@ -1,4 +1,4 @@
-package com.hjl.module_main.ui.fragment;
+package com.hjl.module_main.ui.fragment.local;
 
 import android.content.ComponentName;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hjl.commonlib.base.BaseActivity;
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment;
 import com.hjl.commonlib.mview.BaseMarkDialog;
 import com.hjl.commonlib.mview.BaseTipDialog;
@@ -34,6 +35,7 @@ import com.hjl.module_main.mvp.presenter.impl.MainPresenter;
 import com.hjl.module_main.ui.activity.MainActivity;
 import com.hjl.module_main.ui.activity.MusicListActivity;
 import com.hjl.module_main.ui.adapter.MusicListAdapter;
+import com.hjl.module_main.service.MusicService;
 import com.hjl.module_main.utils.MediaUtils;
 import com.yanzhenjie.recyclerview.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
@@ -74,6 +76,7 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
 
     private MusicService.MusicBinder mBinder;
 
+    private MainAgentFragment agentFragment;
 
 
 
@@ -116,7 +119,8 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
         mListRv = view.findViewById(R.id.main_list_rv);
         listAdapter = new MusicListAdapter(musicList);
 
-        mListRv.setItemViewSwipeEnabled(false);
+
+
         mListRv.setLayoutManager(new LinearLayoutManager(getContext()));
         mListRv.addItemDecoration(new RecycleViewVerticalDivider(getContext(),1,getResources().getColor(R.color.common_divider_line_color)));
 
@@ -136,26 +140,35 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
             // SwipeRecyclerView.RIGHT_DIRECTION SwipeRecyclerView.LEFT_DIRECTION
             // 菜单在Item中的Position：
             int menuPosition = menuBridge.getPosition();
+            if (musicList.size() == 0){
+                mListRv.setItemViewSwipeEnabled(false);
+                return;
+            }
             BaseTipDialog dialog = new BaseTipDialog(getContext(), BaseTipDialog.TipDialogEnum.DIALOG_WITH_CONTENT).
                         setTitle("是否删除列表" + musicList.get(adapterPosition).name + "?").setContent("删除此列表数据但不包括歌曲文件");
+            dialog.setOnConfirmClickListener(v -> {
+                listManager.delete(musicList.get(adapterPosition));
+                musicList.remove(adapterPosition);
+                listAdapter.notifyItemRemoved(adapterPosition);
+                dialog.dismiss();
+                if (musicList.size() == 0){
+                    mListRv.setItemViewSwipeEnabled(false);
+                }
+            }).setOnCancelClickListener(v -> {
+                listAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }).show();
 
-                dialog.setOnConfirmClickListener(v -> {
-                    listManager.delete(musicList.get(adapterPosition));
-                    musicList.remove(adapterPosition);
-                    listAdapter.notifyItemRemoved(adapterPosition);
-                    dialog.dismiss();
-                }).setOnCancelClickListener(v -> {
-                    listAdapter.notifyDataSetChanged();
-                    dialog.dismiss();
-                }).show();
         });
+        mListRv.setItemViewSwipeEnabled(false);
         listAdapter.setOnItemClickListener(this);
 
         // setAdapter 需要在设置菜单之后
         mListRv.setAdapter(listAdapter);
 
+        agentFragment =(MainAgentFragment) getParentFragment();
         Intent startMusicIntent = new Intent(getContext(), MusicService.class);
-        getActivity().bindService(startMusicIntent,connection,getActivity().BIND_AUTO_CREATE) ;
+        getActivity().bindService(startMusicIntent,connection, BaseActivity.BIND_AUTO_CREATE) ;
     }
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -200,11 +213,11 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
         } else if (id == R.id.main_download_play) {
 
         } else if (id == R.id.local_lay) {
-            activity.showFragment(FlagConstant.FRAGMENT_LOCAL);
+            agentFragment.showFragment(FlagConstant.FRAGMENT_LOCAL);
         } else if (id == R.id.history_lay) {
-            activity.showFragment(FlagConstant.FRAGMENT_RECENT);
+            agentFragment.showFragment(FlagConstant.FRAGMENT_RECENT);
         } else if (id == R.id.favourite_lay) {
-            activity.showFragment(FlagConstant.FRAGMENT_FAVORITE);
+            agentFragment.showFragment(FlagConstant.FRAGMENT_FAVORITE);
         } else if (id == R.id.download_lay) {
         } else if (id == R.id.main_list_add) {
             BaseMarkDialog dialog = new BaseMarkDialog(getContext(), BaseMarkDialog.MarkDialogEnum.DIALOG_SMALL_MARK);
@@ -216,6 +229,7 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
                 musicList.addAll(listManager.loadAll());
                 listAdapter.notifyDataSetChanged();
                 ToastUtil.showSingleToast("添加成功");
+                mListRv.setItemViewSwipeEnabled(true);
             });
             dialog.show();
         } else if (id == R.id.main_list_edit) {
@@ -244,6 +258,11 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
             mMainLocalNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_01)));
             mMainHistoryNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_02)));
             mMainFavouriteNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_03)));
+            if (musicList.size() > 0){
+                mListRv.setItemViewSwipeEnabled(true);
+            }else {
+                mListRv.setItemViewSwipeEnabled(false);
+            }
             listAdapter.notifyDataSetChanged();
         }));
     }

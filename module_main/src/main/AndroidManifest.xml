@@ -16,7 +16,7 @@
         </activity>
 
         <service
-            android:name="com.hjl.module_main.ui.fragment.MusicService"
+            android:name="com.hjl.module_main.service.MusicService"
             android:enabled="true"
             android:exported="true" />
     </application>

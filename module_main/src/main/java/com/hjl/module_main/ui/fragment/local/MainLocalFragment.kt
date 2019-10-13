@@ -1,4 +1,4 @@
-package com.hjl.module_main.ui.fragment
+package com.hjl.module_main.ui.fragment.local
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,6 +10,8 @@ import com.hjl.module_main.R
 
 import com.hjl.module_main.constant.FlagConstant
 import com.hjl.module_main.router.RApp
+import com.hjl.module_main.router.RLocal
+import com.hjl.module_main.service.MusicService
 
 import kotlinx.android.synthetic.main.fragment_main_local.*
 
@@ -44,9 +46,9 @@ class MainLocalFragment : BaseFragment(){
     override fun initData() {
         if (arguments == null) return
         mBinder  = arguments!!.getSerializable(FlagConstant.BINDER) as MusicService.MusicBinder
-        val localFragment  = ARouter.getInstance().build(RApp.LOCAL_FRAGMENT).navigation() as BaseFragment
-        val authorFragment  = ARouter.getInstance().build(RApp.AUTHOR_FRAGMENT).navigation() as BaseFragment
-        val albumsFragment = ARouter.getInstance().build(RApp.ALBUMS_FRAGMENT).navigation() as BaseFragment
+        val localFragment  = ARouter.getInstance().build(RLocal.LOCAL_FRAGMENT).navigation() as BaseFragment
+        val authorFragment  = ARouter.getInstance().build(RLocal.AUTHOR_FRAGMENT).navigation() as BaseFragment
+        val albumsFragment = ARouter.getInstance().build(RLocal.ALBUMS_FRAGMENT).navigation() as BaseFragment
 
         localFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,mBinder) }
         authorFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,mBinder) }

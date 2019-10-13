@@ -5,6 +5,7 @@ import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hjl.commonlib.base.BaseMultipleActivity
 import com.hjl.module_main.router.RApp
+import com.hjl.module_main.router.RLocal
 import io.reactivex.Observable
 import io.reactivex.Observable.create
 import io.reactivex.ObservableOnSubscribe
@@ -101,7 +102,7 @@ class RxJavaTestActivity : BaseMultipleActivity(), View.OnClickListener {
                     subscribeOn(Schedulers.newThread()). // 新线程执行耗时操作
                     observeOn(AndroidSchedulers.mainThread()). // 主线程进行UI更新等
                     subscribe(observer)
-            R.id.test_btn_four -> ARouter.getInstance().build(RApp.LOCAL_FRAGMENT).navigation()
+            R.id.test_btn_four -> ARouter.getInstance().build(RLocal.LOCAL_FRAGMENT).navigation()
 
         }
     }
