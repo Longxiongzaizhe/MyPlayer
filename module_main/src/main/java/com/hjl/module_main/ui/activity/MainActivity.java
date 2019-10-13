@@ -145,10 +145,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         mMainMineTv.setText("音乐园");
 
 
-
-
-
-
         mMainNavView.setNavigationItemSelectedListener(menuItem -> {
 
             int itemId = menuItem.getItemId();

@@ -4,6 +4,7 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment
 import com.hjl.module_main.router.RNet
+import com.hjl.module_net.contract.NetMainContract
 import com.hjl.module_net.presenter.impl.NetMainPresenter
 
 
@@ -12,7 +13,7 @@ import com.hjl.module_net.presenter.impl.NetMainPresenter
  */
 
 @Route(path = RNet.RNetMain)
-class NetMainFragment : BaseMvpMultipleFragment<NetMainPresenter>() {
+class NetMainFragment : BaseMvpMultipleFragment<NetMainPresenter>(),NetMainContract.INetMainView {
 
     override fun createPresenter(): NetMainPresenter {
         return NetMainPresenter()

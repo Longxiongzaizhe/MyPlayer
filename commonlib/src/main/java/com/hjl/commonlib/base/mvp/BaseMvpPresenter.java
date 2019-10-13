@@ -20,7 +20,7 @@ import io.reactivex.schedulers.Schedulers;
  * @author "huangasys"
  * @date 2019/8/14
  */
-public abstract class BaseMvpPresenter<V extends IBaseMvpView>  implements InvocationHandler {
+public abstract class BaseMvpPresenter<V extends IBaseMvpView> implements InvocationHandler {
 
     // 当前 View 对象
     private V mView;
