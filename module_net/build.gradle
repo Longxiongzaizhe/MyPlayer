@@ -79,4 +79,7 @@ dependencies {
     /* 每个module都需要加入*/
     api deps.arouter_api
     kapt deps.arouter_compiler
+
+    // 轮播图banner
+    implementation 'com.abby.app:xbanner:1.5.7'
 }
