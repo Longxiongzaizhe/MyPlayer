@@ -10,8 +10,8 @@ android {
         applicationId "com.wj.myplayer"
         minSdkVersion build_version.min_sdk
         targetSdkVersion build_version.target_sdk
-        versionCode 2
-        versionName "1.0"
+        versionCode build_version.versionCode
+        versionName build_version.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 
@@ -59,6 +59,7 @@ dependencies {
     api project(':module_main')
 
     kapt deps.arouter_compiler
+
     if(!isModule.toBoolean()){
         api project(':testmodule')
         api project(':module_local')
@@ -73,7 +74,7 @@ repositories {
 }
 
 
-def buildTime() {
+static def buildTime() {
     def date = new Date()
     def formattedDate = date.format('yyyy_MM_dd--HH_mm')
     return formattedDate

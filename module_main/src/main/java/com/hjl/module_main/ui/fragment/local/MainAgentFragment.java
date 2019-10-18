@@ -14,8 +14,11 @@ import com.hjl.commonlib.base.BaseActivity;
 import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.R;
+import com.hjl.module_main.bean.MainFragmentBusBean;
 import com.hjl.module_main.ui.activity.MainActivity;
 import com.hjl.module_main.service.MusicService;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 /**
@@ -78,6 +81,7 @@ public class MainAgentFragment extends BaseFragment {
             fragment.notifyDataChange();
             transaction.addToBackStack(null);
             transaction.commit();
+            EventBus.getDefault().post(new MainFragmentBusBean(name));
         }else {
             ToastUtil.showSingleToast(name + "is no found");
         }

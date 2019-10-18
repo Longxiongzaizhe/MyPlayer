@@ -1,6 +1,8 @@
 package com.hjl.module_net
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -9,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment
 import com.hjl.commonlib.utils.ToastUtil
 import com.hjl.module_main.router.RNet
+import com.hjl.module_main.utils.FileUtils
 import com.hjl.module_net.contract.NetMainContract
 import com.hjl.module_net.net.BannerVo
 import com.hjl.module_net.presenter.impl.NetMainPresenter
@@ -42,7 +45,8 @@ class NetMainFragment : BaseMvpMultipleFragment<NetMainPresenter>(),NetMainContr
 
     override fun onDestroy() {
         super.onDestroy()
-        net_main_banner.releaseBanner()
+
+        net_main_banner?.releaseBanner()
     }
 
     override fun onGetBannerSuccess(vo: BannerVo?) {

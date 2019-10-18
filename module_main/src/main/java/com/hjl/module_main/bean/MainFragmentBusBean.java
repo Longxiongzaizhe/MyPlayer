@@ -2,9 +2,17 @@ package com.hjl.module_main.bean;
 
 public class MainFragmentBusBean {
 
-    long type;
+    String name;
 
-    public MainFragmentBusBean(long type) {
-        this.type = type;
+    public MainFragmentBusBean(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/module_main" />
             <option value="$PROJECT_DIR$/module_net" />
             <option value="$PROJECT_DIR$/testmodule" />
+            <option value="$PROJECT_DIR$/zbarlibary" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

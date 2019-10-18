@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -37,6 +38,7 @@ import com.hjl.commonlib.mview.NoScrollViewPager;
 import com.hjl.commonlib.utils.PermissionsUtiles;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.R;
+import com.hjl.module_main.bean.MainFragmentBusBean;
 import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.module_main.constant.SPConstant;
 import com.hjl.module_main.daodb.MediaDaoManager;
@@ -51,8 +53,15 @@ import com.hjl.module_main.ui.fragment.PlayFragment;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.bertsir.zbar.QrConfig;
+import cn.bertsir.zbar.QrManager;
+
 
 public class MainActivity extends BaseMultipleActivity implements View.OnClickListener {
 
@@ -113,6 +122,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     @Override
     public void initTitle() {
         mTitleCl.setVisibility(View.GONE);
+        EventBus.getDefault().register(this);
 
     }
 
@@ -139,10 +149,11 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         mMainMineTv = findViewById(R.id.main_center_tv);
         mMainLeftIv = findViewById(R.id.main_left_iv);
         mMainRightIv = findViewById(R.id.main_right_iv);
+        mMainRightIv.setImageResource(R.drawable.icon_scan_code);
+        mMainRightIv.setOnClickListener(this);
 
         mMainLeftIv.setImageResource(R.drawable.ic_menu);
         mMainLeftIv.setOnClickListener(this);
-        mMainMineTv.setText("音乐园");
 
 
         mMainNavView.setNavigationItemSelectedListener(menuItem -> {
@@ -276,6 +287,23 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             mMainDrawerLayout.openDrawer(GravityCompat.START);
         } else if (id == R.id.nav_head_iv) {//startActivity(TestActivity.class);
         } else if (id == R.id.main_right_iv) {
+
+            QrConfig qrConfig = new QrConfig.Builder()
+                    .setTitleText("扫描二维码")
+                    .setAutoZoom(false) // 自动缩放
+                    .setLooperScan(false) // 连续扫描
+                    .setFingerZoom(true) // 手动缩放
+                    .setShowVibrator(true)
+                    .setTitleBackgroudColor(getResources().getColor(R.color.common_base_theme_blue))
+                    .setCornerColor(Color.WHITE)//设置扫描框颜色
+                    .setLineColor(Color.WHITE) //设置扫描线颜色
+                    .setShowLight(true)
+                    .create();
+            QrManager.getInstance().init(qrConfig).startScan(this, result -> {
+                ToastUtil.showSingleToast(result.getContent());
+            });
+
+
         }
     }
 
@@ -315,20 +343,33 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         }
     };
 
-    public void showFragment(String name){
+    @Subscribe
+    public void showTitle(MainFragmentBusBean busBean){
+
+        String name = busBean.getName();
+
         switch (name){
             case FlagConstant.FRAGMENT_LOCAL:
                 mMainMineTv.setText("本地音乐");
+                mMainRightIv.setVisibility(View.GONE);
+                mMainMineTv.setVisibility(View.VISIBLE);
+                tabLayout.setVisibility(View.GONE);
                 mMainLeftIv.setImageResource(R.drawable.ic_back);
                 mMainLeftIv.setOnClickListener((v)-> popBackStack());
                 break;
             case FlagConstant.FRAGMENT_RECENT:
                 mMainMineTv.setText("最近播放");
+                mMainRightIv.setVisibility(View.GONE);
+                mMainMineTv.setVisibility(View.VISIBLE);
+                tabLayout.setVisibility(View.GONE);
                 mMainLeftIv.setImageResource(R.drawable.ic_back);
                 mMainLeftIv.setOnClickListener((v)-> popBackStack());
                 break;
             case FlagConstant.FRAGMENT_FAVORITE:
                 mMainMineTv.setText("我的收藏");
+                mMainRightIv.setVisibility(View.GONE);
+                mMainMineTv.setVisibility(View.VISIBLE);
+                tabLayout.setVisibility(View.GONE);
                 mMainLeftIv.setImageResource(R.drawable.ic_back);
                 mMainLeftIv.setOnClickListener((v)-> popBackStack());
                 break;
@@ -349,7 +390,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                     NavigationMenuView navigationMenuView = (NavigationMenuView) navigationView.getChildAt(i);
                     if (navigationMenuView != null) {
                         navigationMenuView.setVerticalScrollBarEnabled(false);
-                        navigationMenuView.setOverScrollMode(navigationMenuView.OVER_SCROLL_NEVER);
+                        navigationMenuView.setOverScrollMode(View.OVER_SCROLL_NEVER);
                     }
                 }
             }
@@ -390,6 +431,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     protected void onDestroy() {
         super.onDestroy();
         unbindService(connection);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -438,7 +480,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                         // 通知刷新数据
                         fragment.notifyDataChange();
                     }
-                    mMainMineTv.setText("音乐园");
+                    mMainMineTv.setVisibility(View.GONE);
+                    tabLayout.setVisibility(View.VISIBLE);
+                    mMainRightIv.setVisibility(View.VISIBLE);
                     mMainLeftIv.setImageResource(R.drawable.ic_menu);
                     mMainLeftIv.setOnClickListener((v)-> mMainDrawerLayout.openDrawer(GravityCompat.START));
                 }

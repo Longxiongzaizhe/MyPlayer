@@ -15,7 +15,8 @@
         android:orientation="vertical">
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="72dp"
+            android:paddingTop="24dp"
             android:background="@color/common_base_blue">
 
             <ImageView
@@ -49,7 +50,6 @@
                 android:textColor="@color/common_white"
                 android:textStyle="normal"
                 android:layout_gravity="center"
-                android:padding="@dimen/base_padding_size"
                 android:visibility="gone"
                 tools:text="我"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -63,7 +63,7 @@
                 android:id="@+id/main_right_iv"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:padding="@dimen/base_padding_size"
+                android:padding="@dimen/padding_large_size"
                 tools:src="@drawable/icon_garbage"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

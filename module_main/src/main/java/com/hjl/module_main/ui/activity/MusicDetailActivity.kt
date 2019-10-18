@@ -11,6 +11,7 @@ import android.widget.SeekBar
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.hjl.commonlib.base.BaseMultipleActivity
 import com.hjl.commonlib.utils.DateUtils
