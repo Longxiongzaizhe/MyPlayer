@@ -25,17 +25,17 @@ public interface ApiServer{
      */
 
     @FormUrlEncoded
-    @POST("SysWarning/getWarningById")
+    @POST("xxxx/getWarningById")
     Observable<BaseResponse> waning(@Field("warningId") String warningId);
 
     @FormUrlEncoded
     @POST("v1/wyBase/login")
     Observable<BaseResponse> login(@FieldMap HashMap<String,String> data);
 
-    @GET("v1/wyBusiness/msgSetting/{workCode}")
+    @GET("xxxx/xxxx/xxxx/{workCode}")
     Observable<BaseResponse> getConfig(@Path("workCode") String workCode);
-     // @Path  : v1/wyBusiness/msgSetting/123
-    // @Query : v1/wyBusiness/msgSetting?workCode=123
+     // @Path  : v1/xxxx/xxxx/123
+    // @Query : v1/xxxx/xxxx?workCode=123
 
     // 文件上传
     //上传图片(私有接口)
@@ -58,7 +58,7 @@ public interface ApiServer{
     */
     // 加入 header
 //    @FormUrlEncoded
-//    @POST("v1/wyBase/login")
+//    @POST("xxxx/xxxx/login")
 //    Observable<BaseResponse> login(@HeaderMap Map<String,String> headers, @FieldMap Map<String,String> data);
 
 
@@ -68,7 +68,7 @@ public interface ApiServer{
 
     /*
     @Multipart
-    @POST("v1/wyBusiness/iot/video/upload")
+    @POST("xxxx/xxxx/xxxx/video/upload")
     Observable<BaseResponse> uploadImg(@Part("token") RequestBody token, @Part("projectId") RequestBody projectId, @Part MultipartBody.Part[] parts);
 
     //

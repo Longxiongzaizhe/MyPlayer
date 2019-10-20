@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.os.IBinder
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -105,6 +106,7 @@ class MusicListActivity : BaseMvpMultipleActivity<MusicListPresenter>(), BaseQui
         adapter.apply {
             setEmptyView(R.layout.layout_no_content,music_list_rv)
         }
+        collapsing_toolbar.collapsedTitleGravity = Gravity.START
         when (type){
             MediaConstant.LIST_CUSTOM -> {
                 val entity = listManager.query(listId)
@@ -149,12 +151,14 @@ class MusicListActivity : BaseMvpMultipleActivity<MusicListPresenter>(), BaseQui
             MediaConstant.LIST_ALBUMS -> {
                 albumsManager.query(listId).let {
                     Glide.with(this).load(it.coverUrl).into(toolbar_iv)
+                    collapsing_toolbar.title = it.author
                 }
             }
             MediaConstant.LIST_AUTHOR -> {
                 authorManager.query(authorName).let {
                     Glide.with(this).load(it.coverUrl).into(toolbar_iv)
                 }
+                collapsing_toolbar.title = authorName
 
             }
         }

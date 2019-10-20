@@ -8,7 +8,12 @@ import android.widget.ImageView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.app.abby.xbanner.ImageLoader
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment
+import com.hjl.commonlib.utils.LogUtils
 import com.hjl.commonlib.utils.ToastUtil
 import com.hjl.module_main.router.RNet
 import com.hjl.module_main.utils.FileUtils
@@ -72,5 +77,31 @@ class NetMainFragment : BaseMvpMultipleFragment<NetMainPresenter>(),NetMainContr
 
     override fun onGetBannerFail(msg: String?) {
         ToastUtil.showSingleToast(msg)
+        val data = ArrayList<String>()
+        data.add("http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1788145.jpg")
+        data.add("http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1788739.jpg")
+        data.add("http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1788112.jpg")
+        data.add("http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1789452.jpg")
+        data.add("http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1788335.jpg")
+
+        net_main_banner
+                .isAutoPlay(true)
+                .setDelay(3000)
+                .setImageUrls(data)
+                .setImageLoader(object : ImageLoader{
+                    override fun loadImages(context: Context?, url: String?, image: ImageView?) {
+                        image?.let {
+                            context?.let {
+                                it1 -> Glide.with(it1).load(url).into(it)
+                            }
+                        }
+                    }
+
+                    override fun loadGifs(url: String?, gifImageView: GifImageView?, scaleType: ImageView.ScaleType?) {
+
+                    }
+
+                }).start()
+
     }
 }

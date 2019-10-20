@@ -6,12 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.app.abby.xbanner.XBanner
-        android:id="@+id/net_main_banner"
+    <com.hjl.commonlib.mview.ClearEditText
+        android:id="@+id/net_main_search"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="@dimen/margin_small_size"
+        android:layout_marginStart="@dimen/base_margin_size"
+        android:layout_marginEnd="@dimen/base_margin_size"
+        android:background="@drawable/common_bg_gray_oval"
+        android:hint="@string/search_music_hint"
+        style="@style/SearchEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.app.abby.xbanner.XBanner
+        android:id="@+id/net_main_banner"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="@dimen/margin_small_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/net_main_search"
+        tools:background="@color/gray"/>
 
 </android.support.constraint.ConstraintLayout>

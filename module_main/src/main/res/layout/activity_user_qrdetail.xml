@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/common_background_color"
+    tools:context=".ui.activity.UserQRdetailActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:background="@drawable/common_bg_white_7t"
+        android:layout_marginStart="@dimen/base_margin_size"
+        android:layout_marginEnd="@dimen/base_margin_size"
+        >
+
+        <ImageView
+            android:id="@+id/user_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="@dimen/base_margin_size"
+            android:layout_marginTop="@dimen/base_margin_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/icon_dog" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_plus_size"
+            android:layout_marginStart="@dimen/margin_small_size"
+            app:layout_constraintStart_toEndOf="@+id/user_icon"
+            app:layout_constraintTop_toTopOf="@+id/user_icon"
+            tools:text="Sunny" />
+
+        <ImageView
+            android:id="@+id/user_qr"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="@dimen/base_margin_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_icon" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

@@ -121,7 +121,7 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
             intent.putExtra(FlagConstant.mKeyList[i],o);
             i++;
         }*/
-        startActivity(cls);
+        startActivity(intent);
     }
 
     protected void initData(){

@@ -259,7 +259,7 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
             mMainHistoryNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_02)));
             mMainFavouriteNum.setText(String.format(getString(R.string.music_num),value.get(FlagConstant.RXJAVA_KEY_03)));
             if (musicList.size() > 0){
-                mListRv.setItemViewSwipeEnabled(true);
+                mListRv.setItemViewSwipeEnabled(false);
             }else {
                 mListRv.setItemViewSwipeEnabled(false);
             }

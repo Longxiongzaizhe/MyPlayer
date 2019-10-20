@@ -285,7 +285,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         int id = v.getId();
         if (id == R.id.main_left_iv) {//mMultipleStateView.showContent();
             mMainDrawerLayout.openDrawer(GravityCompat.START);
-        } else if (id == R.id.nav_head_iv) {//startActivity(TestActivity.class);
+        } else if (id == R.id.nav_head_iv) {
+            //startActivity(TestActivity.class);
+            startActivity(UserQRdetailActivity.class);
         } else if (id == R.id.main_right_iv) {
 
             QrConfig qrConfig = new QrConfig.Builder()

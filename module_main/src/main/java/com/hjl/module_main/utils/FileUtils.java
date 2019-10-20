@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.support.v4.content.FileProvider;
 
 import com.hjl.commonlib.base.BaseApplication;
+import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.constant.FileConstant;
 
 import java.io.File;
@@ -141,12 +142,25 @@ public class FileUtils {
      */
     public static void savaBitmapInFile(Bitmap bitmap,File file) throws FileNotFoundException {
         try {
+            if (!file.exists()){
+
+                if (!file.getParentFile().exists()){
+                    if (file.mkdirs()) {
+                        throw new Exception("文件夹创建失败！");
+                    }
+                }
+
+                if (!file.createNewFile()){
+                    throw new Exception("文件创建失败！");
+                }
+            }
             FileOutputStream fos = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos);
             fos.flush();
             fos.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            ToastUtil.show("文件保存失败：" + e.getMessage());
         }
     }
 
