@@ -1,8 +1,11 @@
 package com.hjl.commonlib.network.okhttp;
 
+import android.graphics.DashPathEffect;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -140,7 +143,7 @@ public class HttpUtils {
         if (client == null){
             client = new OkHttpClient.Builder()
                     .connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
-                    .addInterceptor(new LogInterceptor())
+                    .addInterceptor(new com.hjl.commonlib.network.interceptor.LogInterceptor())
                     .readTimeout(READ_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
                     .writeTimeout(WRITE_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
                     .build();
@@ -152,11 +155,32 @@ public class HttpUtils {
         if (syncClient == null) {
             syncClient = new OkHttpClient.Builder()
                     .connectTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
-                    .addInterceptor(new LogInterceptor())
+                    .addInterceptor(new com.hjl.commonlib.network.interceptor.LogInterceptor())
                     .readTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
                     .writeTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS).build();
         }
         return syncClient;
+    }
+
+    private void test(){
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new LogInterceptor())
+                .connectTimeout(CONNECT_TIMEOUT_MILLIS,
+                        TimeUnit.MILLISECONDS)
+                .readTimeout(READ_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
+                .writeTimeout(WRITE_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
+                .build();
+        Request request = new Request.Builder()
+                .url("www.baidu.com") // 传入url地址
+                .get()  // get请求
+//                .headers(mHeadBuilder.build()) // 传入请求头
+                .build();
+        Call call = client.newCall(request);
+        try {
+            Response response = call.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

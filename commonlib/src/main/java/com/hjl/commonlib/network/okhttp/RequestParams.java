@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 封装了请求参数 Map<String,String>
+ */
 public class RequestParams {
 
     private Map<String,String> params = new ConcurrentHashMap<String, String>();

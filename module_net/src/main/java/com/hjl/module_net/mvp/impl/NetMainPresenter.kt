@@ -1,8 +1,8 @@
-package com.hjl.module_net.presenter.impl
+package com.hjl.module_net.mvp.impl
 
 import com.hjl.commonlib.base.mvp.BaseMvpPresenter
 import com.hjl.commonlib.network.okhttp.HttpHandler
-import com.hjl.module_net.contract.NetMainContract
+import com.hjl.module_net.mvp.contract.NetMainContract
 import com.hjl.module_net.net.BannerVo
 import com.hjl.module_net.net.NetworkWrapper
 

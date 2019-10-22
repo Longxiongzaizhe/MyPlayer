@@ -1,25 +1,18 @@
-package com.hjl.module_net
+package com.hjl.module_net.ui
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.app.abby.xbanner.ImageLoader
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment
-import com.hjl.commonlib.utils.LogUtils
 import com.hjl.commonlib.utils.ToastUtil
 import com.hjl.module_main.router.RNet
-import com.hjl.module_main.utils.FileUtils
-import com.hjl.module_net.contract.NetMainContract
+import com.hjl.module_net.R
+import com.hjl.module_net.mvp.contract.NetMainContract
 import com.hjl.module_net.net.BannerVo
-import com.hjl.module_net.presenter.impl.NetMainPresenter
+import com.hjl.module_net.mvp.impl.NetMainPresenter
 import kotlinx.android.synthetic.main.fragment_net_main.*
 import pl.droidsonroids.gif.GifImageView
 
