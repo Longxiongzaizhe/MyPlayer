@@ -20,19 +20,6 @@ import retrofit2.http.Query;
 
 public interface ApiServer{
 
-
-    /**
-     *
-     */
-
-    @GET("http://msearchcdn.kugou.com/api/v3/search/song?showtype=14&keyword={keyword}&pagesize={pagesize}&page={page}&highlight=em&tag_aggr=1&tagtype=全部&plat=0&sver=5&correct=1&api_ver=1&version=9108&area_code=1&tag=1&with_res_tag=1")
-    Observable<BaseResponse> searchSong(@Path("keyword") String keyword,@Path("pagesize") String pagesize,@Path("page") String page);
-
-
-
-
-
-
     /**
      * example request
      */

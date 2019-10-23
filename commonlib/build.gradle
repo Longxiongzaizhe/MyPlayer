@@ -89,10 +89,15 @@ dependencies {
     // RxJava2
     api deps.rxjava
     api deps.rxandroid
+
+    api deps.rx_binding3
     // Retrofit
     api deps.retrofit
     api deps.retrofit_gson
     api deps.retrofit_adapter
+
+    // webview
+    api 'com.just.agentweb:agentweb:4.1.2'
 
 
 }

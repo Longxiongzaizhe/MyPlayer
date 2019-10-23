@@ -55,12 +55,13 @@ public class MainAgentFragment extends BaseFragment {
         transaction = fragmentManager.beginTransaction();
         MainFragment mainFragment = MainFragment.newInstance();
         transaction.add(R.id.fragment_frame,mainFragment,MainFragment.class.getSimpleName());
-        transaction.addToBackStack(null);
+        //transaction.addToBackStack(null);
         transaction.commit();
+
         Intent startMusicIntent = new Intent(getContext(),MusicService.class);
         MainActivity activity = (MainActivity) getActivity();
         activity.bindService(startMusicIntent,connection, BaseActivity.BIND_AUTO_CREATE) ;
-        activity.setFragmentManager(fragmentManager);
+        activity.setMainFragmentManager(fragmentManager);
 
     }
 
@@ -70,12 +71,12 @@ public class MainAgentFragment extends BaseFragment {
         if (fragment != null){
             transaction = fragmentManager.beginTransaction();
             transaction.show(fragment);
-            if (lastFragment != null){
-                transaction.hide(lastFragment); // 隐藏防止重叠 TODO: 获取不到上一个lastFragment 这里始终为空
-                Log.i("showFragment","not null:" + lastFragment.getClass());
-            }else {
-                Log.i("popback","null");
-            }
+//            if (lastFragment != null){
+//                transaction.hide(lastFragment); // 隐藏防止重叠 TODO: 获取不到上一个lastFragment 这里始终为空
+//                Log.i("showFragment","not null:" + lastFragment.getClass());
+//            }else {
+//                Log.i("popback","null");
+//            }
 
             lastFragment = fragment;
             fragment.notifyDataChange();

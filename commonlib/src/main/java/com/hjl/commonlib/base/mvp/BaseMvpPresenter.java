@@ -1,7 +1,6 @@
 package com.hjl.commonlib.base.mvp;
 
-import com.hjl.commonlib.network.retrofit.ApiRetrofit;
-import com.hjl.commonlib.network.retrofit.ApiServer;
+
 import com.hjl.commonlib.network.retrofit.HttpObserver;
 import com.hjl.commonlib.utils.RxSchedulers;
 
@@ -10,10 +9,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+
 
 /**
  *
@@ -27,7 +26,6 @@ public abstract class BaseMvpPresenter<V extends IBaseMvpView> implements Invoca
     // 代理对象
     private V mProxyView;
 
-    protected ApiServer apiServer = ApiRetrofit.getInstance().getApiServer();
     private CompositeDisposable compositeDisposable;
 
 
@@ -59,7 +57,7 @@ public abstract class BaseMvpPresenter<V extends IBaseMvpView> implements Invoca
     }
 
     /**
-     * P 层初始化方法
+     * P 层初始化方法 在不同的模块下初始化不同的ApiServer
      */
     public abstract void start();
 

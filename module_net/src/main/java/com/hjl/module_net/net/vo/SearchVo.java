@@ -1,4 +1,4 @@
-package com.hjl.module_net.net;
+package com.hjl.module_net.net.vo;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -22,8 +22,6 @@ public class SearchVo {
     private DataBean data;
     private int errcode;
     private int status;
-    private RelativeBean relative;
-    private BlackBean black;
 
     public String getError() {
         return error;
@@ -57,21 +55,6 @@ public class SearchVo {
         this.status = status;
     }
 
-    public RelativeBean getRelative() {
-        return relative;
-    }
-
-    public void setRelative(RelativeBean relative) {
-        this.relative = relative;
-    }
-
-    public BlackBean getBlack() {
-        return black;
-    }
-
-    public void setBlack(BlackBean black) {
-        this.black = black;
-    }
 
 
 
@@ -91,15 +74,8 @@ public class SearchVo {
          */
 
         private String tab;
-        private int correctiontype;
-        private int timestamp;
         private int allowerr;
         private int total;
-        private int istag;
-        private int istagresult;
-        private int forcecorrection;
-        private String correctiontip;
-        private List<AggregationBean> aggregation;
         private List<InfoBean> info;
 
         public String getTab() {
@@ -108,22 +84,6 @@ public class SearchVo {
 
         public void setTab(String tab) {
             this.tab = tab;
-        }
-
-        public int getCorrectiontype() {
-            return correctiontype;
-        }
-
-        public void setCorrectiontype(int correctiontype) {
-            this.correctiontype = correctiontype;
-        }
-
-        public int getTimestamp() {
-            return timestamp;
-        }
-
-        public void setTimestamp(int timestamp) {
-            this.timestamp = timestamp;
         }
 
         public int getAllowerr() {
@@ -140,46 +100,6 @@ public class SearchVo {
 
         public void setTotal(int total) {
             this.total = total;
-        }
-
-        public int getIstag() {
-            return istag;
-        }
-
-        public void setIstag(int istag) {
-            this.istag = istag;
-        }
-
-        public int getIstagresult() {
-            return istagresult;
-        }
-
-        public void setIstagresult(int istagresult) {
-            this.istagresult = istagresult;
-        }
-
-        public int getForcecorrection() {
-            return forcecorrection;
-        }
-
-        public void setForcecorrection(int forcecorrection) {
-            this.forcecorrection = forcecorrection;
-        }
-
-        public String getCorrectiontip() {
-            return correctiontip;
-        }
-
-        public void setCorrectiontip(String correctiontip) {
-            this.correctiontip = correctiontip;
-        }
-
-        public List<AggregationBean> getAggregation() {
-            return aggregation;
-        }
-
-        public void setAggregation(List<AggregationBean> aggregation) {
-            this.aggregation = aggregation;
         }
 
         public List<InfoBean> getInfo() {
@@ -272,7 +192,6 @@ public class SearchVo {
              * othername :
              */
 
-            private String othername_original;
             private int pay_type_320;
             private int m4afilesize;
             private int price_sq;
@@ -310,7 +229,6 @@ public class SearchVo {
             private int isnew;
             private int duration;
             private int pkg_price_320;
-            private int srctype;
             private int fail_process_sq;
             private int sqfilesize;
             private int fail_process;
@@ -320,16 +238,7 @@ public class SearchVo {
             private String sqhash;
             private int sqprivilege;
             private String album_name;
-            private String othername;
             private List<GroupBean> group;
-
-            public String getOthername_original() {
-                return othername_original;
-            }
-
-            public void setOthername_original(String othername_original) {
-                this.othername_original = othername_original;
-            }
 
             public int getPay_type_320() {
                 return pay_type_320;
@@ -627,14 +536,6 @@ public class SearchVo {
                 this.pkg_price_320 = pkg_price_320;
             }
 
-            public int getSrctype() {
-                return srctype;
-            }
-
-            public void setSrctype(int srctype) {
-                this.srctype = srctype;
-            }
-
             public int getFail_process_sq() {
                 return fail_process_sq;
             }
@@ -697,14 +598,6 @@ public class SearchVo {
 
             public void setAlbum_name(String album_name) {
                 this.album_name = album_name;
-            }
-
-            public String getOthername() {
-                return othername;
-            }
-
-            public void setOthername(String othername) {
-                this.othername = othername;
             }
 
             public List<GroupBean> getGroup() {
@@ -1273,134 +1166,6 @@ public class SearchVo {
                     }
                 }
             }
-        }
-    }
-
-    public static class RelativeBean {
-        /**
-         * priortype : 1
-         * singer : [{"songcount":351,"imgurl":"http://singerimg.kugou.com/uploadpic/softhead/240/20190103/20190103191232626.jpg","mvcount":233,"singerid":3060,"correctiontip":"","singername":"薛之谦","albumcount":31}]
-         */
-
-        private int priortype;
-        private List<SingerBean> singer;
-
-        public int getPriortype() {
-            return priortype;
-        }
-
-        public void setPriortype(int priortype) {
-            this.priortype = priortype;
-        }
-
-        public List<SingerBean> getSinger() {
-            return singer;
-        }
-
-        public void setSinger(List<SingerBean> singer) {
-            this.singer = singer;
-        }
-
-        public static class SingerBean {
-            /**
-             * songcount : 351
-             * imgurl : http://singerimg.kugou.com/uploadpic/softhead/240/20190103/20190103191232626.jpg
-             * mvcount : 233
-             * singerid : 3060
-             * correctiontip :
-             * singername : 薛之谦
-             * albumcount : 31
-             */
-
-            private int songcount;
-            private String imgurl;
-            private int mvcount;
-            private int singerid;
-            private String correctiontip;
-            private String singername;
-            private int albumcount;
-
-            public int getSongcount() {
-                return songcount;
-            }
-
-            public void setSongcount(int songcount) {
-                this.songcount = songcount;
-            }
-
-            public String getImgurl() {
-                return imgurl;
-            }
-
-            public void setImgurl(String imgurl) {
-                this.imgurl = imgurl;
-            }
-
-            public int getMvcount() {
-                return mvcount;
-            }
-
-            public void setMvcount(int mvcount) {
-                this.mvcount = mvcount;
-            }
-
-            public int getSingerid() {
-                return singerid;
-            }
-
-            public void setSingerid(int singerid) {
-                this.singerid = singerid;
-            }
-
-            public String getCorrectiontip() {
-                return correctiontip;
-            }
-
-            public void setCorrectiontip(String correctiontip) {
-                this.correctiontip = correctiontip;
-            }
-
-            public String getSingername() {
-                return singername;
-            }
-
-            public void setSingername(String singername) {
-                this.singername = singername;
-            }
-
-            public int getAlbumcount() {
-                return albumcount;
-            }
-
-            public void setAlbumcount(int albumcount) {
-                this.albumcount = albumcount;
-            }
-        }
-    }
-
-    public static class BlackBean {
-        /**
-         * isblock : 1
-         * type : 0
-         */
-
-        private int isblock;
-        private int type;
-
-        public int getIsblock() {
-            return isblock;
-        }
-
-        public void setIsblock(int isblock) {
-            this.isblock = isblock;
-        }
-
-        public int getType() {
-            return type;
-        }
-
-        public void setType(int type) {
-            this.type = type;
         }
     }
 }

@@ -38,6 +38,7 @@ versions.okhttp_logging = "3.11.0"
 // rxjava
 versions.rxjava = "2.2.10"
 versions.rxandroid = "2.1.1"
+versions.rx_binding = "3.0.0-alpha2"
 
 // retrofit
 versions.retrofit = "2.4.0"
@@ -77,6 +78,7 @@ deps.okhttp_logging = "com.squareup.okhttp3:logging-interceptor:$versions.okhttp
 // rxjava
 deps.rxjava = "io.reactivex.rxjava2:rxjava:$versions.rxjava"
 deps.rxandroid = "io.reactivex.rxjava2:rxandroid:$versions.rxandroid"
+deps.rx_binding3 ="com.jakewharton.rxbinding3:rxbinding:$versions.rx_binding"
 
 // Retrofit
 deps.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"

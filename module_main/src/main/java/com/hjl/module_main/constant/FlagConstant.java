@@ -6,6 +6,10 @@ public class FlagConstant {
     public static final int REQUEST_CODE_TWO = 0x101;
     public static final int REQUEST_CODE_THR = 0x102;
 
+    public static final int RESUTL_CODE_ONE = 0x200;
+    public static final int RESUTL_CODE_TWO = 0x201;
+    public static final int RESUTL_CODE_THR = 0x202;
+
     public static final String INTENT_KEY01 = "send_data_01";
     public static final String INTENT_KEY02 = "send_data_02";
     public static final String INTENT_KEY03 = "send_data_03";

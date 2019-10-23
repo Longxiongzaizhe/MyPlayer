@@ -6,4 +6,5 @@ package com.hjl.module_main.router;
 public interface RNet {
 
     String RNetMain = "/net/main";
+    String RNetAgent = "/net/agent";
 }

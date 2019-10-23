@@ -3,7 +3,8 @@
     package="com.hjl.module_main">
 
     <application>
-        <activity android:name=".ui.activity.UserQRdetailActivity"></activity>
+        <activity android:name=".ui.activity.KugouWebActivity"></activity>
+        <activity android:name=".ui.activity.UserQRdetailActivity" />
         <activity android:name=".ui.activity.MusicListActivity" />
         <activity android:name=".ui.activity.MusicDetailActivity" />
         <activity android:name=".ui.activity.UserSettingActivity" />

@@ -1,6 +1,8 @@
 package com.hjl.testmodule.retrofit.mvp;
 
 import com.hjl.commonlib.base.mvp.BaseMvpPresenter;
+import com.hjl.commonlib.network.retrofit.ApiRetrofit;
+import com.hjl.commonlib.network.retrofit.ApiServer;
 import com.hjl.commonlib.network.retrofit.HttpObserver;
 import com.hjl.commonlib.network.retrofit.BaseResponse;
 import com.hjl.commonlib.utils.RxSchedulers;
@@ -10,6 +12,8 @@ import java.util.HashMap;
 import io.reactivex.disposables.Disposable;
 
 public class RxTestMvpPresenter extends BaseMvpPresenter<RxTestConstant.View> implements RxTestConstant.Presenter {
+
+    private ApiServer apiServer = ApiRetrofit.getInstance().createApiServer(ApiServer.class);
 
     @Override
     public void start() {

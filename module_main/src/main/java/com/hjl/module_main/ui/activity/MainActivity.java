@@ -20,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -44,7 +45,6 @@ import com.hjl.module_main.constant.SPConstant;
 import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
-import com.hjl.module_main.router.RLocal;
 import com.hjl.module_main.router.RNet;
 import com.hjl.module_main.ui.fragment.local.MainAgentFragment;
 import com.hjl.module_main.ui.fragment.local.MainFragment;
@@ -83,7 +83,8 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private static String TAG = MainActivity.class.getSimpleName();
 
     private FragmentTransaction transaction;
-    private FragmentManager fragmentManager ;
+    private FragmentManager mainFragmentManager;
+    private FragmentManager netFragmentManager;
     private MediaRelManager relManager = MediaRelManager.getInstance();
 
     // title
@@ -97,6 +98,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private NoScrollViewPager viewPager;
     private TabLayout tabLayout;
     private LazyFragmentPagerAdapter pagerAdapter;
+
+    private BaseFragment netAgentFragment;
+
+    private int currentFragment = 0;
 
     private final String[] permissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -156,6 +161,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         mMainLeftIv.setOnClickListener(this);
 
 
+        initDrawerLayout();
+    }
+
+    private void initDrawerLayout() {
         mMainNavView.setNavigationItemSelectedListener(menuItem -> {
 
             int itemId = menuItem.getItemId();
@@ -213,15 +222,43 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         fragments = new ArrayList<>();
 
         agentFragment = MainAgentFragment.newInstance();
-        BaseMvpMultipleFragment netMainFragment = (BaseMvpMultipleFragment)ARouter.getInstance().build(RNet.RNetMain).navigation();
+        netAgentFragment = (BaseFragment) ARouter.getInstance().build(RNet.RNetAgent).navigation();
         fragments.add(agentFragment);
-        fragments.add(netMainFragment);
+        fragments.add(netAgentFragment);
         tabTitleList.add("我");
         tabTitleList.add("听");
         pagerAdapter = new LazyFragmentPagerAdapter(getSupportFragmentManager(),fragments,tabTitleList);
         viewPager.setNoScroll(false);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                currentFragment = i;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+
+
+        initTabLayout();
+
+
+        Intent startMusicIntent = new Intent(this,MusicService.class);
+        bindService(startMusicIntent,connection,BIND_AUTO_CREATE) ;
+        startService(startMusicIntent);
+    }
+
+    private void initTabLayout() {
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
@@ -259,11 +296,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             }
         });
         tabLayout.setSelected(true);
-
-
-        Intent startMusicIntent = new Intent(this,MusicService.class);
-        bindService(startMusicIntent,connection,BIND_AUTO_CREATE) ;
-        startService(startMusicIntent);
     }
 
 
@@ -319,8 +351,8 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
     }
 
-    public void setFragmentManager(FragmentManager fragmentManager){
-        this.fragmentManager = fragmentManager;
+    public void setMainFragmentManager(FragmentManager fragmentManager){
+        this.mainFragmentManager = fragmentManager;
     }
 
 
@@ -357,7 +389,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                 mMainMineTv.setVisibility(View.VISIBLE);
                 tabLayout.setVisibility(View.GONE);
                 mMainLeftIv.setImageResource(R.drawable.ic_back);
-                mMainLeftIv.setOnClickListener((v)-> popBackStack());
+                mMainLeftIv.setOnClickListener((v)-> newPopBackStack());
                 break;
             case FlagConstant.FRAGMENT_RECENT:
                 mMainMineTv.setText("最近播放");
@@ -365,7 +397,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                 mMainMineTv.setVisibility(View.VISIBLE);
                 tabLayout.setVisibility(View.GONE);
                 mMainLeftIv.setImageResource(R.drawable.ic_back);
-                mMainLeftIv.setOnClickListener((v)-> popBackStack());
+                mMainLeftIv.setOnClickListener((v)-> newPopBackStack());
                 break;
             case FlagConstant.FRAGMENT_FAVORITE:
                 mMainMineTv.setText("我的收藏");
@@ -373,7 +405,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
                 mMainMineTv.setVisibility(View.VISIBLE);
                 tabLayout.setVisibility(View.GONE);
                 mMainLeftIv.setImageResource(R.drawable.ic_back);
-                mMainLeftIv.setOnClickListener((v)-> popBackStack());
+                mMainLeftIv.setOnClickListener((v)-> newPopBackStack());
                 break;
         }
 
@@ -449,35 +481,80 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     @Override
     public void onBackPressed() {
        // super.onBackPressed();
-        popBackStack();
+        newPopBackStack();
+       // popBackStack();
     }
 
-    private void popBackStack() {
+    private void newPopBackStack(){
 
-        if (fragmentManager == null) return;
+        FragmentManager fragmentManager = null;
+
+        if (currentFragment == 0){
+            fragmentManager = mainFragmentManager;
+        }else if (currentFragment == 1){
+            fragmentManager = netFragmentManager;
+        }
+
 
         //通过管理类可以获取到当前的栈内数量
         int backStackEntryCount = fragmentManager.getBackStackEntryCount();
         //当栈内数量中大于0 的时候才能进行操作不然会造成索引越界 这里进行了判断，为1的时候为主界面不回退
-        if (backStackEntryCount>1){
+        if (backStackEntryCount> 0){
             //退栈
             fragmentManager.popBackStackImmediate();
             //获取一下栈内的数量
             backStackEntryCount = fragmentManager.getBackStackEntryCount();
+
+            if (backStackEntryCount == 0){ // 说明在首页
+                BaseFragment fragment =(BaseFragment) fragmentManager.findFragmentByTag(MainFragment.class.getSimpleName());
+                if (fragment != null) {
+                    // 通知刷新数据
+                    fragment.notifyDataChange();
+                }
+                mMainMineTv.setVisibility(View.GONE);
+                tabLayout.setVisibility(View.VISIBLE);
+                mMainRightIv.setVisibility(View.VISIBLE);
+                mMainLeftIv.setImageResource(R.drawable.ic_menu);
+                mMainLeftIv.setOnClickListener((v)-> mMainDrawerLayout.openDrawer(GravityCompat.START));
+            }
+
+        } else {
+            if ((System.currentTimeMillis() - exitTime) > SECONDS) {
+                ToastUtil.show(this,"再按一下退出程序");
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+        }
+    }
+
+    @Deprecated
+    private void popBackStack() {
+
+        if (mainFragmentManager == null) return;
+
+        //通过管理类可以获取到当前的栈内数量
+        int backStackEntryCount = mainFragmentManager.getBackStackEntryCount();
+        //当栈内数量中大于0 的时候才能进行操作不然会造成索引越界 这里进行了判断，为1的时候为主界面不回退
+        if (backStackEntryCount>1){
+            //退栈
+            mainFragmentManager.popBackStackImmediate();
+            //获取一下栈内的数量
+            backStackEntryCount = mainFragmentManager.getBackStackEntryCount();
             //二次判断
             if (backStackEntryCount>0){
                 // 退栈完 元素 -1 就是当前的栈顶Fragment TODO:经验证  backStackEntryAt.getName()始终为空
-                FragmentManager.BackStackEntry backStackEntryAt = fragmentManager.getBackStackEntryAt(backStackEntryCount - 1);
+                FragmentManager.BackStackEntry backStackEntryAt = mainFragmentManager.getBackStackEntryAt(backStackEntryCount - 1);
                 // 重新获取name
                 String name = backStackEntryAt.getName();
                 Log.d("BACK",name + "");
                 // 重新获取 Fragment
-                BaseFragment fragmentByTag = (BaseFragment) fragmentManager.findFragmentByTag(name);
+                BaseFragment fragmentByTag = (BaseFragment) mainFragmentManager.findFragmentByTag(name);
                 // 重新赋值 回退之后需要需要隐藏的fragment
                 agentFragment.setLastFragment(fragmentByTag);
 
                 if (backStackEntryCount == 1){
-                    BaseFragment fragment =(BaseFragment) fragmentManager.findFragmentByTag(MainFragment.class.getSimpleName());
+                    BaseFragment fragment =(BaseFragment) mainFragmentManager.findFragmentByTag(MainFragment.class.getSimpleName());
                     if (fragment != null) {
                         // 通知刷新数据
                         fragment.notifyDataChange();
@@ -534,5 +611,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             Glide.get(this).clearMemory();
         }
         Glide.get(this).trimMemory(level);
+    }
+
+    public void setNetFragmentManager(FragmentManager netFragmentManager) {
+        this.netFragmentManager = netFragmentManager;
     }
 }

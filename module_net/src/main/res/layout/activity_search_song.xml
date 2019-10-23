@@ -15,7 +15,6 @@
         android:layout_marginEnd="@dimen/base_margin_size"
         android:background="@drawable/common_bg_gray_oval"
         android:hint="@string/search_music_hint"
-        android:gravity="center"
         style="@style/SearchEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,11 +25,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/cancel"
-        android:textColor="@color/text_blue"
+        android:textColor="@color/common_white"
         android:textSize="@dimen/text_normal_size"
         android:layout_marginEnd="@dimen/base_margin_size"
-        android:padding="@dimen/padding_small_size"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingStart="@dimen/padding_small_size"
+        android:paddingEnd="@dimen/padding_small_size"
+        android:background="@drawable/common_bg_base_blue_12t"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBaseline_toBaselineOf="@+id/net_search_et" />
+
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/search_flowlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="100dp"
+        android:layout_marginTop="@dimen/margin_small_size"
+        android:layout_marginBottom="@dimen/margin_small_size"
+        android:paddingStart="@dimen/padding_small_size"
+        android:paddingEnd="@dimen/padding_small_size"
+        app:layout_constraintTop_toBottomOf="@id/search_cancel_tv"
+        android:visibility="gone"
+        tools:layout_height="50dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_tip_rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_flowlayout" />
 
 </android.support.constraint.ConstraintLayout>
