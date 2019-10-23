@@ -45,7 +45,7 @@ class MainLocalFragment : BaseFragment(){
 
     override fun initData() {
         if (arguments == null) return
-        mBinder  = arguments!!.getSerializable(FlagConstant.BINDER) as MusicService.MusicBinder
+        mBinder  = arguments?.getSerializable(FlagConstant.BINDER) as MusicService.MusicBinder
         val localFragment  = ARouter.getInstance().build(RLocal.LOCAL_FRAGMENT).navigation() as BaseFragment
         val authorFragment  = ARouter.getInstance().build(RLocal.AUTHOR_FRAGMENT).navigation() as BaseFragment
         val albumsFragment = ARouter.getInstance().build(RLocal.ALBUMS_FRAGMENT).navigation() as BaseFragment

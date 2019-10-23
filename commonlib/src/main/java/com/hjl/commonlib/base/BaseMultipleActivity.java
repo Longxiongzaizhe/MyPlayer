@@ -20,6 +20,8 @@ import com.hjl.commonlib.utils.StatusBarUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 public abstract class BaseMultipleActivity extends AppCompatActivity {
 
@@ -34,6 +36,8 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
     protected ImageView mTitleLeftIv;
     protected TextView mTitleRightTv;
     protected TextView mTitleCenterSmallTv;
+
+    public CompositeDisposable mCompositeDisposable;
 
 
 
@@ -133,6 +137,26 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
     }
 
     protected abstract int getLayoutId();
+
+
+    /**
+     * 添加订阅
+     */
+    public void addDisposable(Disposable mDisposable) {
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
+        mCompositeDisposable.add(mDisposable);
+    }
+
+    /**
+     * 取消所有订阅
+     */
+    public void clearDisposable() {
+        if (mCompositeDisposable != null) {
+            mCompositeDisposable.clear();
+        }
+    }
 
     public void showProgress(String msg,boolean cancelable){
         progressDialog = ProgressDialog.show(this,null,msg,false,cancelable);

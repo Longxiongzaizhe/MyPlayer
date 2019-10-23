@@ -372,6 +372,8 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
         setModeTv(musicMode);
     }
 
+
+
     @Override
     public void onStop() {
         super.onStop();

@@ -2,6 +2,7 @@ package com.hjl.module_net.net;
 
 import com.hjl.commonlib.network.okhttp.HttpHandler;
 import com.hjl.commonlib.network.okhttp.HttpUtils;
+import com.hjl.module_net.net.vo.BannerVo;
 
 /**
  * created by long on 2019/10/17

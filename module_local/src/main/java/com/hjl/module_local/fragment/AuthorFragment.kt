@@ -3,6 +3,7 @@ package com.hjl.module_local.fragment
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -78,31 +79,46 @@ class AuthorFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-       // Log.e(TAG,"onDestroyView")
+        Log.e(TAG,"onDestroyView")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-   //     Log.e(TAG,"onCreate")
+        Log.e(TAG,"onCreate")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-     //   Log.e(TAG,"onCreateView")
+        Log.e(TAG,"onCreateView")
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onAttach(context: Context?) {
-    //    Log.e(TAG,"onAttach")
+        Log.e(TAG,"onAttach")
         super.onAttach(context)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e(TAG,"onPause")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e(TAG,"onResume")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e(TAG,"onStop")
     }
 
     override fun onDetach() {
         super.onDetach()
-     //   Log.e(TAG,"onDetach")
+        Log.e(TAG,"onDetach")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-       // Log.e(TAG,"onDestroy")
+        Log.e(TAG,"onDestroy")
     }
 }

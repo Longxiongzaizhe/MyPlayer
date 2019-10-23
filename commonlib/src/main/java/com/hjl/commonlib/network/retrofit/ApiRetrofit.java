@@ -1,5 +1,7 @@
 package com.hjl.commonlib.network.retrofit;
 
+import com.hjl.commonlib.network.interceptor.KuGouTagInterceptor;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -14,7 +16,6 @@ public class ApiRetrofit {
     private static ApiRetrofit apiRetrofit;
     private Retrofit retrofit;
     private OkHttpClient okHttpClient;
-    private ApiServer apiServer;
 
     private String TAG = "ApiRetrofit";
     private LogInterceptor interceptor;
@@ -23,6 +24,7 @@ public class ApiRetrofit {
         interceptor = new LogInterceptor();
         okHttpClient = new OkHttpClient.Builder()
                 //添加log拦截器
+                .addInterceptor(new KuGouTagInterceptor())
                 .addInterceptor(interceptor)
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
@@ -36,7 +38,6 @@ public class ApiRetrofit {
                 .client(okHttpClient)
                 .build();
 
-        apiServer = retrofit.create(ApiServer.class);
     }
 
     public static ApiRetrofit getInstance() {
@@ -50,8 +51,7 @@ public class ApiRetrofit {
         return apiRetrofit;
     }
 
-
-    public ApiServer getApiServer() {
-        return apiServer;
+    public <T> T createApiServer(Class<T> cls){
+        return retrofit.create(cls);
     }
 }

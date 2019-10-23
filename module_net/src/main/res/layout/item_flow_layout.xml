@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_flow_tv"
+    android:background="@drawable/bg_flow_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/padding_small_size"
+    android:paddingEnd="@dimen/padding_small_size"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:layout_margin="4dp"
+    tools:text="@string/cancel">
+
+</TextView>
