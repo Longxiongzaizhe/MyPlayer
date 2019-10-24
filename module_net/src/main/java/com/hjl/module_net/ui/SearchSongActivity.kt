@@ -10,7 +10,6 @@ import android.widget.TextView
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleActivity
 import com.hjl.commonlib.utils.RxSchedulers
 import com.jakewharton.rxbinding3.widget.*
-import com.hjl.commonlib.utils.ToastUtil
 import com.hjl.module_main.constant.FlagConstant
 import com.hjl.module_main.ui.activity.KugouWebActivity
 import com.hjl.module_net.R
@@ -19,6 +18,7 @@ import com.hjl.module_net.mvp.presenter.SearchPresenterImpl
 import com.hjl.module_net.net.vo.AssociativeWordVo
 import com.hjl.module_net.net.vo.HotSearchVo
 import com.hjl.module_net.net.vo.SearchVo
+import com.hjl.module_net.ui.adapter.SearchTipAdapter
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.activity_search_song.*

@@ -1,4 +1,4 @@
-package com.hjl.module_net.ui;
+package com.hjl.module_net.ui.adapter;
 
 import android.text.Spannable;
 import android.text.SpannableString;

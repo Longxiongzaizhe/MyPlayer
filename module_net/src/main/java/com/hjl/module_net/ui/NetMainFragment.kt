@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment
 import com.hjl.commonlib.utils.LogUtils
 import com.hjl.commonlib.utils.ToastUtil
-import com.hjl.module_main.bean.SearchMusicBus
 import com.hjl.module_main.constant.FlagConstant
 import com.hjl.module_main.router.RNet
 import com.hjl.module_net.R
@@ -117,9 +116,7 @@ class NetMainFragment : BaseMvpMultipleFragment<NetMainPresenter>(),NetMainContr
         if (requestCode == FlagConstant.REQUEST_CODE_ONE){
             if (resultCode == Activity.RESULT_OK){
                 val keyword = data?.getStringExtra(FlagConstant.INTENT_KEY01)
-                EventBus.getDefault().post(SearchMusicBus(keyword))
                 val resultFrament = NetSearchResultFragment.newInstance(keyword)
-                LogUtils.d("test",keyword)
                 agentFragment.showFragment(resultFrament,"NetSearchResultFragment.class")
             }
         }

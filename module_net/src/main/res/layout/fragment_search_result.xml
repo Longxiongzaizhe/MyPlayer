@@ -1,8 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/common_background_color"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/net_search_result_tv"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="@dimen/margin_small_size"
+        android:layout_marginStart="@dimen/base_margin_size"
+        android:layout_marginEnd="@dimen/base_margin_size"
+        android:background="@drawable/common_bg_gray_oval"
+        style="@style/SearchEditText"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/search_result_cancel_tv"
+        tools:text="周丽"/>
+
+    <TextView
+        android:id="@+id/search_result_cancel_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:textColor="@color/common_white"
+        android:textSize="@dimen/text_normal_size"
+        android:layout_marginEnd="@dimen/base_margin_size"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingStart="@dimen/padding_small_size"
+        android:paddingEnd="@dimen/padding_small_size"
+        android:background="@drawable/common_bg_base_blue_12t"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/net_search_result_tv" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/search_smart_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_small_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/net_search_result_tv">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_result_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
 
 
 

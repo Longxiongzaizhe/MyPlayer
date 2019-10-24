@@ -142,6 +142,11 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         List<MediaEntity> data = adapter.getData();
         mBinder.play(data.get(position));

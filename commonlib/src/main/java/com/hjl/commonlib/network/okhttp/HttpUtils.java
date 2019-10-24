@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -101,12 +102,28 @@ public class HttpUtils {
         handler.onStart();
     }
 
+    public static void get(String url,HttpHandler handler,String tag){
+        Request request = CommonRequest.getRequest(url,tag);
+        getClient().newCall(request).enqueue(handler);
+        handler.onStart();
+    }
+
     /**
      * get 请求 带请求头
      */
 
     public static void get(String url,RequestParams params,RequestParams headers,HttpHandler httpHandler){
         Request request = CommonRequest.createGetRequest(url,params,headers);
+        getClient().newCall(request).enqueue(httpHandler);
+        httpHandler.onStart();
+    }
+
+    /**
+     * get 请求 带请求头 带tag
+     */
+
+    public static void get(String url,RequestParams params,RequestParams headers,HttpHandler httpHandler,String tag){
+        Request request = CommonRequest.createGetRequest(url,params,headers,tag);
         getClient().newCall(request).enqueue(httpHandler);
         httpHandler.onStart();
     }
@@ -162,6 +179,47 @@ public class HttpUtils {
         return syncClient;
     }
 
+    public static void cancelTag(Object tag)
+    {
+        if (client != null){
+            for (Call call : client.dispatcher().queuedCalls())
+            {
+                if (tag.equals(call.request().tag()))
+                {
+                    call.cancel();
+                }
+            }
+            for (Call call : client.dispatcher().runningCalls())
+            {
+                if (tag.equals(call.request().tag()))
+                {
+                    call.cancel();
+                }
+            }
+        }
+
+        if (syncClient != null){
+            for (Call call : syncClient.dispatcher().queuedCalls())
+            {
+                if (tag.equals(call.request().tag()))
+                {
+                    call.cancel();
+                }
+            }
+
+            for (Call call : syncClient.dispatcher().runningCalls())
+            {
+                if (tag.equals(call.request().tag()))
+                {
+                    call.cancel();
+                }
+            }
+        }
+
+
+    }
+
+
     private void test(){
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new LogInterceptor())
@@ -181,6 +239,18 @@ public class HttpUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
     }
 
 

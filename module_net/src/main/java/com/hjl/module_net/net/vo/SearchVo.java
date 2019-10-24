@@ -138,6 +138,18 @@ public class SearchVo {
 
         public static class InfoBean {
             /**
+             *
+             * 关键 ：
+             *
+             *  songname : 演员
+             *  album_name : 绅士
+             *  薛之谦</em> - 演员
+             * hash : a774a794184af17469b27963e120b565 播放
+             * mvhash : 4f5dae4814bfaf9c556abcd91ebf7fc5 mv播放 <存疑>
+             * pay_type : 0   0 为免费播放
+             *
+             *
+             *
              * othername_original :
              * pay_type_320 : 0
              * m4afilesize : 1073884
@@ -168,10 +180,7 @@ public class SearchVo {
              * rp_type : audio
              * privilege : 0
              * album_audio_id : 128180951
-             * rp_publish : 1
              * album_id : 14456909
-             * ownercount : 58542
-             * fold_type : 0
              * audio_id : 15327235
              * pkg_price_sq : 0
              * 320filesize : 10448979
@@ -185,11 +194,7 @@ public class SearchVo {
              * 320hash : c94b2dcb83cece392dbd0f5366e8ec9c
              * extname : mp3
              * sqhash : 403048691d6a5bbdd5d1d056c5ba5c8f
-             * pay_type_sq : 0
-             * 320privilege : 0
-             * sqprivilege : 0
              * album_name : 绅士
-             * othername :
              */
 
             private int pay_type_320;

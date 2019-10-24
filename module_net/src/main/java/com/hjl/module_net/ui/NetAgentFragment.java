@@ -14,6 +14,8 @@ import com.hjl.module_main.ui.activity.MainActivity;
 import com.hjl.module_main.ui.fragment.local.MainFragment;
 import com.hjl.module_net.R;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * created by long on 2019/10/23
  */
@@ -53,7 +55,10 @@ public class NetAgentFragment extends BaseFragment {
 
     }
 
-    public void showFragment(BaseFragment fragment,String name){
+    /**
+     * 添加的时候，并且加入返回栈的，fragment退栈时会销毁
+     */
+    public void showFragment(BaseFragment fragment,@NotNull String name){
         if (!StringUtils.isEmpty(name)){
             BaseFragment fragmentByTag =(BaseFragment) fragmentManager.findFragmentByTag(name);
             if (fragmentByTag == null){
@@ -74,6 +79,10 @@ public class NetAgentFragment extends BaseFragment {
 
     }
 
+    /**
+     * 先添加，再show Fragment，fragment一直存在
+     * @param name
+     */
     public void showFragment(String name){
 
         BaseFragment fragment =(BaseFragment) fragmentManager.findFragmentByTag(name);

@@ -36,4 +36,9 @@ public class NetworkWrapper {
         params.add("q", key);
         HttpUtils.get(path,params,httpHandler);
     }
+
+    public static void getSplashPic(HttpHandler<String> httpHandler,String tag){
+        String path = "http://guolin.tech/api/bing_pic";
+        HttpUtils.get(path,httpHandler,tag);
+    }
 }

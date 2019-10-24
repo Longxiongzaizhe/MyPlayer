@@ -88,6 +88,10 @@ public class CommonRequest {
     }
 
     public static Request createGetRequest(String url , RequestParams params ,RequestParams headers){
+        return createGetRequest(url,params,headers,null);
+    }
+
+    public static Request createGetRequest(String url , RequestParams params ,RequestParams headers,String tag){
 
         StringBuilder urlBuilder = new StringBuilder(url).append("?");
 
@@ -98,9 +102,9 @@ public class CommonRequest {
                 Log.w(TAG,"params: " + entry.getKey() + " valus: " + entry.getValue());
             }
         }
-
         Request.Builder request = new Request.Builder()
                 .url(urlBuilder.substring(0,urlBuilder.length()-1))
+                .tag(tag)
                 .get();
 
         if (headers != null){

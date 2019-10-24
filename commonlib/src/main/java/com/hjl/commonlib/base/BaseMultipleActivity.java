@@ -107,6 +107,10 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
         });
     }
 
+    protected void hideTitleLayout(){
+        mTitleCl.setVisibility(View.GONE);
+    }
+
     protected void getKeyData(){
 
     }
