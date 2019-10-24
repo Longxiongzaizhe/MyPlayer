@@ -2,10 +2,12 @@ package com.hjl.module_net.net;
 
 import com.hjl.module_net.net.vo.AssociativeWordVo;
 import com.hjl.module_net.net.vo.HotSearchVo;
+import com.hjl.module_net.net.vo.MusicDetailVo;
 import com.hjl.module_net.net.vo.SearchVo;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
 /**
@@ -38,4 +40,13 @@ public interface NetApiServer {
     Observable<AssociativeWordVo> getAssociativeWord(@Query("student")String student, @Query("cmd") String cmd,
                                                      @Query("keyword")String keyword, @Query("with_res_tag") String with_res_tag);
     //student=0&cmd=302&keyword={keyword}&with_res_tag=1
+
+    /**
+     * 获取音乐详情（播放、歌词）
+     * http://www.kugou.com/yy/index.php?r=play/getdata&hash=CB7EE97F4CC11C4EA7A1FA4B516A5D97
+     */
+    @Headers("Cookie:kg_mid=2333")
+    @GET("http://www.kugou.com/yy/index.php")
+    Observable<MusicDetailVo> getMusicDetail(@Query("r") String r,@Query("hash") String hash);
+
 }

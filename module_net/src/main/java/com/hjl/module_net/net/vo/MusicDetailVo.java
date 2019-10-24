@@ -6,10 +6,11 @@ import java.util.List;
  * created by long on 2019/10/23
  */
 public class MusicDetailVo {
+
     /**
      * status : 1
      * err_code : 0
-     * data : {"hash":"CB7EE97F4CC11C4EA7A1FA4B516A5D97","timelength":199000,"filesize":3198974,"audio_name":"李玉刚 - 刚好遇见你","have_album":1,"album_name":"刚好遇见你 (单曲)","album_id":"1820033","img":"http://imge.kugou.com/stdmusic/20161109/20161109171040932108.jpg","have_mv":1,"video_id":"596892","author_name":"李玉刚","song_name":"刚好遇见你","lyrics":"﻿[id:$00000000]\r\n[ar:李玉刚]\r\n[ti:刚好遇见你]\r\n[by:]\r\n[hash:cb7ee97f4cc11c4ea7a1fa4b516a5d97]\r\n[al:]\r\n[sign:]\r\n[qq:]\r\n[total:0]\r\n[offset:0]\r\n[00:00.02]李玉刚 - 刚好遇见你\r\n[00:00.75]词：高进\r\n[00:00.85]曲：高进\r\n[00:00.94]编曲：关天天\r\n[00:13.13]我们哭了\r\n[00:15.79]我们笑着\r\n[00:18.83]我们抬头望天空\r\n[00:21.86]星星还亮着几颗\r\n[00:24.98]我们唱着\r\n[00:27.96]时间的歌\r\n[00:31.09]才懂得相互拥抱\r\n[00:33.98]到底是为了什么\r\n[00:37.30]因为我刚好遇见你\r\n[00:40.77]留下足迹才美丽\r\n[00:43.79]风吹花落泪如雨\r\n[00:46.80]因为不想分离\r\n[00:49.95]因为刚好遇见你\r\n[00:53.10]留下十年的期许\r\n[00:55.99]如果再相遇\r\n[00:59.21]我想我会记得你\r\n[01:14.32]我们哭了\r\n[01:17.23]我们笑着\r\n[01:20.34]我们抬头望天空\r\n[01:23.33]星星还亮着几颗\r\n[01:26.51]我们唱着\r\n[01:29.53]时间的歌\r\n[01:32.59]才懂得相互拥抱\r\n[01:35.59]到底是为了什么\r\n[01:38.73]因为我刚好遇见你\r\n[01:42.23]留下足迹才美丽\r\n[01:45.30]风吹花落泪如雨\r\n[01:48.39]因为不想分离\r\n[01:51.55]因为刚好遇见你\r\n[01:54.54]留下十年的期许\r\n[01:57.61]如果再相遇\r\n[02:00.81]我想我会记得你\r\n[02:03.99]因为刚好遇见你\r\n[02:06.86]留下足迹才美丽\r\n[02:09.94]风吹花落泪如雨\r\n[02:13.03]因为不想分离\r\n[02:16.06]因为刚好遇见你\r\n[02:19.16]留下十年的期许\r\n[02:22.21]如果再相遇\r\n[02:25.34]我想我会记得你\r\n[02:31.40]因为我刚好遇见你\r\n[02:34.51]留下足迹才美丽\r\n[02:37.59]风吹花落泪如雨\r\n[02:40.67]因为不想分离\r\n[02:43.77]因为刚好遇见你\r\n[02:46.84]留下十年的期许\r\n[02:49.94]如果再相遇\r\n[02:53.11]我想我会记得你\r\n","author_id":"2018","privilege":8,"privilege2":"1000","play_url":"https://webfs.yun.kugou.com/201910231636/6a7efbe1c593972796e3f21de270267f/G078/M08/18/17/jg0DAFgi6G-AKqsqADDP_nSW5F4051.mp3","authors":[{"author_id":"2018","is_publish":"1","sizable_avatar":"http://singerimg.kugou.com/uploadpic/softhead/{size}/20181224/20181224183453372.jpg","author_name":"李玉刚","avatar":"http://singerimg.kugou.com/uploadpic/softhead/400/20181224/20181224183453372.jpg"}],"bitrate":128,"audio_id":"23609415","play_backup_url":"https://webfs.cloud.kugou.com/201910231636/1be0d5c0c7fd8bf0bf9a49091b88723c/G078/M08/18/17/jg0DAFgi6G-AKqsqADDP_nSW5F4051.mp3"}
+     * data : {"hash":"d285a231d05a8c4d430cab5749c5997e","timelength":287477,"filesize":4600248,"audio_name":"薛之谦 - 意外","have_album":1,"album_name":"意外","album_id":"960327","img":"http://imge.kugou.com/stdmusic/20150715/20150715184807521489.jpg","have_mv":1,"video_id":"595974","author_name":"薛之谦","song_name":"意外","lyrics":"[id:$00000000]\r\n[ti:意外 (《如果我爱你》电视剧插曲)]\r\n[ar:薛之谦]\r\n[00:00.50]意外 (《如果我爱你》电视剧插曲) - 薛之谦\r\n[00:03.41]词：杨子朴\r\n[00:04.28]曲：杨子朴\r\n[00:12.65]我在清晨的路上\r\n[00:16.62]谁被我遗忘\r\n[00:24.65]我在深夜里旅行\r\n[00:28.59]谁被我遗忘\r\n[00:35.45]肩上的破旧行囊\r\n[00:41.36]能收藏多少坚强\r\n[00:47.40]不如全身赤裸\r\n[00:51.13]还给我那脆弱\r\n[00:54.52]明知这是一场意外\r\n[00:58.62]你要不要来\r\n[01:06.64]明知这是一场重伤害\r\n[01:10.60]你会不会来\r\n[01:18.21]当疯狂慢慢从爱情离开\r\n[01:24.09]还有什么你值得感慨\r\n[01:28.66]如果风景早已都不存在\r\n[01:33.88]我想我谁都不爱\r\n[01:36.71]都不爱都不爱\r\n[01:39.09]都不爱都不爱\r\n[01:44.44]都不爱\r\n[01:48.49]都不爱都不爱\r\n[01:51.15]都不爱都不爱\r\n[02:03.58]我在清晨的路上\r\n[02:07.64]谁被我遗忘\r\n[02:15.59]我在深夜里旅行\r\n[02:19.61]谁被我遗忘\r\n[02:26.45]肩上的破旧行囊\r\n[02:32.39]能收藏多少坚强\r\n[02:38.57]不如全身赤裸\r\n[02:42.15]还给我那脆弱\r\n[02:45.49]明知这是一场意外\r\n[02:49.68]你要不要来\r\n[02:57.65]明知这是一场重伤害\r\n[03:01.65]你会不会来\r\n[03:09.25]当疯狂慢慢从爱情离开\r\n[03:15.15]还有什么你值得感慨\r\n[03:19.71]如果风景早已都不存在\r\n[03:24.77]我想我谁都不爱\r\n[03:27.53]明知这是一场意外\r\n[03:31.66]你要不要来\r\n[03:39.56]明知这是一场重伤害\r\n[03:43.53]你会不会来\r\n[03:51.26]当疯狂慢慢从爱情离开\r\n[03:57.10]还有什么你值得感慨\r\n[04:01.62]如果风景早已都不存在\r\n[04:06.74]我想我谁都不爱\r\n[04:14.39]谁都不爱\r\n","author_id":"3060","privilege":0,"privilege2":"0","play_url":"https://webfs.yun.kugou.com/201910242202/93e8f6259254e80885cc28fd35de9776/G013/M02/14/10/rYYBAFT9NkmAcPm5AEYxuCed8ko021.mp3","authors":[{"author_id":"3060","is_publish":"1","sizable_avatar":"http://singerimg.kugou.com/uploadpic/softhead/{size}/20190103/20190103191232626.jpg","author_name":"薛之谦","avatar":"http://singerimg.kugou.com/uploadpic/softhead/400/20190103/20190103191232626.jpg"}],"bitrate":128,"audio_id":"3936377","play_backup_url":"https://webfs.cloud.kugou.com/201910242202/592eb149017f456bdb7f8bd5e4973ad6/G013/M02/14/10/rYYBAFT9NkmAcPm5AEYxuCed8ko021.mp3"}
      */
 
     private int status;
@@ -42,88 +43,78 @@ public class MusicDetailVo {
 
     public static class DataBean {
         /**
-         * hash : CB7EE97F4CC11C4EA7A1FA4B516A5D97
-         * timelength : 199000
-         * filesize : 3198974
-         * audio_name : 李玉刚 - 刚好遇见你
+         * hash : d285a231d05a8c4d430cab5749c5997e
+         * timelength : 287477
+         * filesize : 4600248
+         * audio_name : 薛之谦 - 意外
          * have_album : 1
-         * album_name : 刚好遇见你 (单曲)
-         * album_id : 1820033
-         * img : http://imge.kugou.com/stdmusic/20161109/20161109171040932108.jpg
+         * album_name : 意外
+         * album_id : 960327
+         * img : http://imge.kugou.com/stdmusic/20150715/20150715184807521489.jpg
          * have_mv : 1
-         * video_id : 596892
-         * author_name : 李玉刚
-         * song_name : 刚好遇见你
-         * lyrics : ﻿[id:$00000000]
-         [ar:李玉刚]
-         [ti:刚好遇见你]
-         [by:]
-         [hash:cb7ee97f4cc11c4ea7a1fa4b516a5d97]
-         [al:]
-         [sign:]
-         [qq:]
-         [total:0]
-         [offset:0]
-         [00:00.02]李玉刚 - 刚好遇见你
-         [00:00.75]词：高进
-         [00:00.85]曲：高进
-         [00:00.94]编曲：关天天
-         [00:13.13]我们哭了
-         [00:15.79]我们笑着
-         [00:18.83]我们抬头望天空
-         [00:21.86]星星还亮着几颗
-         [00:24.98]我们唱着
-         [00:27.96]时间的歌
-         [00:31.09]才懂得相互拥抱
-         [00:33.98]到底是为了什么
-         [00:37.30]因为我刚好遇见你
-         [00:40.77]留下足迹才美丽
-         [00:43.79]风吹花落泪如雨
-         [00:46.80]因为不想分离
-         [00:49.95]因为刚好遇见你
-         [00:53.10]留下十年的期许
-         [00:55.99]如果再相遇
-         [00:59.21]我想我会记得你
-         [01:14.32]我们哭了
-         [01:17.23]我们笑着
-         [01:20.34]我们抬头望天空
-         [01:23.33]星星还亮着几颗
-         [01:26.51]我们唱着
-         [01:29.53]时间的歌
-         [01:32.59]才懂得相互拥抱
-         [01:35.59]到底是为了什么
-         [01:38.73]因为我刚好遇见你
-         [01:42.23]留下足迹才美丽
-         [01:45.30]风吹花落泪如雨
-         [01:48.39]因为不想分离
-         [01:51.55]因为刚好遇见你
-         [01:54.54]留下十年的期许
-         [01:57.61]如果再相遇
-         [02:00.81]我想我会记得你
-         [02:03.99]因为刚好遇见你
-         [02:06.86]留下足迹才美丽
-         [02:09.94]风吹花落泪如雨
-         [02:13.03]因为不想分离
-         [02:16.06]因为刚好遇见你
-         [02:19.16]留下十年的期许
-         [02:22.21]如果再相遇
-         [02:25.34]我想我会记得你
-         [02:31.40]因为我刚好遇见你
-         [02:34.51]留下足迹才美丽
-         [02:37.59]风吹花落泪如雨
-         [02:40.67]因为不想分离
-         [02:43.77]因为刚好遇见你
-         [02:46.84]留下十年的期许
-         [02:49.94]如果再相遇
-         [02:53.11]我想我会记得你
-         * author_id : 2018
-         * privilege : 8
-         * privilege2 : 1000
-         * play_url : https://webfs.yun.kugou.com/201910231636/6a7efbe1c593972796e3f21de270267f/G078/M08/18/17/jg0DAFgi6G-AKqsqADDP_nSW5F4051.mp3
-         * authors : [{"author_id":"2018","is_publish":"1","sizable_avatar":"http://singerimg.kugou.com/uploadpic/softhead/{size}/20181224/20181224183453372.jpg","author_name":"李玉刚","avatar":"http://singerimg.kugou.com/uploadpic/softhead/400/20181224/20181224183453372.jpg"}]
+         * video_id : 595974
+         * author_name : 薛之谦
+         * song_name : 意外
+         * lyrics : [id:$00000000]
+         [ti:意外 (《如果我爱你》电视剧插曲)]
+         [ar:薛之谦]
+         [00:00.50]意外 (《如果我爱你》电视剧插曲) - 薛之谦
+         [00:03.41]词：杨子朴
+         [00:04.28]曲：杨子朴
+         [00:12.65]我在清晨的路上
+         [00:16.62]谁被我遗忘
+         [00:24.65]我在深夜里旅行
+         [00:28.59]谁被我遗忘
+         [00:35.45]肩上的破旧行囊
+         [00:41.36]能收藏多少坚强
+         [00:47.40]不如全身赤裸
+         [00:51.13]还给我那脆弱
+         [00:54.52]明知这是一场意外
+         [00:58.62]你要不要来
+         [01:06.64]明知这是一场重伤害
+         [01:10.60]你会不会来
+         [01:18.21]当疯狂慢慢从爱情离开
+         [01:24.09]还有什么你值得感慨
+         [01:28.66]如果风景早已都不存在
+         [01:33.88]我想我谁都不爱
+         [01:36.71]都不爱都不爱
+         [01:39.09]都不爱都不爱
+         [01:44.44]都不爱
+         [01:48.49]都不爱都不爱
+         [01:51.15]都不爱都不爱
+         [02:03.58]我在清晨的路上
+         [02:07.64]谁被我遗忘
+         [02:15.59]我在深夜里旅行
+         [02:19.61]谁被我遗忘
+         [02:26.45]肩上的破旧行囊
+         [02:32.39]能收藏多少坚强
+         [02:38.57]不如全身赤裸
+         [02:42.15]还给我那脆弱
+         [02:45.49]明知这是一场意外
+         [02:49.68]你要不要来
+         [02:57.65]明知这是一场重伤害
+         [03:01.65]你会不会来
+         [03:09.25]当疯狂慢慢从爱情离开
+         [03:15.15]还有什么你值得感慨
+         [03:19.71]如果风景早已都不存在
+         [03:24.77]我想我谁都不爱
+         [03:27.53]明知这是一场意外
+         [03:31.66]你要不要来
+         [03:39.56]明知这是一场重伤害
+         [03:43.53]你会不会来
+         [03:51.26]当疯狂慢慢从爱情离开
+         [03:57.10]还有什么你值得感慨
+         [04:01.62]如果风景早已都不存在
+         [04:06.74]我想我谁都不爱
+         [04:14.39]谁都不爱
+         * author_id : 3060
+         * privilege : 0
+         * privilege2 : 0
+         * play_url : https://webfs.yun.kugou.com/201910242202/93e8f6259254e80885cc28fd35de9776/G013/M02/14/10/rYYBAFT9NkmAcPm5AEYxuCed8ko021.mp3
+         * authors : [{"author_id":"3060","is_publish":"1","sizable_avatar":"http://singerimg.kugou.com/uploadpic/softhead/{size}/20190103/20190103191232626.jpg","author_name":"薛之谦","avatar":"http://singerimg.kugou.com/uploadpic/softhead/400/20190103/20190103191232626.jpg"}]
          * bitrate : 128
-         * audio_id : 23609415
-         * play_backup_url : https://webfs.cloud.kugou.com/201910231636/1be0d5c0c7fd8bf0bf9a49091b88723c/G078/M08/18/17/jg0DAFgi6G-AKqsqADDP_nSW5F4051.mp3
+         * audio_id : 3936377
+         * play_backup_url : https://webfs.cloud.kugou.com/201910242202/592eb149017f456bdb7f8bd5e4973ad6/G013/M02/14/10/rYYBAFT9NkmAcPm5AEYxuCed8ko021.mp3
          */
 
         private String hash;
@@ -318,11 +309,11 @@ public class MusicDetailVo {
 
         public static class AuthorsBean {
             /**
-             * author_id : 2018
+             * author_id : 3060
              * is_publish : 1
-             * sizable_avatar : http://singerimg.kugou.com/uploadpic/softhead/{size}/20181224/20181224183453372.jpg
-             * author_name : 李玉刚
-             * avatar : http://singerimg.kugou.com/uploadpic/softhead/400/20181224/20181224183453372.jpg
+             * sizable_avatar : http://singerimg.kugou.com/uploadpic/softhead/{size}/20190103/20190103191232626.jpg
+             * author_name : 薛之谦
+             * avatar : http://singerimg.kugou.com/uploadpic/softhead/400/20190103/20190103191232626.jpg
              */
 
             private String author_id;

@@ -17,6 +17,7 @@ import com.hjl.module_net.mvp.contract.NetSearchContract
 import com.hjl.module_net.mvp.presenter.SearchPresenterImpl
 import com.hjl.module_net.net.vo.AssociativeWordVo
 import com.hjl.module_net.net.vo.HotSearchVo
+import com.hjl.module_net.net.vo.MusicDetailVo
 import com.hjl.module_net.net.vo.SearchVo
 import com.hjl.module_net.ui.adapter.SearchTipAdapter
 import com.zhy.view.flowlayout.FlowLayout
@@ -25,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_search_song.*
 import java.util.concurrent.TimeUnit
 
 class SearchSongActivity : BaseMvpMultipleActivity<SearchPresenterImpl>(),NetSearchContract.INetSearchView {
+
 
     private val tipAdapter = SearchTipAdapter()
     private var isGetHotSuccess = false
@@ -123,6 +125,14 @@ class SearchSongActivity : BaseMvpMultipleActivity<SearchPresenterImpl>(),NetSea
     override fun getHotSearchFail(msg: String?) {
        // ToastUtil.showSingleToast(msg)
         Log.e(TAG,msg)
+    }
+
+    override fun onGetMusicDetailSuccess(vo: MusicDetailVo?) {
+
+    }
+
+    override fun onGetMusicDetailFail(msg: String?) {
+
     }
 
 

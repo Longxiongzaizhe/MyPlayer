@@ -159,16 +159,13 @@ public class MusicService extends Service {
                 player.reset();
                 player.setDataSource(entity.path);
                 player.prepareAsync();
-                player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        if (listeners.size() != 0){
-                           for (MusicInterface.OnMediaChangeListener listener : listeners){
-                               listener.onDataChange(entity);
-                           }
-                        }
-                        player.start();
+                player.setOnPreparedListener(mp -> {
+                    if (listeners.size() != 0){
+                       for (MusicInterface.OnMediaChangeListener listener : listeners){
+                           listener.onDataChange(entity);
+                       }
                     }
+                    player.start();
                 });
             } catch (IOException e) {
                 e.printStackTrace();

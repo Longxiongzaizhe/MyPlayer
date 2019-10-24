@@ -11,6 +11,19 @@ import com.hjl.module_net.net.vo.HotSearchVo
  */
 class SearchPresenterImpl : NetBasePresenter<NetSearchContract.INetSearchView>(),NetSearchContract.INetSearchPresenter{
 
+    override fun getMusicDetail(hash: String?) {
+       val disposable = apiServer.getMusicDetail("play/getdata",hash)
+                       .compose(RxSchedulers.io_main())
+                       .subscribe({
+                           view.onGetMusicDetailSuccess(it)
+                       },{
+                           view.onGetMusicDetailFail(it.message)
+                       })
+        addDisposable(disposable)
+
+
+    }
+
     override fun getHotSearch() {
         addDisposable(apiServer.hotSearch,object :HttpObserver<HotSearchVo>(){
             override fun onSuccess(o: HotSearchVo?) {

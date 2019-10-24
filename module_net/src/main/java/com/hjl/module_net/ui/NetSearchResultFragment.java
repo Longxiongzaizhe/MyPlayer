@@ -2,6 +2,8 @@ package com.hjl.module_net.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment;
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.commonlib.utils.ToastUtil;
@@ -18,6 +21,7 @@ import com.hjl.module_net.mvp.contract.NetSearchContract;
 import com.hjl.module_net.mvp.presenter.SearchPresenterImpl;
 import com.hjl.module_net.net.vo.AssociativeWordVo;
 import com.hjl.module_net.net.vo.HotSearchVo;
+import com.hjl.module_net.net.vo.MusicDetailVo;
 import com.hjl.module_net.net.vo.SearchVo;
 import com.hjl.module_net.ui.adapter.SearchResultAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -26,6 +30,7 @@ import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +95,12 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
         resultRv.setAdapter(adapter);
         resultRv.setLayoutManager(new LinearLayoutManager(getContext()));
         agentFragment = (NetAgentFragment) getParentFragment();
+
+        adapter.setOnItemClickListener((adapter, view1, position) -> {
+            SearchVo.DataBean.InfoBean bean = (SearchVo.DataBean.InfoBean) adapter.getData().get(position);
+            mPresenter.getMusicDetail(bean.getHash());
+        });
+
         searchNewTv.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(),SearchSongActivity.class);
             startActivityForResult(intent,FlagConstant.REQUEST_CODE_ONE);
@@ -98,6 +109,7 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
         cancelTv.setOnClickListener( v ->{
             agentFragment.getChildFragmentManager().popBackStackImmediate();
         });
+
 
     }
 
@@ -172,6 +184,32 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
     @Override
     public void getHotSearchFail(String msg) {
 
+    }
+
+    @Override
+    public void onGetMusicDetailSuccess(MusicDetailVo vo) {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(getContext(), Uri.parse(vo.getData().getPlay_url()),null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer.prepareAsync();
+        mediaPlayer.setOnPreparedListener(MediaPlayer::start);
+    }
+
+    @Override
+    public void onGetMusicDetailFail(String msg) {
+        ToastUtil.showSingleToast(msg);
+
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(getContext(), Uri.parse("https://webfs.yun.kugou.com/201910242131/920d1499bc04f0e2ce719880594feb82/G078/M08/18/17/jg0DAFgi6G-AKqsqADDP_nSW5F4051.mp3"),null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer.prepareAsync();
+        mediaPlayer.setOnPreparedListener(MediaPlayer::start);
     }
 
     @Override

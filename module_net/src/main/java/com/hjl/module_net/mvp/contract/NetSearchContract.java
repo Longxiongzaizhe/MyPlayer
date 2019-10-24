@@ -3,6 +3,7 @@ package com.hjl.module_net.mvp.contract;
 import com.hjl.commonlib.base.mvp.IBaseMvpView;
 import com.hjl.module_net.net.vo.AssociativeWordVo;
 import com.hjl.module_net.net.vo.HotSearchVo;
+import com.hjl.module_net.net.vo.MusicDetailVo;
 import com.hjl.module_net.net.vo.SearchVo;
 
 /**
@@ -19,12 +20,16 @@ public interface NetSearchContract {
 
         void getHotSearchSuccess(HotSearchVo hotSearchVo);
         void getHotSearchFail(String msg);
+
+        void onGetMusicDetailSuccess(MusicDetailVo vo);
+        void onGetMusicDetailFail(String msg);
     }
 
     interface INetSearchPresenter{
         void getAssociativeWord(String keyWord);
         void search(String keyWord,int pageIndex,int pageSize);
         void getHotSearch();
+        void getMusicDetail(String hash);
     }
 
 

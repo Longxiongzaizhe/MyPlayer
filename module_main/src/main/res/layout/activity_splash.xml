@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,5 +12,25 @@
         android:layout_height="match_parent"
         android:src="@drawable/app_forground"
         android:scaleType="centerCrop" />
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="愁人知夜长"
+        android:layout_gravity="bottom|end"
+        android:textSize="@dimen/text_title_plus_size"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/common_white"/>
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="志士惜日短"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="60dp"
+        android:textSize="@dimen/text_title_plus_size"
+        android:textColor="@color/common_white"/>
 
-</android.support.constraint.ConstraintLayout>
+</FrameLayout>
