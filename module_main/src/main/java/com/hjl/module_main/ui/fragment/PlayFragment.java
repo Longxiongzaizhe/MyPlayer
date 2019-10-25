@@ -97,6 +97,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         } else if (v == mMusicPreIv){
             mBinder.playPrevious();
         }else if (v == mMusicAlbumsIv){
+            if (currentEntity == null) return;
             Intent intent = new Intent(getContext(), MusicDetailActivity.class);
             intent.putExtra(FlagConstant.INTENT_KEY01,currentEntity.id);
             intent.putExtra(FlagConstant.BINDER,mBinder);

@@ -3,10 +3,12 @@ package com.hjl.module_main.service;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.constant.SPConstant;
 import com.hjl.module_main.daodb.MediaEntity;
@@ -28,6 +30,8 @@ public class MusicService extends Service {
     private int position;
     private MediaConstant.MusicMode musicMode;
     private String modeStr;
+
+    private String TAG = "MusicService";
 
     public MusicService() {
     }
@@ -157,7 +161,11 @@ public class MusicService extends Service {
             try {
                 currentEntity = entity;
                 player.reset();
-                player.setDataSource(entity.path);
+                if (entity.getType() == 0){
+                    player.setDataSource(getApplicationContext(), Uri.parse(entity.path));
+                }else {
+                    player.setDataSource(entity.path);
+                }
                 player.prepareAsync();
                 player.setOnPreparedListener(mp -> {
                     if (listeners.size() != 0){
@@ -167,8 +175,9 @@ public class MusicService extends Service {
                     }
                     player.start();
                 });
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                //e.printStackTrace();
+                ToastUtil.showSingleToast("加载歌曲错误:" + e.getMessage());
             }
         }
 

@@ -1,10 +1,13 @@
 package com.hjl.module_net.ui;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +19,12 @@ import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment;
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.constant.FlagConstant;
+import com.hjl.module_main.daodb.MediaDaoManager;
+import com.hjl.module_main.daodb.MediaEntity;
+import com.hjl.module_main.daodb.MediaRelEntity;
+import com.hjl.module_main.daodb.MediaRelManager;
+import com.hjl.module_main.service.MusicService;
+import com.hjl.module_net.KugouUtils;
 import com.hjl.module_net.R;
 import com.hjl.module_net.mvp.contract.NetSearchContract;
 import com.hjl.module_net.mvp.presenter.SearchPresenterImpl;
@@ -34,6 +43,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.hjl.module_main.constant.MediaConstant.RECENTLY_LIST;
+
 /**
  * created by long on 2019/10/23
  */
@@ -47,6 +58,7 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
     private SmartRefreshLayout mRefreshLayout;
     private List<SearchVo.DataBean.InfoBean> dataList = new ArrayList<>();
     private NetAgentFragment agentFragment;
+    private MusicService.MusicBinder mBinder;
 
     private int pageSize = 20;
     private int pageIndex = 1;
@@ -97,6 +109,7 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
         agentFragment = (NetAgentFragment) getParentFragment();
 
         adapter.setOnItemClickListener((adapter, view1, position) -> {
+            if (mBinder == null) return;
             SearchVo.DataBean.InfoBean bean = (SearchVo.DataBean.InfoBean) adapter.getData().get(position);
             mPresenter.getMusicDetail(bean.getHash());
         });
@@ -120,6 +133,10 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
             mPresenter.search(keyword,pageIndex,pageSize);
             searchNewTv.setText(keyword);
         }
+
+        Intent serviceIntent = new Intent(getContext(),MusicService.class);
+
+        getActivity().bindService(serviceIntent,connection,Activity.BIND_AUTO_CREATE);
     }
 
     private void searchNewKey(){
@@ -127,6 +144,19 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
         dataList.clear();
         mPresenter.search(keyword,pageIndex,pageSize);
     }
+
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mBinder = (MusicService.MusicBinder) service;
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
     @Override
     public void onSearchFail(String msg) {
@@ -188,33 +218,22 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
 
     @Override
     public void onGetMusicDetailSuccess(MusicDetailVo vo) {
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        try {
-            mediaPlayer.setDataSource(getContext(), Uri.parse(vo.getData().getPlay_url()),null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mediaPlayer.prepareAsync();
-        mediaPlayer.setOnPreparedListener(MediaPlayer::start);
+        MediaEntity entity = KugouUtils.MusicDetail2MediaEntity(vo);
+        MediaDaoManager.getInstance().insertSafety(entity);
+        mBinder.play(entity);
+        MediaRelManager.getInstance().insert(new MediaRelEntity(null, RECENTLY_LIST,entity.id));
+
     }
 
     @Override
     public void onGetMusicDetailFail(String msg) {
         ToastUtil.showSingleToast(msg);
-
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        try {
-            mediaPlayer.setDataSource(getContext(), Uri.parse("https://webfs.yun.kugou.com/201910242131/920d1499bc04f0e2ce719880594feb82/G078/M08/18/17/jg0DAFgi6G-AKqsqADDP_nSW5F4051.mp3"),null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mediaPlayer.prepareAsync();
-        mediaPlayer.setOnPreparedListener(MediaPlayer::start);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        getActivity().unbindService(connection);
     }
 
     @Override

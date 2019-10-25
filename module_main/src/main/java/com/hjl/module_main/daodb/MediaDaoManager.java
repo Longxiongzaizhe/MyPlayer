@@ -44,6 +44,12 @@ public class MediaDaoManager implements DaoManager<MediaEntity>{
         dao.insertInTx(mediaList);
     }
 
+    public void insertSafety(MediaEntity entity){
+        if (!isSongExist(entity.id)){
+            dao.insert(entity);
+        }
+    }
+
     public void addSafety(List<MediaEntity> mediaList){
         for (MediaEntity entity : mediaList){
             if (!isSongExist(entity.id)){

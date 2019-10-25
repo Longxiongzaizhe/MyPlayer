@@ -223,7 +223,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
         mBinder.play(list.get(position));
         mBinder.getService().setPosition(position);
         mBinder.getService().setPlayList(list);
-        view.requestFocus();
+        view.requestFocus(); // 滚动显示歌曲名
         relManager.insert(new MediaRelEntity(null, RECENTLY_LIST,list.get(position).getId()));
 
     }
@@ -239,25 +239,40 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
             switch (name){
                 case "删除":
                     MediaEntity entity = list.get(position);
-
                     BaseTipDialog dialog = new BaseTipDialog(getContext(), BaseTipDialog.TipDialogEnum.DIALOG_WITH_CONTENT);
-                    dialog.setTitle("删除");
-                    dialog.setContent(String.format("是否删除 %s 歌曲文件?", entity.getTitle()));
-                    dialog.setOnConfirmClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (FileUtils.deleteFile(entity.path, getContext())) {
+
+                    if (entity.type == 0){
+                        dialog.setTitle("删除");
+                        dialog.setContent(String.format("是否从列表中移除 %s 歌曲?", entity.getTitle()));
+                        dialog.setOnConfirmClickListener(v -> {
                             relManager.deleteSongAllRel(entity.id);
-                            ToastUtil.show("删除成功");
                             list.remove(position);
                             manager.delete(entity.id);
                             adapter.notifyDataSetChanged();
                             dialog.dismiss();
-                            }else {
-                                ToastUtil.show("删除异常");
+                        });
+                    }else {
+
+                        dialog.setTitle("删除");
+                        dialog.setContent(String.format("是否删除 %s 歌曲文件?", entity.getTitle()));
+                        dialog.setOnConfirmClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (FileUtils.deleteFile(entity.path, getContext())) {
+                                    relManager.deleteSongAllRel(entity.id);
+                                    ToastUtil.show("删除成功");
+                                    list.remove(position);
+                                    manager.delete(entity.id);
+                                    adapter.notifyDataSetChanged();
+                                    dialog.dismiss();
+                                }else {
+                                    ToastUtil.show("删除异常");
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+
+
                     dialog.show();
                     break;
                 case "收藏":

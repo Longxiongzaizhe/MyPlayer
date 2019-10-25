@@ -19,11 +19,15 @@ public class MediaEntity {
     public long duration; // 媒体播放总时间
     public long album_id;//专辑ID
     public String albums; // 专辑
-    public String artist; // 艺术家
+    public String artist; // 艺术家  显示的歌手名
     public String singer; //歌手
     public long size;
     public String coverUrl;
     public boolean canGetCover;
+
+    public int type;  // net : 0 free       local else
+    public String videoId;
+    public String lyric;
 
     public Bitmap getCover() {
         return cover;
@@ -35,10 +39,10 @@ public class MediaEntity {
 
     @Transient
     public Bitmap cover;
-    @Generated(hash = 1369433284)
+    @Generated(hash = 1723178999)
     public MediaEntity(Long id, String title, String display_name, String path, long duration,
             long album_id, String albums, String artist, String singer, long size,
-            String coverUrl, boolean canGetCover) {
+            String coverUrl, boolean canGetCover, int type, String videoId, String lyric) {
         this.id = id;
         this.title = title;
         this.display_name = display_name;
@@ -51,6 +55,9 @@ public class MediaEntity {
         this.size = size;
         this.coverUrl = coverUrl;
         this.canGetCover = canGetCover;
+        this.type = type;
+        this.videoId = videoId;
+        this.lyric = lyric;
     }
 
     @Generated(hash = 887223317)
@@ -141,5 +148,29 @@ public class MediaEntity {
 
     public void setCanGetCover(boolean canGetCover) {
         this.canGetCover = canGetCover;
+    }
+
+    public int getType() {
+        return this.type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getVideoId() {
+        return this.videoId;
+    }
+
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
+    }
+
+    public String getLyric() {
+        return this.lyric;
+    }
+
+    public void setLyric(String lyric) {
+        this.lyric = lyric;
     }
 }
