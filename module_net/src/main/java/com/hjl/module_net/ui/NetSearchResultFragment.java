@@ -4,17 +4,15 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment;
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.commonlib.utils.ToastUtil;
@@ -39,7 +37,6 @@ import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,7 +108,12 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
         adapter.setOnItemClickListener((adapter, view1, position) -> {
             if (mBinder == null) return;
             SearchVo.DataBean.InfoBean bean = (SearchVo.DataBean.InfoBean) adapter.getData().get(position);
-            mPresenter.getMusicDetail(bean.getHash());
+            if (bean.getPay_type() == 0){
+                mPresenter.getMusicDetail(bean.getHash());
+            }else {
+                ToastUtil.showSingleToast("暂不支持播放付费歌曲");
+            }
+
         });
 
         searchNewTv.setOnClickListener(v -> {
@@ -221,6 +223,7 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
         MediaEntity entity = KugouUtils.MusicDetail2MediaEntity(vo);
         MediaDaoManager.getInstance().insertSafety(entity);
         mBinder.play(entity);
+        Log.d("ly", "ly: " + vo.getData().getLyrics());
         MediaRelManager.getInstance().insert(new MediaRelEntity(null, RECENTLY_LIST,entity.id));
 
     }

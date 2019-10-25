@@ -19,14 +19,15 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchVo.DataBean.Info
     @Override
     protected void convert(BaseViewHolder helper, SearchVo.DataBean.InfoBean item) {
 
-        StringBuilder sb = new StringBuilder(item.getSingername());
-        sb.append(" - ");
-        sb.append(item.getAlbum_name());
-        String author = sb.toString();
+        String author = item.getSingername() + " - " + item.getAlbum_name();
         author = author.replace("</em>","");
         author = author.replace("<em>","");
         helper.setText(R.id.search_result_name,item.getSongname());
         helper.setText(R.id.search_result_author,author);
+
+        if (item.getPay_type() != 0){
+            helper.setVisible(R.id.search_result_pay,true);
+        }
 
     }
 }

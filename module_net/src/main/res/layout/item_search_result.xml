@@ -29,5 +29,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="周杰伦"/>
 
+    <TextView
+        android:id="@+id/search_result_pay"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:text="付费"
+        android:layout_marginTop="@dimen/margin_tiny_size"
+        android:layout_marginEnd="@dimen/margin_small_size"
+        android:background="@drawable/common_bg_blue_4t"
+        android:textSize="@dimen/text_small_size"
+        android:textColor="@color/common_base_theme_blue"
+        android:gravity="center"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
 
 </android.support.constraint.ConstraintLayout>

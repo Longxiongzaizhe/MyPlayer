@@ -25,7 +25,7 @@ public class MediaEntity {
     public String coverUrl;
     public boolean canGetCover;
 
-    public int type;  // net : 0 free       local else
+    public int type;  // net : 0 free       local 2
     public String videoId;
     public String lyric;
 

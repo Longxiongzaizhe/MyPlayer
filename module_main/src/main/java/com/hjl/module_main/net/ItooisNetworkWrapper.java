@@ -1,4 +1,4 @@
-package com.hjl.module_main.net.bean;
+package com.hjl.module_main.net;
 
 import com.hjl.commonlib.network.okhttp.HttpHandler;
 import com.hjl.commonlib.network.okhttp.HttpUtils;

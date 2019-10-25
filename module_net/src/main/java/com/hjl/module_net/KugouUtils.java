@@ -1,10 +1,9 @@
 package com.hjl.module_net;
 
-import android.util.Log;
-
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_net.net.vo.MusicDetailVo;
+
 
 /**
  * created by long on 2019/10/25
@@ -23,6 +22,7 @@ public class KugouUtils {
         entity.duration = vo.getData().getTimelength(); // 长度
         entity.artist = vo.getData().getAudio_name(); // 作者
         entity.videoId = vo.getData().getVideo_id();
+        entity.lyric = vo.getData().getLyrics(); // 歌词
 
 
         if (StringUtils.isEmpty(entity.coverUrl)){

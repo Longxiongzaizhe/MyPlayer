@@ -76,6 +76,7 @@ public class MediaUtils {
                 mediaEntity.duration = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
                 mediaEntity.size = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));
                 mediaEntity.album_id = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
+                mediaEntity.type = 2;
                 mediaEntity.canGetCover = true;
 
                 if(!checkIsMusic(mediaEntity.duration, mediaEntity.size)) {

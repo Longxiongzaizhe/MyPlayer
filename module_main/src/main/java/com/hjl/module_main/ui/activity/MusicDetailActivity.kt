@@ -28,6 +28,7 @@ import com.hjl.module_main.daodb.MediaEntity
 import com.hjl.module_main.customview.MusicModePopWindow
 import com.hjl.module_main.service.MusicInterface
 import com.hjl.module_main.service.MusicService
+import com.hjl.module_main.utils.LyricUtils
 import com.hjl.module_main.utils.SPUtils
 import kotlinx.android.synthetic.main.activity_music_detail.*
 import org.greenrobot.eventbus.EventBus
@@ -75,6 +76,10 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
             detail_current_tv.text = DateUtils.getMusicTime(player.currentPosition)
             detail_duration_tv.text = DateUtils.getMusicTime(player.duration)
 
+            if (!StringUtils.isEmpty(mBinder!!.currentEntity.lyric)){
+                detail_lyric_view.setLyric(LyricUtils.parseLyric(mBinder!!.currentEntity.lyric))
+                detail_lyric_view.setCurrentTime(player.currentPosition.toLong())
+            }
         }
 
         EventBus.getDefault().register(this)
@@ -109,6 +114,10 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
         detail_menu_btn.setOnClickListener(this)
         detail_mode_btn.setOnClickListener(this)
         mTitleLeftIv.setOnClickListener(this)
+
+        detail_music_view.setOnClickListener {
+            detail_lyric_view.visibility = View.VISIBLE
+        }
 
 
     }
@@ -270,6 +279,7 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
                 weekActivity.get()!!.seek_bar.progress = position
                 weekActivity.get()!!.detail_current_tv.text = DateUtils.getMusicTime(position)
                 weekActivity.get()!!.detail_duration_tv.text = DateUtils.getMusicTime(duration)
+                weekActivity.get()!!.detail_lyric_view.setCurrentTime(position.toLong())
 
                 //设定拖动播放
                 weekActivity.get()!!.seek_bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
