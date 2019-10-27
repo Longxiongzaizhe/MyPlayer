@@ -146,7 +146,7 @@ public class SearchVo {
              *  薛之谦</em> - 演员
              * hash : a774a794184af17469b27963e120b565 播放
              * mvhash : 4f5dae4814bfaf9c556abcd91ebf7fc5 mv播放 <存疑>
-             * pay_type : 0   0 为免费播放
+             * pay_type : 0   0 为免费播放 3 可以播放
              *
              *
              *

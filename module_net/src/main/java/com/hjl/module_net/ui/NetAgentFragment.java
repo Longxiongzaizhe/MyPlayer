@@ -13,6 +13,7 @@ import com.hjl.module_main.router.RNet;
 import com.hjl.module_main.ui.activity.MainActivity;
 import com.hjl.module_main.ui.fragment.local.MainFragment;
 import com.hjl.module_net.R;
+import com.jakewharton.rxbinding3.widget.RxTextView;
 
 import org.jetbrains.annotations.NotNull;
 

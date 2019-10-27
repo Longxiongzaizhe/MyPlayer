@@ -76,6 +76,14 @@ class SearchSongActivity : BaseMvpMultipleActivity<SearchPresenterImpl>(),NetSea
                     }
                 })
 
+        addDisposable(net_search_et.editorActions().subscribe {
+            var data = net_search_et.text.toString()
+            intent.putExtra(FlagConstant.INTENT_KEY01,data)
+            setResult(Activity.RESULT_OK,intent)
+            finish()
+        })
+
+
     }
 
     override fun initData() {

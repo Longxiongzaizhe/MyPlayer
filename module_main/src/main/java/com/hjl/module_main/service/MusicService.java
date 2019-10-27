@@ -8,9 +8,11 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.constant.SPConstant;
+import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;
@@ -91,8 +93,6 @@ public class MusicService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
-
-
         return START_STICKY;
     }
 
@@ -140,7 +140,7 @@ public class MusicService extends Service {
 
         public void setData(MediaEntity entity){
 
-            if (entity == null) return;
+            if (entity == null || StringUtils.isEmpty(entity.path)) return;
 
             try {
                 player.reset();
@@ -177,7 +177,12 @@ public class MusicService extends Service {
                 });
             } catch (Exception e) {
                 //e.printStackTrace();
-                ToastUtil.showSingleToast("加载歌曲错误:" + e.getMessage());
+                if (StringUtils.isEmpty(entity.path)){
+                    entity.setType(404);
+                    MediaDaoManager.getInstance().update(entity);
+                }
+
+                //ToastUtil.showSingleToast("加载歌曲错误:" + e.getMessage());
             }
         }
 
@@ -233,6 +238,9 @@ public class MusicService extends Service {
         }
 
         public boolean isPlaying(){
+
+            if (player== null) return false;
+
             return player.isPlaying();
         }
 

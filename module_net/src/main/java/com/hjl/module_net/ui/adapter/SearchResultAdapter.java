@@ -22,10 +22,15 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchVo.DataBean.Info
         String author = item.getSingername() + " - " + item.getAlbum_name();
         author = author.replace("</em>","");
         author = author.replace("<em>","");
-        helper.setText(R.id.search_result_name,item.getSongname());
+        helper.setText(
+                R.id.search_result_name,
+                item.getSongname()
+                        .replace("</em>","")
+                        .replace("<em>","")
+        );
         helper.setText(R.id.search_result_author,author);
 
-        if (item.getPay_type() != 0){
+        if (item.getPay_type() != 0 && item.getPay_type() != 3){
             helper.setVisible(R.id.search_result_pay,true);
         }
 

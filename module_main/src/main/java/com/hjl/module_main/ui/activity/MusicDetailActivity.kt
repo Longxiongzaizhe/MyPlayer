@@ -80,6 +80,7 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
                 detail_lyric_view.setLyric(LyricUtils.parseLyric(mBinder!!.currentEntity.lyric))
                 detail_lyric_view.setCurrentTime(player.currentPosition.toLong())
             }
+
         }
 
         EventBus.getDefault().register(this)
@@ -117,6 +118,12 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
 
         detail_music_view.setOnClickListener {
             detail_lyric_view.visibility = View.VISIBLE
+            detail_music_view.visibility = View.GONE
+        }
+
+        detail_lyric_view.setOnClickListener {
+            detail_lyric_view.visibility = View.GONE
+            detail_music_view.visibility = View.VISIBLE
         }
 
 

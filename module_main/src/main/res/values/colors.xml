@@ -14,4 +14,6 @@
     <color name="gray_DDE0E6">#DDE0E6</color>
     <color name="gray_D5D5D5">#D5D5D5</color>
     <color name="white_music_view">#14FFFFFF</color>
+    <color name="lyric_blue">#4194FD</color>
+    <color name="lyric_yellow">#FAEF22</color>
 </resources>

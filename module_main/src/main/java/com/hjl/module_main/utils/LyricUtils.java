@@ -47,7 +47,7 @@ public class LyricUtils {
         long result;
         String[] data = time.trim().split(":");
 
-        result = Long.valueOf(data[0]);
+        result = Long.valueOf(data[0]) * 60 * 1000;
         result += Float.valueOf(data[1]) * 1000;
         return result;
     }

@@ -75,8 +75,15 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     protected void initData() {
 
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        if (mBinder != null && !mBinder.isPlaying()){
+            mMusicAlbumsIv.clearAnimation();
+        }
     }
 
     @Override

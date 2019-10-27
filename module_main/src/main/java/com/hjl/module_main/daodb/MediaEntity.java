@@ -25,7 +25,14 @@ public class MediaEntity {
     public String coverUrl;
     public boolean canGetCover;
 
-    public int type;  // net : 0 free       local 2
+    /**
+     * net
+     * 0 free
+     * 3 enable but path maybe null
+     * local 2
+     * negative 404
+     */
+    public int type;
     public String videoId;
     public String lyric;
 

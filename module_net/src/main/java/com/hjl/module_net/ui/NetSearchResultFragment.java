@@ -108,11 +108,13 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
         adapter.setOnItemClickListener((adapter, view1, position) -> {
             if (mBinder == null) return;
             SearchVo.DataBean.InfoBean bean = (SearchVo.DataBean.InfoBean) adapter.getData().get(position);
-            if (bean.getPay_type() == 0){
-                mPresenter.getMusicDetail(bean.getHash());
-            }else {
-                ToastUtil.showSingleToast("暂不支持播放付费歌曲");
-            }
+            mPresenter.getMusicDetail(bean.getHash());
+           // ToastUtil.showSingleToast(String.valueOf(bean.getPay_type()));
+//            if (bean.getPay_type() == 0){
+//                mPresenter.getMusicDetail(bean.getHash());
+//            }else {
+//                ToastUtil.showSingleToast("暂不支持播放付费歌曲");
+//            }
 
         });
 
@@ -221,6 +223,10 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
     @Override
     public void onGetMusicDetailSuccess(MusicDetailVo vo) {
         MediaEntity entity = KugouUtils.MusicDetail2MediaEntity(vo);
+        if (StringUtils.isEmpty(entity.path)){
+            ToastUtil.showSingleToast("获取播放地址为空");
+            return;
+        }
         MediaDaoManager.getInstance().insertSafety(entity);
         mBinder.play(entity);
         Log.d("ly", "ly: " + vo.getData().getLyrics());
@@ -245,6 +251,7 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
         if (requestCode == FlagConstant.REQUEST_CODE_ONE){
             if (resultCode == Activity.RESULT_OK){
                 keyword = data.getStringExtra(FlagConstant.INTENT_KEY01);
+                searchNewTv.setText(keyword);
                 searchNewKey();
             }
         }

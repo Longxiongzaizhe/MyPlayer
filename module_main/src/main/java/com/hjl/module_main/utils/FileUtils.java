@@ -3,6 +3,10 @@ package com.hjl.module_main.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -140,6 +144,20 @@ public class FileUtils {
     /**
      * 保存图片到文件
      */
+
+    public static void saveDrawableInFile(Drawable drawable,File file) throws FileNotFoundException {
+
+        Bitmap bitmap = Bitmap.createBitmap( drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
+                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+
+        savaBitmapInFile(bitmap,file);
+
+
+    }
+
     public static void savaBitmapInFile(Bitmap bitmap,File file) throws FileNotFoundException {
         try {
             if (!file.exists()){

@@ -40,17 +40,22 @@
         android:textSize="@dimen/text_large_size"
         app:layout_constraintStart_toEndOf="@+id/main_music_albums"
         app:layout_constraintTop_toTopOf="@+id/main_music_albums" />
+
     <TextView
         android:id="@+id/main_music_author"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/gray"
         android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/dp_4"
+        android:paddingEnd="@dimen/base_padding_size"
+        android:text="歌手"
+        android:textColor="@color/gray"
         android:textSize="@dimen/text_small_size"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintEnd_toStartOf="@+id/main_previous"
         app:layout_constraintStart_toEndOf="@+id/main_music_albums"
-        app:layout_constraintTop_toBottomOf="@+id/main_music_title"
-        android:text="歌手"/>
+        app:layout_constraintTop_toBottomOf="@+id/main_music_title" />
 
     <ImageView
         android:id="@+id/main_previous"
