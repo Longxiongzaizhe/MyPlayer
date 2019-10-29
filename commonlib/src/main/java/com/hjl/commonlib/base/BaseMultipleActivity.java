@@ -87,6 +87,7 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         mBind.unbind();
+        clearDisposable();
         super.onDestroy();
     }
 

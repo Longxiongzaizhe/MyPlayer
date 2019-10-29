@@ -236,6 +236,11 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
         }
     }
 
+    @Override
+    public void notifyDataChange() {
+        super.notifyDataChange();
+        updateData();
+    }
 
     private void updateData() {
         addDisposable(Observable.create((ObservableOnSubscribe<Map<String,Integer>>) e -> {

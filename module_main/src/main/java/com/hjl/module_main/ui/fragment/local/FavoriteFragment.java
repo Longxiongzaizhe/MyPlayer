@@ -204,7 +204,7 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
             @Override
             public void onSubscribe(Disposable d) {
-                disposable = d;
+                addDisposable(d);
             }
 
             @Override

@@ -11,7 +11,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import com.hjl.commonlib.base.BaseApplication
 import com.hjl.commonlib.base.BaseMultipleActivity
 import com.hjl.commonlib.network.okhttp.HttpHandler
@@ -43,6 +45,9 @@ class SplashActivity : BaseMultipleActivity() {
         val file = File(FileConstant.SPLASH_IMG_PATH)
         if (file.exists()){
             Glide.with(this).load(file).into(splash_iv)
+        }else{
+            var drawable = resources.getDrawable(R.drawable.app_forground)
+            Glide.with(this).load(drawable).into(splash_iv)
         }
 
         val msg = Message.obtain()
@@ -51,17 +56,11 @@ class SplashActivity : BaseMultipleActivity() {
         NetworkWrapper.getSplashPic(object : HttpHandler<String>(){
             override fun onSuccess(data: String?) {
                 if(!isFinishing|| !isDestroyed){
-                    Glide.with(this@SplashActivity).load(data).addListener(object :RequestListener<Drawable>{
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            return false
-                        }
-
-                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                    Glide.with(this@SplashActivity).load(data).into(object : SimpleTarget<Drawable>(){
+                        override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                             FileUtils.saveDrawableInFile(resource, File(FileConstant.SPLASH_IMG_PATH))
-                            return false
                         }
-
-                    }).centerCrop().into(splash_iv)
+                    })
                 }
 
             }

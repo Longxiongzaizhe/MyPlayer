@@ -20,7 +20,7 @@ public class KugouUtils {
         entity.coverUrl = vo.getData().getImg(); // 封面
         entity.id= Long.valueOf(vo.getData().getAudio_id());
         entity.duration = vo.getData().getTimelength(); // 长度
-        entity.artist = vo.getData().getAudio_name(); // 作者
+        entity.artist = vo.getData().getAuthor_name(); // 作者
         entity.videoId = vo.getData().getVideo_id();
         entity.lyric = vo.getData().getLyrics(); // 歌词
 

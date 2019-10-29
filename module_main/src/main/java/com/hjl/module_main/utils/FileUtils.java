@@ -1,7 +1,9 @@
 package com.hjl.module_main.utils;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,11 +12,14 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 
 import com.hjl.commonlib.base.BaseApplication;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.constant.FileConstant;
+import com.hjl.module_main.module.IMainModuleAppImpl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -159,11 +164,19 @@ public class FileUtils {
     }
 
     public static void savaBitmapInFile(Bitmap bitmap,File file) throws FileNotFoundException {
+
+        if (ContextCompat.checkSelfPermission(
+                BaseApplication.getApplication().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED ){
+            Log.e(TAG,"没有外部存储权限");
+        }
+
+
         try {
             if (!file.exists()){
-
-                if (!file.getParentFile().exists()){
-                    if (file.mkdirs()) {
+                File parentFile = file.getParentFile();
+                if (!parentFile.exists()){
+                    if (!parentFile.mkdirs() && !parentFile.exists()) {
                         throw new Exception("文件夹创建失败！");
                     }
                 }

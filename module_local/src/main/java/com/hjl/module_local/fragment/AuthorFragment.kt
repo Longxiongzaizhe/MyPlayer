@@ -13,24 +13,29 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.hjl.commonlib.base.BaseFragment
 import com.hjl.commonlib.utils.DensityUtil
 import com.hjl.commonlib.utils.RecycleViewVerticalDivider
+import com.hjl.commonlib.utils.RxSchedulers
 import com.hjl.module_local.R
 import com.hjl.module_local.adapter.AuthorAdapter
 import com.hjl.module_main.constant.FlagConstant
 import com.hjl.module_main.constant.MediaConstant
 import com.hjl.module_main.daodb.MediaAuthorEntity
 import com.hjl.module_main.daodb.MediaAuthorManager
+import com.hjl.module_main.daodb.MediaDaoManager
 import com.hjl.module_main.router.RApp
 import com.hjl.module_main.router.RLocal
 import com.hjl.module_main.router.RMain
 import com.hjl.module_main.service.MusicService
+import io.reactivex.Observable
+import kotlinx.android.synthetic.main.local_fragment_album.*
 import kotlinx.android.synthetic.main.local_fragment_author.*
+import java.util.*
 
 @Route(path = RLocal.AUTHOR_FRAGMENT)
 class AuthorFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener {
 
 
     var adapter : AuthorAdapter? = null
-    var datalist : List<MediaAuthorEntity> = MediaAuthorManager.get().loadAll()
+    var datalist  = MediaAuthorManager.get().loadAll()
     val TAG = "AuthorFragment"
 
 
@@ -53,15 +58,43 @@ class AuthorFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener {
         mMultipleStatusView.showLoading()
         adapter = AuthorAdapter(datalist).apply { onItemClickListener = this@AuthorFragment}
 
+
     }
 
     override fun initData() {
         author_rv.layoutManager = LinearLayoutManager(context)
         author_rv.adapter = adapter
+        adapter?.setEmptyView(R.layout.layout_no_content,author_rv)
         mMultipleStatusView.showContent()
         var itemDivider : RecycleViewVerticalDivider = RecycleViewVerticalDivider(context,2,
                 resources.getColor(R.color.common_divider_line_color),DensityUtil.dp2px(68f),0)
         author_rv.addItemDecoration(itemDivider)
+
+    }
+
+    override fun notifyDataChange() {
+        super.notifyDataChange()
+
+        mMultipleStatusView?.showLoading()
+        val disposable = Observable.create<String> {
+
+            MediaAuthorManager.get().deleteAll()
+            for (author in MediaDaoManager.getInstance().allAuthor) {
+                MediaAuthorManager.get().insert(author)
+            }
+
+            datalist.clear()
+            datalist.addAll(MediaAuthorManager.get().loadAll())
+            it.onNext(FlagConstant.RXJAVA_KEY_01)
+        }.compose(RxSchedulers.io_main()).subscribe {
+            adapter?.notifyDataSetChanged()
+            mMultipleStatusView?.showContent()
+        }
+
+        addDisposable(disposable)
+
+
+
 
 
     }

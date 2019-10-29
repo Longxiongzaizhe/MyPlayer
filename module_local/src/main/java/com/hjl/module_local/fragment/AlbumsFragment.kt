@@ -78,6 +78,36 @@ class AlbumsFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener {
         })
     }
 
+    override fun notifyDataChange() {
+        Observable.create(ObservableOnSubscribe<String> { e ->
+            MediaUtils.initAlbumCover()
+            synchronized(datalist){
+                datalist.clear()
+                datalist.addAll(MediaAlbumsManager.getInstance().loadAll())
+            }
+            e.onNext(FlagConstant.RXJAVA_KEY_01)
+            e.onComplete()
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<String> {
+            override fun onSubscribe(d: Disposable) {
+                addDisposable(d)
+            }
+
+            override fun onNext(value: String) {
+
+            }
+
+            override fun onError(e: Throwable) {
+
+            }
+
+            override fun onComplete() {
+                mMultipleStatusView?.showContent()
+                adapter.notifyDataSetChanged()
+            }
+
+        })
+    }
+
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         ARouter.getInstance().build(RMain.RMusicList)
                 .withInt(FlagConstant.INTENT_KEY01, MediaConstant.LIST_ALBUMS)

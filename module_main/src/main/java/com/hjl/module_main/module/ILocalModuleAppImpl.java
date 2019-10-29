@@ -35,9 +35,9 @@ public class ILocalModuleAppImpl implements IComponentApplication {
 
         initDaoSession(application);
 
-        MediaListManager listManager = MediaListManager.getInstance();
-        MediaDaoManager mediaManager = MediaDaoManager.getInstance();
-        MediaAlbumsManager albumsManager = MediaAlbumsManager.getInstance();
+        MediaListManager listManager = MediaListManager.getInstance(); // 初始化歌单
+        MediaDaoManager mediaManager = MediaDaoManager.getInstance(); // 初始化歌曲
+        MediaAlbumsManager albumsManager = MediaAlbumsManager.getInstance();  // 初始化专辑
 
 
         Disposable disposable = Observable.create((ObservableOnSubscribe<String>) emitter -> {
@@ -65,6 +65,7 @@ public class ILocalModuleAppImpl implements IComponentApplication {
         }).compose(RxSchedulers.io_main()).subscribe(s -> {
             ToastUtil.showSingleToast("数据库初始化完成");
         });
+
 
 
     }

@@ -13,6 +13,7 @@ import com.hjl.commonlib.R;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 public abstract class BaseFragment extends Fragment {
@@ -20,7 +21,8 @@ public abstract class BaseFragment extends Fragment {
     private Unbinder mBind;
     protected View mContentView;
     protected MultipleStatusView mMultipleStatusView;
-    protected Disposable disposable;
+
+    public CompositeDisposable mCompositeDisposable;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,12 +87,30 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void initView(View view);
     protected abstract void initData();
 
+
+    /**
+     * 添加订阅
+     */
+    public void addDisposable(Disposable mDisposable) {
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
+        mCompositeDisposable.add(mDisposable);
+    }
+
+    /**
+     * 取消所有订阅
+     */
+    public void clearDisposable() {
+        if (mCompositeDisposable != null) {
+            mCompositeDisposable.clear();
+        }
+    }
+
     @Override
     public void onDestroyView() {
         mBind.unbind();
-        if (disposable != null && !disposable.isDisposed()){
-            disposable.dispose();
-        }
+        clearDisposable();
         super.onDestroyView();
     }
 }
