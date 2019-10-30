@@ -80,7 +80,8 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
                 detail_lyric_view.setLyric(LyricUtils.parseLyric(mBinder!!.currentEntity.lyric))
                 detail_lyric_view.setCurrentTime(player.currentPosition.toLong())
                 detail_lyric_view.setPlayBtnClickListener {
-                    ToastUtil.showSingleToast(it.toString())
+                    player.seekTo(it.toInt())
+                    ToastUtil.showSingleToast("click play btn")
                 }
             }
 

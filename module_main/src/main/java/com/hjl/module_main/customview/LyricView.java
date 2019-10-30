@@ -109,6 +109,9 @@ public class LyricView extends View {
     private int minimumVelocity;
     private int maximumVelocity;
 
+    private boolean mPlayBtnClick = false;
+    private int mPlayBtnPadding = DensityUtil.dp2px(8);
+
     private PlayBtnClickListener playBtnClickListener;
 
 
@@ -252,6 +255,8 @@ public class LyricView extends View {
         }
 
 
+
+
     }
 
     public void drawIndicator(Canvas canvas){
@@ -332,6 +337,10 @@ public class LyricView extends View {
                     getParent().requestDisallowInterceptTouchEvent(true);  //解决事件冲突;
                 }
 
+                if (computeIsClickPlayBtn(event.getX(),event.getY() + getScrollY())){
+                    mPlayBtnClick = true;
+                }
+
                 mIsDraging = true;
                 return true;
             case MotionEvent.ACTION_MOVE:
@@ -357,6 +366,15 @@ public class LyricView extends View {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 //mIsDraging = false;
+
+                if (mPlayBtnClick &&
+                        computeIsClickPlayBtn(event.getX(),event.getY() + getScrollY())
+                ){
+                    playBtnClickListener.onPlayBtnClick(lyricLines.get(indicatorLine).startTime);
+                    mPlayBtnClick = false;
+                    mIsDraging = false;
+                }
+
                 velocityTracker.computeCurrentVelocity(1000, maximumVelocity);
                 int velocityY = (int) velocityTracker.getYVelocity();
                 fling(velocityY);
@@ -492,14 +510,16 @@ public class LyricView extends View {
     }
 
 
-    public void computeIsClickPlayBtn(int x,int y){
+    public boolean computeIsClickPlayBtn(float x, float y){
 
-        if (mPlayBtnBound == null) return;
+        if (mPlayBtnBound == null) return false;
 
-        if ( playBtnClickListener != null && x >= mPlayBtnBound.left && x <= mPlayBtnBound.right &&
-                    y >= mPlayBtnBound.top && y <= mPlayBtnBound.bottom ){
-            playBtnClickListener.onPlayBtnClick(indicatorTime);
-        }
+        if ( playBtnClickListener != null && x >= mPlayBtnBound.left - mPlayBtnPadding
+                && x <= mPlayBtnBound.right + mPlayBtnPadding
+                && y >= mPlayBtnBound.top - mPlayBtnPadding
+                && y <= mPlayBtnBound.bottom + mPlayBtnPadding ){
+            return true;
+        }else return false;
 
 
     }

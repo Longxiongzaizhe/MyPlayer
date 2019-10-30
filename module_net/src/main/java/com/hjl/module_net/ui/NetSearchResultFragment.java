@@ -109,6 +109,7 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
             if (mBinder == null) return;
             SearchVo.DataBean.InfoBean bean = (SearchVo.DataBean.InfoBean) adapter.getData().get(position);
             mPresenter.getMusicDetail(bean.getHash());
+            ToastUtil.showSingleToast("类型：" + bean.getPay_type());
            // ToastUtil.showSingleToast(String.valueOf(bean.getPay_type()));
 //            if (bean.getPay_type() == 0){
 //                mPresenter.getMusicDetail(bean.getHash());
