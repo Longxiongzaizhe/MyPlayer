@@ -167,7 +167,7 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
            // detail_music_view.setmCoverUrl(entity?.coverUrl)
             if (!StringUtils.isEmpty(entity?.coverUrl)){
                 val options : RequestOptions = RequestOptions().circleCrop()
-                var bitmap = Glide.with(this).asBitmap().centerCrop().apply(options).load(entity?.coverUrl).submit(500, 500).get()
+                val bitmap = Glide.with(this).asBitmap().centerCrop().apply(options).load(entity?.coverUrl).submit(500, 500).get()
                 detail_music_view.setCoverBm(bitmap)
             }
 

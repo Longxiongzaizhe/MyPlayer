@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.commonlib.utils.ToastUtil;
+import com.hjl.module_main.constant.FileConstant;
 import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.constant.SPConstant;
 import com.hjl.module_main.daodb.MediaDaoManager;
@@ -145,9 +148,10 @@ public class MusicService extends Service {
             try {
                 player.reset();
                 player.setDataSource(entity.path);
-                player.prepare();
+                player.prepareAsync();
             } catch (IOException e) {
-                e.printStackTrace();
+                ToastUtil.showSingleToast(e.getMessage());
+               // e.printStackTrace();
             }
         }
 
@@ -162,6 +166,9 @@ public class MusicService extends Service {
                 currentEntity = entity;
                 player.reset();
                 if (entity.getType() == 0){
+//                    if (entity.path.contains("https")){
+//                        entity.path = entity.path.replace("https","http");
+//                    }
                     player.setDataSource(getApplicationContext(), Uri.parse(entity.path));
                 }else {
                     player.setDataSource(entity.path);
@@ -182,7 +189,7 @@ public class MusicService extends Service {
                     MediaDaoManager.getInstance().update(entity);
                 }
 
-                //ToastUtil.showSingleToast("加载歌曲错误:" + e.getMessage());
+                ToastUtil.showSingleToast("加载歌曲错误:" + e.getMessage());
             }
         }
 

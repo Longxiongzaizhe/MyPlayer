@@ -13,7 +13,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class ApiRetrofit {
 
     public final String BASE_SERVER_URL = "https://seven.xy-mind.com:8443/ssh/";
-    private static ApiRetrofit apiRetrofit;
+    private volatile static ApiRetrofit apiRetrofit;
     private Retrofit retrofit;
     private OkHttpClient okHttpClient;
 
@@ -42,7 +42,7 @@ public class ApiRetrofit {
 
     public static ApiRetrofit getInstance() {
         if (apiRetrofit == null) {
-            synchronized (Object.class) {
+            synchronized (ApiRetrofit.class) {
                 if (apiRetrofit == null) {
                     apiRetrofit = new ApiRetrofit();
                 }

@@ -37,6 +37,7 @@ import com.hjl.commonlib.base.BaseMultipleActivity;
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment;
 import com.hjl.commonlib.mview.NoScrollViewPager;
 import com.hjl.commonlib.utils.PermissionsUtiles;
+import com.hjl.commonlib.utils.RxSchedulers;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.R;
 import com.hjl.module_main.bean.MainFragmentBusBean;
@@ -56,11 +57,13 @@ import com.hjl.module_main.utils.SPUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bertsir.zbar.QrConfig;
 import cn.bertsir.zbar.QrManager;
+import io.reactivex.Observable;
 
 
 public class MainActivity extends BaseMultipleActivity implements View.OnClickListener {
@@ -251,6 +254,8 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
 
         initTabLayout();
+        Glide.with(this).load(new File(SPConstant.USER_ICON_PATH)).into(userIcon);
+        Glide.with(this).load(new File(SPConstant.USER_BG_PATH)).into(navBackgrounpIv);
 
 
         Intent startMusicIntent = new Intent(this,MusicService.class);
@@ -299,18 +304,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Bitmap iconBitmap = BitmapFactory.decodeFile(SPConstant.USER_ICON_PATH);
-        Bitmap bgBitmap = BitmapFactory.decodeFile(SPConstant.USER_BG_PATH);
-        userIcon.setImageBitmap(iconBitmap);
-        navBackgrounpIv.setImageBitmap(bgBitmap);
-        if (mBinder != null && playFragment != null){
-            playFragment.setBinder(mBinder);
-        }
-
-    }
 
     @Override
     public void onClick(View v) {

@@ -9,7 +9,9 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.animation.LinearInterpolator;
 import android.widget.Scroller;
 
@@ -48,6 +50,7 @@ public class LyricView extends View {
     private int mTextLineHeight;
 
     private int mOffsetY;
+    private int mDrawStartY;
 
     /**
      * 画笔
@@ -83,6 +86,7 @@ public class LyricView extends View {
     private Lyric lyric;
     private List<LyricLine> lyricLines;
     private int currentLine;
+    private int indicatorLine;
 
     /**
      * 时间
@@ -100,6 +104,10 @@ public class LyricView extends View {
     private int mIndicatorTextWidth;
     private Rect mPlayBtnBound;
 
+    //提供手指速度计算;
+    private VelocityTracker velocityTracker;
+    private int minimumVelocity;
+    private int maximumVelocity;
 
     private PlayBtnClickListener playBtnClickListener;
 
@@ -147,6 +155,11 @@ public class LyricView extends View {
 
         mScroller = new Scroller(getContext(),new LinearInterpolator());
 
+        ViewConfiguration configuration = ViewConfiguration.get(getContext());
+        minimumVelocity = configuration.getScaledMinimumFlingVelocity();
+        maximumVelocity = configuration.getScaledMaximumFlingVelocity();
+
+
     }
 
     @Override
@@ -188,7 +201,8 @@ public class LyricView extends View {
         int paddingEnd = getPaddingEnd();
         int paddingBottom = getPaddingBottom();
 
-        int mDrawY = (mHeight + mTextLineHeight)/2 + paddingTop;
+        mDrawStartY = (mHeight + mTextLineHeight)/2 + paddingTop;
+        int mDrawY = mDrawStartY;
 
         for (int i = 0;i < lyricLines.size();i++){
 
@@ -204,17 +218,28 @@ public class LyricView extends View {
                 mNormalPaint.setAlpha(100);
             }
 
-            if (i != currentLine){
-                canvas.drawText(line.lyric,startX,mDrawY,mNormalPaint);
+            if (!mIsDraging){
+                if (i != currentLine){
+                    canvas.drawText(line.lyric,startX,mDrawY,mNormalPaint);
+                }else {
+                    canvas.drawText(line.lyric,startX,mDrawY,mCurrentPaint);
+                }
             }else {
-                canvas.drawText(line.lyric,startX,mDrawY,mCurrentPaint);
+                if (i != indicatorLine){
+                    canvas.drawText(line.lyric,startX,mDrawY,mNormalPaint);
+                }else {
+                    canvas.drawText(line.lyric,startX,mDrawY,mCurrentPaint);
+                }
             }
 
-//            Log.d(TAG, "mDrawY: " + mDrawY + " offset : " + mOffsetY);
-//            Log.d(TAG, "mHeight: " + mHeight);
             mDrawY += mTextLineHeight;
         }
-        mOffsetY = currentLine * mTextLineHeight;
+        if (mIsDraging){
+            mOffsetY = indicatorLine * mTextLineHeight;
+        }else {
+            mOffsetY = currentLine * mTextLineHeight;
+        }
+
 
         if (!mIsDraging){ // 拖动的时候不滚动
             int lastScrollY = getScrollY();  // 上次滑动的距离
@@ -226,10 +251,6 @@ public class LyricView extends View {
             drawIndicator(canvas);
         }
 
-//        scrollTo(0,mOffsetY);
-       // Log.d(TAG, "onDraw: currentLine: "+ currentLine + "  currentTime " + currentTime);
-
-       // postInvalidateDelayed(100);
 
     }
 
@@ -241,6 +262,9 @@ public class LyricView extends View {
         mIndicatorPaint.setStyle(Paint.Style.FILL);
         mIndicatorPaint.setStrokeWidth(3);
         mIndicatorPaint.setPathEffect(null);
+        indicatorLine = calculateCurrentLineByScroll(getScrollY());
+        if (indicatorLine < 0) indicatorLine = 0;
+        indicatorTime = lyricLines.get(indicatorLine).startTime;
 
         canvas.drawText(DateUtils.getMusicTime((int) indicatorTime),DensityUtil.dp2px(5),showingLineCenter + mIndicatorHeight/2,mIndicatorPaint);
 
@@ -277,7 +301,7 @@ public class LyricView extends View {
 
         canvas.drawPath(path,mIndicatorPaint);
 
-        Log.d(TAG, "drawIndicator: getScrollY" + getScrollY());
+       // Log.d(TAG, "drawIndicator: getScrollY" + getScrollY());
     }
 
     /**
@@ -288,25 +312,60 @@ public class LyricView extends View {
         return getScrollY() + mHeight/2;
     }
 
+    private float mLastY;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
+        initVelocityTrackerIfNotExists();
+        velocityTracker.addMovement(event);
+
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN :
+
+                if (!mScroller.isFinished()) {
+                    mScroller.abortAnimation();
+                }
+
+                mLastY = event.getY();
+                if (getParent() != null){
+                    getParent().requestDisallowInterceptTouchEvent(true);  //解决事件冲突;
+                }
+
                 mIsDraging = true;
                 return true;
             case MotionEvent.ACTION_MOVE:
 
+
+
+                float deltaY = mLastY - event.getY(); // 正数为上滑 负数为下滑 （内容）
+                mLastY = event.getY();
+                Log.d(TAG, "deltaY: " + deltaY  + "  mLastY：" + mLastY);
+
+                if (deltaY > 0 && canScrollVertically(1)){ // 上滑
+                    scrollBy(0, (int) Math.min(deltaY,getMaxCanScrollY(1))); // 取滑动的最小值，保证滑动界限
+                    Log.d(TAG, "上滑: 已经滑动了 ：" + getScrollY());
+                    Log.d(TAG, "实际滑动: " +  Math.min(deltaY,getMaxCanScrollY(1)));
+                    Log.d(TAG, "剩余可滑动: " + getMaxCanScrollY(1));
+
+                }else if (deltaY < 0 && canScrollVertically(-1)){  // 下滑 下滑的时候 deltaY 为负值
+                    scrollBy(0, (int)Math.min(deltaY,getMaxCanScrollY(-1))); // 取滑动的最小值，保证滑动界限
+                    Log.d(TAG, "下滑: 已经滑动了 ：" + getScrollY());
+                }
+
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                mIsDraging = false;
+                //mIsDraging = false;
+                velocityTracker.computeCurrentVelocity(1000, maximumVelocity);
+                int velocityY = (int) velocityTracker.getYVelocity();
+                fling(velocityY);
+                recycleVelocityTracker();
                 break;
         }
 
 
-        return super.onTouchEvent(event);
-
+        return mIsDraging;
 
     }
 
@@ -319,6 +378,47 @@ public class LyricView extends View {
             invalidate();
         }
 
+    }
+
+    private void fling(int velocityY) {
+        if (Math.abs(velocityY) > minimumVelocity) {
+            if (Math.abs(velocityY) > maximumVelocity) {
+                velocityY = maximumVelocity * velocityY / Math.abs(velocityY);
+            }
+            mScroller.fling(getScrollX(), getScrollY(), 0, -velocityY, 0, 0, 0, mTextLineHeight * lyricLines.size());
+        }
+    }
+
+
+    /**
+     * 正数为上滑 负数为下滑 （内容）
+     * @param direction
+     * @return
+     */
+    @Override
+    public boolean canScrollVertically(int direction) {
+
+        if (direction > 0){
+            return getScrollY() < (mHeight + mTextLineHeight)/2 + mTextLineHeight * lyricLines.size();
+        }else {
+            return getScrollY() > -50;
+        }
+
+    }
+
+    /**
+     * 获取当前可以滑动的最大距离
+     * @param direction 正数：上滑（手指从下往上） 负数：下滑（手指从上往下），
+     */
+    public float getMaxCanScrollY(int direction){
+
+        if (direction > 0){
+            return  mTextLineHeight/2 + lyricLines.size() * mTextLineHeight - getScrollY();
+        }else if (direction < 0){
+            return getScrollY();
+        }
+
+        return 0;
     }
 
     /**
@@ -352,7 +452,6 @@ public class LyricView extends View {
 
     public void setCurrentTime(long currentTime) {
         this.currentTime = currentTime;
-        indicatorTime = currentTime;
         invalidate();
     }
 
@@ -364,6 +463,24 @@ public class LyricView extends View {
         for (int i = 0; i < lyricLines.size() ; i++){
 
             if (currentTime < lyricLines.get(i).startTime){
+                return i-1;
+            }
+
+            if (i == lyricLines.size()-1) return i;
+
+        }
+
+        return lyricLines.size() - 1;
+    }
+
+    /**
+     * 计算当前行数
+     */
+    public int calculateCurrentLineByScroll(int scrollY){
+
+        for (int i = 0; i < lyricLines.size() ; i++){
+
+            if (scrollY < i * mTextLineHeight ){
                 return i-1;
             }
 
@@ -391,7 +508,20 @@ public class LyricView extends View {
         this.playBtnClickListener = playBtnClickListener;
     }
 
-    interface PlayBtnClickListener{
+    public interface PlayBtnClickListener{
         void onPlayBtnClick(long lineTime);
+    }
+
+    private void initVelocityTrackerIfNotExists() {
+        if (velocityTracker == null) {
+            velocityTracker = VelocityTracker.obtain();
+        }
+    }
+
+    private void recycleVelocityTracker() {
+        if (velocityTracker != null) {
+            velocityTracker.recycle();
+            velocityTracker = null;
+        }
     }
 }
