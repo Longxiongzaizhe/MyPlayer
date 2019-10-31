@@ -112,7 +112,10 @@ public class LyricView extends View {
     private boolean mPlayBtnClick = false;
     private int mPlayBtnPadding = DensityUtil.dp2px(8);
 
-    private PlayBtnClickListener playBtnClickListener;
+    private PlayBtnClickListener playBtnClickListener; // 按钮监听
+
+    private long mDragingTime = 0;
+    private long mDragingTimeOut = 4 * 1000; // 滑动自动滚回时间
 
 
 
@@ -205,8 +208,37 @@ public class LyricView extends View {
         int paddingBottom = getPaddingBottom();
 
         mDrawStartY = (mHeight + mTextLineHeight)/2 + paddingTop;
-        int mDrawY = mDrawStartY;
 
+        drawLyric(canvas, mDrawStartY);
+
+        if (mIsDraging){ // 拖动状态
+            drawIndicator(canvas);
+            mOffsetY = indicatorLine * mTextLineHeight; // 绘制高亮的歌词行数 滑动所在行
+
+            if (mDragingTime != 0 && System.currentTimeMillis() - mDragingTime > mDragingTimeOut){ // 超时拖动判断
+                mIsDraging = false;
+                mDragingTime = 0;
+            }
+        }else {
+            mOffsetY = currentLine * mTextLineHeight; // 绘制高亮的歌词行数 当前行
+
+            // 拖动的时候不滚动
+            int lastScrollY = getScrollY();  // 上次滑动的距离
+            currentLine = calculateCurrentLine(); // 获取当前行数
+
+            // 滑动到播放行数
+            mScroller.startScroll(0,lastScrollY,0,currentLine * mTextLineHeight - lastScrollY);
+
+        }
+
+    }
+
+    /**
+     * 绘制歌词
+     * @param canvas
+     * @param mDrawY
+     */
+    private void drawLyric(Canvas canvas, int mDrawY) {
         for (int i = 0;i < lyricLines.size();i++){
 
             // 获取歌词宽度 画在中间
@@ -237,33 +269,13 @@ public class LyricView extends View {
 
             mDrawY += mTextLineHeight;
         }
-        if (mIsDraging){
-            mOffsetY = indicatorLine * mTextLineHeight;
-        }else {
-            mOffsetY = currentLine * mTextLineHeight;
-        }
-
-
-        if (!mIsDraging){ // 拖动的时候不滚动
-            int lastScrollY = getScrollY();  // 上次滑动的距离
-            currentLine = calculateCurrentLine(); // 获取当前行数
-            mScroller.startScroll(0,lastScrollY,0,currentLine * mTextLineHeight - lastScrollY);
-        }
-
-        if (mIsDraging){
-            drawIndicator(canvas);
-        }
-
-
-
-
     }
 
     public void drawIndicator(Canvas canvas){
 
         float showingLineCenter = getShowingCenterY() + mTextLineHeight-LINE_SPACE;
 
-        // 绘制时间
+        // <-- 绘制时间 -->
         mIndicatorPaint.setStyle(Paint.Style.FILL);
         mIndicatorPaint.setStrokeWidth(3);
         mIndicatorPaint.setPathEffect(null);
@@ -272,8 +284,10 @@ public class LyricView extends View {
         indicatorTime = lyricLines.get(indicatorLine).startTime;
 
         canvas.drawText(DateUtils.getMusicTime((int) indicatorTime),DensityUtil.dp2px(5),showingLineCenter + mIndicatorHeight/2,mIndicatorPaint);
+        // <-- 绘制时间 -->
 
-        // 绘制播放按钮
+
+        // <-- 绘制播放按钮 -->
         Path playBtnPath = new Path();
 
 
@@ -293,9 +307,9 @@ public class LyricView extends View {
         canvas.drawPath(playBtnPath,mIndicatorPaint);
         mIndicatorPaint.setStyle(Paint.Style.STROKE);
         canvas.drawCircle(mPlayBtnBound.centerX(),mPlayBtnBound.centerY(),mPlayBtnBound.height()/2,mIndicatorPaint);
+        // <-- 绘制播放按钮 -->
 
-
-        // 绘制虚线
+        // <-- 绘制虚线 -->
         mIndicatorPaint.setStyle(Paint.Style.STROKE);
         mIndicatorPaint.setStrokeWidth(3);
         DashPathEffect dashPathEffect = new DashPathEffect(new float[]{25,5},0); // 设置虚线效果
@@ -305,8 +319,8 @@ public class LyricView extends View {
         path.lineTo(mWidth - DensityUtil.dp2px(15) - mIndicatorTextWidth,showingLineCenter);
 
         canvas.drawPath(path,mIndicatorPaint);
+        // <-- 绘制虚线 -->
 
-       // Log.d(TAG, "drawIndicator: getScrollY" + getScrollY());
     }
 
     /**
@@ -345,8 +359,6 @@ public class LyricView extends View {
                 return true;
             case MotionEvent.ACTION_MOVE:
 
-
-
                 float deltaY = mLastY - event.getY(); // 正数为上滑 负数为下滑 （内容）
                 mLastY = event.getY();
                 Log.d(TAG, "deltaY: " + deltaY  + "  mLastY：" + mLastY);
@@ -375,10 +387,13 @@ public class LyricView extends View {
                     mIsDraging = false;
                 }
 
+                mDragingTime = System.currentTimeMillis();
+
                 velocityTracker.computeCurrentVelocity(1000, maximumVelocity);
                 int velocityY = (int) velocityTracker.getYVelocity();
                 fling(velocityY);
                 recycleVelocityTracker();
+
                 break;
         }
 
@@ -400,7 +415,8 @@ public class LyricView extends View {
 
     private void fling(int velocityY) {
         if (Math.abs(velocityY) > minimumVelocity) {
-            if (Math.abs(velocityY) > maximumVelocity) {
+
+            if (Math.abs(velocityY) > maximumVelocity) { // 超过最大滑动宿舍按最大滑动速度算
                 velocityY = maximumVelocity * velocityY / Math.abs(velocityY);
             }
             mScroller.fling(getScrollX(), getScrollY(), 0, -velocityY, 0, 0, 0, mTextLineHeight * lyricLines.size());
@@ -409,8 +425,9 @@ public class LyricView extends View {
 
 
     /**
+     * 判断是否可以滑动
      * 正数为上滑 负数为下滑 （内容）
-     * @param direction
+     * @param direction 传入方向
      * @return
      */
     @Override
@@ -510,6 +527,12 @@ public class LyricView extends View {
     }
 
 
+    /**
+     * 判断是否点击播放按钮
+     * @param x  x值
+     * @param y  y值需要加上滚动的值
+     * @return
+     */
     public boolean computeIsClickPlayBtn(float x, float y){
 
         if (mPlayBtnBound == null) return false;

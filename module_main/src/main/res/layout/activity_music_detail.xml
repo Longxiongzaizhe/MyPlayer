@@ -10,21 +10,35 @@
     tools:context=".ui.activity.MusicDetailActivity"
     tools:background="@color/gray">
 
-    <com.hjl.module_main.customview.MusicView
-        android:id="@+id/detail_music_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/base_margin_size"/>
 
-    <com.hjl.module_main.customview.LyricView
-        android:id="@+id/detail_lyric_view"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/base_margin_size"
-        android:layout_marginBottom="@dimen/base_margin_size"/>
+        android:layout_weight="1">
+
+        <com.hjl.module_main.customview.MusicView
+            android:id="@+id/detail_music_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/base_margin_size"
+            android:layout_marginBottom="@dimen/base_margin_size"/>
+
+        <com.hjl.module_main.customview.LyricView
+            android:id="@+id/detail_lyric_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/detail_flip"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="@dimen/base_margin_size"
+            android:layout_marginEnd="@dimen/base_margin_size"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/icon_flip"/>
+
+    </FrameLayout>
+
 
     <LinearLayout
         android:id="@+id/detail_icon_ll"

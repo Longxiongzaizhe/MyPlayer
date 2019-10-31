@@ -1,5 +1,7 @@
 package com.hjl.module_main.ui.activity
 
+import android.animation.AnimatorInflater
+import android.animation.TypeEvaluator
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.os.Build
@@ -7,6 +9,7 @@ import android.os.Handler
 import android.os.Message
 import android.support.v4.view.ViewCompat
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -81,7 +84,6 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
                 detail_lyric_view.setCurrentTime(player.currentPosition.toLong())
                 detail_lyric_view.setPlayBtnClickListener {
                     player.seekTo(it.toInt())
-                    ToastUtil.showSingleToast("click play btn")
                 }
             }
 
@@ -120,14 +122,24 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
         detail_mode_btn.setOnClickListener(this)
         mTitleLeftIv.setOnClickListener(this)
 
-        detail_music_view.setOnClickListener {
-            detail_lyric_view.visibility = View.VISIBLE
-            detail_music_view.visibility = View.GONE
-        }
 
-        detail_lyric_view.setOnClickListener {
-            detail_lyric_view.visibility = View.GONE
-            detail_music_view.visibility = View.VISIBLE
+        detail_flip.setOnClickListener {
+
+            val animator = AnimatorInflater.loadAnimator(this,R.animator.view_flip);
+            animator.setTarget(detail_flip)
+            animator.start()
+
+
+            if (detail_lyric_view.visibility == View.VISIBLE){
+                detail_lyric_view.visibility = View.GONE
+                detail_music_view.visibility = View.VISIBLE
+            }else{
+                detail_lyric_view.visibility = View.VISIBLE
+                detail_music_view.visibility = View.GONE
+            }
+
+
+
         }
 
 
