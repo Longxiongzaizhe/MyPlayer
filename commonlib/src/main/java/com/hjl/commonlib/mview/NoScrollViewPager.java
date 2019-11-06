@@ -5,11 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 public class NoScrollViewPager extends ViewPager {
 
     private boolean noScroll = false;
+    private String TAG = "NoScrollViewPager";
 
     public NoScrollViewPager(@NonNull Context context) {
         super(context);
@@ -31,6 +33,7 @@ public class NoScrollViewPager extends ViewPager {
     @Override
     public boolean onTouchEvent(MotionEvent arg0) {
         /* return false;//super.onTouchEvent(arg0); */
+        Log.d(TAG, "onTouchEvent: " + arg0.getAction());
         if (noScroll)
             return false;
         else
@@ -39,6 +42,9 @@ public class NoScrollViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent arg0) {
+
+
+        Log.d(TAG, "onInterceptTouchEvent: " + arg0.getAction());
         if (noScroll)
             return false;
         else

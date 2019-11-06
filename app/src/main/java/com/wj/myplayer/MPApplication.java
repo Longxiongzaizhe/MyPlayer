@@ -10,6 +10,7 @@ import com.hjl.commonlib.base.BaseApplication;
 import com.hjl.commonlib.network.NetWorkStateReceiver;
 import com.hjl.commonlib.utils.NetWorkUtils;
 import com.hjl.module_main.module.IComponentApplication;
+import com.tencent.bugly.crashreport.CrashReport;
 
 public class MPApplication extends BaseApplication {
 
@@ -25,6 +26,8 @@ public class MPApplication extends BaseApplication {
         super.onCreate();
         Log.d("print", "onCreate: 执行初始化");
         sInst = this;
+        // 腾讯bugly
+        CrashReport.initCrashReport(getApplicationContext(), "aa3d3bc89a", false);
         modulesApplicationInit();
 
         NetWorkUtils.registerNerWorkReceiver(this);

@@ -53,6 +53,7 @@ import com.hjl.module_main.service.MusicService;
 import com.hjl.module_main.ui.fragment.PlayFragment;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -98,7 +99,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private List<Fragment> fragments;
     private MainAgentFragment agentFragment;
 
-    private NoScrollViewPager viewPager;
+    private ViewPager viewPager;
     private TabLayout tabLayout;
     private LazyFragmentPagerAdapter pagerAdapter;
 
@@ -231,7 +232,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         tabTitleList.add("我");
         tabTitleList.add("听");
         pagerAdapter = new LazyFragmentPagerAdapter(getSupportFragmentManager(),fragments,tabTitleList);
-        viewPager.setNoScroll(false);
+//        viewPager.setNoScroll(false);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -309,6 +310,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.main_left_iv) {//mMultipleStateView.showContent();
+            //CrashReport.testJavaCrash();
             mMainDrawerLayout.openDrawer(GravityCompat.START);
         } else if (id == R.id.nav_head_iv) {
             //startActivity(TestActivity.class);

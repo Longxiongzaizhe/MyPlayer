@@ -2,6 +2,8 @@ package com.hjl.commonlib.network.okhttp;
 
 import android.graphics.DashPathEffect;
 
+import com.hjl.commonlib.network.interceptor.RetryInterceptor;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -161,6 +163,7 @@ public class HttpUtils {
             client = new OkHttpClient.Builder()
                     .connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
                     .addInterceptor(new com.hjl.commonlib.network.interceptor.LogInterceptor())
+                    .addInterceptor(new RetryInterceptor())
                     .readTimeout(READ_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
                     .writeTimeout(WRITE_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
                     .build();
@@ -173,6 +176,7 @@ public class HttpUtils {
             syncClient = new OkHttpClient.Builder()
                     .connectTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
                     .addInterceptor(new com.hjl.commonlib.network.interceptor.LogInterceptor())
+                    .addInterceptor(new RetryInterceptor())
                     .readTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
                     .writeTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS).build();
         }

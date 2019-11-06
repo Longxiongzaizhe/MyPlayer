@@ -88,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="0dp">
-            <com.hjl.commonlib.mview.NoScrollViewPager
+            <com.hjl.module_main.customview.NoConflictViewPager
                 android:id="@+id/main_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

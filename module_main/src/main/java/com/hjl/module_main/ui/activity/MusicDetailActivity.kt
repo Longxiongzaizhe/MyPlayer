@@ -125,7 +125,7 @@ class MusicDetailActivity : BaseMultipleActivity(), MusicInterface.OnMediaChange
 
         detail_flip.setOnClickListener {
 
-            val animator = AnimatorInflater.loadAnimator(this,R.animator.view_flip);
+            val animator = AnimatorInflater.loadAnimator(this,R.animator.view_flip)
             animator.setTarget(detail_flip)
             animator.start()
 

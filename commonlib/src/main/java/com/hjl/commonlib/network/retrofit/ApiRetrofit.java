@@ -1,6 +1,7 @@
 package com.hjl.commonlib.network.retrofit;
 
 import com.hjl.commonlib.network.interceptor.KuGouTagInterceptor;
+import com.hjl.commonlib.network.interceptor.RetryInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,14 +19,14 @@ public class ApiRetrofit {
     private OkHttpClient okHttpClient;
 
     private String TAG = "ApiRetrofit";
-    private LogInterceptor interceptor;
+
 
     private ApiRetrofit(){
-        interceptor = new LogInterceptor();
         okHttpClient = new OkHttpClient.Builder()
                 //添加log拦截器
                 .addInterceptor(new KuGouTagInterceptor())
-                .addInterceptor(interceptor)
+                .addInterceptor(new LogInterceptor())
+                .addInterceptor(new RetryInterceptor())
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .build();
