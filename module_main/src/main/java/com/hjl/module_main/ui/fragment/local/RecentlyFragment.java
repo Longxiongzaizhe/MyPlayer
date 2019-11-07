@@ -115,6 +115,7 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
                     relManager.deleteSongRel(entity);
                 }
             }
+            Collections.reverse(mediaEntityList);
             e.onNext(FlagConstant.RXJAVA_KEY_01);
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
             @Override
