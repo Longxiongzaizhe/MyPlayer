@@ -20,7 +20,7 @@ import androidx.annotation.Nullable;
 import com.hjl.commonlib.utils.DateUtils;
 import com.hjl.commonlib.utils.DensityUtil;
 import com.hjl.module_main.R;
-import com.hjl.module_main.net.bean.Lyric;
+import com.hjl.module_main.net.bean.LyricBean;
 import com.hjl.module_main.net.bean.LyricLine;
 
 import java.util.List;
@@ -83,7 +83,7 @@ public class LyricView extends View {
      * 数据
      */
 
-    private Lyric lyric;
+    private LyricBean lyric;
     private List<LyricLine> lyricLines;
     private int currentLine;
     private int indicatorLine;
@@ -480,7 +480,7 @@ public class LyricView extends View {
     /**
      * 设置歌词对象
      */
-    public void setLyric(Lyric lyric) {
+    public void setLyric(LyricBean lyric) {
         this.lyric = lyric;
         lyricLines = lyric.lyricLineList;
     }

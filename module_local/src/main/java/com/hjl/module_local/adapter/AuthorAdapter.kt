@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.hjl.commonlib.network.okhttp.HttpHandler
 import com.hjl.commonlib.utils.StringUtils
+import com.hjl.commonlib.utils.ToastUtil
 import com.hjl.module_local.R
 
 import com.hjl.module_main.daodb.MediaAuthorEntity
@@ -30,6 +31,10 @@ class AuthorAdapter(datalist : List<MediaAuthorEntity>) : BaseQuickAdapter<Media
                         Glide.with(mContext).load(url).into(imageView)
                         item.coverUrl = url
                         MediaAuthorManager.get().update(item)
+                    }
+
+                    override fun onFailure(message: String?, response: String?) {
+                        ToastUtil.showSingleToast(message)
                     }
 
                 })

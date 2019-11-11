@@ -1,34 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/net_main_search"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_marginTop="@dimen/margin_small_size"
-        android:layout_marginStart="@dimen/base_margin_size"
-        android:layout_marginEnd="@dimen/base_margin_size"
-        android:background="@drawable/common_bg_gray_oval"
-        android:hint="@string/search_music_hint"
-        android:gravity="center"
-        style="@style/SearchEditText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
+        android:background="@color/common_white"
+        android:orientation="vertical">
 
-    <com.app.abby.xbanner.XBanner
-        android:id="@+id/net_main_banner"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:statusBarScrim="@android:color/transparent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/common_white">
+
+                <TextView
+                    android:id="@+id/net_main_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="@dimen/margin_small_size"
+                    android:layout_marginStart="@dimen/base_margin_size"
+                    android:layout_marginEnd="@dimen/base_margin_size"
+                    android:background="@drawable/common_bg_gray_oval"
+                    android:hint="@string/search_music_hint"
+                    android:gravity="center"
+                    style="@style/SearchEditText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.youth.banner.Banner
+                    android:id="@+id/net_main_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="@dimen/margin_small_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/net_main_search"
+                    tools:background="@color/gray"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/net_func_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/net_main_banner"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/main_net_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="@dimen/margin_small_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/net_main_search"
-        tools:background="@color/gray"/>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</android.support.constraint.ConstraintLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/main_net_vp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+</android.support.design.widget.CoordinatorLayout>

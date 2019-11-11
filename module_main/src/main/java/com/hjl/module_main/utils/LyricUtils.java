@@ -1,7 +1,7 @@
 package com.hjl.module_main.utils;
 
 import com.hjl.commonlib.utils.StringUtils;
-import com.hjl.module_main.net.bean.Lyric;
+import com.hjl.module_main.net.bean.LyricBean;
 import com.hjl.module_main.net.bean.LyricLine;
 
 import java.util.regex.Pattern;
@@ -11,11 +11,11 @@ import java.util.regex.Pattern;
  */
 public class LyricUtils {
 
-    public static Lyric parseLyric(String content){
+    public static LyricBean parseLyric(String content){
         if (StringUtils.isEmpty(content)) return null;
 
         String[] parse = content.split("\n");
-        Lyric lyric = new Lyric();
+        LyricBean lyric = new LyricBean();
         String regex = "(^\\[\\d\\d).*$";
 
         System.out.println(parse.length);
