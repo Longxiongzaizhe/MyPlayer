@@ -8,16 +8,22 @@
 
     <q.rorbin.verticaltablayout.VerticalTabLayout
         android:id="@+id/net_singer_tab"
-        android:layout_width="50dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        app:indicator_gravity="right"
+        android:layout_marginTop="@dimen/margin_tiny_size"
+        android:layout_marginStart="@dimen/margin_tiny_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:indicator_color="@color/common_base_theme_blue"
+        app:indicator_gravity="fill"
+        app:indicator_corners="12dp"
+        app:tab_margin="@dimen/margin_tiny_size"
+        app:tab_height="24dp"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/net_singer_rv"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/net_singer_vp"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"

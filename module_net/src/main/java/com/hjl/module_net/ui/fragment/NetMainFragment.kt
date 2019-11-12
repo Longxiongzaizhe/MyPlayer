@@ -22,7 +22,6 @@ import com.hjl.module_net.net.vo.NetFunctionBean
 import com.hjl.module_net.ui.SearchSongActivity
 import com.hjl.module_net.ui.adapter.NetFunctionAdapter
 import com.youth.banner.loader.ImageLoader
-import com.youth.banner.loader.ImageLoaderInterface
 import kotlinx.android.synthetic.main.fragment_net_main.*
 
 
