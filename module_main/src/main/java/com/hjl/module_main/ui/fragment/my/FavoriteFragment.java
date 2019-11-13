@@ -1,4 +1,4 @@
-package com.hjl.module_main.ui.fragment.local;
+package com.hjl.module_main.ui.fragment.my;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -28,6 +28,7 @@ import com.hjl.module_main.daodb.MediaRelManager;
 import com.hjl.module_main.customview.AddToListDialog;
 import com.hjl.module_main.customview.MusicEditPopWindow;
 import com.hjl.module_main.customview.MusicModePopWindow;
+import com.hjl.module_main.ui.activity.MainActivity;
 import com.hjl.module_main.ui.adapter.MusicAdapter;
 import com.hjl.module_main.service.MusicService;
 import com.hjl.module_main.utils.FileUtils;
@@ -95,6 +96,9 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
         mSearchIv.setOnClickListener(this);
         mRefreshIv.setOnClickListener(this);
         mCancelTv.setOnClickListener(this);
+
+        mTitleCenterTv.setText( "我的收藏");
+        showTitleView();
 
         mSearchEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -185,6 +189,10 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
         adapter.setOnItemClickListener(this);
         adapter.setOnItemChildClickListener(this);
         mBinder = (MusicService.MusicBinder) getArguments().getSerializable(FlagConstant.BINDER);
+        mTitleLeftIv.setOnClickListener(v -> {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            mainActivity.popBackStack();
+        });
     }
 
     @Override
@@ -300,4 +308,13 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
         return true;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

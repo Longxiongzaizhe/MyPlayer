@@ -1,4 +1,4 @@
-package com.hjl.module_main.ui.fragment.local;
+package com.hjl.module_main.ui.fragment.my;
 
 
 import android.os.Bundle;
@@ -24,6 +24,7 @@ import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
 import com.hjl.module_main.customview.AddToListDialog;
+import com.hjl.module_main.ui.activity.MainActivity;
 import com.hjl.module_main.ui.adapter.MusicAdapter;
 import com.hjl.module_main.customview.MusicEditPopWindow;
 import com.hjl.module_main.service.MusicService;
@@ -66,6 +67,9 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
     @Override
     protected void initView(View view) {
         recyclerView = view.findViewById(R.id.recent_rv);
+
+        mTitleCenterTv.setText( "最近播放");
+        showTitleView();
     }
 
     @Override
@@ -92,6 +96,11 @@ public class RecentlyFragment extends BaseFragment implements BaseQuickAdapter.O
         Collections.reverse(mediaEntityList);
         adapter.notifyDataSetChanged();
         mBinder = (MusicService.MusicBinder) getArguments().getSerializable(FlagConstant.BINDER);
+
+        mTitleLeftIv.setOnClickListener(v -> {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            mainActivity.popBackStack();
+        });
     }
 
     public void deleteRecentList(){

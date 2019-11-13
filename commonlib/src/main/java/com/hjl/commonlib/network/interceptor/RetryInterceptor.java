@@ -22,9 +22,10 @@ public class RetryInterceptor implements Interceptor {
         Response response = chain.proceed(originalRequest);
 
         int retryCount = 0;
+
         while (!response.isSuccessful() && retryCount < 3){
             Log.d(TAG, "retryCount: " + retryCount );
-//            response.close();
+            response.close();
             response = chain.proceed(originalRequest);
             retryCount++;
 

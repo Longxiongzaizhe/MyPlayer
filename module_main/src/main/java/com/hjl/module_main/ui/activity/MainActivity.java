@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -15,29 +14,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.hjl.commonlib.adapter.LazyFragmentPagerAdapter;
-import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.base.BaseMultipleActivity;
-import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment;
-import com.hjl.commonlib.mview.NoScrollViewPager;
 import com.hjl.commonlib.utils.PermissionsUtiles;
-import com.hjl.commonlib.utils.RxSchedulers;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.R;
 import com.hjl.module_main.bean.MainFragmentBusBean;
@@ -46,30 +36,21 @@ import com.hjl.module_main.constant.SPConstant;
 import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
-import com.hjl.module_main.router.RNet;
-import com.hjl.module_main.ui.fragment.local.MainAgentFragment;
-import com.hjl.module_main.ui.fragment.local.MainFragment;
 import com.hjl.module_main.service.MusicService;
 import com.hjl.module_main.ui.fragment.PlayFragment;
+import com.hjl.module_main.ui.fragment.main.NewMainFragment;
 import com.hjl.module_main.utils.MediaUtils;
 import com.hjl.module_main.utils.SPUtils;
-import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-
-import cn.bertsir.zbar.QrConfig;
-import cn.bertsir.zbar.QrManager;
-import io.reactivex.Observable;
 
 
 public class MainActivity extends BaseMultipleActivity implements View.OnClickListener {
 
-    private DrawerLayout mMainDrawerLayout;
+    public DrawerLayout mMainDrawerLayout;
     private NavigationView mMainNavView;
     private TextView userNameTv;
     private ImageView userIcon;
@@ -89,21 +70,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     private FragmentTransaction transaction;
     private FragmentManager mainFragmentManager;
     private FragmentManager netFragmentManager;
+    private FragmentManager mFragmentManager;
     private MediaRelManager relManager = MediaRelManager.getInstance();
 
-    // title
-    private TextView mMainMineTv;
-    private ImageView mMainLeftIv;
-    private ImageView mMainRightIv;
-    private List<String> tabTitleList;
-    private List<Fragment> fragments;
-    private MainAgentFragment agentFragment;
-
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
-    private LazyFragmentPagerAdapter pagerAdapter;
-
-    private BaseFragment netAgentFragment;
 
     private int currentFragment = 0;
 
@@ -130,19 +99,17 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
     @Override
     public void initTitle() {
-        mTitleCl.setVisibility(View.GONE);
+        hideTitleLayout();
         EventBus.getDefault().register(this);
 
     }
 
     @Override
     public void initView() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        playFragment = (PlayFragment) fragmentManager.findFragmentById(R.id.music_play_lay);
-        transaction = getSupportFragmentManager().beginTransaction();
+        mFragmentManager = getSupportFragmentManager();
+        playFragment = (PlayFragment) mFragmentManager.findFragmentById(R.id.music_play_lay);
+        transaction = mFragmentManager.beginTransaction();
 
-        viewPager = findViewById(R.id.main_viewpager);
-        tabLayout = findViewById(R.id.main_tab_layout);
         mMainDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         mMainNavView = (NavigationView) findViewById(R.id.main_nav_view);
         mMainNavView.inflateHeaderView(R.layout.navigation_head_layout);
@@ -155,15 +122,9 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         navBackgrounpIv = navHeadView.findViewById(R.id.head_bg_iv);
         userNameTv.setText(SPUtils.get(this,SPConstant.USER_NAME,"Sunny"));
 
-        mMainMineTv = findViewById(R.id.main_center_tv);
-        mMainLeftIv = findViewById(R.id.main_left_iv);
-        mMainRightIv = findViewById(R.id.main_right_iv);
-        mMainRightIv.setImageResource(R.drawable.icon_scan_code);
-        mMainRightIv.setOnClickListener(this);
-
-        mMainLeftIv.setImageResource(R.drawable.ic_menu);
-        mMainLeftIv.setOnClickListener(this);
-
+        transaction = mFragmentManager.beginTransaction();
+        transaction.add(R.id.main_fragment_fl,new NewMainFragment());
+        transaction.commit();
 
         initDrawerLayout();
     }
@@ -226,45 +187,10 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         super.initData();
         intent = new Intent();
 
-        tabTitleList = new ArrayList<>();
-        fragments = new ArrayList<>();
-
-        agentFragment = MainAgentFragment.newInstance();
-        netAgentFragment = (BaseFragment) ARouter.getInstance().build(RNet.RNetAgent).navigation();
-        fragments.add(agentFragment);
-        fragments.add(netAgentFragment);
-        tabTitleList.add("我");
-        tabTitleList.add("听");
-        pagerAdapter = new LazyFragmentPagerAdapter(getSupportFragmentManager(),fragments,tabTitleList);
-//        viewPager.setNoScroll(false);
-        viewPager.setAdapter(pagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                currentFragment = i;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
-
-
-        initTabLayout();
         Bitmap userIconBitmap = BitmapFactory.decodeFile(SPConstant.USER_ICON_PATH);
         Bitmap userBgBitmap = BitmapFactory.decodeFile(SPConstant.USER_BG_PATH);
         userIcon.setImageBitmap(userIconBitmap);
         navBackgrounpIv.setImageBitmap(userBgBitmap);
-//        Glide.with(this).load(new File(SPConstant.USER_ICON_PATH)).into(userIcon);
-//        Glide.with(this).load(new File(SPConstant.USER_BG_PATH)).into(navBackgrounpIv);
 
 
         Intent startMusicIntent = new Intent(this,MusicService.class);
@@ -272,75 +198,13 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         startService(startMusicIntent);
     }
 
-    private void initTabLayout() {
-
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            if (tab != null) {
-                tab.setCustomView(getTabView(i));
-            }
-        }
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                View view = tab.getCustomView();
-                if (view instanceof TextView) {
-                    ((TextView) view).setTextSize(22);
-                    ((TextView) view).getPaint().setFakeBoldText(true);
-                    ((TextView) view).setTextColor(getResources().getColor(R.color.white_EAEAEA));
-                }
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                View view = tab.getCustomView();
-                if (view instanceof TextView) {
-                    ((TextView) view).setTextSize(18);
-                    ((TextView) view).getPaint().setFakeBoldText(false);
-                    ((TextView) view).setTextColor(getResources().getColor(R.color.common_white));
-                }
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-        tabLayout.setSelected(true);
-    }
-
 
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.main_left_iv) {//mMultipleStateView.showContent();
-            //CrashReport.testJavaCrash();
-            mMainDrawerLayout.openDrawer(GravityCompat.START);
-        } else if (id == R.id.nav_head_iv) {
-            //startActivity(TestActivity.class);
+        if (id == R.id.nav_head_iv) {
             startActivity(UserQRdetailActivity.class);
-        } else if (id == R.id.main_right_iv) {
-
-            QrConfig qrConfig = new QrConfig.Builder()
-                    .setTitleText("扫描二维码")
-                    .setAutoZoom(false) // 自动缩放
-                    .setLooperScan(false) // 连续扫描
-                    .setFingerZoom(true) // 手动缩放
-                    .setShowVibrator(true)
-                    .setTitleBackgroudColor(getResources().getColor(R.color.common_base_theme_blue))
-                    .setCornerColor(Color.WHITE)//设置扫描框颜色
-                    .setLineColor(Color.WHITE) //设置扫描线颜色
-                    .setShowLight(true)
-                    .create();
-            QrManager.getInstance().init(qrConfig).startScan(this, result -> {
-                ToastUtil.showSingleToast(result.getContent());
-            });
-
-
         }
     }
 
@@ -385,32 +249,32 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
         String name = busBean.getName();
 
-        switch (name){
-            case FlagConstant.FRAGMENT_LOCAL:
-                mMainMineTv.setText("本地音乐");
-                mMainRightIv.setVisibility(View.GONE);
-                mMainMineTv.setVisibility(View.VISIBLE);
-                tabLayout.setVisibility(View.GONE);
-                mMainLeftIv.setImageResource(R.drawable.ic_back);
-                mMainLeftIv.setOnClickListener((v)-> newPopBackStack());
-                break;
-            case FlagConstant.FRAGMENT_RECENT:
-                mMainMineTv.setText("最近播放");
-                mMainRightIv.setVisibility(View.GONE);
-                mMainMineTv.setVisibility(View.VISIBLE);
-                tabLayout.setVisibility(View.GONE);
-                mMainLeftIv.setImageResource(R.drawable.ic_back);
-                mMainLeftIv.setOnClickListener((v)-> newPopBackStack());
-                break;
-            case FlagConstant.FRAGMENT_FAVORITE:
-                mMainMineTv.setText("我的收藏");
-                mMainRightIv.setVisibility(View.GONE);
-                mMainMineTv.setVisibility(View.VISIBLE);
-                tabLayout.setVisibility(View.GONE);
-                mMainLeftIv.setImageResource(R.drawable.ic_back);
-                mMainLeftIv.setOnClickListener((v)-> newPopBackStack());
-                break;
-        }
+//        switch (name){
+//            case FlagConstant.FRAGMENT_LOCAL:
+//                mMainMineTv.setText("本地音乐");
+//                mMainRightIv.setVisibility(View.GONE);
+//                mMainMineTv.setVisibility(View.VISIBLE);
+//                tabLayout.setVisibility(View.GONE);
+//                mMainLeftIv.setImageResource(R.drawable.ic_back);
+//                mMainLeftIv.setOnClickListener((v)-> newPopBackStack());
+//                break;
+//            case FlagConstant.FRAGMENT_RECENT:
+//                mMainMineTv.setText("最近播放");
+//                mMainRightIv.setVisibility(View.GONE);
+//                mMainMineTv.setVisibility(View.VISIBLE);
+//                tabLayout.setVisibility(View.GONE);
+//                mMainLeftIv.setImageResource(R.drawable.ic_back);
+//                mMainLeftIv.setOnClickListener((v)-> newPopBackStack());
+//                break;
+//            case FlagConstant.FRAGMENT_FAVORITE:
+//                mMainMineTv.setText("我的收藏");
+//                mMainRightIv.setVisibility(View.GONE);
+//                mMainMineTv.setVisibility(View.VISIBLE);
+//                tabLayout.setVisibility(View.GONE);
+//                mMainLeftIv.setImageResource(R.drawable.ic_back);
+//                mMainLeftIv.setOnClickListener((v)-> newPopBackStack());
+//                break;
+//        }
 
     }
 
@@ -434,20 +298,6 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
         }
     }
-
-    private View getTabView(int currentPosition) {
-        View view = LayoutInflater.from(this).inflate(R.layout.item_tab, null);
-        TextView textView =  view.findViewById(R.id.tab_item_tv);
-        textView.setText(tabTitleList.get(currentPosition));
-        if (currentPosition == 0){
-            textView.setTextSize(22);
-            textView.getPaint().setFakeBoldText(true);
-            textView.setTextColor(getResources().getColor(R.color.white_EAEAEA));
-        }
-        return view;
-    }
-
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -484,8 +334,40 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     @Override
     public void onBackPressed() {
        // super.onBackPressed();
-        newPopBackStack();
-       // popBackStack();
+        popBackStack();
+
+    }
+
+    public void addFragmentInBackStack(Fragment fragment){
+
+        transaction = mFragmentManager.beginTransaction();
+        transaction.add(R.id.main_fragment_fl,fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    public void popBackStack(){
+        //通过管理类可以获取到当前的栈内数量
+        int backStackEntryCount = mFragmentManager.getBackStackEntryCount();
+        //当栈内数量中大于0 的时候才能进行操作不然会造成索引越界 这里进行了判断，为1的时候为主界面不回退
+        if (backStackEntryCount> 0){
+            //退栈
+            mFragmentManager.popBackStackImmediate();
+            //获取一下栈内的数量
+            backStackEntryCount = mFragmentManager.getBackStackEntryCount();
+
+            if (backStackEntryCount == 0){ // 说明在首页
+
+            }
+
+        } else {
+            if ((System.currentTimeMillis() - exitTime) > SECONDS) {
+                ToastUtil.show(this,"再按一下退出程序");
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+        }
     }
 
     private void newPopBackStack(){
@@ -509,65 +391,11 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             backStackEntryCount = fragmentManager.getBackStackEntryCount();
 
             if (backStackEntryCount == 0){ // 说明在首页
-                BaseFragment fragment =(BaseFragment) fragmentManager.findFragmentByTag(MainFragment.class.getSimpleName());
-                if (fragment != null) {
-                    // 通知刷新数据
-                    fragment.notifyDataChange();
-                }
-                mMainMineTv.setVisibility(View.GONE);
-                tabLayout.setVisibility(View.VISIBLE);
-                mMainRightIv.setVisibility(View.VISIBLE);
-                mMainLeftIv.setImageResource(R.drawable.ic_menu);
-                mMainLeftIv.setOnClickListener((v)-> mMainDrawerLayout.openDrawer(GravityCompat.START));
-            }
-
-        } else {
-            if ((System.currentTimeMillis() - exitTime) > SECONDS) {
-                ToastUtil.show(this,"再按一下退出程序");
-                exitTime = System.currentTimeMillis();
-            } else {
-                finish();
-            }
-        }
-    }
-
-    @Deprecated
-    private void popBackStack() {
-
-        if (mainFragmentManager == null) return;
-
-        //通过管理类可以获取到当前的栈内数量
-        int backStackEntryCount = mainFragmentManager.getBackStackEntryCount();
-        //当栈内数量中大于0 的时候才能进行操作不然会造成索引越界 这里进行了判断，为1的时候为主界面不回退
-        if (backStackEntryCount>1){
-            //退栈
-            mainFragmentManager.popBackStackImmediate();
-            //获取一下栈内的数量
-            backStackEntryCount = mainFragmentManager.getBackStackEntryCount();
-            //二次判断
-            if (backStackEntryCount>0){
-                // 退栈完 元素 -1 就是当前的栈顶Fragment TODO:经验证  backStackEntryAt.getName()始终为空
-                FragmentManager.BackStackEntry backStackEntryAt = mainFragmentManager.getBackStackEntryAt(backStackEntryCount - 1);
-                // 重新获取name
-                String name = backStackEntryAt.getName();
-                Log.d("BACK",name + "");
-                // 重新获取 Fragment
-                BaseFragment fragmentByTag = (BaseFragment) mainFragmentManager.findFragmentByTag(name);
-                // 重新赋值 回退之后需要需要隐藏的fragment
-                agentFragment.setLastFragment(fragmentByTag);
-
-                if (backStackEntryCount == 1){
-                    BaseFragment fragment =(BaseFragment) mainFragmentManager.findFragmentByTag(MainFragment.class.getSimpleName());
-                    if (fragment != null) {
-                        // 通知刷新数据
-                        fragment.notifyDataChange();
-                    }
-                    mMainMineTv.setVisibility(View.GONE);
-                    tabLayout.setVisibility(View.VISIBLE);
-                    mMainRightIv.setVisibility(View.VISIBLE);
-                    mMainLeftIv.setImageResource(R.drawable.ic_menu);
-                    mMainLeftIv.setOnClickListener((v)-> mMainDrawerLayout.openDrawer(GravityCompat.START));
-                }
+//                BaseFragment fragment =(BaseFragment) fragmentManager.findFragmentByTag(MainFragment.class.getSimpleName());
+//                if (fragment != null) {
+//                    // 通知刷新数据
+//                    fragment.notifyDataChange();
+//                }
 
             }
 

@@ -69,7 +69,6 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener, 
         mMusicNextIv.setOnClickListener(this);
         mMusicPreIv.setOnClickListener(this);
         mMusicAlbumsIv.setOnClickListener(this);
-
     }
 
     @Override

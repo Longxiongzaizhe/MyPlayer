@@ -1,12 +1,6 @@
-package com.hjl.module_main.ui.fragment.local;
+package com.hjl.module_main.ui.fragment.my;
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,8 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hjl.commonlib.base.BaseActivity;
-import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment;
 import com.hjl.commonlib.mview.BaseMarkDialog;
 import com.hjl.commonlib.mview.BaseTipDialog;
 import com.hjl.commonlib.utils.DensityUtil;
@@ -24,18 +16,19 @@ import com.hjl.commonlib.utils.RxSchedulers;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.R;
 import com.hjl.module_main.constant.FlagConstant;
-import com.hjl.module_main.constant.MediaConstant;
 import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.daodb.MediaListEntity;
 import com.hjl.module_main.daodb.MediaListManager;
 import com.hjl.module_main.daodb.MediaRelManager;
+import com.hjl.module_main.mvp.BaseMusicMvpFragment;
 import com.hjl.module_main.mvp.contract.MainContract;
 import com.hjl.module_main.mvp.presenter.impl.MainPresenter;
 import com.hjl.module_main.ui.activity.MainActivity;
-import com.hjl.module_main.ui.activity.MusicListActivity;
 import com.hjl.module_main.ui.adapter.MusicListAdapter;
-import com.hjl.module_main.service.MusicService;
+import com.hjl.module_main.ui.fragment.my.FavoriteFragment;
+import com.hjl.module_main.ui.fragment.my.MainLocalFragment;
+import com.hjl.module_main.ui.fragment.my.RecentlyFragment;
 import com.hjl.module_main.utils.MediaUtils;
 import com.yanzhenjie.recyclerview.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
@@ -48,7 +41,12 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 
-public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener,MainContract.IMainView{
+/**
+ * created by long on 2019/11/13
+ * 主界面 “我” 存放的Fragment
+ */
+public class MainMyMvpFragment extends BaseMusicMvpFragment<MainPresenter> implements MainContract.IMainView, BaseQuickAdapter.OnItemClickListener, View.OnClickListener {
+
 
     private TextView mMainLocalNum;
     private ImageView mMainLocalPlay;
@@ -62,7 +60,6 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
     private LinearLayout mHistoryLay;
     private LinearLayout mFavouriteLay;
     private LinearLayout mDownloadLay;
-    private MainActivity activity;
 
     private ImageView mListEditIv;
     private ImageView mListAddIv;
@@ -74,24 +71,20 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
     private MediaRelManager relManager = MediaRelManager.getInstance();
     private MediaListManager listManager = MediaListManager.getInstance();
 
-    private MusicService.MusicBinder mBinder;
+    private MainActivity mainActivity;
 
-    private MainAgentFragment agentFragment;
-
-
-
-    public static MainFragment newInstance(){
-        MainFragment fragment = new MainFragment();
-        return fragment;
+    @Override
+    protected MainPresenter createPresenter() {
+        return new MainPresenter();
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_main;
+        return R.layout.fragment_new_main;
     }
 
     @Override
-    public void initView(View view) {
+    protected void initView(View view) {
         mMainLocalNum = (TextView) view.findViewById(R.id.main_local_num);
         mMainLocalPlay = (ImageView) view.findViewById(R.id.main_local_play);
         mMainLocalPlay.setOnClickListener(this);
@@ -145,7 +138,7 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
                 return;
             }
             BaseTipDialog dialog = new BaseTipDialog(getContext(), BaseTipDialog.TipDialogEnum.DIALOG_WITH_CONTENT).
-                        setTitle("是否删除列表" + musicList.get(adapterPosition).name + "?").setContent("删除此列表数据但不包括歌曲文件");
+                    setTitle("是否删除列表" + musicList.get(adapterPosition).name + "?").setContent("删除此列表数据但不包括歌曲文件");
             dialog.setOnConfirmClickListener(v -> {
                 listManager.delete(musicList.get(adapterPosition));
                 musicList.remove(adapterPosition);
@@ -165,75 +158,30 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
 
         // setAdapter 需要在设置菜单之后
         mListRv.setAdapter(listAdapter);
-
-        agentFragment =(MainAgentFragment) getParentFragment();
-        Intent startMusicIntent = new Intent(getContext(), MusicService.class);
-        getActivity().bindService(startMusicIntent,connection, BaseActivity.BIND_AUTO_CREATE) ;
     }
-
-    private ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mBinder = (MusicService.MusicBinder) service;
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    };
 
     @Override
     protected void initData() {
         updateData();
         listAdapter.setEmptyView(R.layout.layout_no_content,mListRv);
+        mainActivity = (MainActivity) mActivity;
+
     }
 
     @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.main_local_play) {
-            if (mBinder != null){
-                mBinder.play(manager.loadAll().get(0));
-                mBinder.setPlayList(manager.loadAll());
-            }
-        } else if (id == R.id.main_history_play) {
-            if (mBinder != null){
-                List<MediaEntity> list = MediaUtils.getRecentlyList();
-                mBinder.play(list.get(0));
-                mBinder.setPlayList(list);
-            }
-        } else if (id == R.id.main_favourite_play) {
-            if (mBinder != null){
-                List<MediaEntity> list = MediaUtils.getFavoriteList();
-                mBinder.play(list.get(0));
-                mBinder.setPlayList(list);
-            }
-        } else if (id == R.id.main_download_play) {
+    public void updateDataFinish(int localNum, int historyNum, int favouriteNum) {
+        mMainLocalNum.setText(String.format(getString(R.string.music_num),localNum));
+        mMainHistoryNum.setText(String.format(getString(R.string.music_num),historyNum));
+        mMainFavouriteNum.setText(String.format(getString(R.string.music_num),favouriteNum));
+        listAdapter.notifyDataSetChanged();
+        musicList.clear();
+        musicList.addAll(listManager.loadAll());
+    }
 
-        } else if (id == R.id.local_lay) {
-            agentFragment.showFragment(FlagConstant.FRAGMENT_LOCAL);
-        } else if (id == R.id.history_lay) {
-            agentFragment.showFragment(FlagConstant.FRAGMENT_RECENT);
-        } else if (id == R.id.favourite_lay) {
-            agentFragment.showFragment(FlagConstant.FRAGMENT_FAVORITE);
-        } else if (id == R.id.download_lay) {
-        } else if (id == R.id.main_list_add) {
-            BaseMarkDialog dialog = new BaseMarkDialog(getContext(), BaseMarkDialog.MarkDialogEnum.DIALOG_SMALL_MARK);
-            dialog.setTitle("请输入歌单名字").setEditText("未命名").setConfirmText("添加").setHint("请输入歌单名字");
-            dialog.setOnConfirmListener(data -> {
-                listManager.insert(new MediaListEntity(null, data, ""));
-                dialog.dismiss();
-                musicList.clear();
-                musicList.addAll(listManager.loadAll());
-                listAdapter.notifyDataSetChanged();
-                ToastUtil.showSingleToast("添加成功");
-                mListRv.setItemViewSwipeEnabled(true);
-            });
-            dialog.show();
-        } else if (id == R.id.main_list_edit) {
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.updateData();
     }
 
     @Override
@@ -273,52 +221,55 @@ public class MainFragment extends BaseMvpMultipleFragment<MainPresenter> impleme
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        activity = (MainActivity) getActivity();
-    }
-
-    @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        long id = musicList.get(position).id;
-        Intent intent = new Intent(getContext(), MusicListActivity.class);
-        intent.putExtra(FlagConstant.INTENT_KEY01, MediaConstant.LIST_CUSTOM);
-        intent.putExtra(FlagConstant.INTENT_KEY02,id);
-        startActivity(intent);
 
     }
 
     @Override
-    protected MainPresenter createPresenter() {
-        return new MainPresenter();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().unbindService(connection);
-    }
+    public void onClick(View v) {
+        int id = v.getId();
 
 
-    @Override
-    public void updateDataFinish(int localNum, int historyNum, int favouriteNum) {
-        mMainLocalNum.setText(String.format(getString(R.string.music_num),localNum));
-        mMainHistoryNum.setText(String.format(getString(R.string.music_num),historyNum));
-        mMainFavouriteNum.setText(String.format(getString(R.string.music_num),favouriteNum));
-        listAdapter.notifyDataSetChanged();
-        musicList.clear();
-        musicList.addAll(listManager.loadAll());
-    }
+        if (id == R.id.main_local_play) {
+            if (mBinder != null){
+                mBinder.play(manager.loadAll().get(0));
+                mBinder.setPlayList(manager.loadAll());
+            }
+        } else if (id == R.id.main_history_play) {
+            if (mBinder != null){
+                List<MediaEntity> list = MediaUtils.getRecentlyList();
+                mBinder.play(list.get(0));
+                mBinder.setPlayList(list);
+            }
+        } else if (id == R.id.main_favourite_play) {
+            if (mBinder != null){
+                List<MediaEntity> list = MediaUtils.getFavoriteList();
+                mBinder.play(list.get(0));
+                mBinder.setPlayList(list);
+            }
+        } else if (id == R.id.main_download_play) {
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.updateData();
+        } else if (id == R.id.local_lay) {
+            mainActivity.addFragmentInBackStack(MainLocalFragment.Companion.newInstance(mBinder));
+        } else if (id == R.id.history_lay) {
+            mainActivity.addFragmentInBackStack(RecentlyFragment.newInstance(mBinder));
+        } else if (id == R.id.favourite_lay) {
+            mainActivity.addFragmentInBackStack(FavoriteFragment.newInstance(mBinder));
+        } else if (id == R.id.download_lay) {
+        } else if (id == R.id.main_list_add) {
+            BaseMarkDialog dialog = new BaseMarkDialog(getContext(), BaseMarkDialog.MarkDialogEnum.DIALOG_SMALL_MARK);
+            dialog.setTitle("请输入歌单名字").setEditText("未命名").setConfirmText("添加").setHint("请输入歌单名字");
+            dialog.setOnConfirmListener(data -> {
+                listManager.insert(new MediaListEntity(null, data, ""));
+                dialog.dismiss();
+                musicList.clear();
+                musicList.addAll(listManager.loadAll());
+                listAdapter.notifyDataSetChanged();
+                ToastUtil.showSingleToast("添加成功");
+                mListRv.setItemViewSwipeEnabled(true);
+            });
+            dialog.show();
+        } else if (id == R.id.main_list_edit) {
+        }
     }
 }
