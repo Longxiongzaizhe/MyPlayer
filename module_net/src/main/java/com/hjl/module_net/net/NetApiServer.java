@@ -1,5 +1,6 @@
 package com.hjl.module_net.net;
 
+import com.hjl.module_net.net.vo.AllSingerVo;
 import com.hjl.module_net.net.vo.AssociativeWordVo;
 import com.hjl.module_net.net.vo.HotSearchVo;
 import com.hjl.module_net.net.vo.MusicDetailVo;
@@ -48,5 +49,18 @@ public interface NetApiServer {
     @Headers("Cookie:kg_mid=2333")
     @GET("http://www.kugou.com/yy/index.php")
     Observable<MusicDetailVo> getMusicDetail(@Query("r") String r,@Query("hash") String hash);
+
+
+    /**
+     * 获取所有歌手
+     * sextyoe 0 所有 1 男性 2 女性
+     * ?version=9108&showtype=1&plat=0&sextype=0&sort=1&pagesize=100&type=0&page=1
+     */
+
+    @GET("http://mobilecdnbj.kugou.com/api/v5/singer/list")
+    Observable<AllSingerVo> getAllSinger(@Query("version")String version,@Query("showtype") String showtype,
+                                         @Query("plat")String plat,@Query("sextype") String sextype,
+                                         @Query("sort")String sort,@Query("pagesize") String pagesize,
+                                         @Query("type")String type,@Query("page") String page);
 
 }

@@ -4,6 +4,8 @@ import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_net.net.vo.MusicDetailVo;
 
+import java.util.Locale;
+
 
 /**
  * created by long on 2019/10/25
@@ -34,6 +36,17 @@ public class KugouUtils {
        // Log.d("kugou",entity.toString());
         return entity;
 
+    }
+
+    /**
+     * xxxx转换为xx.xx万
+     * 12345 -> 1.2万
+     * @param count
+     * @return
+     */
+    public static String getCountString(int count){
+        double data = count / 10000;
+        return String.format(Locale.CHINA,"%.1f",data);
     }
 
 }

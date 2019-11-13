@@ -1,4 +1,4 @@
-package com.hjl.module_net.ui;
+package com.hjl.module_net.ui.fragment;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -30,6 +30,7 @@ import com.hjl.module_net.net.vo.AssociativeWordVo;
 import com.hjl.module_net.net.vo.HotSearchVo;
 import com.hjl.module_net.net.vo.MusicDetailVo;
 import com.hjl.module_net.net.vo.SearchVo;
+import com.hjl.module_net.ui.SearchSongActivity;
 import com.hjl.module_net.ui.adapter.SearchResultAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -120,7 +121,7 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
         });
 
         searchNewTv.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(),SearchSongActivity.class);
+            Intent intent = new Intent(getContext(), SearchSongActivity.class);
             startActivityForResult(intent,FlagConstant.REQUEST_CODE_ONE);
         });
 

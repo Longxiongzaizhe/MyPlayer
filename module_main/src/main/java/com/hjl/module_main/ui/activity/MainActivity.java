@@ -185,7 +185,11 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
             } else if (itemId == R.id.nav_wifi) {
                 ToastUtil.showSingleToast("暂未开放网络功能哟~");
             } else if (itemId == R.id.nav_about) {
-                ToastUtil.showSingleToast("Author is WuJun From SZU");
+                Intent intent = new Intent(this,KugouWebActivity.class);
+                intent.putExtra(FlagConstant.INTENT_KEY01,"https://github.com/Longxiongzaizhe/MyPlayer");
+                intent.putExtra(FlagConstant.INTENT_KEY02,"MyPlayer");
+
+                startActivity(intent);
             }
             mMainDrawerLayout.closeDrawers();
             return true;
@@ -255,8 +259,12 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
 
         initTabLayout();
-        Glide.with(this).load(new File(SPConstant.USER_ICON_PATH)).into(userIcon);
-        Glide.with(this).load(new File(SPConstant.USER_BG_PATH)).into(navBackgrounpIv);
+        Bitmap userIconBitmap = BitmapFactory.decodeFile(SPConstant.USER_ICON_PATH);
+        Bitmap userBgBitmap = BitmapFactory.decodeFile(SPConstant.USER_BG_PATH);
+        userIcon.setImageBitmap(userIconBitmap);
+        navBackgrounpIv.setImageBitmap(userBgBitmap);
+//        Glide.with(this).load(new File(SPConstant.USER_ICON_PATH)).into(userIcon);
+//        Glide.with(this).load(new File(SPConstant.USER_BG_PATH)).into(navBackgrounpIv);
 
 
         Intent startMusicIntent = new Intent(this,MusicService.class);

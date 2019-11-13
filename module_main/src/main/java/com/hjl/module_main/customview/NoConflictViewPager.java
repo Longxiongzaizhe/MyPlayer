@@ -8,6 +8,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
+import android.widget.ScrollView;
+
+import com.hjl.commonlib.utils.DensityUtil;
 
 /**
  * created by long on 2019/11/6
@@ -15,9 +18,10 @@ import android.view.ViewConfiguration;
 public class NoConflictViewPager extends ViewPager {
 
     private String TAG = "NoConflictViewPager";
-    private float startX;
-    private float startY;
+    private float mDownPosX;
+    private float mDownPosY;
     private float mTouchSlop;
+    boolean isIntercept = false;
 
     public NoConflictViewPager(@NonNull Context context) {
         super(context);
@@ -34,31 +38,35 @@ public class NoConflictViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        final float x = ev.getX();
+        final float y = ev.getY();
 
-        boolean isIntercept = false;
-        int x = (int) ev.getX();
-        int y = (int) ev.getY();
-
-        switch (ev.getAction()){
+        final int action = ev.getAction();
+        switch (action) {
             case MotionEvent.ACTION_DOWN:
-                isIntercept = false;
+                mDownPosX = x;
+                mDownPosY = y;
+
                 break;
             case MotionEvent.ACTION_MOVE:
-
-                if (Math.abs(x - startX) > Math.abs( y - startY)){
-                    isIntercept = true;
-                }else {
-                    isIntercept = false;
+                final float deltaX = Math.abs(x - mDownPosX);
+                final float deltaY = Math.abs(y - mDownPosY);
+                int i = getCurrentItem();
+                // 这里是够拦截的判断依据是左右滑动，读者可根据自己的逻辑进行是否拦截
+                if (i == 0 && deltaX > deltaY) { // 拦截左右滑动
+                    return true;
                 }
-                break;
-
         }
 
-        startX = x;
-        startY = y;
-
-        Log.d(TAG, "onInterceptTouchEvent: " + isIntercept);
-        return isIntercept;
+        return super.onInterceptTouchEvent(ev);
     }
 
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+
+        Log.d(TAG, "onTouchEvent: ");
+        
+        return super.onTouchEvent(ev);
+    }
 }

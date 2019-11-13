@@ -3,6 +3,7 @@ package com.hjl.module_main.ui.activity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.LinearLayout
 import com.hjl.commonlib.base.BaseMultipleActivity
@@ -16,6 +17,7 @@ class KugouWebActivity : BaseMultipleActivity(){
 
     val TAG = "KugouWebActivity"
     var url = ""
+    var title = ""
     lateinit var mAgentWeb : AgentWeb
 
     override fun getKeyData() {
@@ -23,7 +25,7 @@ class KugouWebActivity : BaseMultipleActivity(){
 
         if (intent != null){
             url = intent.getStringExtra(FlagConstant.INTENT_KEY01)
-            val title = intent.getStringExtra(FlagConstant.INTENT_KEY02)
+            title = intent.getStringExtra(FlagConstant.INTENT_KEY02)
             mTitleCenterTv.text = title
         }
 
@@ -43,6 +45,7 @@ class KugouWebActivity : BaseMultipleActivity(){
                     .setAgentWebParent(web_contain, LinearLayout.LayoutParams(-1, -1))
                     .useDefaultIndicator()
                     .setWebViewClient(mWebViewClient)
+                    .setWebChromeClient(mWebViewChromeClient)
                     .createAgentWeb()
                     .ready()
                     .go(url)
@@ -58,6 +61,20 @@ class KugouWebActivity : BaseMultipleActivity(){
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
             Log.i(TAG,url)
+        }
+    }
+
+    private val mWebViewChromeClient = object : com.just.agentweb.WebChromeClient(){
+        override fun onReceivedTitle(view: WebView?, title: String?) {
+            super.onReceivedTitle(view, title)
+
+            if (this@KugouWebActivity.title.isNullOrEmpty()){
+                if (title != null) {
+                    this@KugouWebActivity.title = title
+                    mTitleCenterTv.text = title
+                }
+            }
+
         }
     }
 
