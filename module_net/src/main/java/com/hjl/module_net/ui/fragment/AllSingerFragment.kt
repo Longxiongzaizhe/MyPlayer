@@ -10,6 +10,8 @@ import com.hjl.module_net.R
 import kotlinx.android.synthetic.main.fragment_all_singer.*
 
 import com.hjl.commonlib.utils.ToastUtil
+import com.hjl.module_main.mvp.BaseMusicFragment
+import com.hjl.module_main.ui.activity.MainActivity
 import q.rorbin.verticaltablayout.VerticalTabLayout
 import q.rorbin.verticaltablayout.adapter.SimpleTabAdapter
 import q.rorbin.verticaltablayout.adapter.TabAdapter
@@ -22,16 +24,19 @@ import q.rorbin.verticaltablayout.widget.TabView
  *
  * created by long on 2019/11/11
  */
-class AllSingerFragment : BaseFragment() {
+class AllSingerFragment : BaseMusicFragment() {
 
-    lateinit var agentFragment : NetAgentFragment
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_all_singer
     }
 
     override fun initView(view: View?) {
-        agentFragment = parentFragment as NetAgentFragment
+        mTitleCenterTv.text = "热门歌手"
+        mTitleLeftIv.setOnClickListener {
+            (mActivity as MainActivity).popBackStack()
+        }
+        showTitleView()
     }
 
 
@@ -61,6 +66,10 @@ class AllSingerFragment : BaseFragment() {
                         .build()
             }
         })
+
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 }

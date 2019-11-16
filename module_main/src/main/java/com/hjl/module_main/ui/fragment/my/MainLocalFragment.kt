@@ -1,4 +1,4 @@
-package com.hjl.module_main.ui.fragment.local
+package com.hjl.module_main.ui.fragment.my
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -9,19 +9,18 @@ import com.hjl.commonlib.base.BaseFragment
 import com.hjl.module_main.R
 
 import com.hjl.module_main.constant.FlagConstant
-import com.hjl.module_main.router.RApp
+import com.hjl.module_main.mvp.BaseMusicFragment
 import com.hjl.module_main.router.RLocal
 import com.hjl.module_main.service.MusicService
+import com.hjl.module_main.ui.activity.MainActivity
 
 import kotlinx.android.synthetic.main.fragment_main_local.*
-import java.io.Serializable
 
-class MainLocalFragment : BaseFragment(){
+class MainLocalFragment : BaseMusicFragment() {
 
     private val fragments : ArrayList<Fragment> = ArrayList()
     private val mTitles : ArrayList<String> = ArrayList()
     private var mPageAdapter : LazyFragmentPagerAdapter? = null
-    private var mBinder : Serializable? = null
     private lateinit var localFragment : BaseFragment
     private lateinit var authorFragment : BaseFragment
     private lateinit var albumsFragment : BaseFragment
@@ -42,35 +41,36 @@ class MainLocalFragment : BaseFragment(){
     }
 
     override fun initView(view: View?) {
-        mTitles.add("音乐")
-        mTitles.add("专辑")
-        mTitles.add("歌手")
+        mTitleCenterTv.text = "本地音乐"
+        mTitleLeftIv.setOnClickListener {
+            (mActivity as MainActivity).popBackStack()
+        }
+        showTitleView()
     }
 
-    override fun initData() {
-        if (arguments == null) return
-        mBinder  = arguments?.getSerializable(FlagConstant.BINDER)
+    override fun onConnectedService() {
         localFragment  = ARouter.getInstance().build(RLocal.LOCAL_FRAGMENT).navigation() as BaseFragment
         authorFragment  = ARouter.getInstance().build(RLocal.AUTHOR_FRAGMENT).navigation() as BaseFragment
         albumsFragment = ARouter.getInstance().build(RLocal.ALBUMS_FRAGMENT).navigation() as BaseFragment
-
-        mBinder?.let {
-            it as MusicService.MusicBinder
-        }
 
         localFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,mBinder) }
         authorFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,mBinder) }
         albumsFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,mBinder) }
 
-
         fragments.add(localFragment)
         fragments.add(albumsFragment)
         fragments.add(authorFragment)
 
-
         mPageAdapter = LazyFragmentPagerAdapter(fragmentManager, fragments, mTitles)
         local_viewpager.adapter = mPageAdapter
         local_tab_layout.setupWithViewPager(local_viewpager)
+
+    }
+
+    override fun initData() {
+        mTitles.add("音乐")
+        mTitles.add("专辑")
+        mTitles.add("歌手")
     }
 
     override fun getLayoutId(): Int {
@@ -93,6 +93,10 @@ class MainLocalFragment : BaseFragment(){
         localFragment.notifyDataChange()
 
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 

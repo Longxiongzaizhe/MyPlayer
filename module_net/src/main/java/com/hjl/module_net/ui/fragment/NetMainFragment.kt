@@ -13,7 +13,9 @@ import com.hjl.commonlib.adapter.LazyFragmentPagerAdapter
 import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment
 import com.hjl.commonlib.utils.ToastUtil
 import com.hjl.module_main.constant.FlagConstant
+import com.hjl.module_main.mvp.BaseMusicMvpFragment
 import com.hjl.module_main.router.RNet
+import com.hjl.module_main.ui.activity.MainActivity
 import com.hjl.module_net.R
 import com.hjl.module_net.mvp.contract.NetMainContract
 import com.hjl.module_net.net.vo.BannerVo
@@ -30,9 +32,9 @@ import kotlinx.android.synthetic.main.fragment_net_main.*
  */
 
 @Route(path = RNet.RNetMain)
-class NetMainFragment : BaseMvpMultipleFragment<NetMainPresenter>(),NetMainContract.INetMainView {
+class NetMainFragment : BaseMusicMvpFragment<NetMainPresenter>(),NetMainContract.INetMainView {
 
-    lateinit var agentFragment : NetAgentFragment
+
     lateinit var recommendFragmentList : ArrayList<Fragment>
     lateinit var recommendTileList : ArrayList<String>
 
@@ -40,6 +42,7 @@ class NetMainFragment : BaseMvpMultipleFragment<NetMainPresenter>(),NetMainContr
 
     lateinit var funcAdapter : NetFunctionAdapter
     lateinit var functionList: MutableList<NetFunctionBean>
+    lateinit var mainActivity: MainActivity
 
     override fun createPresenter(): NetMainPresenter {
         return NetMainPresenter()
@@ -54,10 +57,12 @@ class NetMainFragment : BaseMvpMultipleFragment<NetMainPresenter>(),NetMainContr
             startActivityForResult(Intent(context, SearchSongActivity::class.java),FlagConstant.REQUEST_CODE_ONE)
         }
 
-        agentFragment = parentFragment as NetAgentFragment
     }
 
     override fun initData() {
+
+        mainActivity = mActivity as MainActivity
+
         mPresenter.getBanner()
 
         recommendTileList = ArrayList()
@@ -87,7 +92,7 @@ class NetMainFragment : BaseMvpMultipleFragment<NetMainPresenter>(),NetMainContr
         funcAdapter.setOnItemClickListener { adapter, view, position ->
             when(position){
                 0 -> {
-                    agentFragment.showFragment(AllSingerFragment(),"AllSingerFragment.class")
+                    mainActivity.addFragmentInBackStack(AllSingerFragment())
                 }
 
 
@@ -138,7 +143,8 @@ class NetMainFragment : BaseMvpMultipleFragment<NetMainPresenter>(),NetMainContr
             if (resultCode == Activity.RESULT_OK){
                 val keyword = data?.getStringExtra(FlagConstant.INTENT_KEY01)
                 val resultFrament = NetSearchResultFragment.newInstance(keyword)
-                agentFragment.showFragment(resultFrament,"NetSearchResultFragment.class")
+//                agentFragment.showFragment(resultFrament,"NetSearchResultFragment.class")
+                mainActivity.addFragmentInBackStack(resultFrament)
             }
         }
 

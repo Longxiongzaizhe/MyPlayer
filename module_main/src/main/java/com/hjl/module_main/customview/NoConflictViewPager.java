@@ -23,6 +23,9 @@ public class NoConflictViewPager extends ViewPager {
     private float mTouchSlop;
     boolean isIntercept = false;
 
+    private int mLastX;
+    private int mLastY;
+
     public NoConflictViewPager(@NonNull Context context) {
         super(context);
 
@@ -35,8 +38,46 @@ public class NoConflictViewPager extends ViewPager {
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
     }
 
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//
+//        boolean intercepted = false;
+//        int x = (int) ev.getX();
+//        int y = (int) ev.getY();
+//
+//        switch (ev.getAction()){
+//
+//            case MotionEvent.ACTION_DOWN:
+//                intercepted = false;
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//
+//                int deltaX = x - mLastX;
+//                int deltaY = y - mLastY;
+//                int index= getCurrentItem();
+//                if (index == 0 && Math.abs(deltaX) > Math.abs(deltaY)){
+//                    intercepted = true;
+//                }else {
+//                    intercepted = false;
+//                }
+//
+//
+//                break;
+//
+//            case MotionEvent.ACTION_UP:
+//                intercepted = false;
+//                break;
+//
+//        }
+//
+//
+//        mLastX = x;
+//        mLastY = y;
+//
+//        return intercepted;
+//    }
 
-    @Override
+        @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         final float x = ev.getX();
         final float y = ev.getY();

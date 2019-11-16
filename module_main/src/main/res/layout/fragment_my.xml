@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:paddingTop="24dp"
+        android:background="@color/common_base_blue">
+
+        <ImageView
+            android:id="@+id/main_left_iv"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:paddingLeft="@dimen/padding_tiny_size"
+            android:paddingRight="@dimen/base_padding_size"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/main_tab_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="150dp"
+            app:tabTextAppearance="@style/TabLayoutTextStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabIndicatorColor="@color/transparent"
+            app:tabTextColor="@color/common_white"/>
+        <TextView
+            android:id="@+id/main_center_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_plus_size"
+            android:textColor="@color/common_white"
+            android:textStyle="normal"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            tools:text="我"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+
+        <ImageView
+            android:id="@+id/main_right_iv"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:padding="@dimen/padding_large_size"
+            tools:src="@drawable/icon_garbage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/main_right_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/base_margin_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="@dimen/text_normal_size"
+            android:textColor="@color/common_white"
+            android:visibility="gone"
+            tools:text="123" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <com.hjl.module_main.customview.NoConflictViewPager
+        android:id="@+id/main_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

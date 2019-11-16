@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fl_root">
+    android:orientation="vertical"
+    android:id="@+id/ll_root">
+
+    <View
+        android:id="@+id/base_padding_top"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/common_base_blue"
+        android:visibility="gone"/>
+    <include layout="@layout/title_layout" />
 
     <com.hjl.commonlib.base.MultipleStatusView
         android:layout_width="match_parent"
@@ -12,4 +21,4 @@
 
     </com.hjl.commonlib.base.MultipleStatusView>
 
-</FrameLayout>
+</LinearLayout>

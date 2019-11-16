@@ -21,7 +21,9 @@ import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
+import com.hjl.module_main.mvp.BaseMusicMvpFragment;
 import com.hjl.module_main.service.MusicService;
+import com.hjl.module_main.ui.activity.MainActivity;
 import com.hjl.module_net.KugouUtils;
 import com.hjl.module_net.R;
 import com.hjl.module_net.mvp.contract.NetSearchContract;
@@ -46,7 +48,7 @@ import static com.hjl.module_main.constant.MediaConstant.RECENTLY_LIST;
 /**
  * created by long on 2019/10/23
  */
-public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPresenterImpl> implements NetSearchContract.INetSearchView, OnRefreshListener, OnLoadMoreListener {
+public class NetSearchResultFragment extends BaseMusicMvpFragment<SearchPresenterImpl> implements NetSearchContract.INetSearchView, OnRefreshListener, OnLoadMoreListener {
 
     private String keyword;
     private RecyclerView resultRv;
@@ -55,11 +57,10 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
     private SearchResultAdapter adapter;
     private SmartRefreshLayout mRefreshLayout;
     private List<SearchVo.DataBean.InfoBean> dataList = new ArrayList<>();
-    private NetAgentFragment agentFragment;
-    private MusicService.MusicBinder mBinder;
 
     private int pageSize = 20;
     private int pageIndex = 1;
+    private MainActivity activity;
 
     public static NetSearchResultFragment newInstance(Bundle bundle){
         NetSearchResultFragment fragment = new NetSearchResultFragment();
@@ -94,6 +95,9 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
 
     @Override
     protected void initView(View view) {
+
+        showPaddingTopView();
+
         resultRv = view.findViewById(R.id.search_result_rv);
         cancelTv = view.findViewById(R.id.search_result_cancel_tv);
         searchNewTv = view.findViewById(R.id.net_search_result_tv);
@@ -104,7 +108,7 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
         adapter = new SearchResultAdapter(dataList);
         resultRv.setAdapter(adapter);
         resultRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        agentFragment = (NetAgentFragment) getParentFragment();
+
 
         adapter.setOnItemClickListener((adapter, view1, position) -> {
             if (mBinder == null) return;
@@ -126,7 +130,7 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
         });
 
         cancelTv.setOnClickListener( v ->{
-            agentFragment.getChildFragmentManager().popBackStackImmediate();
+            activity.popBackStack();
         });
 
 
@@ -134,15 +138,16 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
 
     @Override
     protected void initData() {
+
+        activity = (MainActivity) mActivity;
         if (!StringUtils.isEmpty(keyword)){
             mMultipleStatusView.showLoading();
             mPresenter.search(keyword,pageIndex,pageSize);
             searchNewTv.setText(keyword);
         }
 
-        Intent serviceIntent = new Intent(getContext(),MusicService.class);
 
-        getActivity().bindService(serviceIntent,connection,Activity.BIND_AUTO_CREATE);
+
     }
 
     private void searchNewKey(){
@@ -151,18 +156,7 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
         mPresenter.search(keyword,pageIndex,pageSize);
     }
 
-    private ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mBinder = (MusicService.MusicBinder) service;
 
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    };
 
     @Override
     public void onSearchFail(String msg) {
@@ -241,11 +235,6 @@ public class NetSearchResultFragment extends BaseMvpMultipleFragment<SearchPrese
         ToastUtil.showSingleToast(msg);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        getActivity().unbindService(connection);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
