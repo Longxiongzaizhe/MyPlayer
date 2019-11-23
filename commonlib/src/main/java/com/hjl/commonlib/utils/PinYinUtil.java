@@ -3,7 +3,7 @@ package com.hjl.commonlib.utils;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class PinYin {
+public class PinYinUtil {
 	// 汉字返回拼音，字母原样返回，都转换为小写
 	public static String getPinYin(String input) {
 		ArrayList<HanziToPinyin3.Token> tokens = HanziToPinyin3.getInstance().get(input);

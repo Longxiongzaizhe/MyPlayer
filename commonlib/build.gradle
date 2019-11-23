@@ -100,5 +100,11 @@ dependencies {
     api 'com.just.agentweb:agentweb:4.1.2'
     api 'com.tencent.bugly:crashreport:latest.release'
 
+    //内存泄漏检测工具
+    debugApi deps.debug_leakcanary
+    releaseApi deps.release_leakcanary
+    // Optional, if you use support library fragments:
+    debugApi deps.support_fragment_leakcanary
+
 
 }

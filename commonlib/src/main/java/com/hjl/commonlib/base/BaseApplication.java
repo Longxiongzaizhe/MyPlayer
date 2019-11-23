@@ -1,6 +1,7 @@
 package com.hjl.commonlib.base;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -11,11 +12,21 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 public class BaseApplication extends Application {
 
     protected static Handler mHandler;
     private static BaseApplication application;
+
+    private RefWatcher refWatcher;
+
+    public static RefWatcher getRefWatcher(Context context) {
+        BaseApplication application = (BaseApplication) context.getApplicationContext();
+        return application.refWatcher;
+    }
+
 
 
     @Override
@@ -25,6 +36,7 @@ public class BaseApplication extends Application {
         application = this;
         mHandler = new Handler(Looper.getMainLooper());
         LoggerUtils.isDebug = true;
+        refWatcher = LeakCanary.install(this);
 
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false) //（可选）是否显示线程信息。 默认值为true

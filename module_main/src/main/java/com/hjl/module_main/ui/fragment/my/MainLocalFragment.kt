@@ -18,12 +18,9 @@ import kotlinx.android.synthetic.main.fragment_main_local.*
 
 class MainLocalFragment : BaseMusicFragment() {
 
-    private val fragments : ArrayList<Fragment> = ArrayList()
+    private var fragments : ArrayList<Fragment>? = null
     private val mTitles : ArrayList<String> = ArrayList()
     private var mPageAdapter : LazyFragmentPagerAdapter? = null
-    private lateinit var localFragment : BaseFragment
-    private lateinit var authorFragment : BaseFragment
-    private lateinit var albumsFragment : BaseFragment
 
 
     companion object{
@@ -49,17 +46,18 @@ class MainLocalFragment : BaseMusicFragment() {
     }
 
     override fun onConnectedService() {
-        localFragment  = ARouter.getInstance().build(RLocal.LOCAL_FRAGMENT).navigation() as BaseFragment
-        authorFragment  = ARouter.getInstance().build(RLocal.AUTHOR_FRAGMENT).navigation() as BaseFragment
-        albumsFragment = ARouter.getInstance().build(RLocal.ALBUMS_FRAGMENT).navigation() as BaseFragment
+        val localFragment  = ARouter.getInstance().build(RLocal.LOCAL_FRAGMENT).navigation() as BaseFragment
+        val authorFragment  = ARouter.getInstance().build(RLocal.AUTHOR_FRAGMENT).navigation() as BaseFragment
+        val albumsFragment = ARouter.getInstance().build(RLocal.ALBUMS_FRAGMENT).navigation() as BaseFragment
 
         localFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,mBinder) }
         authorFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,mBinder) }
         albumsFragment.arguments = Bundle().apply { putSerializable(FlagConstant.BINDER,mBinder) }
 
-        fragments.add(localFragment)
-        fragments.add(albumsFragment)
-        fragments.add(authorFragment)
+        fragments = ArrayList()
+        fragments?.add(localFragment)
+        fragments?.add(albumsFragment)
+        fragments?.add(authorFragment)
 
         mPageAdapter = LazyFragmentPagerAdapter(fragmentManager, fragments, mTitles)
         local_viewpager.adapter = mPageAdapter
@@ -80,20 +78,30 @@ class MainLocalFragment : BaseMusicFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // setArguments 只能在 new 时传递数据
-//        arguments = Bundle().also { it.putSerializable(FlagConstant.BINDER,mBinder) }
+
+        fragments?.clear()
+
+
     }
 
     override fun notifyDataChange() {
         super.notifyDataChange()
 
         // 通知更新数据
-        authorFragment.notifyDataChange()
-        albumsFragment.notifyDataChange()
-        localFragment.notifyDataChange()
+
+        fragments?.let {
+            for (item in it){
+                item.let { fragment ->
+                    fragment as BaseFragment
+                    fragment.notifyDataChange()
+                }
+            }
+        }
+
 
 
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
