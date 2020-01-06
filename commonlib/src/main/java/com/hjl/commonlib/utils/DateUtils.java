@@ -1,5 +1,6 @@
 package com.hjl.commonlib.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -11,6 +12,8 @@ public class DateUtils {
         long millis = System.currentTimeMillis();
         return sdf.format(millis);
     }
+
+
 
     public static String getDateFromMill(long millis){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
@@ -30,6 +33,31 @@ public class DateUtils {
     public static String getMusicTime(int millis){
         SimpleDateFormat sdf = new SimpleDateFormat("mm:ss", Locale.getDefault());
         return sdf.format(millis);
+    }
+
+    public static boolean isNeedUpdateUrl(String date){
+        long targetDateMill = date2Mill(date);
+        long currentDateMill = System.currentTimeMillis();
+        long updateInterval = 8 * 60 * 60 * 1000 ; // 暂时设定8小时 8 * 60 * 60 * 1000
+
+        return currentDateMill - targetDateMill > updateInterval;
+
+
+
+    }
+
+    public static long date2Mill(String date){
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+
+        try {
+            return format.parse(date).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+
     }
 
     /**

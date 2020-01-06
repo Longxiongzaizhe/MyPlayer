@@ -95,6 +95,11 @@ public abstract class BaseMvpPresenter<V extends IBaseMvpView>  implements Invoc
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> void requestNetwork(Observable<HttpBaseResult<T>> observable, HttpObserver<T> observer) {
+        observable.map(new ResultFilter()).compose(RxSchedulers.io_main()).subscribe(observer);
+    }
+
     protected String handleError(Throwable e){
 
         String msg = "";

@@ -24,6 +24,8 @@ public class MediaEntity {
     public long size;
     public String coverUrl;
     public boolean canGetCover;
+    public String date; // 插入的时间 酷狗api对播放地址有时间限制
+    public String hash; // 酷狗音乐hash标识
 
     /**
      * net
@@ -46,10 +48,11 @@ public class MediaEntity {
 
     @Transient
     public Bitmap cover;
-    @Generated(hash = 1723178999)
+    @Generated(hash = 891211788)
     public MediaEntity(Long id, String title, String display_name, String path, long duration,
             long album_id, String albums, String artist, String singer, long size,
-            String coverUrl, boolean canGetCover, int type, String videoId, String lyric) {
+            String coverUrl, boolean canGetCover, String date, String hash, int type,
+            String videoId, String lyric) {
         this.id = id;
         this.title = title;
         this.display_name = display_name;
@@ -62,6 +65,8 @@ public class MediaEntity {
         this.size = size;
         this.coverUrl = coverUrl;
         this.canGetCover = canGetCover;
+        this.date = date;
+        this.hash = hash;
         this.type = type;
         this.videoId = videoId;
         this.lyric = lyric;
@@ -179,5 +184,21 @@ public class MediaEntity {
 
     public void setLyric(String lyric) {
         this.lyric = lyric;
+    }
+
+    public String getDate() {
+        return this.date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getHash() {
+        return this.hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 }

@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
     <TextView
+        android:id="@+id/splash_tv_one"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -22,6 +23,7 @@
         android:layout_marginBottom="20dp"
         android:textColor="@color/common_white"/>
     <TextView
+        android:id="@+id/splash_tv_two"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:gravity="center"

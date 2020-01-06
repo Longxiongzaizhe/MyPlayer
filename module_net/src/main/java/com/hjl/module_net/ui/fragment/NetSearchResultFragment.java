@@ -1,11 +1,8 @@
 package com.hjl.module_net.ui.fragment;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.hjl.commonlib.base.mvp.BaseMvpMultipleFragment;
+import com.hjl.commonlib.utils.DateUtils;
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.constant.FlagConstant;
@@ -22,7 +19,6 @@ import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
 import com.hjl.module_main.mvp.BaseMusicMvpFragment;
-import com.hjl.module_main.service.MusicService;
 import com.hjl.module_main.ui.activity.MainActivity;
 import com.hjl.module_net.KugouUtils;
 import com.hjl.module_net.R;
@@ -30,7 +26,7 @@ import com.hjl.module_net.mvp.contract.NetSearchContract;
 import com.hjl.module_net.mvp.presenter.SearchPresenterImpl;
 import com.hjl.module_net.net.vo.AssociativeWordVo;
 import com.hjl.module_net.net.vo.HotSearchVo;
-import com.hjl.module_net.net.vo.MusicDetailVo;
+import com.hjl.module_main.net.bean.MusicDetailVo;
 import com.hjl.module_net.net.vo.SearchVo;
 import com.hjl.module_net.ui.SearchSongActivity;
 import com.hjl.module_net.ui.adapter.SearchResultAdapter;
@@ -223,6 +219,7 @@ public class NetSearchResultFragment extends BaseMusicMvpFragment<SearchPresente
             ToastUtil.showSingleToast("获取播放地址为空");
             return;
         }
+        entity.date = DateUtils.getCurrentDate();
         MediaDaoManager.getInstance().insertSafety(entity);
         mBinder.play(entity);
         Log.d("ly", "ly: " + vo.getData().getLyrics());

@@ -3,7 +3,7 @@ package com.hjl.module_net.net;
 import com.hjl.module_net.net.vo.AllSingerVo;
 import com.hjl.module_net.net.vo.AssociativeWordVo;
 import com.hjl.module_net.net.vo.HotSearchVo;
-import com.hjl.module_net.net.vo.MusicDetailVo;
+import com.hjl.module_main.net.bean.MusicDetailVo;
 import com.hjl.module_net.net.vo.SearchVo;
 
 import io.reactivex.Observable;

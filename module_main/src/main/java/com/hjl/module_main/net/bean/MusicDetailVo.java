@@ -1,4 +1,4 @@
-package com.hjl.module_net.net.vo;
+package com.hjl.module_main.net.bean;
 
 import java.util.List;
 
