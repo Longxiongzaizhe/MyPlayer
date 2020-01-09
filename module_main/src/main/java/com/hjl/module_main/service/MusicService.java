@@ -209,7 +209,7 @@ public class MusicService extends Service {
             if (getPlayList() == null){
                 return;
             }
-            if (getPlayList().size() != getPosition()+1){
+            if (getPlayList().size() > getPosition()+1){
                 mBinder.play(getPlayList().get(getPosition()+1));
                 setPosition(getPosition()+1);
             }else {
