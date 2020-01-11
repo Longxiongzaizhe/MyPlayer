@@ -4,9 +4,12 @@ import android.graphics.DashPathEffect;
 
 import com.hjl.commonlib.network.interceptor.RetryInterceptor;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -166,6 +169,7 @@ public class HttpUtils {
                     .addInterceptor(new RetryInterceptor())
                     .readTimeout(READ_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
                     .writeTimeout(WRITE_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
+                    .cache(new Cache(new File("cache"),24*1024*1024))
                     .build();
         }
         return client;

@@ -21,6 +21,8 @@ public class MPApplication extends BaseApplication {
 
     private static MPApplication sInst;
 
+
+
     @Override
     public void onCreate() {
         super.onCreate();

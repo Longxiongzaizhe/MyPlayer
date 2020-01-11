@@ -16,6 +16,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjl.commonlib.base.BaseFragment;
 import com.hjl.commonlib.mview.BaseTipDialog;
 import com.hjl.commonlib.mview.ClearEditText;
+import com.hjl.commonlib.network.okhttp.HttpHandler;
+import com.hjl.commonlib.utils.DateUtils;
 import com.hjl.commonlib.utils.DensityUtil;
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.commonlib.utils.ToastUtil;
@@ -29,6 +31,8 @@ import com.hjl.module_main.daodb.MediaDaoManager;
 import com.hjl.module_main.daodb.MediaEntity;
 import com.hjl.module_main.daodb.MediaRelEntity;
 import com.hjl.module_main.daodb.MediaRelManager;
+import com.hjl.module_main.net.NetworkWrapper;
+import com.hjl.module_main.net.bean.MusicDetailVo;
 import com.hjl.module_main.router.RApp;
 import com.hjl.module_main.customview.AddToListDialog;
 import com.hjl.module_main.customview.MusicEditPopWindow;
@@ -172,18 +176,7 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
         adapter.setOnItemChildClickListener(this);
         mBinder = (MusicService.MusicBinder) getArguments().getSerializable(FlagConstant.BINDER);
         adapter.setOnLoadMoreListener(this,mLocalMusicRv);
-//        mLocalMusicRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//
-////                if (RecyclerView.SCROLL_STATE_IDLE == newState){
-////                    Glide.with(getContext()).resumeRequests();
-////                }else {
-////                    Glide.with(getContext()).pauseAllRequests();
-////                }
-//
-//            }
+
 //        });
     }
 
@@ -220,11 +213,25 @@ public class LocalFragment extends BaseFragment implements BaseQuickAdapter.OnIt
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         List<MediaEntity> list = adapter.getData();
-        mBinder.play(list.get(position));
-        mBinder.getService().setPosition(position);
-        mBinder.getService().setPlayList(list);
-        view.requestFocus(); // 滚动显示歌曲名
-        relManager.insert(new MediaRelEntity(null, RECENTLY_LIST,list.get(position).getId()));
+        MediaEntity entity = list.get(position);
+
+
+        if (!StringUtils.isEmpty(entity.date) && DateUtils.isNeedUpdateUrl(entity.date)){ // 歌曲URL已过期 需要重新获取
+            NetworkWrapper.getMusicDetail(entity.hash, new HttpHandler<MusicDetailVo>() {
+                @Override
+                public void onSuccess(MusicDetailVo data) {
+                    entity.path = data.getData().getPlay_url();
+                    manager.update(entity);
+                    MediaUtils.playSong(entity,mBinder,position,list);
+                    view.requestFocus(); // 滚动显示歌曲名
+                }
+            });
+        }else {
+            MediaUtils.playSong(entity,mBinder,position,list);
+            view.requestFocus(); // 滚动显示歌曲名
+        }
+
+
 
     }
 

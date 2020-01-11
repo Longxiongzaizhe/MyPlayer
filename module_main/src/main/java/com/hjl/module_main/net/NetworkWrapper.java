@@ -6,7 +6,13 @@ import com.hjl.commonlib.network.okhttp.RequestParams;
 
 import java.io.File;
 
+import com.hjl.module_main.net.bean.MusicDetailVo;
 import com.hjl.module_main.net.bean.SearchPicBean;
+
+import io.reactivex.Observable;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.Query;
 
 public class NetworkWrapper {
 
@@ -41,4 +47,17 @@ public class NetworkWrapper {
         String path = "http://guolin.tech/api/bing_pic";
         HttpUtils.get(path,httpHandler,tag);
     }
+
+    public static void getMusicDetail(String hash,HttpHandler<MusicDetailVo> handler){
+        String path = "http://www.kugou.com/yy/index.php";
+        RequestParams params = new RequestParams();
+        RequestParams headers = new RequestParams();
+        headers.add("Cookie","kg_mid=2333");
+
+        params.add("r","play/getdata");
+        params.add("hash",hash);
+        HttpUtils.get(path,params,headers,handler);
+
+    }
 }
+

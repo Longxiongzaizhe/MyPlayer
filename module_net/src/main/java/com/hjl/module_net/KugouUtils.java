@@ -2,7 +2,7 @@ package com.hjl.module_net;
 
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.module_main.daodb.MediaEntity;
-import com.hjl.module_net.net.vo.MusicDetailVo;
+import com.hjl.module_main.net.bean.MusicDetailVo;
 
 import java.util.Locale;
 
@@ -25,6 +25,7 @@ public class KugouUtils {
         entity.artist = vo.getData().getAuthor_name(); // 作者
         entity.videoId = vo.getData().getVideo_id();
         entity.lyric = vo.getData().getLyrics(); // 歌词
+        entity.hash = vo.getData().getHash();
 
 
         if (StringUtils.isEmpty(entity.coverUrl)){

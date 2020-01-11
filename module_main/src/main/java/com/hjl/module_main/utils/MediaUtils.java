@@ -19,6 +19,8 @@ import com.hjl.commonlib.utils.LogUtils;
 import com.hjl.commonlib.utils.StringUtils;
 import com.hjl.module_main.R;
 import com.hjl.module_main.constant.MediaConstant;
+import com.hjl.module_main.daodb.DaoManager;
+import com.hjl.module_main.daodb.DaoManagerFactory;
 import com.hjl.module_main.daodb.MediaAlbumsEntity;
 import com.hjl.module_main.daodb.MediaAlbumsManager;
 import com.hjl.module_main.daodb.MediaDaoManager;
@@ -29,6 +31,7 @@ import com.hjl.module_main.net.DoubanNetworkWrapper;
 import com.hjl.module_main.net.NetworkWrapper;
 import com.hjl.module_main.net.bean.SearchPicBean;
 import com.hjl.module_main.net.bean.douban.MusicSearchBean;
+import com.hjl.module_main.service.MusicService;
 
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
@@ -39,6 +42,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static com.hjl.module_main.constant.MediaConstant.RECENTLY_LIST;
 
 public class MediaUtils {
 
@@ -94,6 +99,13 @@ public class MediaUtils {
             }
         }
         return mediaList;
+    }
+
+    public static void playSong(MediaEntity entity, MusicService.MusicBinder binder,int position,List<MediaEntity> playList){
+        binder.play(entity);
+        binder.getService().setPosition(position);
+        binder.getService().setPlayList(playList);
+        DaoManagerFactory.getInstance().getManager(DaoManager.MEDIA_REL).insert(new MediaRelEntity(null, RECENTLY_LIST,entity.getId()));
     }
 
 

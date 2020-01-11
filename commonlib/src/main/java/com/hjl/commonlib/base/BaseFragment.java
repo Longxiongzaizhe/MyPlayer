@@ -156,5 +156,15 @@ public abstract class BaseFragment extends Fragment {
         mBind.unbind();
         clearDisposable();
         super.onDestroyView();
+
+
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+//        RefWatcher refWatcher = BaseApplication.getRefWatcher(getActivity());
+//        refWatcher.watch(this);
     }
 }

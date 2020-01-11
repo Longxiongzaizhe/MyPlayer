@@ -1,6 +1,7 @@
 package com.hjl.module_main.ui.activity
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -46,6 +47,8 @@ class SplashActivity : BaseMultipleActivity() {
         if (file.exists()){
             Glide.with(this).load(file).into(splash_iv)
         }else{
+            splash_tv_one.setTextColor(Color.BLACK)
+            splash_tv_two.setTextColor(Color.BLACK)
             var drawable = resources.getDrawable(R.drawable.app_forground)
             Glide.with(this).load(drawable).into(splash_iv)
         }
