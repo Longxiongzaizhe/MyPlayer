@@ -1,8 +1,7 @@
-package com.hjl.commonlib.utils;
+package com.wj.record_video;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -11,13 +10,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
-import com.hjl.commonlib.base.BaseApplication;
-
 /**
  * Created by asus on 2018/9/5.
  */
 
-public class PermissionsUtiles {
+public class PermissionsUtils {
 
     public static final int REQUEST_CODE = 0x0001;
     public static final int REQUEST_SETTING = 0x0002;
@@ -66,7 +63,7 @@ public class PermissionsUtiles {
         if (requestCode == REQUEST_CODE) {
             for (int i = 0; i < permissions.length; i++) {
                 if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {//选择了“始终允许”
-                    ToastUtil.show( "权限" + permissions[i] + "申请成功");
+                    Toast.makeText(activity,"权限" + permissions[i] + "申请成功",Toast.LENGTH_SHORT).show( );
                 }else if (grantResults[i] == PackageManager.PERMISSION_DENIED){
                     if (ActivityCompat.shouldShowRequestPermissionRationale(activity,permissions[i])){  // 是否已经点了拒绝权限 否-> 申请权限
                         showWarningDialog(activity);

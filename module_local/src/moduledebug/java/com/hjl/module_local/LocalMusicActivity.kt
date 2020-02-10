@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment
 import android.view.View
 import com.hjl.commonlib.adapter.LazyFragmentPagerAdapter
 import com.hjl.commonlib.base.BaseMultipleActivity
-import com.hjl.commonlib.utils.PermissionsUtiles
+import com.hjl.commonlib.utils.PermissionsUtils
 import com.hjl.module_local.fragment.AlbumsFragment
 import com.hjl.module_local.fragment.AuthorFragment
 import com.hjl.module_local.fragment.LocalFragment
@@ -38,7 +38,7 @@ class LocalMusicActivity : BaseMultipleActivity() {
 
     override fun initView() {
 
-        PermissionsUtiles.requestPermissions(this, permissions) //请求权限
+        PermissionsUtils.requestPermissions(this, permissions) //请求权限
         val startMusicIntent = Intent(this, MusicService::class.java)
         bindService(startMusicIntent, connection,BIND_AUTO_CREATE)
         startService(startMusicIntent)

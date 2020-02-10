@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="origin_inside_circle_radius">60dp</dimen>
+    <dimen name="origin_outside_circle_radius">10dp</dimen>
+    
+    <dimen name="default_length">100dp</dimen>
+
+
+</resources>

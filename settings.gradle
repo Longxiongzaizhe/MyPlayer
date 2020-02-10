@@ -1,2 +1,2 @@
-include ':app', ':commonlib', ':testmodule', ':module_main', ':module_local', ':module_net'
+include ':app', ':commonlib', ':testmodule', ':module_main', ':module_local', ':module_net', ':record_video'
 include ':zbarlibary'

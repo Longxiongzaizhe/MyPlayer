@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wj.record_video">
+
+    <application>
+        <activity android:name=".CameraActivity"></activity>
+    </application>
+
+</manifest>

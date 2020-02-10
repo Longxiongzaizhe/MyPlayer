@@ -4,7 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.hjl.commonlib.utils.PermissionsUtiles
+import com.hjl.commonlib.utils.PermissionsUtils
 import com.hjl.testmodule.retrofit.RetrofitActivity
 import kotlinx.android.synthetic.main.activity_test_main.*
 
@@ -16,7 +16,7 @@ class TestMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_main)
 
-        PermissionsUtiles.requestPermissions(this, permissions) //请求权限
+        PermissionsUtils.requestPermissions(this, permissions) //请求权限
 
         // 播放view
         music_view.setOnClickListener {
