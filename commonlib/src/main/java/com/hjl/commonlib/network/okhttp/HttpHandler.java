@@ -53,6 +53,10 @@ public abstract class HttpHandler<T> implements Callback{
 
     @Override
     public void onResponse(Call call, Response response) throws IOException {
+        handlerResponse(response);
+    }
+
+    public void handlerResponse(Response response) throws IOException {
         if (response.code() == 200){
             //请求码成功
             String respBodyStr = response.body().string();

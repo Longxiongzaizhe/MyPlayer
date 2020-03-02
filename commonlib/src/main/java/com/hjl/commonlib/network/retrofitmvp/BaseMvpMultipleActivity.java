@@ -14,7 +14,6 @@ public abstract class BaseMvpMultipleActivity<P extends BaseMvpPresenter> extend
     protected void onCreate(Bundle savedInstanceState) {
         mPresenter = createPresenter();
         mPresenter.attach(this);
-        mPresenter.start();
 
         super.onCreate(savedInstanceState);
 
@@ -34,22 +33,22 @@ public abstract class BaseMvpMultipleActivity<P extends BaseMvpPresenter> extend
     }
 
     @Override
-    public void onLoading() {
+    public void showLoading() {
         mMultipleStateView.showLoading();
     }
 
     @Override
-    public void onComplete() {
+    public void showComplete() {
         mMultipleStateView.showContent();
     }
 
     @Override
-    public void onEmpty() {
+    public void showEmpty() {
         mMultipleStateView.showEmpty();
     }
 
     @Override
-    public void onError() {
+    public void showError() {
         mMultipleStateView.showError();
     }
 }

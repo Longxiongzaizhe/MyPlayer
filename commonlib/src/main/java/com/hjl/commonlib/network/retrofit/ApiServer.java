@@ -91,7 +91,7 @@ public interface ApiServer{
                 view.uploadImgSuccess("success ${o?.errorCode}")
             }
 
-            override fun onError(msg: String?) {
+            override fun showError(msg: String?) {
                 view.postFieldFail("$msg" )
             }
 

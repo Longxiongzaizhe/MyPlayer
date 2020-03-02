@@ -83,7 +83,7 @@ public class HttpUtils {
 
 
     /**
-     * file uploadc 文件上传
+     * file upload 文件上传
      */
     public static void uploadFile(String url,RequestParams params,HttpHandler httpHandler){
         Request request = CommonRequest.createFileRequest(url,params);

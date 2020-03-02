@@ -19,7 +19,7 @@ import okhttp3.RequestBody;
  */
 public class CommonRequest {
 
-    private static final String TAG = "CommonRequest";
+    private static final String TAG = "HTTP CommonRequest";
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
     private static final MediaType MEDIA_TYPE_AUDIO = MediaType.parse("audio/*");
     private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
@@ -132,6 +132,7 @@ public class CommonRequest {
         //遍历map中所有参数到builder
         for (String key : map.keySet()) {
             String fileType = getMimeType(map.get(key).getName());
+            Log.w(TAG,"file name: " +  map.get(key).getName());
             builder.addFormDataPart("files", map.get(key).getName(), RequestBody.create(MediaType.parse(fileType), map.get(key)));
         }
         requestBody = builder.build();

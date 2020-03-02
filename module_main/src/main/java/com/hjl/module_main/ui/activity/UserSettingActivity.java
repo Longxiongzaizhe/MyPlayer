@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjl.commonlib.base.BaseMultipleActivity;
+import com.hjl.commonlib.network.okhttp.HttpHandler;
 import com.hjl.commonlib.utils.PhotoUtils;
 
 import java.io.File;
@@ -28,6 +29,7 @@ import com.hjl.module_main.constant.FlagConstant;
 import com.hjl.module_main.constant.SPConstant;
 import com.hjl.commonlib.mview.BaseEditDialog;
 import com.hjl.commonlib.mview.IOSDialog;
+import com.hjl.module_main.net.NetworkWrapper;
 import com.hjl.module_main.utils.FileUtils;
 import com.hjl.module_main.utils.SPUtils;
 
@@ -56,6 +58,25 @@ public class UserSettingActivity extends BaseMultipleActivity implements View.On
         iconFile = new File(SPConstant.USER_ICON_PATH);
         iconUri = getUriForFile(this,iconFile);
         bgUri =  getUriForFile(this,bgFile);
+        NetworkWrapper.filesUpload(iconFile, new HttpHandler<String>() {
+            @Override
+            public void onSuccess(String data) {
+
+            }
+        });
+        NetworkWrapper.getMsg("123", new HttpHandler() {
+            @Override
+            public void onSuccess(Object data) {
+
+            }
+        });
+
+        NetworkWrapper.warning("1", new HttpHandler() {
+            @Override
+            public void onSuccess(Object data) {
+
+            }
+        });
     }
 
     @Override

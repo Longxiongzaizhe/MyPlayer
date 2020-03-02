@@ -24,7 +24,7 @@ import retrofit2.HttpException;
  * @author "huangasys"
  * @date 2019/8/14
  */
-public abstract class BaseMvpPresenter<V extends IBaseMvpView>  implements InvocationHandler {
+public abstract class BaseMvpPresenter<V extends IBaseMvpView,M extends IBaseMvpModel>  implements InvocationHandler {
 
     // 当前 View 对象
     private V mView;
@@ -32,8 +32,8 @@ public abstract class BaseMvpPresenter<V extends IBaseMvpView>  implements Invoc
     // 代理对象
     private V mProxyView;
 
-
     private CompositeDisposable compositeDisposable;
+    protected M mModel;
 
     protected BaseMvpPresenter() {
     }
@@ -41,6 +41,12 @@ public abstract class BaseMvpPresenter<V extends IBaseMvpView>  implements Invoc
 
     @SuppressWarnings("unchecked")
     public void attach(V view) {
+
+        onCreate();
+        if (mModel != null){
+            mModel.onCreateModel();
+        }
+
         mView = view;
 
         // 使用动态代理，解决 getView 方法可能为空的问题
@@ -56,6 +62,10 @@ public abstract class BaseMvpPresenter<V extends IBaseMvpView>  implements Invoc
         // mProxyView = null;
 
         removeDisposable();
+
+        if (mModel != null){
+            mModel.onDestroyModel();
+        }
     }
 
     public boolean isAttached() {
@@ -67,9 +77,11 @@ public abstract class BaseMvpPresenter<V extends IBaseMvpView>  implements Invoc
     }
 
     /**
-     * P 层初始化方法 在不同的模块下初始化不同的ApiServer
+     * P 层初始化方法 在不同的模块下初始化不同的ApiServer 或者创建 model
      */
-    public abstract void start();
+    public void onCreate(){
+
+    }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -98,38 +110,5 @@ public abstract class BaseMvpPresenter<V extends IBaseMvpView>  implements Invoc
     @SuppressWarnings("unchecked")
     public <T> void requestNetwork(Observable<HttpBaseResult<T>> observable, HttpObserver<T> observer) {
         observable.map(new ResultFilter()).compose(RxSchedulers.io_main()).subscribe(observer);
-    }
-
-    protected String handleError(Throwable e){
-
-        String msg = "";
-        e.printStackTrace();
-        if (e instanceof HttpRequestException){
-            msg = e.getMessage();
-        }else if (e instanceof SocketTimeoutException){
-           // msg = UIUtils.getString(R.string.common_http_error_msg);
-        }else if (e instanceof ConnectException){
-           // msg = UIUtils.getString(R.string.common_http_error_msg);
-        }else if (e instanceof JsonParseException ||
-                e instanceof JSONException ||
-                e instanceof ParseException){
-          //  msg = UIUtils.getString(R.string.common_json_parse_error);
-        } else if (e instanceof UnknownHostException) {
-      //      msg = UIUtils.getString(R.string.common_http_error_msg);
-        } else if (e instanceof IllegalArgumentException) {
-        //    msg = UIUtils.getString(R.string.common_http_error_argument);
-        } else if (e instanceof HttpException){
-            HttpException httpException = (HttpException) e;
-            try {
-                msg = httpException.response().errorBody().string();
-            } catch (IOException ex) {
-            //    msg = UIUtils.getString(R.string.common_http_unknow_error);
-                ex.printStackTrace();
-            }
-        }else {//未知错误
-       //     msg = UIUtils.getString(R.string.common_http_unknow_error);
-        }
-
-        return msg;
     }
 }

@@ -2,9 +2,6 @@ package com.hjl.commonlib.network.interceptor;
 
 import android.util.Log;
 
-import com.hjl.commonlib.utils.LogUtils;
-import com.hjl.commonlib.utils.LoggerUtils;
-
 import java.io.IOException;
 
 import okhttp3.FormBody;
@@ -19,7 +16,7 @@ import okhttp3.ResponseBody;
  */
 public class LogInterceptor implements Interceptor {
 
-    public static String TAG = "LogInterceptor";
+    public static String TAG = "HTTP LogInterceptor";
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -33,25 +30,26 @@ public class LogInterceptor implements Interceptor {
         MediaType mediaType = response.body().contentType();
         String content = response.body().string();
 
-        LoggerUtils.w("----------Start----------------");
-        LoggerUtils.i("|" + request.toString());
+        Log.w(TAG,"----------Start----------------");
+        Log.i(TAG,"|" + request.toString());
         String method = request.method();
         if ("POST".equals(method)){
-            StringBuilder sb = new StringBuilder();
+
             if (request.body() instanceof FormBody){
                 FormBody body = (FormBody) request.body();
                 for (int i = 0; i < body.size();i++){
-                    sb.append(body.encodedName(i) + "=" + body.encodedValue(i) + ",");
+                   // sb.append(body.encodedName(i) + " = " + body.encodedValue(i) + ",");
+                    Log.i(TAG,"| RequestParams:{ params : "  + body.encodedName(i) + " values: " + body.encodedValue(i) + " }");
                 }
-                sb.delete(sb.length() - 1, sb.length());
-                LoggerUtils.i("| RequestParams:{"  + sb.toString());
+
+
             }
         }
 
         Log.w(TAG, "Response: " );
-        LoggerUtils.d(content);
-        LoggerUtils.json(content);
-        LoggerUtils.w("----------End:" + duration + "毫秒----------");
+        Log.d(TAG,content);
+        Log.d(TAG,content);
+        Log.w(TAG,"----------End:" + duration + "毫秒----------");
 
         return response.newBuilder().body(ResponseBody.create(mediaType,content)).build();
     }

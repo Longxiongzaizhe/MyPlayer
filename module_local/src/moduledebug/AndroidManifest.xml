@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.hjl.module_local">
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -12,7 +13,8 @@
         android:name=".LocalApplication"
         android:label="@string/local_app_name"
         android:icon="@mipmap/ic_launcher"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
         <activity android:name=".LocalMusicActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

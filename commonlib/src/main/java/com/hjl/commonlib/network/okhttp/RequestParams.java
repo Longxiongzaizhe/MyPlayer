@@ -3,6 +3,7 @@ package com.hjl.commonlib.network.okhttp;
 import java.io.File;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -10,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class RequestParams {
 
-    private Map<String,String> params = new ConcurrentHashMap<String, String>();
+    private Map<String,String> params = new TreeMap<>();
     private Map<String,File> fileMap = new ConcurrentHashMap<>();
 
 
@@ -20,12 +21,8 @@ public class RequestParams {
     public RequestParams(Map<String,String> source) {
 
         if (source != null){
-            Iterator it = source.entrySet().iterator();
-            String key,val;
-
             params.putAll(source);
         }
-
     }
 
     public void add(String key,String value){

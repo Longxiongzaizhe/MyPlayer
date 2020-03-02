@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hjl.commonlib.base.BaseMultipleActivity;
-import com.hjl.commonlib.utils.PermissionsUtiles;
+import com.hjl.commonlib.utils.PermissionsUtils;
 import com.hjl.commonlib.utils.ToastUtil;
 import com.hjl.module_main.R;
 import com.hjl.module_main.bean.MainFragmentBusBean;
@@ -84,7 +84,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_main_new;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
         msg.arg1 = 1;
         mInitUrlHandler.sendMessage(msg);
 
-        PermissionsUtiles.requestPermissions(this, permissions); //请求权限
+        PermissionsUtils.requestPermissions(this, permissions); //请求权限
     }
 
     @Override
@@ -303,14 +303,14 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        PermissionsUtiles.onRequestPermissionsResult(requestCode,permissions,grantResults,this);
+        PermissionsUtils.onRequestPermissionsResult(requestCode,permissions,grantResults,this);
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        PermissionsUtiles.onActivityResult(requestCode,this,permissions);
+        PermissionsUtils.onActivityResult(requestCode,this,permissions);
     }
 
 

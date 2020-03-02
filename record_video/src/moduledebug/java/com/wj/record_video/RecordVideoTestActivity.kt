@@ -1,9 +1,9 @@
 package com.wj.record_video
 
-import android.app.usage.UsageEvents
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MotionEvent
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_record_video_test.*
 
 class RecordVideoTestActivity : AppCompatActivity() {
@@ -12,15 +12,22 @@ class RecordVideoTestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record_video_test)
 
-        record_btn.setOnTouchListener { v, event ->
+        camera_btn.setOnClickListener {
+            startActivity(Intent(this,CameraActivity::class.java))
+        }
 
-            when(event.action){
-                MotionEvent.ACTION_DOWN -> record_btn.startRecord()
-                MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL -> record_btn.stopRecord()
-
+        record_btn.mClickButtonListener = object : RecordVideoButton.ClickButtonListener{
+            override fun onTakePicture() {
+                Toast.makeText(this@RecordVideoTestActivity,"onTakePicture",Toast.LENGTH_SHORT).show()
             }
 
-            return@setOnTouchListener true
+            override fun onStartRecordVideo() {
+                Toast.makeText(this@RecordVideoTestActivity,"onStartRecordVideo",Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onStopRecordVideo() {
+                Toast.makeText(this@RecordVideoTestActivity,"onStopRecordVideo",Toast.LENGTH_SHORT).show()
+            }
 
         }
 

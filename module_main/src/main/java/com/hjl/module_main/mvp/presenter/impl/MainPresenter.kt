@@ -43,7 +43,7 @@ class MainPresenter : BaseMvpPresenter<MainContract.IMainView>(),MainContract.IM
 
 
             e.onNext(map)
-            e.onComplete()
+            e.showComplete()
     *
     * */
 

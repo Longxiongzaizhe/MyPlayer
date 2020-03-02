@@ -1,10 +1,13 @@
 package com.wj.record_video
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 
 /**
@@ -29,13 +32,14 @@ class RecordVideoButton(context: Context?, attrs: AttributeSet? = null,defStyleA
     private lateinit var mArcRect: RectF
 
     private var isRecording = false
+    private var isFinishRecord = false // 是否录制完一次视频
 
     private var TAG = "RecordVideoButton"
 
 
     private var DEFAULT_LENGTH = resources.getDimension(R.dimen.default_length).toInt()
 
-    private var recordTime = 10 * 1000F
+    private var recordTime = 10 * 1000F // 10s
     private var recordTimeCount = 0F
 
     private var mInsidePaint = Paint()
@@ -46,6 +50,9 @@ class RecordVideoButton(context: Context?, attrs: AttributeSet? = null,defStyleA
     private var inSideAnimator: ValueAnimator? = null
     private var ANIMATOR_TIME = 200L
 
+    private var clickTime = 0L
+
+    var mClickButtonListener : ClickButtonListener? = null
 
 
     init {
@@ -71,7 +78,7 @@ class RecordVideoButton(context: Context?, attrs: AttributeSet? = null,defStyleA
         mOutsideRadius = mInsideRadius + mProgressWidth
 
 
-        mProgressPaint.color = Color.GREEN
+        mProgressPaint.color = Color.BLUE
         mProgressPaint.style = Paint.Style.STROKE
         mProgressPaint.strokeWidth = mProgressWidth
 
@@ -100,9 +107,45 @@ class RecordVideoButton(context: Context?, attrs: AttributeSet? = null,defStyleA
 
     }
 
-    fun startRecord(){
-        isRecording = true
+    override fun onTouchEvent(event: MotionEvent): Boolean {
 
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                clickTime = System.currentTimeMillis()
+                isFinishRecord = false
+                return true
+
+            }
+            MotionEvent.ACTION_MOVE -> {
+
+                if (System.currentTimeMillis() - clickTime > 300 && !isRecording && !isFinishRecord){
+                    startRecordAnim()
+                }
+
+
+            }
+            MotionEvent.ACTION_UP -> {
+
+                if (isRecording){
+                    stopRecordAnim()
+                }else if(System.currentTimeMillis() - clickTime < 300){
+                    mClickButtonListener?.onTakePicture()
+                }
+
+//                if (System.currentTimeMillis() - clickTime < 300){
+//                    mClickButtonListener?.onTakePicture()
+//                }else{
+//                    mClickButtonListener?.onStopRecordVideo()
+//                }
+            }
+        }
+
+
+        return super.onTouchEvent(event)
+    }
+
+    private fun startRecordAnim(){
+        isRecording = true
         outSideAnimator?.cancel()
         inSideAnimator?.cancel()
 
@@ -125,16 +168,24 @@ class RecordVideoButton(context: Context?, attrs: AttributeSet? = null,defStyleA
             }
             invalidate()
         }
+        inSideAnimator?.addListener(object : AnimatorListenerAdapter(){
+            override fun onAnimationEnd(animation: Animator?) {
+                mClickButtonListener?.onStartRecordVideo()
+                post(mProgressRunnable)
+            }
+        })
 
         inSideAnimator?.start()
         outSideAnimator?.start()
 
 
-        postDelayed(mProgressRunnable,ANIMATOR_TIME)
+
+//        postDelayed(mProgressRunnable,ANIMATOR_TIME)
     }
 
-    fun stopRecord(){
+    fun stopRecordAnim(){
         isRecording = false
+        isFinishRecord = true
         recordTimeCount = 0F
 
         outSideAnimator?.cancel()
@@ -159,6 +210,11 @@ class RecordVideoButton(context: Context?, attrs: AttributeSet? = null,defStyleA
             }
             invalidate()
         }
+        outSideAnimator?.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                mClickButtonListener?.onStopRecordVideo()
+            }
+        })
 
         inSideAnimator?.start()
         outSideAnimator?.start()
@@ -184,11 +240,15 @@ class RecordVideoButton(context: Context?, attrs: AttributeSet? = null,defStyleA
 
     private var mProgressRunnable = object : Runnable{
         override fun run() {
+
+//            if(recordTimeCount <= 0){
+//                mClickButtonListener?.onStartRecordVideo()
+//            }
             recordTimeCount += 100
             if (recordTimeCount <= recordTime && isRecording){
                 postDelayed(this, 100)
-            }else{
-                stopRecord()
+            }else if(isRecording){
+                stopRecordAnim()
             }
 
             postInvalidate()
@@ -203,6 +263,14 @@ class RecordVideoButton(context: Context?, attrs: AttributeSet? = null,defStyleA
 
         outSideAnimator?.cancel()
         inSideAnimator?.cancel()
+
+    }
+
+    interface ClickButtonListener{
+
+        fun onTakePicture()
+        fun onStartRecordVideo()
+        fun onStopRecordVideo()
 
     }
 }

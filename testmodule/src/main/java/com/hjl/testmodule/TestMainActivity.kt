@@ -4,19 +4,20 @@ import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.hjl.commonlib.utils.PermissionsUtiles
+import com.hjl.commonlib.utils.PermissionsUtils
 import com.hjl.testmodule.retrofit.RetrofitActivity
+import com.hjl.testmodule.test.OkhttpTestActivity
 import kotlinx.android.synthetic.main.activity_test_main.*
 
 class TestMainActivity : AppCompatActivity() {
 
-    private val permissions = arrayOf(Manifest.permission.INTERNET)
+    private val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_main)
 
-        PermissionsUtiles.requestPermissions(this, permissions) //请求权限
+        PermissionsUtils.requestPermissions(this, permissions) //请求权限
 
         // 播放view
         music_view.setOnClickListener {
@@ -26,6 +27,10 @@ class TestMainActivity : AppCompatActivity() {
         // retrofit
         retrofit.setOnClickListener { startActivity(Intent(this,RetrofitActivity::class.java)) }
 
+
+        rxjava.setOnClickListener {
+            startActivity(Intent(this, OkhttpTestActivity::class.java))
+        }
 
 
     }

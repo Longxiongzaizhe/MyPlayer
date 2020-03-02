@@ -42,7 +42,7 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
     protected TextView mTitleCenterSmallTv;
 
     public CompositeDisposable mCompositeDisposable;
-
+    private boolean mIsRelease = false;
 
 
     @Override
@@ -88,12 +88,9 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        mBind.unbind();
-        clearDisposable();
-        super.onDestroy();
-    }
+
+
+
 
     private void initBaseView(){
 
@@ -167,7 +164,55 @@ public abstract class BaseMultipleActivity extends AppCompatActivity {
         }
     }
 
-    public void showProgress(String msg,boolean cancelable){
+    protected void realReleaseResource(){
+
+    }
+
+    protected void realRestoreResource(){
+
+    }
+
+    private void restoreResource(){
+        mIsRelease = true;
+        realRestoreResource();
+    }
+
+    private void releaseResource(){
+
+        if (mIsRelease) return;
+
+        if (isFinishing()){
+            realReleaseResource();
+        }
+
+        mIsRelease = true;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        restoreResource();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        releaseResource();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mBind.unbind();
+        clearDisposable();
+        super.onDestroy();
+
+        releaseResource();
+    }
+
+
+
+    public void showProgress(String msg, boolean cancelable){
         progressDialog = ProgressDialog.show(this,null,msg,false,cancelable);
     }
 
