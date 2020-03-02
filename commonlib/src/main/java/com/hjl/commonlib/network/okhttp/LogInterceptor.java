@@ -45,7 +45,7 @@ public class LogInterceptor implements Interceptor {
                 LoggerUtils.i("| RequestParams:{" + new String(sb.toString().getBytes("UTF-8"), "UTF-8") + "}");
             }
         }
-        Log.d("print","Response:");
+        Log.d("http","Response:");
         LoggerUtils.d(content);
         LoggerUtils.json(content);
         LoggerUtils.w("----------End:" + duration + "毫秒----------");
