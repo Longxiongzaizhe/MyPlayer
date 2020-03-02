@@ -1,42 +1,38 @@
-package com.hjl.commonlib.network.okhttp;
+package com.hjl.testmodule.test;
 
-import android.graphics.DashPathEffect;
-
-import com.hjl.commonlib.network.interceptor.RetryInterceptor;
-
-import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Cache;
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class HttpUtils {
+/**
+ * Description TODO
+ * Author long
+ * Date 2020/2/27 16:49
+ */
+public class Http {
 
     /**
      * 连接超时
      */
-    private static final long CONNECT_TIMEOUT_MILLIS = 8 * 1000;
+    private static final long CONNECT_TIMEOUT_MILLIS = 15 * 1000;
 
     /**
      * 读取超时
      */
-    private static final long READ_TIMEOUT_MILLIS = 8 * 1000;
+    private static final long READ_TIMEOUT_MILLIS = 15 * 1000;
 
     /**
      * 写入超时
      */
-    private static final long WRITE_TIMEOUT_MILLIS = 8 * 1000;
+    private static final long WRITE_TIMEOUT_MILLIS = 15 * 1000;
+
 
     // 同步请求超时
-    private static final long SYNC_TIMEOUT_MILLIS = 1500;
-
-    private static final String TAG = HttpUtils.class.getSimpleName();
+    private static final long SYNC_TIMEOUT_MILLIS = 15 * 1000;
 
     /**
      * OkHttpClient实例
@@ -46,12 +42,20 @@ public class HttpUtils {
 
 
     /**
+     * file upload 文件上传
+     */
+    public static void uploadFile(String url,RequestParams params,HttpHandler httpHandler){
+        Request request = CommonRequest.createFileRequest(url,params);
+        getClient().newCall(request).enqueue(httpHandler);
+    }
+
+
+    /**
      * 异步post请求 带请求头
      */
     public static void post(String url, RequestParams params, RequestParams headers, HttpHandler httpHandler ){
         Request request = CommonRequest.createPostRequest(url,params,headers);
         getClient().newCall(request).enqueue(httpHandler);
-        httpHandler.onStart();
     }
 
     /**
@@ -81,18 +85,6 @@ public class HttpUtils {
         return null;
     }
 
-
-    /**
-     * file upload 文件上传
-     */
-    public static void uploadFile(String url,RequestParams params,HttpHandler httpHandler){
-        Request request = CommonRequest.createFileRequest(url,params);
-        getClient().newCall(request).enqueue(httpHandler);
-        httpHandler.onStart();
-    }
-
-
-
     /**
      * get 请求 不带请求头
      */
@@ -104,13 +96,11 @@ public class HttpUtils {
     public static void get(String url,HttpHandler handler){
         Request request = CommonRequest.getRequest(url,null);
         getClient().newCall(request).enqueue(handler);
-        handler.onStart();
     }
 
     public static void get(String url,HttpHandler handler,String tag){
         Request request = CommonRequest.getRequest(url,tag);
         getClient().newCall(request).enqueue(handler);
-        handler.onStart();
     }
 
     /**
@@ -120,7 +110,6 @@ public class HttpUtils {
     public static void get(String url,RequestParams params,RequestParams headers,HttpHandler httpHandler){
         Request request = CommonRequest.createGetRequest(url,params,headers);
         getClient().newCall(request).enqueue(httpHandler);
-        httpHandler.onStart();
     }
 
     /**
@@ -130,7 +119,6 @@ public class HttpUtils {
     public static void get(String url,RequestParams params,RequestParams headers,HttpHandler httpHandler,String tag){
         Request request = CommonRequest.createGetRequest(url,params,headers,tag);
         getClient().newCall(request).enqueue(httpHandler);
-        httpHandler.onStart();
     }
 
     /**
@@ -152,39 +140,6 @@ public class HttpUtils {
         }
 
         return null;
-    }
-
-
-    /**
-     *  get okHttpClient
-     */
-
-
-    public static OkHttpClient getClient(){
-        // TODO: 2019/5/3 重定向
-        if (client == null){
-            client = new OkHttpClient.Builder()
-                    .connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
-                    .addInterceptor(new com.hjl.commonlib.network.interceptor.LogInterceptor())
-                    .addInterceptor(new RetryInterceptor())
-                    .readTimeout(READ_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
-                    .writeTimeout(WRITE_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
-                    .cache(new Cache(new File("cache"),24*1024*1024))
-                    .build();
-        }
-        return client;
-    }
-
-    private static OkHttpClient getSyncClient() {
-        if (syncClient == null) {
-            syncClient = new OkHttpClient.Builder()
-                    .connectTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
-                    .addInterceptor(new com.hjl.commonlib.network.interceptor.LogInterceptor())
-                    .addInterceptor(new RetryInterceptor())
-                    .readTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
-                    .writeTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS).build();
-        }
-        return syncClient;
     }
 
     public static void cancelTag(Object tag)
@@ -228,39 +183,29 @@ public class HttpUtils {
     }
 
 
-    private void test(){
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new LogInterceptor())
-                .connectTimeout(CONNECT_TIMEOUT_MILLIS,
-                        TimeUnit.MILLISECONDS)
-                .readTimeout(READ_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
-                .writeTimeout(WRITE_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
-                .build();
-        Request request = new Request.Builder()
-                .url("www.baidu.com") // 传入url地址
-                .get()  // get请求
-//                .headers(mHeadBuilder.build()) // 传入请求头
-                .build();
-        Call call = client.newCall(request);
-        try {
-            Response response = call.execute();
-        } catch (IOException e) {
-            e.printStackTrace();
+    // 获取客户端实例
+    public static OkHttpClient getClient(){
+        // TODO: 2019/5/3 重定向
+        if (client == null){
+            client = new OkHttpClient.Builder()
+                    .connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+                    .addInterceptor(new LogInterceptor())
+                    .readTimeout(READ_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
+                    .writeTimeout(WRITE_TIMEOUT_MILLIS,TimeUnit.MILLISECONDS)
+                    .build();
         }
-
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-            }
-        });
+        return client;
     }
 
-
-
+    // 同步获取客户端实例
+    private static OkHttpClient getSyncClient() {
+        if (syncClient == null) {
+            syncClient = new OkHttpClient.Builder()
+                    .connectTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+                    .addInterceptor(new com.hjl.commonlib.network.interceptor.LogInterceptor())
+                    .readTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+                    .writeTimeout(SYNC_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS).build();
+        }
+        return syncClient;
+    }
 }

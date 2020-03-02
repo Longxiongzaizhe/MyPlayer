@@ -84,7 +84,7 @@ public class MainActivity extends BaseMultipleActivity implements View.OnClickLi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_main_new;
     }
 
     @Override

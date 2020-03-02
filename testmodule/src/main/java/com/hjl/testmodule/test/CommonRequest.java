@@ -1,4 +1,4 @@
-package com.hjl.commonlib.network.okhttp;
+package com.hjl.testmodule.test;
 
 import android.util.Log;
 
@@ -15,11 +15,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 /**
- * okhttp request对象封装
+ * Description TODO
+ * Author long
+ * Date 2020/2/27 16:55
  */
 public class CommonRequest {
 
-    private static final String TAG = "HTTP CommonRequest";
+    private static final String TAG = "CommonRequest";
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
     private static final MediaType MEDIA_TYPE_AUDIO = MediaType.parse("audio/*");
     private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
@@ -35,7 +37,7 @@ public class CommonRequest {
     public static Request createPostRequest(String url,RequestParams params,RequestParams headers){
         FormBody.Builder mFromBodyBuider = new FormBody.Builder();
 
-        //添加参数
+        //添加参数 并打印
         if (params != null){
             Log.w(TAG,"============== params list ==================");
             for (Map.Entry<String,String> entry : params.getParams().entrySet()){
@@ -119,12 +121,12 @@ public class CommonRequest {
         return request.build();
     }
 
-    // TODO: 2019/5/3 file upload request  /-- done --/
+
     /**
      * 文件上传
      */
 
-    public static Request createFileRequest(String url,RequestParams params){
+    public static Request createFileRequest(String url, RequestParams params){
 
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         RequestBody requestBody ;

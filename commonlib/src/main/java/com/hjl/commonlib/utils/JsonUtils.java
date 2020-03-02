@@ -18,7 +18,7 @@ public class JsonUtils {
     public static <T> T toJsonBean(String json,Class<T> cls){
         if (!json.startsWith("{") && !json.startsWith("[")) {
             return (T) json;
-        }
+    }
         try {
             T result = JSON.parseObject(json, cls);
             return result;
@@ -62,6 +62,32 @@ public class JsonUtils {
             e.printStackTrace();
             Log.e(TAG, "Json解析错误. " + e.toString());
             Log.e(TAG, "json =  " + text);
+        }
+        return null;
+    }
+
+    public static <T> T parseObject(String text, Class<T> clazz) {
+        if (!text.startsWith("{") && !text.startsWith("[")) {
+            return (T) text;
+        }
+        try {
+            T result = JSON.parseObject(text, clazz);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtils.e(TAG, "Json解析错误. " + e.toString());
+            LogUtils.e(TAG, "json =  " + text);
+        }
+        return null;
+    }
+
+    public static <T> T parseObject(String text, Type clazz) {
+        try {
+            return JSON.parseObject(text, clazz);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtils.e(TAG, "Json解析错误. " + e.toString());
+            LogUtils.e(TAG, "json =  " + text);
         }
         return null;
     }

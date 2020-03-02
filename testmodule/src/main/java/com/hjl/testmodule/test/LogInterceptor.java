@@ -1,4 +1,4 @@
-package com.hjl.commonlib.network.interceptor;
+package com.hjl.testmodule.test;
 
 import android.util.Log;
 
@@ -12,7 +12,9 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * created by long on 2019/10/21
+ * Description TODO
+ * Author long
+ * Date 2020/2/27 16:52
  */
 public class LogInterceptor implements Interceptor {
 
@@ -38,7 +40,7 @@ public class LogInterceptor implements Interceptor {
             if (request.body() instanceof FormBody){
                 FormBody body = (FormBody) request.body();
                 for (int i = 0; i < body.size();i++){
-                   // sb.append(body.encodedName(i) + " = " + body.encodedValue(i) + ",");
+                    // sb.append(body.encodedName(i) + " = " + body.encodedValue(i) + ",");
                     Log.i(TAG,"| RequestParams:{ params : "  + body.encodedName(i) + " values: " + body.encodedValue(i) + " }");
                 }
 

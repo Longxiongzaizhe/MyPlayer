@@ -128,7 +128,7 @@ class RecordVideoButton(context: Context?, attrs: AttributeSet? = null,defStyleA
 
                 if (isRecording){
                     stopRecordAnim()
-                }else{
+                }else if(System.currentTimeMillis() - clickTime < 300){
                     mClickButtonListener?.onTakePicture()
                 }
 

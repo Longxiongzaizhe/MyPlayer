@@ -1,19 +1,27 @@
 package com.hjl.testmodule
 
+import android.annotation.SuppressLint
+import android.databinding.ObservableDouble
 import android.util.Log
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hjl.commonlib.base.BaseMultipleActivity
 import com.hjl.module_main.router.RApp
 import com.hjl.module_main.router.RLocal
+import com.hjl.testmodule.base.Course
+import com.hjl.testmodule.base.Student
 import io.reactivex.Observable
 import io.reactivex.Observable.create
 import io.reactivex.ObservableOnSubscribe
+import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_rx_java_test.*
+
+
 
 
 class RxJavaTestActivity : BaseMultipleActivity(), View.OnClickListener {
@@ -67,6 +75,31 @@ class RxJavaTestActivity : BaseMultipleActivity(), View.OnClickListener {
         test_btn_two.setOnClickListener(this)
         test_btn_three.setOnClickListener(this)
         test_btn_four.setOnClickListener(this)
+        flatmap.setOnClickListener {
+            flatmapTest()
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    fun flatmapTest(){
+
+        var studentsList = ArrayList<Student>()
+        var student1 = Student("yi","1")
+        var student2 = Student("er","2")
+        studentsList.add(student1)
+        studentsList.add(student2)
+
+        var coureList = ArrayList<Course>()
+        coureList.add(Course("couse1","1"))
+        coureList.add(Course("couse2","2"))
+
+        var coureList2 = ArrayList<Course>()
+        coureList2.add(Course("couse3","3"))
+        coureList2.add(Course("couse4","4"))
+
+        student1.courseList = coureList
+        student2.courseList = coureList2
+
     }
 
     override fun onClick(v: View?) {
@@ -81,7 +114,7 @@ class RxJavaTestActivity : BaseMultipleActivity(), View.OnClickListener {
             }).subscribe(object : Observer<Int>{
 
                 override fun onComplete() {
-                    Log.d("Observer","onComplete")
+                    Log.d("Observer","showComplete")
                 }
 
                 override fun onSubscribe(d: Disposable) {
@@ -93,7 +126,7 @@ class RxJavaTestActivity : BaseMultipleActivity(), View.OnClickListener {
                 }
 
                 override fun onError(e: Throwable) {
-                    Log.d("Observer","onError")
+                    Log.d("Observer","showError")
                 }
 
             })

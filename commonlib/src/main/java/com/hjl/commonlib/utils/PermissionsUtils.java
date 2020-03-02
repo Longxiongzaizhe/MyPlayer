@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.hjl.commonlib.base.BaseApplication;
 
 /**
- * Created by asus on 2018/9/5.
+ * Created by long on 2018/9/5.
  */
 
 public class PermissionsUtils {

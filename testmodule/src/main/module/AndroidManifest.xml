@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.hjl.testmodule">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.hjl.commonlib.base.BaseApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="测试组件"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:label">
+        <activity android:name=".test.OkhttpTestActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".TestMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,12 +24,9 @@
         </activity>
         <activity android:name=".MusicViewActivity" />
         <activity android:name=".TestActivity" />
-        <activity android:name=".retrofit.mvp.RxMvpActivity"></activity>
-        <activity android:name=".retrofit.RetrofitActivity"></activity>
-        <activity android:name=".RxJavaTestActivity">
-
-
-        </activity>
+        <activity android:name=".retrofit.mvp.RxMvpActivity" />
+        <activity android:name=".retrofit.RetrofitActivity" />
+        <activity android:name=".RxJavaTestActivity" />
     </application>
 
 </manifest>

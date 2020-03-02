@@ -52,7 +52,7 @@ class RetrofitActivity : AppCompatActivity() {
 
         get_fy_btn.setOnClickListener {
             var retrofit = Retrofit.Builder()
-                    .baseUrl("http://fy.iciba.com/")
+                    .baseUrl("Http://fy.iciba.com/")
                     .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
                     .build()
             var request = retrofit.create(Get_Music_Ino::class.java)
@@ -76,7 +76,7 @@ class RetrofitActivity : AppCompatActivity() {
 
         get_rxfy_btn.setOnClickListener {
             var retrofit = Retrofit.Builder()
-                    .baseUrl("http://fy.iciba.com/")
+                    .baseUrl("Http://fy.iciba.com/")
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
                     .build()

@@ -1,18 +1,19 @@
-package com.hjl.commonlib.network.okhttp;
+package com.hjl.testmodule.test;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 封装了请求参数 Map<String,String>
+ * Description TODO
+ * Author long
+ * Date 2020/2/27 16:54
  */
 public class RequestParams {
 
     private Map<String,String> params = new TreeMap<>();
-    private Map<String,File> fileMap = new ConcurrentHashMap<>();
+    private Map<String, File> fileMap = new ConcurrentHashMap<>();
 
 
     public RequestParams() {
