@@ -1,10 +1,10 @@
-package com.hjl.commonlib.base.mvvm
+package com.hjl.commonlib.base.mvvm.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 
 /**
- * Description //TODO
+ * Description // Activity 基类
  * Date 2020/3/2 16:24
  * created by long
  */

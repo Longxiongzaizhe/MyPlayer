@@ -1,6 +1,6 @@
 package com.hjl.commonlib.network.retrofit;
 
-public class BaseResponse {
+public class BaseResponse<T> {
 
 
     /**
@@ -15,6 +15,7 @@ public class BaseResponse {
     private String flag;
     private String message;
     private int errorCode;
+    private T data;
 
     public boolean isState() {
         return state;
@@ -46,5 +47,13 @@ public class BaseResponse {
 
     public void setErrorCode(int errorCode) {
         this.errorCode = errorCode;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 }
