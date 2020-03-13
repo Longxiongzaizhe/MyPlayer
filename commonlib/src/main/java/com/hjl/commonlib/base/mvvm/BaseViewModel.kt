@@ -21,7 +21,8 @@ open class BaseViewModel : ViewModel() {
 
     private val jobCancelList = ArrayList<Job>()
 
-    protected fun launch(request : suspend () -> Unit,fail : suspend (ApiException) -> Unit){
+    // 默认可以取消网络请求 如果需要请求网络在页面销毁继续完成保存数据等操作则设置为false
+    protected fun launch(request : suspend () -> Unit,fail : suspend (ApiException) -> Unit,isCancelable: Boolean = true){
 
         val job = GlobalScope.launch {
 
@@ -33,8 +34,7 @@ open class BaseViewModel : ViewModel() {
                 fail(exception)
             }
         }
-        jobCancelList.add(job)
-
+        if (isCancelable) jobCancelList.add(job)
 
     }
 

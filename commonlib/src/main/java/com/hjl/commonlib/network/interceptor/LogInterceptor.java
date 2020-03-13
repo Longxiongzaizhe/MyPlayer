@@ -47,8 +47,8 @@ public class LogInterceptor implements Interceptor {
         }
 
         Log.w(TAG, "Response: " );
-        Log.d(TAG,content);
-        Log.d(TAG,content);
+        Log.e(TAG,"| " + request.toString() + request.headers().toString());
+        Log.d(TAG,"| Response:" + content);
         Log.w(TAG,"----------End:" + duration + "毫秒----------");
 
         return response.newBuilder().body(ResponseBody.create(mediaType,content)).build();
